@@ -1,0 +1,31 @@
+
+D_Unknown800CB13C = 0x800CB13C;
+bootproc = 0x800BD6F0;
+idleFunc = 0x800BD76C;
+Thread_Start = 0x800C0C8C;
+gDebugger = 0x80181698;
+Thread_CreateSimple = 0x800C0640;
+Thread_ReceiveMsg = 0x800C1570;
+Thread_SendMsg = 0x800C1528;
+Thread_GetPtr = 0x800C0E04;
+Thread_CreateExtended = 0x800C0780;
+Thread_GetPriority = 0x800C10AC;
+DmaCopy = 0x800BC590;
+// Temporal audio names
+__clearAudioDMA = 0x800B93E0;
+F24E0_ROM_START = 0xF24E0; //defined:true
+F24E0_ROM_END = 0xF27E0; //defined:true
+__osTimerInterrupt = 0x800CBC4C;
+gFrameBuffer1 = 0x80200000; //defined:true
+Mem_GetFreeSpace = 0x800BCEBC;
+sHeapHead = 0x801825DC;
+sMemBlock = 0x80225800;
+sHeapBlocksCount = 0x80182638;
+sHeapTail = 0x801825E8;
+Mem_Alloc = 0x800BC6EC;
+Mem_AllocMark = 0x800BC918;
+Mem_Copy8 = 0x800BCFCC;
+Mem_Copy16 = 0x800BD038;
+Mem_Copy32 = 0x800BD0A4;
+Mem_Copy64 = 0x800BD110;
+Mem_Compare = 0x800BD180;

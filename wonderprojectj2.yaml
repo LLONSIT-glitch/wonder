@@ -1,0 +1,319 @@
+name: Wonder Project J2 (Japanese)
+sha1: 3a311ec0d77d4e0fc425a99cb6b9416f072e268e
+options:
+  basename: wonderprojectj2
+  target_path: baserom.jp.z64
+  elf_path: build/wonderprojectj2.elf
+  base_path: .
+  platform: n64
+  compiler: IDO
+
+  # asm_path: asm
+  # src_path: src
+  # build_path: build
+  # create_asm_dependencies: True
+
+  ld_script_path: wonderprojectj2.ld
+  ld_dependencies: True
+
+  find_file_boundaries: True
+  header_encoding: ASCII
+
+  o_as_suffix: True
+  use_legacy_include_asm: False
+  mips_abi_float_regs: o32
+
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+
+  # section_order: [".text", ".data", ".rodata", ".bss"]
+  # auto_link_sections: [".data", ".rodata", ".bss"]
+
+  symbol_addrs_path:
+    - buggy_syms.txt
+    - libultra_symbols.txt
+    - symbol_addrs.txt
+    - hardware_syms.txt
+  reloc_addrs_path:
+    - reloc_addrs.txt
+
+  # undefined_funcs_auto_path: undefined_funcs_auto.txt
+  # undefined_syms_auto_path: undefined_syms_auto.txt
+
+  extensions_path: tools/splat_ext
+
+  # string_encoding: ASCII
+  # data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+  # libultra_symbols: True
+  # hardware_regs: True
+  # gfx_ucode: # one of [f3d, f3db, f3dex, f3dexb, f3dex2]
+segments:
+  - name: header
+    type: header
+    start: 0x0
+
+  - name: boot
+    type: bin
+    start: 0x40
+
+  - name: entry
+    type: code
+    start: 0x1000
+    vram: 0x80000400
+    subsegments:
+      - [0x1000, hasm]
+
+  - name: main
+    type: code
+    start: 0x1050
+    vram: 0x80000450
+    follows_vram: entry
+    bss_size: 0xC07C0
+    subsegments:
+      - [0x1050, c, sys_main]
+      - [0x3B20, asm]
+      - [0x6480, asm]
+      - [0x6EC0, asm]
+      - [0x83A0, asm]
+      - [0xAB70, asm]
+      - [0xC3A0, asm]
+      - [0xDCE0, asm]
+      - [0xE180, asm]
+      - [0xE9E0, asm]
+      - [0x15870, asm]
+      - [0x16A50, asm]
+      - [0x17710, asm]
+      - [0x17FD0, asm]
+      - [0x18700, asm]
+      - [0x1ABA0, asm]
+      - [0x1FF90, asm]
+      - [0x221A0, asm]
+      - [0x22AD0, asm]
+      - [0x22D50, asm]
+      - [0x2CE70, asm]
+      - [0x2DFB0, asm]
+      - [0x32890, asm]
+      - [0x34860, asm]
+      - [0x449C0, asm]
+      - [0x49830, asm]
+      - [0x49B80, asm]
+      - [0x5B5A0, asm]
+      - [0x5DD50, asm]
+      - [0x61040, asm]
+      - [0x63240, asm]
+      - [0x78BF0, asm]
+      - [0x7A510, asm]
+      - [0x816A0, asm]
+      - [0x82DA0, asm]
+      - [0x8DA90, asm]
+      - [0x8F1A0, asm]
+      - [0x97AE0, asm]
+      - [0x98FB0, asm]
+      - [0xAE400, c]
+      - [0xAEAD0, asm]
+      - [0xAFC60, asm]
+      - [0xB2650, asm]
+      - [0xB90F0, asm]
+      - [0xBA180, asm]
+      - [0xBD190, c, dma_copy]
+      - [0xBD220, c]
+      - [0xBE2F0, c, main]
+      - [0xBF970, asm]
+      - [0xC11A0, c]
+      - [0xC21C0, asm]
+      - [0xC3C70, asm]
+
+      # Libultra start?
+      - [0xC4C80, c, libultra/io/viswapbuf]
+      - [0xC4CD0, c, libultra/os/gettime]
+      - [0xC4D60, asm]
+      - [0xC4E70, hasm, writebackdcacheall]
+      - [0xC4EA0, hasm, sqrtf]
+      - [0xC4EB0, c, libultra/os/createmesgqueue]
+      - [0xC4EE0, c, libultra/io/vimgr]
+      - [0xC5240, c, libultra/io/visetmode]
+      - [0xC52B0, c, libultra/io/viblack]
+      - [0xC5320, c, libultra/os/seteventmesg]
+      - [0xC5390, c, libultra/io/visetevent]
+      - [0xC5400, c, libultra/os/createthread]
+      - [0xC5550, c, libultra/os/startthread]
+      - [0xC56A0, c, libultra/os/sendmesg]
+      - [0xC57F0, c, libultra/os/yieldthread]
+      - [0xC5840, c, libultra/os/recvmesg]
+      - [0xC5980, c, libultra/os/sptaskyielded]
+      - [0xC5A00, asm]
+      - [0xC5D00, c, libultra/io/dpsetnextbuf]
+      - [0xC5DB0, asm]
+      - [0xC6190, asm]
+      - [0xC63F0, asm]
+      - [0xC6BA0, asm]
+      - [0xC6D20, asm]
+      - [0xC7090, asm]
+      - [0xC73A0, asm]
+      - [0xC77E0, asm]
+      - [0xC7DF0, asm]
+      - [0xC82F0, asm]
+      - [0xC8330, asm]
+      - [0xC85B0, asm]
+      - [0xC85C0, asm]
+      - [0xC8640, asm]
+      - [0xC86F0, asm]
+      - [0xC8EE0, asm]
+      - [0xC9130, asm]
+      - [0xCA360, asm]
+      - [0xCA380, asm]
+      - [0xCA3D0, asm]
+      - [0xCAB50, asm]
+      - [0xCABF0, asm]
+      - [0xCAC50, asm]
+      - [0xCACB0, asm]
+      - [0xCAD10, asm]
+      - [0xCAD70, asm]
+      - [0xCADE0, asm]
+      - [0xCB8A0, asm]
+      - [0xCB8E0, asm]
+      - [0xCB920, asm]
+      - [0xCB990, asm]
+      - [0xCBC80, asm]
+      - [0xCBC90, asm]
+      - [0xCC1A0, asm]
+      - [0xCC440, asm]
+      - [0xCC540, asm]
+      - [0xCC620, asm]
+      - [0xCC660, asm]
+      - [0xCC7B0, asm]
+      - [0xCC7C0, asm]
+      - [0xCCC10, asm]
+      - [0xCCF70, asm]
+      - [0xCD870, asm]
+      - [0xCD880, asm]
+      - [0xCDB90, asm]
+      - [0xCDC10, asm]
+      - [0xCDC20, asm]
+      - [0xCDC60, asm]
+      - [0xCDCF0, asm]
+      - [0xCDD20, asm]
+      - [0xCDD50, asm]
+      - [0xCE0F0, asm]
+      - [0xCE1A0, asm]
+      - [0xCEFC0, asm]
+      - [0xCF180, asm]
+      - [0xCF530, asm]
+      - [0xD0340, asm]
+      - [0xD0350, asm]
+      - [0xD0410, asm]
+      - [0xD0BE0, asm]
+      - [0xD0C80, asm]
+      - [0xD1920, asm]
+      - [0xD1C20, asm]
+      - [0xD2880, asm]
+      - [0xD2990, asm]
+      - [0xD2BD0, asm]
+      - [0xD4510, asm]
+      - [0xD4920, asm]
+      - [0xD4A70, asm]
+      - [0xD4B00, asm]
+      - [0xD4D30, asm]
+      - [0xD4E20, asm]
+      - [0xD4EB0, asm]
+      - [0xD4F50, asm]
+      - [0xD5020, asm]
+      - [0xD5040, asm]
+      - [0xD50F0, asm]
+      - [0xD5170, asm]
+      - [0xD51D0, asm]
+      - [0xD5230, asm]
+      - [0xD52D0, asm]
+      - [0xD5BA0, asm]
+      - [0xD6100, asm]
+      - [0xD6130, asm]
+      - [0xD62D0, asm]
+      - [0xD6F20, asm]
+      - [0xD6FA0, asm]
+      - [0xD76C0, asm]
+      - [0xD7720, asm]
+      - [0xD7770, asm]
+      - [0xD7840, asm]
+      - [0xD7BB0, data]
+      - [0xED7F0, .data, libultra/io/vimgr]
+      - [0xED810, data]
+      - [0xEDD40, rodata]
+      - [0xEDD60, rodata]
+      - [0xEDD80, rodata]
+      - [0xEDDE0, rodata]
+      - [0xEE190, rodata]
+      - [0xEE210, rodata]
+      - [0xEE780, rodata]
+      - [0xEE870, rodata]
+      - [0xEEE30, rodata]
+      - [0xEF320, rodata]
+      - [0xEF3A0, rodata]
+      - [0xEF490, rodata]
+      - [0xEFA80, rodata]
+      - [0xEFAF0, rodata]
+      - [0xEFD90, rodata]
+      - [0xEFE00, rodata]
+      - [0xF0110, rodata]
+      - [0xF0130, rodata]
+      - [0xF01E0, rodata]
+      - [0xF0210, rodata]
+      - [0xF04B0, rodata]
+      - [0xF0500, rodata]
+      - [0xF0520, rodata]
+      - [0xF06E0, rodata]
+      - [0xF0790, rodata]
+      - [0xF09E0, .rodata, main]
+      - [0xF0A60, rodata]
+      - [0xF0AE0, rodata]
+      - [0xF0DB0, rodata]
+      - [0xF0E10, rodata]
+      - [0xF0E60, rodata]
+      - [0xF0F10, rodata]
+      - [0xF11B0, rodata]
+      - [0xF1210, rodata]
+      - [0xF1220, rodata]
+      - [0xF1A20, rodata]
+      - [0xF2220, rodata]
+      - { start: 0xF24E0, type: bss, vram: 0x800F18E0, name: bss1 }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AE860, name: libultra/io/vimgr }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AFA80, name: libultra/os/seteventmesg  }
+      - { start: 0xF24E0, type: bss, vram: 0x801AFB00, name: bss2  }
+
+
+  - name: framebuffer1
+    type: code
+    vram: 0x80200000
+    bss_size: 0x4b00  
+    subsegments:
+    - { type: .bss, vram: 0x80200000, name: framebuffer1 }
+
+
+  - type: bin
+    start: 0xF24E0
+    vram: 0x800F18E0
+    follows_vram: main
+
+  - type: bin
+    start: 0xf27e0
+
+  - type: bin
+    start: 0xfd180
+
+  - type: bin
+    start: 0x105220
+
+  - type: bin
+    start: 0x133ac0
+
+  - type: bin
+    start: 0x13d2e0
+
+  - type: bin
+    start: 0x144f50
+
+  
+
+  - [0x800000]

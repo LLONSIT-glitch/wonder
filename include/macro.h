@@ -1,0 +1,31 @@
+#ifndef MACRO_H
+#define MACRO_H
+
+#ifdef __GNUC__
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED //Ignore for IDO
+#endif
+
+#define UNK_TYPE int
+#define BOOL int
+#define TRUE 1
+#define FALSE 0
+#define DEF_UNK_SIZE 4 /* Unknown size for some arrays*/
+#define GFX_ASSIGN(x,y) x = *y
+
+#define GFX_UPDATE(x,y) *x = y
+
+#define GFX_CMD_BEGIN() GFX_ASSIGN(gDisplayListHead, gDisplayList);
+
+#define GFX_CMD_END() GFX_UPDATE(gDisplayList, gDisplayListHead);
+
+//TODO: Find the proper type
+#define TEX_RGBA_16 UNK_TYPE
+
+#define SQUARE(x) (x * x)
+
+#define VIRTUAL_TO_PHYSICAL(addr) ((u32) (addr) & 0x1FFFFFFF)
+#define VIRTUAL_TO_PHYSICAL2(addr) ((u8*) (addr) - 0x80000000U)
+
+#endif /* MACRO_H */
