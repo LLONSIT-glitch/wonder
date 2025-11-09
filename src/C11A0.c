@@ -69,7 +69,7 @@ UnkStruct_80153DC0* Thread_CreateExtended(void (*entry)(void*), OSPri pri) {
     }
     
     if (D_80153DC0[threadId] == NULL) {
-        if ((D_80153DC0[threadId] = Mem_AllocMark(sizeof(UnkStruct_80153DC0))) == NULL) {
+        if ((D_80153DC0[threadId] = Mem_HeapAllocMark(sizeof(UnkStruct_80153DC0))) == NULL) {
             return NULL;
         }
     }

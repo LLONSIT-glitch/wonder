@@ -129,7 +129,9 @@ segments:
       # Libultra start?
       - [0xC4C80, c, libultra/io/viswapbuf]
       - [0xC4CD0, c, libultra/os/gettime]
-      - [0xC4D60, asm]
+      - [0xC4D60, c, libultra/io/vigetcurrframebuf]
+      - [0xC4DA0, hasm,  libultra/os/setintmask]
+      - [0xC4E40, c, libultra/gu/random]
       - [0xC4E70, hasm, writebackdcacheall]
       - [0xC4EA0, hasm, sqrtf]
       - [0xC4EB0, c, libultra/os/createmesgqueue]
@@ -144,14 +146,17 @@ segments:
       - [0xC57F0, c, libultra/os/yieldthread]
       - [0xC5840, c, libultra/os/recvmesg]
       - [0xC5980, c, libultra/os/sptaskyielded]
-      - [0xC5A00, asm]
+      - [0xC5A00, c, libultra/io/vigetnextframebuf]
+      - [0xC5A40, c, libultra/io/sptask]
       - [0xC5D00, c, libultra/io/dpsetnextbuf]
-      - [0xC5DB0, asm]
-      - [0xC6190, asm]
-      - [0xC63F0, asm]
-      - [0xC6BA0, asm]
-      - [0xC6D20, asm]
+      - [0xC5DB0, c, libultra/io/sptaskyield]
+      - [0xC5DD0, c, libultra/io/controller]
+      - [0xC6190, c, libultra/io/contreaddata]
+      - [0xC63F0, c, libultra/io/pfsallocatefile]
+      - [0xC6BA0, c, libultra/io/contreset]
+      - [0xC6D20, c, libultra/io/pfsisplug]
       - [0xC7090, asm]
+      - [0xC7250, c, libultra/io/pfsnumfiles]
       - [0xC73A0, asm]
       - [0xC77E0, asm]
       - [0xC7DF0, asm]
@@ -196,7 +201,8 @@ segments:
       - [0xCDC60, asm]
       - [0xCDCF0, asm]
       - [0xCDD20, asm]
-      - [0xCDD50, asm]
+      - [0xCDD50, c, libultra/libc/ll]
+      - [0xCE010, asm]
       - [0xCE0F0, asm]
       - [0xCE1A0, asm]
       - [0xCEFC0, asm]
@@ -237,9 +243,14 @@ segments:
       - [0xD7720, asm]
       - [0xD7770, asm]
       - [0xD7840, asm]
+
+      # Data starts!
       - [0xD7BB0, data]
+      - [0xECAC0, .data, libultra/gu/random]
+      - [0xECAD0, data]
       - [0xED7F0, .data, libultra/io/vimgr]
-      - [0xED810, data]
+      - [0xED810, .data, libultra/io/controller]
+      - [0xED820, data]
       - [0xEDD40, rodata]
       - [0xEDD60, rodata]
       - [0xEDD80, rodata]
@@ -280,8 +291,11 @@ segments:
       - { start: 0xF24E0, type: bss, vram: 0x800F18E0, name: bss1 }
       - { start: 0xF24E0, type: .bss, vram: 0x801AE860, name: libultra/io/vimgr }
       - { start: 0xF24E0, type: .bss, vram: 0x801AFA80, name: libultra/os/seteventmesg  }
-      - { start: 0xF24E0, type: bss, vram: 0x801AFB00, name: bss2  }
-
+      - { start: 0xF24E0, type: .bss, vram: 0x801AFB00, name:  libultra/io/sptask  }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AFB40, name: libultra/io/controller   }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AFBD0, name: libultra/io/pfsisplug  }
+      - { start: 0xF24E0, type: bss, vram: 0x801AFC10, name: bss2  }
+      
 
   - name: framebuffer1
     type: code

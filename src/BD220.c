@@ -8,9 +8,9 @@ extern s32 D_80182610;
 extern s32 D_80182640;
 extern u8 D_801604A8[];
 
-#define BLOCK_FREE 0x0
-#define BLOCK_USED 0x1
-#define BLOCK_MARK 0x2
+#define FLAGS_FREE 0x0
+#define FLAGS_USED 0x1
+#define FLAGS_LOCK 0x2
 
 void Mem_MarkHeap(void* ptr);
 void func_800BCCE4(void*); /* extern */
@@ -21,7 +21,7 @@ void Mem_Init(void) {
 
     mask = osSetIntMask(OS_IM_NONE);
     sHeapHead = sMemBlock;
-    sHeapHead->flags = BLOCK_FREE;
+    sHeapHead->flags = FLAGS_FREE;
     sHeapHead->size = 0x1B4FF;
     sHeapHead->self = sHeapHead;
     sHeapHead->next = &sMemBlock[sHeapHead->size];
@@ -32,7 +32,7 @@ void Mem_Init(void) {
     osSetIntMask(mask);
 }
 
-void* Mem_Alloc(s32 size) {
+void* Mem_HeapAlloc(s32 size) {
     HeapBlock* block;
     HeapBlock* blockPrev;
     HeapBlock* blockNext;
@@ -49,17 +49,17 @@ void* Mem_Alloc(s32 size) {
             blockNext = block->next;
             block->size = blockSize;
             block->next = &block[blockSize];
-            block->flags |= BLOCK_USED;
+            block->flags |= FLAGS_USED;
             blockPrev = block;
             block = block->next;
             if (blockNext != block) {
                 block->self = blockPrev;
                 block->next = blockNext;
                 block->size = (u32) (blockNext - block);
-                block->flags = BLOCK_FREE;
+                block->flags = FLAGS_FREE;
                 blockNext = block->next;
                 if (blockNext != sHeapTail) {
-                    if (blockNext->flags & BLOCK_USED) {
+                    if (blockNext->flags & FLAGS_USED) {
                         blockNext->self = block;
                     } else {
                         block->next = blockNext->next;
@@ -80,10 +80,10 @@ void* Mem_Alloc(s32 size) {
 /*
  * @brief Allocate a block and marks it
  */
-void* Mem_AllocMark(s32 size) {
+void* Mem_HeapAllocMark(s32 size) {
     void* ptr;
 
-    ptr = Mem_Alloc(size);
+    ptr = Mem_HeapAlloc(size);
 
     if (ptr == NULL) {
         return ptr;
@@ -94,28 +94,29 @@ void* Mem_AllocMark(s32 size) {
 }
 
 s32 func_800BC980(void* arg0) {
-    HeapBlock* spC;
-    HeapBlock* sp8;
-    HeapBlock* sp4;
+    HeapBlock* block;
+    HeapBlock* blockPrev;
+    HeapBlock* blockNext;
 
-    spC = (HeapBlock*) arg0 - 1;
-    if (!(spC->flags & BLOCK_USED)) {
+    block = (HeapBlock*) arg0 - 1;
+    if (!(block->flags & FLAGS_USED)) {
         return -1;
     }
-    spC->flags = (s32) (spC->flags & ~1);
-    sp4 = spC->next;
-    if ((sp4 != sHeapTail) && !(sp4->flags & 1)) {
-        spC->next = (void*) sp4->next;
-        spC->size = (s32) (spC->size + sp4->size);
-        sp4 = spC->next;
-        sp4->self = spC;
+
+    block->flags &= ~FLAGS_USED;
+    blockNext = block->next;
+    if ((blockNext != sHeapTail) && !(blockNext->flags & FLAGS_USED)) {
+        block->next = blockNext->next;
+        block->size += blockNext->size;
+        blockNext = block->next;
+        blockNext->self = block;
     }
-    sp8 = spC->self;
-    if ((spC != sHeapHead) && !(sp8->flags & 1)) {
-        sp8->next = (void*) spC->next;
-        sp8->size = (s32) (sp8->size + spC->size);
-        spC = spC->next;
-        spC->self = sp8;
+    blockPrev = block->self;
+    if ((block != sHeapHead) && !(blockPrev->flags & 1)) {
+        blockPrev->next = (void*) block->next;
+        blockPrev->size += block->size;
+        block = block->next;
+        block->self = blockPrev;
     }
     return 0;
 }
@@ -154,10 +155,10 @@ void Mem_MarkHeap(void* ptr) {
     HeapBlock* block;
 
     block = (HeapBlock*) ptr - 1;
-    if (!(block->flags & BLOCK_USED)) {
+    if (!(block->flags & FLAGS_USED)) {
         return;
     }
-    block->flags |= BLOCK_MARK;
+    block->flags |= FLAGS_LOCK;
 }
 
 void func_800BCCE4(void* arg0) {
@@ -170,14 +171,17 @@ void func_800BCCE4(void* arg0) {
     sp4->flags = (s32) (sp4->flags & ~2);
 }
 
-s32 func_800BCD3C(void) {
+/**
+ *  Tells us how much memory is unlocked on the heap 
+ */
+s32 Mem_GetUnlockedSize(void) {
     s32 sp4;
     HeapBlock* sp0;
 
     sp4 = 0;
     sHeapBlocksCount = 0;
     for (sp0 = sHeapHead; sp0 != sHeapTail; sp0 = sp0->next) {
-        if ((sp0->flags & 1) && !(sp0->flags & 2)) {
+        if ((sp0->flags & FLAGS_USED) && !(sp0->flags & FLAGS_LOCK)) {
             sp4 += sp0->size;
             sHeapBlocksCount += 1;
         }
@@ -185,7 +189,7 @@ s32 func_800BCD3C(void) {
     return sp4 * 0x10;
 }
 
-s32 func_800BCDFC(void) {
+s32 Mem_GetLockedSize(void) {
     s32 sp4;
     HeapBlock* sp0;
 

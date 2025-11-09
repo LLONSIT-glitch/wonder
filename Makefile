@@ -127,7 +127,7 @@ GLOBAL_ASM_C_FILES := $(shell $(GREP) GLOBAL_ASM $(SRC_DIR) </dev/null 2>/dev/nu
 GLOBAL_ASM_O_FILES := $(addprefix $(BUILD_DIR)/,$(GLOBAL_ASM_C_FILES:.c=.o))
 
 
-DEFINES := -D_LANGUAGE_C -D_FINALROM -DF3DEX_GBI -DAVOID_RODATA_USE -D$(LIBULTRA_VERSION)
+DEFINES := -D_LANGUAGE_C -D_FINALROM -DF3DEX_GBI -DAVOID_RODATA_USE -DBUILD_VERSION=3
 
 ifeq ($(VERSION),us)
 DEFINES += -DVERSION_US
@@ -178,8 +178,16 @@ ASM_PROCESSOR      = $(PYTHON) $(ASM_PROCESSOR_DIR)/asm_processor.py
 $(BUILD_DIR)/$(SRC_DIR)/libultra/io/%.o: OPT_FLAGS := -O1 
 $(BUILD_DIR)/$(SRC_DIR)/libultra/io/%.o: MIPSISET := -mips2
 
+$(BUILD_DIR)/$(SRC_DIR)/libultra/gu/%.o: OPT_FLAGS := -O3 -g0
+$(BUILD_DIR)/$(SRC_DIR)/libultra/gu/%.o: MIPSISET := -mips2
+
 $(BUILD_DIR)/$(SRC_DIR)/libultra/os/%.o: MIPSISET := -mips2
 $(BUILD_DIR)/$(SRC_DIR)/libultra/os/%.o: OPT_FLAGS := -O1 
+
+$(BUILD_DIR)/$(SRC_DIR)/libultra/libc/ll.o: MIPSISET := -mips3 -o32
+$(BUILD_DIR)/$(SRC_DIR)/libultra/libc/ll%.o: MIPSISET := -mips3 -o32
+$(BUILD_DIR)/$(SRC_DIR)/libultra/libc/ll.o: OPT_FLAGS := -O1
+$(BUILD_DIR)/$(SRC_DIR)/libultra/libc/ll%.o: OPT_FLAGS := -O1
 
 
 ### Targets
@@ -247,6 +255,12 @@ $(GLOBAL_ASM_O_FILES): $(BUILD_DIR)/%.o: %.c
 $(BUILD_DIR)/%.o: %.c
 	@$(CC) -c $(CFLAGS) $(OPT_FLAGS) $(LOOP_UNROLL) $(MIPSISET) -o $@ $<
 	@printf "[$(GREEN) IRIS Development Option $(NO_COL)]  $<\n"
+
+# Patch ll.o
+build/src/libultra/libc/ll.o: src/libultra/libc/ll.c
+	@printf "[$(YELLOW) Patching and compiling libultra - ll.o $(NO_COL)] $<\n"
+	@$(CC) -c $(CFLAGS) $(OPT_FLAGS) $(LOOP_UNROLL) $(MIPSISET) -o $@ $<
+	@tools/set_o32abi_bit.py $@
 
 
 #$(BUILD_DIR)/$(LIBULTRA): $(LIBULTRA)

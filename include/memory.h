@@ -8,6 +8,6 @@ typedef struct HeapBlock_s {
 } HeapBlock;
 
 s32 Mem_GetFreeSpace(void);
-void* Mem_Alloc(s32 size);
+void* Mem_HeapAlloc(s32 size);
 s32 Mem_Compare(u8* s1, u8* s2, s32 size);
 #endif /* MEMORY_H */

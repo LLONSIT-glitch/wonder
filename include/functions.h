@@ -30,7 +30,7 @@ void func_800B0E88(Gfx**, f32, f32, f32, f32, f32, f32); /* extern */
 void func_800BE068(void);                                  /* extern */
 void func_800BE08C(void);                                  /* extern */
 void osWritebackDCacheAll(void);                                  /* extern */
-void* Mem_AllocMark(s32);                               /* extern */
+void* Mem_HeapAllocMark(s32);                               /* extern */
 void* func_80000450(void* entry);
 void func_800989BC(s32);                               /* extern */
 void func_800CB840(OSThread *);                        /* extern */
