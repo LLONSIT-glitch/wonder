@@ -5,7 +5,7 @@
 
 extern struct UnkStruct_800F9C38 D_800F1950[];
 extern struct UnkStruct_800F9C38  D_800F9C38[];
-extern UnkStruct_80153DC0* D_80153DC0[];
+extern ThreadEntry* D_80153DC0[];
 
 #define MAX_THREADS 12
 
@@ -52,9 +52,9 @@ u8 Thread_CreateSimple(void (*entry)(void *), void* arg, OSPri pri) {
     return threadId;
 }
 
-UnkStruct_80153DC0* Thread_CreateExtended(void (*entry)(void*), OSPri pri) {
+ThreadEntry* Thread_CreateExtended(void (*entry)(void*), OSPri pri) {
     u8 threadId;
-    UnkStruct_80153DC0* sp30;
+    ThreadEntry* sp30;
     s32 temp_v0;
 
     for (threadId = 0; threadId < MAX_THREADS; threadId++) {
@@ -69,7 +69,7 @@ UnkStruct_80153DC0* Thread_CreateExtended(void (*entry)(void*), OSPri pri) {
     }
     
     if (D_80153DC0[threadId] == NULL) {
-        if ((D_80153DC0[threadId] = Mem_HeapAllocMark(sizeof(UnkStruct_80153DC0))) == NULL) {
+        if ((D_80153DC0[threadId] = SysMem_HeapAllocMark(sizeof(ThreadEntry))) == NULL) {
             return NULL;
         }
     }
@@ -253,7 +253,7 @@ s32 func_800C143C(u8 threadId, void **mesg, s32 flag) {
     return 0;
 }
 
-s32 func_800C14E0(OSMesgQueue *arg0, s32 *arg1, s32 arg2) {
+s32 Thread_CreateMesgQueue(OSMesgQueue *arg0, OSMesg *arg1, s32 arg2) {
     osCreateMesgQueue(arg0, arg1, arg2);
     return 0;
 }

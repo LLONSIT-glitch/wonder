@@ -4,7 +4,7 @@
 #include "macro.h"
 #include "variables.h"
 
-void func_800ADC50(UnkStruct_80153DC0* arg0);
+void func_800ADC50(ThreadEntry* arg0);
 void func_800AE40C(void);                                  /* extern */
 void func_800AE664(void);                                  /* extern */
 void func_800AE904(void);                                  /* extern */
@@ -33,7 +33,7 @@ typedef struct UnkStruct_800EF900_s {
 extern UnkStruct_800EF900 D_800EF900;
 
 void func_800AD800(void) {
-    UnkStruct_80153DC0* sp3C;
+    ThreadEntry* sp3C;
     UnkStruct_800F9C38* sp38;
     void* sp34;
     s32 sp30;
@@ -93,8 +93,8 @@ void func_800AD800(void) {
     Thread_Start(sp3C->threadId);
 }
 
-void func_800ADC50(UnkStruct_80153DC0* arg0) {  
-    UnkStruct_80153DC0* sp60;
+void func_800ADC50(ThreadEntry* arg0) {  
+    ThreadEntry* sp60;
     UnkStruct_800F9C38* sp58;
     s16* sp54;
     s32 pad[3];

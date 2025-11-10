@@ -12,18 +12,20 @@ extern u8 D_801604A8[];
 #define FLAGS_USED 0x1
 #define FLAGS_LOCK 0x2
 
-void Mem_MarkHeap(void* ptr);
+#define HEAP_SIZE_ALIGN(size) ((u32) (size + 15) >> 4) + 1
+
+void SysMem_MarkHeap(void* ptr);
 void func_800BCCE4(void*); /* extern */
 
 // Initialize the memory heap
-void Mem_Init(void) {
+void SysMem_Init(void) {
     u32 mask;
 
     mask = osSetIntMask(OS_IM_NONE);
     sHeapHead = sMemBlock;
     sHeapHead->flags = FLAGS_FREE;
     sHeapHead->size = 0x1B4FF;
-    sHeapHead->self = sHeapHead;
+    sHeapHead->prev = sHeapHead;
     sHeapHead->next = &sMemBlock[sHeapHead->size];
     sHeapTail = sHeapHead->next;
     D_80182610 = 0;
@@ -32,7 +34,7 @@ void Mem_Init(void) {
     osSetIntMask(mask);
 }
 
-void* Mem_HeapAlloc(s32 size) {
+void* SysMem_HeapAlloc(s32 size) {
     HeapBlock* block;
     HeapBlock* blockPrev;
     HeapBlock* blockNext;
@@ -53,19 +55,19 @@ void* Mem_HeapAlloc(s32 size) {
             blockPrev = block;
             block = block->next;
             if (blockNext != block) {
-                block->self = blockPrev;
+                block->prev = blockPrev;
                 block->next = blockNext;
                 block->size = (u32) (blockNext - block);
                 block->flags = FLAGS_FREE;
                 blockNext = block->next;
                 if (blockNext != sHeapTail) {
                     if (blockNext->flags & FLAGS_USED) {
-                        blockNext->self = block;
+                        blockNext->prev = block;
                     } else {
                         block->next = blockNext->next;
                         block->size += blockNext->size;
                         blockNext = block->next;
-                        blockNext->self = block;
+                        blockNext->prev = block;
                     }
                 }
             }
@@ -80,20 +82,20 @@ void* Mem_HeapAlloc(s32 size) {
 /*
  * @brief Allocate a block and marks it
  */
-void* Mem_HeapAllocMark(s32 size) {
+void* SysMem_HeapAllocMark(s32 size) {
     void* ptr;
 
-    ptr = Mem_HeapAlloc(size);
+    ptr = SysMem_HeapAlloc(size);
 
     if (ptr == NULL) {
         return ptr;
     }
 
-    Mem_MarkHeap(ptr);
+    SysMem_MarkHeap(ptr);
     return ptr;
 }
 
-s32 func_800BC980(void* arg0) {
+s32 SysMem_Free(void* arg0) {
     HeapBlock* block;
     HeapBlock* blockPrev;
     HeapBlock* blockNext;
@@ -109,21 +111,21 @@ s32 func_800BC980(void* arg0) {
         block->next = blockNext->next;
         block->size += blockNext->size;
         blockNext = block->next;
-        blockNext->self = block;
+        blockNext->prev = block;
     }
-    blockPrev = block->self;
+    blockPrev = block->prev;
     if ((block != sHeapHead) && !(blockPrev->flags & 1)) {
         blockPrev->next = (void*) block->next;
         blockPrev->size += block->size;
         block = block->next;
-        block->self = blockPrev;
+        block->prev = blockPrev;
     }
     return 0;
 }
 
 s32 func_800BCB10(void* arg0) {
     func_800BCCE4(arg0);
-    return func_800BC980(arg0);
+    return SysMem_Free(arg0);
 }
 
 void func_800BCB54(void) {
@@ -133,7 +135,7 @@ void func_800BCB54(void) {
         if (!(sp1C->flags & 1)) {
 
         } else if (!(sp1C->flags & 2)) {
-            func_800BC980(sp1C + 1);
+            SysMem_Free(sp1C + 1);
         }
     }
 }
@@ -146,12 +148,12 @@ void func_800BCBF8(void) {
 
         } else {
             func_800BCCE4(sp1C);
-            func_800BC980(sp1C + 1);
+            SysMem_Free(sp1C + 1);
         }
     }
 }
 
-void Mem_MarkHeap(void* ptr) {
+void SysMem_MarkHeap(void* ptr) {
     HeapBlock* block;
 
     block = (HeapBlock*) ptr - 1;
@@ -174,7 +176,7 @@ void func_800BCCE4(void* arg0) {
 /**
  *  Tells us how much memory is unlocked on the heap 
  */
-s32 Mem_GetUnlockedSize(void) {
+s32 SysMem_GetUnlockedSize(void) {
     s32 sp4;
     HeapBlock* sp0;
 
@@ -189,7 +191,7 @@ s32 Mem_GetUnlockedSize(void) {
     return sp4 * 0x10;
 }
 
-s32 Mem_GetLockedSize(void) {
+s32 SysMem_GetLockedSize(void) {
     s32 sp4;
     HeapBlock* sp0;
 
@@ -205,7 +207,7 @@ s32 Mem_GetLockedSize(void) {
     return sp4 * 0x10;
 }
 
-s32 Mem_GetFreeSpace(void) {
+s32 SysMem_GetFreeSpace(void) {
     s32 free_space = 0;
     HeapBlock* block;
 
@@ -234,10 +236,10 @@ void func_800BCF78(HeapBlock** arg0, s32 arg1) {
 }
 
 /*
- * @brief Copy a memory regin into another by bytes
+ * @brief Copy a memory region into another by bytes
  *
  */
-void Mem_Copy8(void* dest, void* src, s32 size) {
+void SysMem_Copy8(void* dest, void* src, s32 size) {
     u8* memSource;
     u8* memDest;
 
@@ -254,7 +256,7 @@ void Mem_Copy8(void* dest, void* src, s32 size) {
     }
 }
 
-void Mem_Copy16(void* dest, void* src, s32 size) {
+void SysMem_Copy16(void* dest, void* src, s32 size) {
     u16* memSource;
     u16* memDest;
 
@@ -272,7 +274,7 @@ void Mem_Copy16(void* dest, void* src, s32 size) {
 }
 
 // Unused function
-UNUSED void Mem_Copy32(void* dest, void* src, s32 size) {
+UNUSED void SysMem_Copy32(void* dest, void* src, s32 size) {
     s32* memSource;
     s32* memDest;
 
@@ -289,7 +291,7 @@ UNUSED void Mem_Copy32(void* dest, void* src, s32 size) {
     }
 }
 
-void Mem_Copy64(void* dest, void* src, s32 size) {
+void SysMem_Copy64(void* dest, void* src, s32 size) {
     u64* memSource;
     u64* memDest;
 
@@ -306,7 +308,7 @@ void Mem_Copy64(void* dest, void* src, s32 size) {
     }
 }
 
-s32 Mem_Compare(u8* s1, u8* s2, s32 size) {
+s32 SysMem_Compare(u8* s1, u8* s2, s32 size) {
     u8* p2;
     u8* p1;
 
@@ -330,52 +332,56 @@ s32 func_800BD1FC(s32 arg0, s32 arg1, s32 arg2) {
     return (u32) arg0 + (arg2 - arg1);
 }
 
-s32 func_800BD218(u32 arg0, void* arg1, s32 arg2) {
+s32 SysMem_DmaCopy(u32 src, void* dest, s32 size) {
     s32 sp34;
     s32 sp30;
     u32 sp2C;
 
-    if (arg2 == 0) {
+    if (size == 0) {
         return -1;
     }
     osWritebackDCacheAll();
-    if ((arg0 >= 0x80000000U) && (arg0 < 0x80400000U)) {
-        Mem_Copy8(arg1, (void*) arg0, arg2);
+    if ((src >= 0x80000000U) && (src < 0x80400000U)) {
+        SysMem_Copy8(dest, (void*) src, size);
         return 0;
     }
-    if (arg0 & 1) {
+    if (src & 1) {
         return -1;
     }
-    if (arg0 >= 0x80400000U) {
+    if (src >= 0x80400000U) {
         return -1;
     }
-    if (((u32) arg1 < 0x80000000U) || ((u32) arg1 >= 0x80400000U)) {
+    if (((u32) dest < 0x80000000U) || ((u32) dest >= 0x80400000U)) {
         return -1;
     }
     if (D_80182640 & 1) {
         if (!(D_80182640 & 2)) {
             sp2C = osSetIntMask(1U);
         }
-        if ((((u32) ((u32) arg1 + 0xF) >> 4) * 0x10) == (u32) arg1) {
-            func_800CAFD0(arg1, arg2);
+        if ((((u32) ((u32) dest + 0xF) >> 4) * 0x10) == (u32) dest) {
+            func_800CAFD0(dest, size);
+
             if (func_800CB080() & 7) {
-                do { } while (func_800CB080() & 7); }
-            func_800CB090(0, arg0, arg1, arg2);
+                do { 
+
+                } while (func_800CB080() & 7); 
+            }
+            func_800CB090(0, src, dest, size);
             if (func_800CB080() & 7) {
                 do { } while (func_800CB080() & 7); }
             goto block_28;
         }
-        if (arg2 >= 0x10001) {
+        if (size >= 0x10001) {
             return -1;
         }
         sp30 = ((u32) (D_801604A8 + 0xF) >> 4) * 0x10;
-        func_800CAFD0((void*) sp30, arg2);
+        func_800CAFD0((void*) sp30, size);
         if (func_800CB080() & 7) {
             do { } while (func_800CB080() & 7); }
-        func_800CB090(0, arg0, (void*) sp30, arg2);
+        func_800CB090(0, src, (void*) sp30, size);
         if (func_800CB080() & 7) {
             do { } while (func_800CB080() & 7); }
-        Mem_Copy8(arg1, (void*) sp30, arg2);
+        SysMem_Copy8(dest, (void*) sp30, size);
     block_28:
         if (!(D_80182640 & 2)) {
             osSetIntMask(sp2C);
@@ -383,22 +389,24 @@ s32 func_800BD218(u32 arg0, void* arg1, s32 arg2) {
         return 0;
     }
     sp34 = D_801895F4 & 0x7F;
-    D_801895F4 += 1;
-    if (!((s32) arg1 % 8)) {
-        func_800CAFD0(arg1, arg2);
-        osPiStartDma(&D_80187B58, 0, 0, arg0, arg1, (u32) arg2, &D_80187BC0);
+    D_801895F4++;
+
+    if (!((s32) dest % 8)) {
+        func_800CAFD0(dest, size);
+        osPiStartDma(&D_80187B58, 0, 0, src, dest, (u32) size, &D_80187BC0);
         osRecvMesg(&D_80187BC0, NULL, 1);
-        goto block_36;
+        goto exit;
     }
-    if (arg2 >= 0x10001) {
+
+    if (size >= 0x10001) {
         return -1;
     }
     sp30 = ((u32) (D_801604A8 + 0xF) >> 4) * 0x10;
-    func_800CAFD0((void*) sp30, arg2);
-    osPiStartDma(&D_80187B58, 0, 0, arg0, (void*) sp30, (u32) arg2, &D_80187BC0);
+    func_800CAFD0((void*) sp30, size);
+    osPiStartDma(&D_80187B58, 0, 0, src, (void*) sp30, (u32) size, &D_80187BC0);
     osRecvMesg(&D_80187BC0, NULL, 1);
-    Mem_Copy8(arg1, (void*) sp30, arg2);
-block_36:
+    SysMem_Copy8(dest, (void*) sp30, size);
+exit:
     return 0;
 }
 

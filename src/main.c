@@ -30,7 +30,7 @@ void bootproc(void* arg0) {
 void idleFunc(void* entry) {
     s32 sp1C;
 
-    Mem_Init();
+    SysMem_Init();
     Thread_Init();
     func_800ABE54();
     D_80182584 = -1;
@@ -42,7 +42,7 @@ void idleFunc(void* entry) {
         osCreateMesgQueue((OSMesgQueue *)&D_801887E8[sp1C], &D_801893F0[sp1C], 1);
     }
     D_801895F4 = 0;
-    D_800F1918 = D_801A8E3C = Thread_CreateSimple(func_80000450, &D_800F1918, 10);
+    D_800F1918 = D_801A8E3C = Thread_CreateSimple(SysMain, &D_800F1918, 10);
     D_800F1930 = Thread_GetPtr(D_801A8E3C);
     D_800F191C = 10;
     

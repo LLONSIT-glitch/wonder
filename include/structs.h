@@ -35,7 +35,7 @@ typedef struct UnkStruct_800F9C38 {
     /* 0x8000 */ void *threadSp;
     /* 0x8004 */ char pad8004[0xFC];                /* maybe part of threadSp[0x40]? */
     /* 0x8100 */ OSThread thread;
-    /* 0x82B0 */ s32 unk82B0;
+    /* 0x82B0 */ OSMesg unk82B0;
     /* 0x82B4 */ char pad82B4[0x1C];                /* maybe part of unk82B0[8]? */
     /* 0x82D0 */ OSMesgQueue mq;                /* maybe part of unk82D8[4]? */
     /* 0x82E8 */ u8 unk82E8;
@@ -43,12 +43,12 @@ typedef struct UnkStruct_800F9C38 {
     /* 0x82EA */ char pad82EA[0x1E];                /* maybe part of unk82E9[0x1F]? */
 } UnkStruct_800F9C38;                               /* size = 0x8308 */
 
-typedef struct UnkStruct_80153DC0 {
+typedef struct ThreadEntry {
     u8 threadId;
     OSPri threadPri;
     char pad4[0x10];
     UnkStruct_800F9C38* unk18;
     char pad[0x8];
-} UnkStruct_80153DC0;
+} ThreadEntry;
 
 #endif /* STRUCTS_H */

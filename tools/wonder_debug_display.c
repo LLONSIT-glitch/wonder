@@ -241,7 +241,7 @@ void func_80032604(void) {
     sp2C = 0;
     do {
         if (D_80180DA8[sp2C].state != -1) {
-            Mem_Copy8((sp2C * 0x28) + &D_801560F0, &D_80180DA8[sp2C], 0x28);
+            SysMem_Copy8((sp2C * 0x28) + &D_801560F0, &D_80180DA8[sp2C], 0x28);
         } else {
             *(&D_801560F0 + (sp2C * 0x28)) = -1;
             *(&D_801560F8 + (sp2C * 0x28)) = 0;
@@ -267,8 +267,8 @@ void func_8003276C(? *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, ? *arg5, f32
     arg0->unkE8 = arg5;
     arg0->unkF4 = arg6;
     arg0->unkF8 = arg7;
-    arg0->unkE0 = Mem_HeapAlloc(0x400);
-    arg0->unkE4 = Mem_HeapAlloc(0x400);
+    arg0->unkE0 = SysMem_HeapAlloc(0x400);
+    arg0->unkE4 = SysMem_HeapAlloc(0x400);
 }
 
 void func_80032844(? *arg0, f32 arg1, f32 arg2) {
@@ -564,9 +564,9 @@ void func_80033788(void) {
     func_8001AB84();
     func_8008EAA8(0, 0);
     func_8008ECE4(" vinc=%08x V-Average=%f\n", D_8018258C, second half of f64, (f64) D_8018257C);
-    func_8008ECE4(" Mem Lock:$%08x Unlock:$%08x\n", Mem_GetLockedSize(), Mem_GetUnlockedSize());
+    func_8008ECE4(" Mem Lock:$%08x Unlock:$%08x\n", SysMem_GetLockedSize(), SysMem_GetUnlockedSize());
     sp2C = (s32) sHeapBlocksCount;
-    func_8008ECE4(" Mem free:$%08x Mem Block size:%3d\n", Mem_GetFreeSpace(), sp2C);
+    func_8008ECE4(" Mem free:$%08x Mem Block size:%3d\n", SysMem_GetFreeSpace(), sp2C);
     func_8008ECE4(" system_flags\n");
     sp2C = 0;
     do {
