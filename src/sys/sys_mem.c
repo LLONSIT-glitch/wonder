@@ -18,7 +18,7 @@ void SysMem_MarkHeap(void* ptr);
 void func_800BCCE4(void*); /* extern */
 
 // Initialize the memory heap
-void SysMem_Init(void) {
+void SysMem_HeapInit(void) {
     u32 mask;
 
     mask = osSetIntMask(OS_IM_NONE);

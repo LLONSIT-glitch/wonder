@@ -5,7 +5,7 @@
 void idleFunc(void*);         
 void func_800CB170(void);   
 s32 func_800ABE54(void);                                  /* extern */
-void SysMem_Init(void);                                  /* extern */
+void SysMem_HeapInit(void);                                  /* extern */
 void Thread_Init(void);                                  /* extern */
 u8 Thread_CreateSimple(void (*entry)(void *), void* arg, OSPri pri);
 ThreadEntry* Thread_CreateExtended(void (*entry)(void*), OSPri pri);
@@ -32,7 +32,7 @@ void func_800BE08C(void);                                  /* extern */
 void osWritebackDCacheAll(void);                                  /* extern */
 void* SysMem_HeapAllocMark(s32);                               /* extern */
 void* SysMain(void* entry);
-void func_800989BC(s32);                               /* extern */
+s32 func_800989BC(s32);                               /* extern */
 void func_800CB840(OSThread *);                        /* extern */
 void func_800CB940(OSThread *);                        /* extern */
 s32 func_800C0FFC(u8, s32);          
@@ -40,6 +40,7 @@ s32 osGetThreadPri(OSThread *);
 s32 func_800C13B8(u8);                                /* extern */
 s32 Thread_SendMsg(OSMesgQueue *mq, OSMesg msg, s32 flag);
 s32 Thread_ReceiveMsg(OSMesgQueue *mq, OSMesg *msg, s32 flag);
+s32 Thread_CreateMesgQueue(OSMesgQueue *arg0, OSMesg *arg1, s32 arg2);
 s32 func_800C1154(u8 threadId, s32 arg1);
 s32 func_800AE0EC(OSMesgQueue*); 
 s32 func_800C143C(u8 threadId, void **mesg, s32 arg2);

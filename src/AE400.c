@@ -9,8 +9,8 @@ void func_800AE40C(void);                                  /* extern */
 void func_800AE664(void);                                  /* extern */
 void func_800AE904(void);                                  /* extern */
 void func_800AEB14(void);                                  /* extern */
-void func_800AED0C(void);                                  /* extern */
-void func_800AEEF8(void);                                  /* extern */
+void WriteFile(void);                                  /* extern */
+void ReadFile(void);                                  /* extern */
 
 extern s32 D_80153DF8[];
 extern s32 D_80180DAC;
@@ -119,9 +119,9 @@ void func_800ADC50(ThreadEntry* arg0) {
             } else if (D_80181350 & 0x100) {
                 func_800AEB14();
             } else if (D_80181350 & 0x80) {
-                func_800AED0C();
+                WriteFile();
             } else if (D_80181350 & 0x40) {
-                func_800AEEF8();
+                ReadFile();
             }
             D_801824D4 = 1;
         }

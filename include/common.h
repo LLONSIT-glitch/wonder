@@ -4,6 +4,7 @@
 #include "variables.h"
 #include "structs.h"
 #include "memory.h"
+#include "controller.h"
 
 // Why this is not Ultratypes?
 typedef u32 uintptr_t;

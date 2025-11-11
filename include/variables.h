@@ -84,4 +84,7 @@ extern s32 D_80181350;
 
 extern OSMesgQueue D_801824E0;
 extern OSContPad D_80182558[];
+extern struct UnkStruct_800F9C38 D_800F1950[];
+extern struct UnkStruct_800F9C38  D_800F9C38[];
+extern ThreadEntry* D_80153DC0[];
 #endif /* VARIABLES_H */

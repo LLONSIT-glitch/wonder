@@ -3,10 +3,6 @@
 */
 #include "common.h"
 
-extern struct UnkStruct_800F9C38 D_800F1950[];
-extern struct UnkStruct_800F9C38  D_800F9C38[];
-extern ThreadEntry* D_80153DC0[];
-
 #define MAX_THREADS 12
 
 #define THREAD_ERROR -1 /* Generic error code */

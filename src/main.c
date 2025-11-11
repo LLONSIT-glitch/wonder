@@ -4,6 +4,7 @@
 #include "macro.h"
 #include "variables.h"
 #include "segment.h"
+#include "controller.h"
 
 extern f32 D_801825A0;
 extern f32 D_801825A8;
@@ -12,14 +13,11 @@ extern f32 D_801825B8;
 extern f32 D_801825C0;
 extern f32 D_801825C8;
 
-#define STATE_CONNECTED 0
-#define STATE_NOT_CONNECTED -1
-
 #define MAX_CONTROLERS 4
 
 void bootproc(void* arg0) {
     char pad[0x50];
-    
+
     func_800CB170();
     gDebugger = 0;
     D_801816C4 = 0;
@@ -30,7 +28,7 @@ void bootproc(void* arg0) {
 void idleFunc(void* entry) {
     s32 sp1C;
 
-    SysMem_Init();
+    SysMem_HeapInit();
     Thread_Init();
     func_800ABE54();
     D_80182584 = -1;

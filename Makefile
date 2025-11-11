@@ -184,6 +184,10 @@ $(BUILD_DIR)/$(SRC_DIR)/libultra/gu/%.o: MIPSISET := -mips2
 $(BUILD_DIR)/$(SRC_DIR)/libultra/os/%.o: MIPSISET := -mips2
 $(BUILD_DIR)/$(SRC_DIR)/libultra/os/%.o: OPT_FLAGS := -O1 
 
+$(BUILD_DIR)/$(SRC_DIR)/libultra/audio/%.o: MIPSISET := -mips2
+$(BUILD_DIR)/$(SRC_DIR)/libultra/audio/%.o: OPT_FLAGS := -O3 -g0
+
+
 $(BUILD_DIR)/$(SRC_DIR)/libultra/libc/ll.o: MIPSISET := -mips3 -o32
 $(BUILD_DIR)/$(SRC_DIR)/libultra/libc/ll%.o: MIPSISET := -mips3 -o32
 $(BUILD_DIR)/$(SRC_DIR)/libultra/libc/ll.o: OPT_FLAGS := -O1

@@ -32,16 +32,20 @@ typedef struct UnkStruct_800F9C38 {
     /* 0x0000 */ u8 flags;
     /* 0x0001 */ u8 unk1;
     /* 0x0002 */ char pad2[0x7FFE];                 /* maybe part of unk1[0x7FFF]? */
-    /* 0x8000 */ void *threadSp;
-    /* 0x8004 */ char pad8004[0xFC];                /* maybe part of threadSp[0x40]? */
+    /* 0x8000 */ OSTask *threadSp;
+    /* 0x8004 */ char pad8004[0xAC];                /* maybe part of threadSp[0x2C]? */
+    /* 0x80B0 */ s32 unk80B0;                         /* inferred */
+    /* 0x80B0 */ char pad80B0[0x4C];
     /* 0x8100 */ OSThread thread;
-    /* 0x82B0 */ OSMesg unk82B0;
+    /* 0x82B0 */ void *unk82B0;
     /* 0x82B4 */ char pad82B4[0x1C];                /* maybe part of unk82B0[8]? */
-    /* 0x82D0 */ OSMesgQueue mq;                /* maybe part of unk82D8[4]? */
+    /* 0x82D0 */ OSMesgQueue mq;
+                 
     /* 0x82E8 */ u8 unk82E8;
     /* 0x82E9 */ u8 unk82E9;
     /* 0x82EA */ char pad82EA[0x1E];                /* maybe part of unk82E9[0x1F]? */
 } UnkStruct_800F9C38;                               /* size = 0x8308 */
+
 
 typedef struct ThreadEntry {
     u8 threadId;
