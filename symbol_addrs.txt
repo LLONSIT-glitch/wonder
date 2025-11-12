@@ -1,4 +1,3 @@
-
 D_Unknown800CB13C = 0x800CB13C;
 bootproc = 0x800BD6F0;
 idleFunc = 0x800BD76C;
@@ -53,3 +52,11 @@ sFileOffset = 0x80181678;
 sFileSize = 0x80181674;
 sFileData = 0x80181670;
 osViClock = 0x800ECCE8;
+audioTblStart_ROM_START = 0x756140; //defined:true
+audioTblStart_ROM_END = 0x759610; //defined:true
+audioBankStart_ROM_START = 0x785f70; //defined:true
+audioBankStart_ROM_END = 0x78ab70; //defined:true
+gSpriteObjHeaderSegment = 0x80153DF0;
+gSysThreadIds = 0x80153DF8;
+gCurrentFrameBuffer = 0x8015BB44;
+Sys_SwapFrameBuffer = 0x8008ECCC;

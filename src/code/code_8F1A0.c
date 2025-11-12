@@ -10,7 +10,7 @@
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_8008ECAC.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/MusFxBankSetCurrent.s")
+#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/Sys_SwapFrameBuffer.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_8008ECE4.s")
 

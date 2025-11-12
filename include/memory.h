@@ -11,5 +11,13 @@ s32 SysMem_GetFreeSpace(void);
 void* SysMem_HeapAlloc(s32 size);
 s32 SysMem_Compare(u8* s1, u8* s2, s32 size);
 s32 SysMem_DmaCopy(u32 src, void* dest, s32 size);
+void SysMem_Copy64(void* dest, void* src, s32 size);
+void SysMem_Copy8(void* dest, void* src, s32 size);
+void SysMem_Copy16(void* dest, void* src, s32 size);
+void SysMem_Copy32(void* dest, void* src, s32 size);
 s32 SysMem_Free(void* ptr);
+s32 func_800BD1FC(s32 arg0, s32 arg1, s32 arg2);
+
+/* From dma_copy.c */
+void DmaCopy(u32 devAddr, void *vAddr, u32 nBytes);
 #endif /* MEMORY_H */

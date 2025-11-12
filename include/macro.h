@@ -7,7 +7,7 @@
 #define UNUSED //Ignore for IDO
 #endif
 
-#define UNK_TYPE int
+#define UNK_TYPE s32
 #define BOOL int
 #define TRUE 1
 #define FALSE 0
@@ -27,5 +27,7 @@
 
 #define VIRTUAL_TO_PHYSICAL(addr) ((u32) (addr) & 0x1FFFFFFF)
 #define VIRTUAL_TO_PHYSICAL2(addr) ((u8*) (addr) - 0x80000000U)
+
+#define FABS(x) ((x) >= 0.0f ? (x) : -(x))
 
 #endif /* MACRO_H */

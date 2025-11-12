@@ -138,7 +138,7 @@ void func_800BDC70(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         D_801A7238 = 0;
     }
     func_8008E630();
-    MusFxBankSetCurrent(D_801824D0);
+    Sys_SwapFrameBuffer(D_801824D0);
     func_800C15C0();
     for (sp1C = 0; sp1C < 2; sp1C++) {
         D_80182538[sp1C] = 1.0f;
@@ -185,7 +185,7 @@ void func_800BDE6C(s32 arg0) {
     } else {
         D_801824DC = &D_801DA800;
     }
-    MusFxBankSetCurrent(D_801824D0);
+    Sys_SwapFrameBuffer(D_801824D0);
     D_801819A8 = osGetTime();
     D_80182538[D_80182554] = (f32) sp20;
     D_80182554 = D_80182554 + 1 < 2 ? D_80182554 + 1 : 0;    

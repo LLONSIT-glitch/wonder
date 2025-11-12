@@ -28,7 +28,7 @@ void *func_800BB448(s32);                           /* extern */
 ? func_800C2304(?, ?, ?);                           /* extern */
 void func_80031E3C(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4); /* static */
 extern s32 D_800DB880;
-extern s32 D_80153DF8;
+extern s32 gSysThreadIds;
 extern ? D_80153E30;
 extern ? D_801560F0;
 extern ? D_801560F6;
@@ -606,11 +606,11 @@ void func_800338D0(void) {
     sp3C = 0;
     if (sp3C == 0) {
         do {
-            func_800C143C((u8) D_80153DF8, &sp30, 1);
+            func_800C143C((u8) gSysThreadIds, &sp30, 1);
             if (*sp30 == 1) {
                 func_80032604();
                 func_80096474();
-                MusFxBankSetCurrent(osViGetCurrentFramebuffer());
+                Sys_SwapFrameBuffer(osViGetCurrentFramebuffer());
                 func_8008EC8C(0x43A00000, 0x43700000);
                 func_8008ECAC(0x43A00000, 0x43700000);
                 func_80090754(0x4E8);
@@ -639,7 +639,7 @@ void func_800338D0(void) {
                 if (D_801560F0.unk6 & ((u16) D_801810F2 | (u16) D_801811A4)) {
                     sp3C += 1;
                 }
-                func_80098D24(D_80153DF8);
+                func_80098D24(gSysThreadIds);
             }
         } while (sp3C == 0);
     }

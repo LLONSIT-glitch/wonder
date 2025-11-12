@@ -169,10 +169,11 @@ segments:
       - [0xC85C0, c, libultra/os/virtualtophysical]
       - [0xC8640, c, libultra/io/aisetnextbuf]
       - [0xC86F0, c, libultra/audio/synthesizer]
-      - [0xC8DD0, asm]
-      - [0xC9130, asm]
-      - [0xCA360, asm]
-      - [0xCA380, asm]
+      - [0xC8DD0, c, libultra/io/pidma]
+      - [0xC8EE0, c, libultra/audio/bnkf]
+      - [0xC9130, asm, csplayer]
+      - [0xCA360, c, libultra/audio/sndpsetsound]
+      - [0xCA380, c, libultra/audio/sndpstop]
       - [0xCA3D0, asm]
       - [0xCAB50, asm]
       - [0xCABF0, asm]
@@ -312,7 +313,6 @@ segments:
     subsegments:
     - { type: .bss, vram: 0x80200000, name: framebuffer1 }
 
-
   - type: bin
     start: 0xF24E0
     vram: 0x800F18E0
@@ -341,5 +341,18 @@ segments:
   - type: bin
     start: 0x144f50
 
-     
+  - name: audioTblStart
+    type: bin
+    start: 0x756140
+
+  - type: bin
+    start: 0x759610
+
+  - name: audioBankStart
+    type: bin
+    start: 0x785F70
+
+  - type: bin
+    start: 0x78AB70
+   
   - [0x800000]
