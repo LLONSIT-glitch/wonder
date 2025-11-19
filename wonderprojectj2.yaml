@@ -89,7 +89,11 @@ segments:
       - [0x17FD0, c, code/code_17FD0]
       - [0x18700, c, code/code_18700]
       - [0x1ABA0, c, code/code_1ABA0]
+      
       - [0x1FF90, c, code/code_1FF90]
+      - [0x20400, c, code/code_20400]
+      - [0x21320, c, code/code_21320]
+
       - [0x221A0, c, code/code_221A0]
       - [0x22AD0, c, code/code_22AD0]
       - [0x22D50, c, code/code_22D50]
@@ -174,10 +178,12 @@ segments:
       - [0xC9130, asm, csplayer]
       - [0xCA360, c, libultra/audio/sndpsetsound]
       - [0xCA380, c, libultra/audio/sndpstop]
-      - [0xCA3D0, asm]
-      - [0xCAB50, asm]
-      - [0xCABF0, asm]
-      - [0xCAC50, asm]
+      - [0xCA3D0, c, libultra/audio/sndpgetstate]
+      - [0xCA3F0, c, libultra/audio/sndpdeallocate]
+      - [0xCA440, asm, sndplayer] # A really old or modified? version of sndplayer
+      - [0xCAB50, c, libultra/audio/sndpallocate]
+      - [0xCABF0, c, libultra/audio/sndpsetpitch]
+      - [0xCAC50, c, libultra/audio/sndpsetfxmix]
       - [0xCACB0, asm]
       - [0xCAD10, asm]
       - [0xCAD70, asm]
@@ -215,7 +221,8 @@ segments:
       - [0xCFF90, asm]
       - [0xD0340, asm]
       - [0xD0350, asm]
-      - [0xD0410, asm]
+      - [0xD0410, c, libultra/io/ai]
+      - [0xD0440, asm] # drvrNew
       - [0xD0BE0, asm]
       - [0xD0C80, asm]
       - [0xD1920, asm]
@@ -251,6 +258,8 @@ segments:
 
       # Data starts!
       - [0xD7BB0, data]
+      - [0xDC200, .data, code/code_1FF90]
+      - [0xDC210, data]
       - [0xECAC0, .data, libultra/gu/random]
       - [0xECAD0, data]
       - [0xED7F0, .data, libultra/io/vimgr]
@@ -264,8 +273,9 @@ segments:
       - [0xEDDE0, rodata]
       - [0xEE190, rodata]
       - [0xEE210, rodata]
-      - [0xEE780, rodata]
-      - [0xEE870, rodata]
+      - [0xEE780, .rodata, code/code_1FF90]
+      - [0xEE840, .rodata, code/code_20400]
+      - [0xEE870, .rodata, code/code_21320]
       - [0xEEE30, rodata]
       - [0xEF320, rodata]
       - [0xEF3A0, rodata]
@@ -318,28 +328,30 @@ segments:
     vram: 0x800F18E0
     follows_vram: main
 
-  - type: bin
-    start: 0xf27e0
+    # Vram start: 0x80400000 
+    # Vram end: 0x8044a2d0
+  - name: SpriteSeg1
+    start: 0xF27E0
+    vram: 0x80400000
+    #vramEnd: 0x8044a2d0
+    type: code
+    subsegments:
+    - [0xF27E0, bin]
+    - [0xFC320, bin]
+    - [0xFD180, bin]
+    - [0x105220, bin]
+    - [0x133AC0, bin]
+    - [0x13D2E0, bin]
 
   - type: bin
-    start: 0xfd180
+    start: 0x492860
+           
+  - name: SPI1_Chunk
+    type: bin
+    start: 0x6E3A40
 
   - type: bin
-    start: 0x100058
-
-  - type: bin
-    start: 0x100080
-  
-    start: 0x105220
-
-  - type: bin
-    start: 0x133ac0
-
-  - type: bin
-    start: 0x13d2e0
-
-  - type: bin
-    start: 0x144f50
+    start: 0x6E3BD0
 
   - name: audioTblStart
     type: bin

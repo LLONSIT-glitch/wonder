@@ -1,0 +1,7 @@
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
+
+
+#define STATE_CONNECTED 0
+#define STATE_NOT_CONNECTED -1
+#endif /* CONTROLLER_H */

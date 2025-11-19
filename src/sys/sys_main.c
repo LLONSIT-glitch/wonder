@@ -39,19 +39,25 @@ void* SysMain(ThreadEntry* entry) {
     SysMem_Copy64(&D_801DA800, &gFrameBuffer1, 0x4B00);
     func_8008E5A0();
     func_800B8A2C();
-    gSpriteObjHeaderSegment = F24E0_ROM_END;
-    D_80153E28 = &D_80400000;
+
+    gSpriteObjHeaderSegment = SpriteSeg1_ROM_START;
+    gSpriteSeg1VramStart = SpriteSeg1_VRAM;
+
     D_80153E2C = &D_492860;
     D_801540D8 = &D_807A0080;
+
     D_801560E0 = &D_69A970;
     D_801560E8 = &D_809A8190;
+
     D_801849C0 = &D_80947340;
     D_801829B8 = &D_639B20;
+
     D_8015FB78 = &D_6E3A40;
     D_8015FB80 = &D_809F1260;
-    D_800F193C = func_800BD1FC(D_80153E2C, D_801540D8, &D_807A1A20);
-    D_80153DB0 = func_800BD1FC(D_801560E0, D_801560E8, &D_809A8230);
-    func_800B1A50(&D_80400000, &D_80409B40, &D_8040A9A0, &D_80412A40, &D_804412E0, &D_8044AB00, &D_8078D1C0,
+    
+    D_800F193C = SysMem_GetPhysicalAddressFromVirtual(D_80153E2C, D_801540D8, &D_807A1A20);
+    D_80153DB0 = SysMem_GetPhysicalAddressFromVirtual(D_801560E0, D_801560E8, &D_809A8230);
+    func_800B1A50(SpriteSeg1_VRAM, &D_80409B40, &D_8040A9A0, &D_80412A40, &D_804412E0, &D_8044AB00, &D_8078D1C0,
                   &D_807991C0, &D_8079A730, 3);
     D_8015B334 = 5;
     D_8015B33C = 0xC8;
@@ -90,7 +96,7 @@ void* SysMain(ThreadEntry* entry) {
     D_800F18E4 = 8;
     D_801A3068 = 0;
     D_801A8D88[0] |= 1;
-    D_8015F880 = func_800BD1FC(D_801829B8, D_801849C0, &D_80999AA0);
+    D_8015F880 = SysMem_GetPhysicalAddressFromVirtual(D_801829B8, D_801849C0, &D_80999AA0);
     sp1DC = Sys_GetSPIHeaderInfoFromVaddr(D_8015F880);
     D_8015F874 = SysMem_HeapAllocMark(D_80160494);
     func_800BF0B4(D_8015F880, sp1DC, D_8015F874);

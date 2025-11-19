@@ -16,7 +16,7 @@
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_8008ED4C.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_8008EDA4.s")
+#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/vsprintf.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_800906F8.s")
 

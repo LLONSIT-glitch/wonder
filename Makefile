@@ -260,6 +260,13 @@ $(BUILD_DIR)/%.o: %.c
 	@$(CC) -c $(CFLAGS) $(OPT_FLAGS) $(LOOP_UNROLL) $(MIPSISET) -o $@ $<
 	@printf "[$(GREEN) IRIS Development Option $(NO_COL)]  $<\n"
 
+# Use Iconv
+build/src/code/code_21320.o: src/code/code_21320.c
+	@printf "[$(YELLOW) Using iconv in $< $(NO_COL)] $<\n"
+	@iconv -f utf-8 -t euc-jp $^ > $<_conv.c
+	@$(CC) -c $(CFLAGS) $(OPT_FLAGS) $(LOOP_UNROLL) $(MIPSISET) -o $@ $<_conv.c
+	@rm $<_conv.c
+
 # Patch ll.o
 build/src/libultra/libc/ll.o: src/libultra/libc/ll.c
 	@printf "[$(YELLOW) Patching and compiling libultra - ll.o $(NO_COL)] $<\n"

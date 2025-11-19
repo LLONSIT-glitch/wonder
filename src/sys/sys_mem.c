@@ -328,8 +328,27 @@ s32 SysMem_Compare(u8* s1, u8* s2, s32 size) {
     return size;
 }
 
-s32 func_800BD1FC(s32 arg0, s32 arg1, s32 arg2) {
-    return (u32) arg0 + (arg2 - arg1);
+/*
+ * @brief Convert a virtual address inside a segment into its corresponding
+ * physical address using offset translation.
+ *
+ * The function uses the formula:
+ *
+ *     physical = segBase + (vAddr - vStart)
+ *
+ * Where:
+ *   - segBase is the physical base of the segment,
+ *   - vStart is the virtual base of the same segment,
+ *   - vEnd is the virtual address to translate.
+ *
+ * @param segBase Physical base address of the segment.
+ * @param vStart  Virtual start address of the segment.
+ * @param vAddr   Virtual address to translate.
+ *
+ * @return Physical address corresponding to the given virtual address.
+ */
+s32 SysMem_GetPhysicalAddressFromVirtual(u32 segBase, s32 vStart, s32 vEnd) {
+    return (u32) segBase + (vEnd - vStart);
 }
 
 s32 SysMem_DmaCopy(u32 src, void* dest, s32 size) {

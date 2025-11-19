@@ -1,14 +1,14 @@
 #include "common.h"
 
-typedef struct UnkStruct_SpiFormat_80160490 {
+typedef struct SpiHeader {
     u8 header[4];
     s32 unk4;
     s32 unk8;
     s32 unkC;
     s32 unk10;
-} UnkStruct_SpiFormat_80160490;
+} SpiHeader;
 
-extern UnkStruct_SpiFormat_80160490 D_80160490;
+extern SpiHeader D_80160490;
 extern s32 D_80160494;
 extern s32 D_80160498;
 extern s32 D_8016049C;
@@ -49,7 +49,7 @@ static s32 memcmp(u8* s1, u8* s2, s32 size);
 s32 Sys_GetSPIHeaderInfoFromVaddr(s32 vAddr) {
     UNUSED s32 pad;
 
-    SysMem_DmaCopy(vAddr, &D_80160490, sizeof(UnkStruct_SpiFormat_80160490));
+    SysMem_DmaCopy(vAddr, &D_80160490, sizeof(SpiHeader));
     if (D_80160490.header[0] == 'S' && D_80160490.header[1] == 'P' && D_80160490.header[2] == 'I') {
         if (D_80160490.header[3] != 'N') {
             return D_80160490.unk8 + D_80160490.unkC + D_80160490.unk10 + 0x14;
@@ -142,9 +142,9 @@ s32 func_800BF0B4(u32 arg0, s32 size, u8* arg2) {
     return 0;
 }
 
-UNUSED UnkStruct_SpiFormat_80160490* func_800BF2E8(u8* arg0, s32 arg1, s32 arg2) {
-    UnkStruct_SpiFormat_80160490* sp24;
-    UnkStruct_SpiFormat_80160490* sp20;
+UNUSED SpiHeader* func_800BF2E8(u8* arg0, s32 arg1, s32 arg2) {
+    SpiHeader* sp24;
+    SpiHeader* sp20;
     s32 sp1C;
 
     D_80160434 = arg0;

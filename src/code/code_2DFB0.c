@@ -6,7 +6,29 @@
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_2DFB0/func_8002D798.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_2DFB0/func_8002DA1C.s")
+extern u64* D_801869C8;
+
+void func_8002DA1C(void) {
+    s16 sp6;
+    u64* sp0;
+
+    sp0 = D_801869C8;
+    
+    for (sp6 = 0; sp6 < 0x41; sp6++) {
+        *sp0++ = 0;
+        *sp0++ = 0;
+        *sp0++ = 0;
+        *sp0++ = 0;
+        *sp0++ = 0;
+        *sp0++ = 0;
+        *sp0++ = 0;
+        *sp0++ = 0;
+        *sp0++ = 0;
+        *sp0++ = 0;
+        *sp0++ = 0;
+        *sp0++ = 0;
+    } 
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_2DFB0/func_8002DC14.s")
 

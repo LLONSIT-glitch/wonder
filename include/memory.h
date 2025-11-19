@@ -16,8 +16,7 @@ void SysMem_Copy8(void* dest, void* src, s32 size);
 void SysMem_Copy16(void* dest, void* src, s32 size);
 void SysMem_Copy32(void* dest, void* src, s32 size);
 s32 SysMem_Free(void* ptr);
-s32 func_800BD1FC(s32 arg0, s32 arg1, s32 arg2);
-
+s32 SysMem_GetPhysicalAddressFromVirtual(u32 segBase, s32 vStart, s32 vEnd);
 /* From dma_copy.c */
 void DmaCopy(u32 devAddr, void *vAddr, u32 nBytes);
 #endif /* MEMORY_H */
