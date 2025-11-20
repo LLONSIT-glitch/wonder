@@ -8,9 +8,6 @@ extern s32 D_80182610;
 extern s32 D_80182640;
 extern u8 D_801604A8[];
 
-#define FLAGS_FREE 0x0
-#define FLAGS_USED 0x1
-#define FLAGS_LOCK 0x2
 
 #define HEAP_SIZE_ALIGN(size) ((u32) (size + 15) >> 4) + 1
 
@@ -80,7 +77,7 @@ void* SysMem_HeapAlloc(s32 size) {
 }
 
 /*
- * @brief Allocate a block and marks it
+ * @brief Allocate a block and marks it or locks it
  */
 void* SysMem_HeapAllocMark(s32 size) {
     void* ptr;
@@ -95,12 +92,12 @@ void* SysMem_HeapAllocMark(s32 size) {
     return ptr;
 }
 
-s32 SysMem_Free(void* arg0) {
+s32 SysMem_Free(void* ptr) {
     HeapBlock* block;
     HeapBlock* blockPrev;
     HeapBlock* blockNext;
 
-    block = (HeapBlock*) arg0 - 1;
+    block = (HeapBlock*) ptr - 1;
     if (!(block->flags & FLAGS_USED)) {
         return -1;
     }

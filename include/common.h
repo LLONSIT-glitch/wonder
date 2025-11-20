@@ -7,6 +7,7 @@
 #include "controller.h"
 #include "pfs.h"
 #include "segment.h"
+#include "math.h"
 
 // Why this is not Ultratypes?
 typedef u32 uintptr_t;

@@ -19,7 +19,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
         D_801825F0[0] = 0;
         D_801825F0[1] = 0;
         D_801825F0[2] = -1;
-        D_80182618->ptrs[0] = SysMem_HeapAlloc(0x12);
+        D_80182618->ptrs[0] = SysMem_HeapAlloc(18);
         D_80182618->ptrs[1] = SysMem_HeapAlloc(6);
         D_80182618->ptrs[2] = SysMem_HeapAlloc(0x1600);
         D_80182618->ptrs[3] = SysMem_HeapAlloc(0x1600);

@@ -2,9 +2,20 @@
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_34860/func_80033C60.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_34860/func_80033CF0.s")
+// .rodata
+extern f64 D_800EE970;
+extern f64 D_800EE978;
+extern f64 D_800EE980;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_34860/func_80033D68.s")
+f32 func_80033CF0(f32 arg0) {
+    if (arg0 >= D_800EE970) {
+        arg0 -= D_800EE978;
+    } else if (arg0 < 0.0) {
+        arg0 += D_800EE980;
+    }
+    return arg0;
+}
+
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_34860/func_80033D78.s")
 

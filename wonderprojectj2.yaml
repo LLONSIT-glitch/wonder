@@ -80,7 +80,7 @@ segments:
       - [0x83A0, c, code/code_83A0]
       - [0xAB70, c, code/code_AB70]
       - [0xC3A0, c, code/code_C3A0]
-      - [0xDCE0, c, code/code_DCE0]
+      - [0xDCE0, c, code/temp_heap]
       - [0xE180, c, code/code_E180]
       - [0xE9E0, c, code/code_E9E0]
       - [0x15870, c, code/code_15870]
@@ -308,12 +308,14 @@ segments:
       - [0xF1A20, rodata]
       - [0xF2220, rodata]
       - { start: 0xF24E0, type: bss, vram: 0x800F18E0, name: bss1 }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AA4F0, name: code/temp_heap}
+      - { start: 0xF24E0, type: bss,  vram: 0x801AA500, name: bss2 }
       - { start: 0xF24E0, type: .bss, vram: 0x801AE860, name: libultra/io/vimgr }
       - { start: 0xF24E0, type: .bss, vram: 0x801AFA80, name: libultra/os/seteventmesg  }
       - { start: 0xF24E0, type: .bss, vram: 0x801AFB00, name:  libultra/io/sptask  }
       - { start: 0xF24E0, type: .bss, vram: 0x801AFB40, name: libultra/io/controller   }
       - { start: 0xF24E0, type: .bss, vram: 0x801AFBD0, name: libultra/io/pfsisplug  }
-      - { start: 0xF24E0, type: bss, vram: 0x801AFC10, name: bss2  }
+      - { start: 0xF24E0, type: bss, vram: 0x801AFC10, name: bss3  }
       
 
   - name: framebuffer1
@@ -322,6 +324,13 @@ segments:
     bss_size: 0x4b00  
     subsegments:
     - { type: .bss, vram: 0x80200000, name: framebuffer1 }
+
+  - name: heapMemBlock
+    type: code
+    vram: 0x80225800
+    bss_size: 0x2223EC
+    subsegments:
+    - { type: .bss, vram: 0x80225800, name: heap_mem_block }
 
   - type: bin
     start: 0xF24E0

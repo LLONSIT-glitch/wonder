@@ -110,9 +110,40 @@ u16 func_800B32E4(u8**, s32);                         /* extern */
 u16 func_800B3434(u8**, s32);                         /* extern */
 void func_800B3DBC(u8**, u8**, s32);                   /* extern */
 void func_800B9000(u16);                               /* extern */
-
-/* Functions in this file */
 s32 func_8001F390(UnkStruct_80020720* arg0);
 void func_8001F6B8(void);
 void func_8001F800(void);
+s32 func_8000E524(UnkStruct_8000DDE0*);             /* extern */
+s32 func_8000E678(UnkStruct_8000DDE0*);             /* extern */
+s32 func_8000E7E4(UnkStruct_8000DDE0*);               /* extern */
+s32 func_8000E9F8(UnkStruct_8000DDE0*);             /* extern */
+void func_800111E8(UnkStruct_8000DDE0*);               /* extern */
+void func_8001173C(UnkStruct_8000DDE0*);               /* extern */
+void func_80011A0C(UnkStruct_8000DDE0*);               /* extern */
+void func_80011B88(UnkStruct_8000DDE0*);               /* extern */
+void func_80011F7C(UnkStruct_8000DDE0*);               /* extern */
+void func_80012068(UnkStruct_8000DDE0*);               /* extern */
+void func_80012164(UnkStruct_8000DDE0*);               /* extern */
+void func_800123AC(UnkStruct_8000DDE0*);               /* extern */
+void func_800124B8(UnkStruct_8000DDE0*);               /* extern */
+void func_80012634(UnkStruct_8000DDE0*);               /* extern */
+void func_80012798(UnkStruct_8000DDE0*);               /* extern */
+void func_8001292C(UnkStruct_8000DDE0*);               /* extern */
+void func_800129FC(UnkStruct_8000DDE0*);               /* extern */
+void func_80012E7C(UnkStruct_8000DDE0*);               /* extern */
+void func_800131F4(UnkStruct_8000DDE0*);               /* extern */
+void func_80013398(UnkStruct_8000DDE0*);               /* extern */
+void func_80013474(UnkStruct_8000DDE0*);               /* extern */
+void func_80013624(UnkStruct_8000DDE0*);               /* extern */
+void func_800139B8(UnkStruct_8000DDE0*);               /* extern */
+void func_80013AFC(UnkStruct_8000DDE0*);               /* extern */
+void func_80013C90(UnkStruct_8000DDE0*);               /* extern */
+void func_80013F04(UnkStruct_8000DDE0*);               /* extern */
+void func_80013FEC(UnkStruct_8000DDE0*);               /* extern */
+void func_800140D8(UnkStruct_8000DDE0*);               /* extern */
+void func_80014228(UnkStruct_8000DDE0*);               /* extern */
+void func_800145D4(UnkStruct_8000DDE0*);               /* extern */
+void func_80014A80(UnkStruct_8000DDE0*);               /* extern */
+void func_80015C30(UnkStruct_8000DDE0*);               /* extern */
+void func_80015D74(UnkStruct_8000DDE0*);               /* extern */
 #endif /* FUNCTIONS_H */

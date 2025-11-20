@@ -136,4 +136,62 @@ typedef struct UnkStruct_80182618_s {
     u8* ptrs[4];
 } UnkStruct_80182618;
 
+typedef struct UnkStruct_8000E3D4_s {
+    /* 0x00 */ s16 unk0;
+    /* 0x02 */ u16 unk2;
+    /* 0x04 */ u16 unk4;
+    /* 0x06 */ u16 unk6;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ UnkStruct_80099E2C* unkC;
+    /* 0x10 */ s32 unk10;
+    /* 0x14 */ f32 unk14;
+    /* 0x18 */ f32 unk18;
+    /* 0x1C */ f32 unk1C;
+    /* 0x20 */ f32 unk20;
+    /* 0x24 */ f32 unk24;
+    /* 0x28 */ f32 unk28;
+    /* 0x2C */ char pad2C[0x30];                    /* maybe part of unk28[0xD]? */
+    /* 0x5C */ s32 unk5C;
+    /* 0x60 */ s16 unk60;
+    /* 0x62 */ u16 unk62;
+    /* 0x64 */ s16 unk64;
+    /* 0x66 */ s16 unk66;
+    /* 0x68 */ s16 unk68;
+    /* 0x6A */ char pad6A[2];
+    /* 0x6C */ f32 unk6C;
+    /* 0x70 */ f32 unk70;
+    /* 0x74 */ f32 unk74;
+    /* 0x78 */ char pad78[4];
+    /* 0x7C */ s32 unk7C;
+    /* 0x80 */ char pad80[0x14];                    /* maybe part of unk7C[6]? */
+    /* 0x94 */ s32 unk94;                           /* inferred */
+    /* 0x98 */ f32 unk98;
+    /* 0x9C */ f32 unk9C;
+    /* 0xA0 */ f32 unkA0;
+    /* 0xA4 */ f32 unkA4;
+    /* 0xA8 */ f32 unkA8;
+    /* 0xAC */ f32 unkAC;
+    /* 0xB0 */ f32 unkB0;
+    /* 0xB4 */ f32 unkB4;
+    /* 0xB8 */ f32 unkB8;
+    /* 0xBC */ f32 unkBC;
+    /* 0xC0 */ f32 unkC0;
+    /* 0xC4 */ f32 unkC4;
+} UnkStruct_8000E3D4;                               /* size = 0xC8 */
+
+typedef struct UnkStruct_8000DDE0_s {
+    /* 0x000 */ char pad0[0x1A8];
+    /* 0x1A8 */ s32 unk1A8;
+    /* 0x1AC */ s32 unk1AC;
+    /* 0x1B0 */ char pad1B0[0x38];                  /* maybe part of unk1AC[0xF]? */
+    /* 0x1E8 */ f32 unk1E8;                         /* inferred */
+    /* 0x1EC */ f32 unk1EC;                         /* inferred */
+    /* 0x1F0 */ f32 unk1F0;
+    /* 0x1F4 */ char pad1F4[0x14];                  /* maybe part of unk1F0[6]? */
+    /* 0x208 */ u16 unk208;
+    /* 0x20A */ char pad20A[2];
+    /* 0x20C */ UnkStruct_8000E3D4 *unk20C;
+    /* 0x210 */ u16 *unk210;
+} UnkStruct_8000DDE0;                               /* size = 0x214 */
+
 #endif /* STRUCTS_H */

@@ -26,7 +26,7 @@ s32 func_8001F390(UnkStruct_80020720* arg0) {
         func_800B1B3C(&sp24, &sp28, 8);
         for (sp2C = 0, sp24 = (UnkStruct_80099E2C*)D_80182618->ptrs[2]; sp2C < 8; sp2C++, sp24++) {
             func_80099E2C(sp24);
-            sp24->unkC0 = (s32) (sp24->unkC0 | 0xC);
+            sp24->unkC0 |= 12;
         } 
         break;
     case 1:
