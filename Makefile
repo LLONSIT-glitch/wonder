@@ -21,7 +21,8 @@ find-command = $(shell which $(1) 2>/dev/null)
 
 
 BUILD_DIR = build
-ASM_DIRS  := $(shell find asm/ -type d -not -path "asm/nonmatchings/*")
+
+ASM_DIRS  := $(shell find asm/ -type d -not -path "asm/nonmatchings/*") $(shell find src -type d)
 BIN_DIRS  = assets assets/disasm
 
 #TODO: Too many rules

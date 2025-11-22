@@ -10,9 +10,17 @@ extern u8 audioBankStart_ROM_END[];
 extern u8 F24E0_ROM_START[]; // Main segment bss start
 extern u8 F24E0_ROM_END[];
 extern u8 SpriteSeg1_ROM_START[];
+extern u8 SpriteSeg2_ROM_START[];
 
 extern u8 SpriteSeg1_VRAM[];
 extern u8 SpriteSeg1_VRAM_END[];
+
+extern u8 SpriteSeg2_VRAM[];
+extern u8 SpriteSeg2_VRAM_END[];
+
+extern u8 SpriteSeg3_VRAM[];
+extern u8 SpriteSeg3_VRAM_END[];
+
 extern u8 F27E0_ROM_END[];
 
 

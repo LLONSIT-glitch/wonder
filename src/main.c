@@ -126,14 +126,14 @@ void func_800BDC70(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         D_8018251C = 0;
         D_80182528 = 1;
         if (D_801824FC != 0) {
-            D_801824D0 = &D_801DA800;
-        } else {
             D_801824D0 = &gFrameBuffer1;
+        } else {
+            D_801824D0 = &gFrameBuffer2;
         }
         if (D_801824FC != 0) {
-            D_801824DC = &gFrameBuffer1;
+            D_801824DC = &gFrameBuffer2;
         } else {
-            D_801824DC = &D_801DA800;
+            D_801824DC = &gFrameBuffer1;
         }
         D_801A7238 = 0;
     }
@@ -176,14 +176,14 @@ void func_800BDE6C(s32 arg0) {
     D_8018251C =  osGetTime() - D_801819A8;
     D_801824FC ^= 1;
     if (D_801824FC != 0) {
-        D_801824D0 = &D_801DA800;
-    } else {
         D_801824D0 = &gFrameBuffer1;
+    } else {
+        D_801824D0 = &gFrameBuffer2;
     }
     if (D_801824FC != 0) {
-        D_801824DC = &gFrameBuffer1;
+        D_801824DC = &gFrameBuffer2;
     } else {
-        D_801824DC = &D_801DA800;
+        D_801824DC = &gFrameBuffer1;
     }
     Sys_SwapFrameBuffer(D_801824D0);
     D_801819A8 = osGetTime();

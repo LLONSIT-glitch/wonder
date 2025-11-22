@@ -33,18 +33,18 @@ void* SysMain(ThreadEntry* entry) {
     sp50 = threadEntry->unk18;
     sp50->unk80BC = 2;
     sp50->unk80DC = 2;
-    gFrameBuffer1[0] = gFrameBuffer1[1] = gFrameBuffer1[2] = gFrameBuffer1[3] = 0;
-    SysMem_Copy64(&gFrameBuffer1[4], &gFrameBuffer1, 0x4AFF);
-    osViSwapBuffer(&gFrameBuffer1);
-    SysMem_Copy64(&D_801DA800, &gFrameBuffer1, 0x4B00);
+    gFrameBuffer2[0] = gFrameBuffer2[1] = gFrameBuffer2[2] = gFrameBuffer2[3] = 0;
+    SysMem_Copy64(&gFrameBuffer2[4], &gFrameBuffer2, 0x4AFF);
+    osViSwapBuffer(&gFrameBuffer2);
+    SysMem_Copy64(&gFrameBuffer1, &gFrameBuffer2, 0x4B00);
     func_8008E5A0();
     func_800B8A2C();
 
     gSpriteObjHeaderSegment = SpriteSeg1_ROM_START;
     gSpriteSeg1VramStart = SpriteSeg1_VRAM;
 
-    D_80153E2C = &D_492860;
-    D_801540D8 = &D_807A0080;
+    D_80153E2C = SpriteSeg2_ROM_START;
+    D_801540D8 = SpriteSeg2_VRAM;
 
     D_801560E0 = &D_69A970;
     D_801560E8 = &D_809A8190;

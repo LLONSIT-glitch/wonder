@@ -71,7 +71,7 @@ segments:
     start: 0x1050
     vram: 0x80000450
     follows_vram: entry
-    bss_size: 0xC07C0
+    bss_size: 0xE82F0 # Previous size: C0C7C0
     subsegments:
       - [0x1050, c, sys/sys_main]
       - [0x3B20, c, code/code_3B20]
@@ -271,6 +271,8 @@ segments:
       - [0xEDD60, rodata]
       - [0xEDD80, rodata]
       - [0xEDDE0, rodata]
+      - [0xEDF40, rodata]
+      - [0xEDF60, rodata]
       - [0xEE190, rodata]
       - [0xEE210, rodata]
       - [0xEE780, .rodata, code/code_1FF90]
@@ -320,10 +322,17 @@ segments:
 
   - name: framebuffer1
     type: code
+    vram: 0x801DA800
+    bss_size: 0x4b00
+    subsegments:
+    - { type: .bss, vram: 0x801DA800, name: framebuffer1 }
+    
+  - name: framebuffer2
+    type: code
     vram: 0x80200000
     bss_size: 0x4b00  
     subsegments:
-    - { type: .bss, vram: 0x80200000, name: framebuffer1 }
+    - { type: .bss, vram: 0x80200000, name: framebuffer2 }
 
   - name: heapMemBlock
     type: code
@@ -346,17 +355,35 @@ segments:
     type: code
     subsegments:
     - [0xF27E0, bin]
-    - [0xFC320, bin]
-    - [0xFD180, bin]
-    - [0x105220, bin]
-    - [0x133AC0, bin]
-    - [0x13D2E0, bin]
+    - { start: 0xF57E0, vram: 0x80403000, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_F57E0 }
+    - { start: 0xFC320, vram: 0x80409B40, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_FC320 }
+    - { start: 0xFD180, vram: 0x8040A9A0, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_FD180 }
+    - { start: 0x105220, vram: 0x80412A40, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_105220 }
+    - { start: 0x133AC0, vram: 0x804412E0, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_133AC0 }
+    - { start: 0x13D2E0, vram: 0x8044AB00, type: databin, use_src_path: True, name: sprites/SpriteSeg1/UnkSPI1_13D2E0 }
 
-  - type: bin
+  - name: SpriteSeg2
+    type: code
     start: 0x492860
+    vram: 0x807A0080
+    subsegments:
+    - [0x492860, bin]
+    - { start: 0x494200, end: 0x6e3a40, vram: 0x807a1a20, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_494200 }
+    
+    #- { start: 0x49a3c0, vram: 0x807a7be0, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_49a3c0 }
+    #- { start: 0x639b20, vram: 0x80947340, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_639b20 }
+    #- { start: 0x63b930, vram: 0x80949150, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_63b930 }
+    #- { start: 0x671cb0, vram: 0x8097f4d0, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_671cb0 }
+    #- { start: 0x6741e0, vram: 0x80981a00, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_6741e0 }
+    #- { start: 0x682800, vram: 0x80990020, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_682800 }
+    #- { start: 0x682960, vram: 0x80990180, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_682960 }
+    #- { start: 0x6862c0, vram: 0x80993ae0, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_6862c0 }
+    #- { start: 0x6863e0, vram: 0x80993c00, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_6863e0 }
+
            
   - name: SPI1_Chunk
     type: bin
+    vram: 0x809F1260
     start: 0x6E3A40
 
   - type: bin

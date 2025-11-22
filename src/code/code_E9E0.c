@@ -1,5 +1,7 @@
 #include "common.h"
 
+
+
 void func_8000E3D4(UnkStruct_8000E3D4* arg0);
 s32 func_8000DDE0(UnkStruct_8000DDE0* arg0);
 void* TempHeap_Alloc(s32 size);           /* extern */
@@ -176,15 +178,123 @@ s32 func_8000E7E4(UnkStruct_8000DDE0 *arg0) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_E9E0/func_8000E9F8.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_E9E0/func_8000F4B0.s")
+void func_8000F4B0(UnkStruct_8000DDE0 *arg0) {
+    s32 sp4;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_E9E0/func_8000F53C.s")
+    sp4 = arg0->unk20C;
+    if (arg0->unk1A8 & 0x80) {
+        arg0->unk1F0 = (f32) (arg0->unk1F0 - 1.0f);
+    }
+    if (arg0->unk1A8 & 0x100) {
+        D_801A3068->unk4 &= ~0x100;
+    }
+    arg0->unk1A8 = (s32) (arg0->unk1A8 & ~0x180);
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_E9E0/func_8000F598.s")
+void func_8000F53C(UnkStruct_8000DDE0 *arg0) {
+    UnkStruct_8000E3D4 *sp1C;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_E9E0/func_8000F624.s")
+    sp1C = arg0->unk20C;
+    func_800B1C10(&sp1C->unkC, (u8 **) &sp1C->unk10, (s32) sp1C->unk6);
+    func_8000D74C(arg0);
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_E9E0/func_8000F9D0.s")
+void func_8000F598(UnkStruct_8000DDE0 *arg0) {
+    UnkStruct_8000E3D4 *sp1C;
+    s32 sp18;
+
+    sp1C = arg0->unk20C;
+    sp18 = func_800B2748((u8 **) &sp1C->unkC, (u8 **) &sp1C->unk10);
+    if (sp18 < 0) {
+        sp1C->unk0 &= ~2;
+    } else {
+        sp1C->unk8 = sp18;
+    }
+}
+
+void* func_8000D688(s32);                             /* extern */
+void func_8000F9D0(UnkStruct_8000DDE0*);               /* extern */
+extern f64 D_800ED468;
+extern f64 D_800ED470;
+
+void func_8000F624(UnkStruct_8000DDE0* arg0) {
+    UnkStruct_8000DDE0* sp2C;
+    UnkStruct_8000E3D4* sp28;
+    UnkStruct_8000E3D4* sp24;    
+    s32 sp20;    
+    UnkStruct_80099E2C* sp1C;
+
+    func_8000F9D0(arg0);
+    sp28 = arg0->unk20C;
+    if ((arg0->unk1AC < 0x4000) || (arg0->unk1AC >= 0x8000)) {
+        sp28->unk14 += sp28->unk74;
+        for (sp20 = 0, sp1C = sp28->unkC; sp20 < sp28->unk6; sp20++, sp1C++) {
+            sp1C->unkCC += sp28->unk6C * D_8018257C;
+            sp1C->unkD0 += sp28->unk70 * D_8018257C;
+            sp1C->unkF4 = (f32) ((f64) sp1C->unkF4 + ((f64) sp28->unk74 * D_800ED468 * (f64) D_8018257C));
+            sp1C->unkF8 = (f32) ((f64) sp1C->unkF8 + ((f64) sp28->unk74 * D_800ED470 * (f64) D_8018257C));
+        }
+    } else {
+        for (sp20 = 0, sp1C = sp28->unkC; sp20 < sp28->unk6; sp20++, sp1C++) {
+            sp1C->unkCC += sp28->unk6C * D_8018257C;
+            sp1C->unkD0 += sp28->unk70 * D_8018257C;
+            sp1C->unkD4 += sp28->unk74 * D_8018257C;
+        }
+        if ((arg0->unk1AC == 0x4001) && (arg0->unk1A8 & 0x40)) {
+            sp2C = func_8000D688(0x4000);
+            sp24 = sp2C->unk20C;
+        
+            for (sp20 = 0, sp1C = sp24->unkC; sp20 < sp24->unk6; sp20++, sp1C++) {
+                sp1C->unkCC += sp28->unk6C * D_8018257C;
+                sp1C->unkD0 += sp28->unk70 * D_8018257C;
+                sp1C->unkD4 += sp28->unk74 * D_8018257C;
+            }
+        }
+    }
+}
+
+void func_8000F9D0(UnkStruct_8000DDE0* arg0) {
+    UNUSED s32 pad;
+    UnkStruct_8000E3D4* sp0;
+
+    sp0 = arg0->unk20C;
+    sp0->unk6C += sp0->unkA4 * D_8018257C;
+    if (sp0->unkA4 < 0.0f) {
+        if (sp0->unk98 > sp0->unk6C) {
+            sp0->unk6C = sp0->unk98;
+            sp0->unkA4 = 0.0f;
+        }
+    } else if ((sp0->unkA4 > 0.0f)) {
+        if ((sp0->unk98 < sp0->unk6C)) {
+            sp0->unk6C = sp0->unk98;
+            sp0->unkA4 = 0.0f;
+        }
+    }
+    sp0->unk70 += sp0->unkA8 * D_8018257C;
+    if (sp0->unkA8 < 0.0f) {
+        if ( sp0->unk9C > sp0->unk70) {
+            sp0->unk70 = sp0->unk9C;
+            sp0->unkA8 = 0.0f;
+        }
+    } else if ((sp0->unkA8 > 0.0f)) {
+        if ((sp0->unk9C < sp0->unk70)) {
+            sp0->unk70 = sp0->unk9C;
+            sp0->unkA8 = 0.0f;
+        }
+    }
+    sp0->unk74 += sp0->unkAC * D_8018257C;
+    if (sp0->unkAC < 0.0f) {
+        if (sp0->unkA0 > sp0->unk74) {
+            sp0->unk74 = sp0->unkA0;
+            sp0->unkAC = 0.0f;
+        }
+    } else if ((sp0->unkAC > 0.0f)) {
+        if ((sp0->unkA0 < sp0->unk74)) {
+            sp0->unk74 = sp0->unkA0;
+            sp0->unkAC = 0.0f;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_E9E0/func_8000FCD8.s")
 
