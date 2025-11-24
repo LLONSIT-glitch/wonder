@@ -3,4 +3,4 @@
 .section .data, "wa"
 
 dlabel D_80403000
-.incbin "assets/sprites/SpriteSeg1/Seg_F57E0.databin.bin"
+.incbin "bins/sprites/SpriteSeg1/Seg_F57E0.databin.bin"

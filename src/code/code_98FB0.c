@@ -44,7 +44,7 @@
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098D24.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_8009908C.s")
+#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/CreateGfxTask.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800993AC.s")
 

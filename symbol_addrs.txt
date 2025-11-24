@@ -61,6 +61,7 @@ gSysThreadIds = 0x80153DF8;
 gCurrentFrameBuffer = 0x8015BB44;
 Sys_SwapFrameBuffer = 0x8008ECCC;
 vsprintf = 0x8008EDA4;
+rspbootTextEnd = 0x800D6C40;
 SysMem_GetPhysicalAddressFromVirtual = 0x800BD1FC;
 D_800DB600 = 0x800DB600; // size:0x10
 gSpriteSeg1VramStart = 0x80153E28;
@@ -81,6 +82,7 @@ gSpritePalettes = 0x8078D1C0;
 Spi_DecompressAsset = 0x800BF0B4;
 gDisplayListHead = 0x801A1B44;
 MtxFToMtx = 0x800C2DD0;
+CreateGfxTask = 0x8009908C;
 
 D_80403000 = 0x80403000; //defined:true
 D_80409B40 = 0x80409B40; //defined:true

@@ -47,6 +47,7 @@ options:
   # data_string_encoding: ASCII
   rodata_string_guesser_level: 2
   data_string_guesser_level: 2
+  asset_path: bins
   # libultra_symbols: True
   # hardware_regs: True
   # gfx_ucode: # one of [f3d, f3db, f3dex, f3dexb, f3dex2]
@@ -253,8 +254,9 @@ segments:
       - [0xD6FA0, asm]
       - [0xD76C0, asm]
       - [0xD7720, asm]
-      - [0xD7770, asm]
-      - [0xD7840, asm]
+
+      - [0xD7770, textbin, rspboot]
+      - [0xD7840, textbin, f3d]
 
       # Data starts!
       - [0xD7BB0, data]
@@ -363,7 +365,6 @@ segments:
     - { start: 0x105220, vram: 0x80412A40, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_105220 }
     - { start: 0x133AC0, vram: 0x804412E0, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_133AC0 }
     - { start: 0x13D2E0, vram: 0x8044AB00, type: databin, use_src_path: True, name: sprites/SpriteSeg1/MainSprites } # Main sprites
-    - [0x13d44e, bin]
     - [0x47F9A0, bin] # Sprite Palettes
     - [0x48b7a0, bin]
 

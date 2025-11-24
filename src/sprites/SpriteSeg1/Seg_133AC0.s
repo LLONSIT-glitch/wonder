@@ -3,4 +3,4 @@
 .section .data, "wa"
 
 dlabel gMainSpritesSpiOffsets
-.incbin "assets/sprites/SpriteSeg1/Seg_133AC0.databin.bin"
+.incbin "bins/sprites/SpriteSeg1/Seg_133AC0.databin.bin"
