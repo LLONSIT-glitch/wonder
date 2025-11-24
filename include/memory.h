@@ -8,6 +8,7 @@ typedef struct HeapBlock_s {
     s32 flags;               // unkC — probably 0 = free, 1 = used
 } HeapBlock;
 
+#define SYS_HEAP_SIZE 0x1B5000
 
 #define FLAGS_FREE 0x0
 #define FLAGS_USED 0x1

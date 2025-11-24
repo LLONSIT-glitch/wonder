@@ -77,15 +77,21 @@ sSpiHeader = 0x80160490;
 sSpiCompSrcPtr = 0x80160434;
 sSpiCompSrcBase = 0x80160458;
 sSpiCompDataPtr = 0x80160444;
+gSpritePalettes = 0x8078D1C0;
+Spi_DecompressAsset = 0x800BF0B4;
+gDisplayListHead = 0x801A1B44;
+MtxFToMtx = 0x800C2DD0;
 
 D_80403000 = 0x80403000; //defined:true
 D_80409B40 = 0x80409B40; //defined:true
-D_8040A9A0 = 0x8040A9A0; //defined:true
-D_80412A40 = 0x80412A40; //defined:true
-D_804412E0 = 0x804412E0; //defined:true
-D_8044AB00 = 0x8044AB00; //defined:true
-
-D_8078D1C0 = 0x8078D1C0;
+gSpriteObjDefs = 0x8040A9A0; //defined:true
+gSpriteFramesStart = 0x80412A40; //defined:true
+gMainSpritesSpiOffsets = 0x804412E0; //defined:true
+gMainSprites = 0x8044AB00; //defined:true
+sObjDefsStart = 0x80180D38;
+sSpriteFrames = 0x80180D3C;
+sMainSpritesSpiOffsets = 0x80180D40;
+sMainSpritesStart = 0x80180D44;
 D_807991C0 = 0x807991C0; 
 D_8079A730 = 0x8079A730; 
 

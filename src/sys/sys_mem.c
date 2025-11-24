@@ -38,7 +38,7 @@ void* SysMem_HeapAlloc(s32 size) {
     u32 blockSize;
     char pad[0x4];
 
-    blockSize = ((u32) (size + 15) >> 4) + 1; // Align size to 16
+    blockSize = ((u32) (size + 15) >> 4) + 1;
     for (block = sHeapHead; block != sHeapTail; block = block->next) {
         // If the block is not avaiable skip it
         if (block->flags & 1) {

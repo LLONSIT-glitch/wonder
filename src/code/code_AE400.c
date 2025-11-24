@@ -1,8 +1,4 @@
-#include <ultra64.h>
-#include "functions.h"
-#include "structs.h"
-#include "macro.h"
-#include "variables.h"
+#include "common.h"
 
 void func_800ADC50(ThreadEntry* arg0);
 void func_800AE40C(void);                                  /* extern */

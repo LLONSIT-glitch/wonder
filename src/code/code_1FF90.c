@@ -18,7 +18,7 @@ s32 func_8001F390(UnkStruct_80020720* arg0) {
             D_80182618->ptrs[sp2C] = NULL;
         } 
         D_80182618->ptrs[0] = func_8001F60C((u8**)&D_801825F0[3]);
-        D_801825F0[4] = (s32) ((s32) (D_807991C0 - D_8078D1C0) / 512);
+        D_801825F0[4] = (s32) ((s32) (D_807991C0 - gSpritePalettes) / 512);
         D_80182618->ptrs[1] = SysMem_HeapAlloc(0x200);
         D_80182618->ptrs[2] = SysMem_HeapAlloc(0xB00);
         sp28 = D_80182618->ptrs[1];
@@ -77,6 +77,6 @@ void func_8001F6B8(void) {
     func_8008EAA8(0, 0xF);
     func_8008ECE4("+:PARAMS A:START   B:STOP/FRAME\n");
     func_8008ECE4("3D:MOVE  L:ZOOM UP R:ZOOM DOWN  A+B:RESET\n");
-    func_8008ECE4("Z:OPT STOP   START:EXIT   C-UNIT:OPT OFF"); // !< This sugests a file split
+    func_8008ECE4("Z:OPT STOP   START:EXIT   C-UNIT:OPT OFF");
 }
 

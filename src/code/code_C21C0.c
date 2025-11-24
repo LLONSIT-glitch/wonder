@@ -52,6 +52,6 @@
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_C21C0/func_800C2D6C.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_C21C0/func_800C2DD0.s")
+#pragma GLOBAL_ASM("asm/nonmatchings/code/code_C21C0/MtxFToMtx.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_C21C0/func_800C2F1C.s")

@@ -13,12 +13,13 @@ typedef enum {
     OPTION_DECOMPRESS = 'd',
     OPTION_INPUT_FILE = 'i',
     OPTION_OUTPUT_FILE = 'o',
+    OPTION_SPI_VERSION = 's',
     OPTION_HELP = 'h'
 } OPTIONS;
 
 typedef enum { COMPRESS, DECOMPRESS } PROGRAM_ACTION;
 
-typedef enum { SPI_1, SPI_0 } SPI_TYPE;
+typedef enum { SPI_1, SPI_0, SPI_N } SPI_VERSION;
 
 typedef struct SpiHeader {
     uint8_t header[4];
@@ -49,6 +50,23 @@ extern int optind;
 extern char* optarg;
 
 void func_800C055C(int arg0);
+
+static void memcmpy8(void* dest, void* src, size_t size) {
+    uint8_t* memSource;
+    uint8_t* memDest;
+
+    if (size == 0) {
+        return;
+    }
+
+    memSource = src;
+    memDest = dest;
+
+    while (size > 0) {
+        *memDest++ = *memSource++;
+        size--;
+    }
+}
 
 static int customMemCmp(uint8_t* s1, uint8_t* s2, int size) {
     int i;
@@ -102,7 +120,6 @@ int func_800C01D4(void) {
     }
 }
 
-
 int func_800C0328(void) {
     int sp4;
     if (D_8016047C == 8) {
@@ -145,7 +162,7 @@ void func_800C055C(int arg0) {
     D_8016042C++;
 }
 
-void CompressSPI(SPI_TYPE spiType, int size) {
+void CompressSPI(SPI_VERSION spiType, int size) {
     UNUSED int pad;
     int compressSize; // maybe?
     int sp24;
@@ -227,7 +244,14 @@ void CompressSPI(SPI_TYPE spiType, int size) {
     func_800C0194();
 }
 
-uint8_t* Compress(uint8_t* buf, int buffersSize, SPI_TYPE spiType, int* outCompressedSize) {
+static void inline swapSpiHeader(SpiHeader* spiHeader) {
+    spiHeader->fileSize = __swab32(spiHeader->fileSize);
+    spiHeader->unk8 = __swab32(spiHeader->unk8);
+    spiHeader->unkC = __swab32(spiHeader->unkC);
+    spiHeader->unk10 = __swab32(spiHeader->unk10);
+}
+
+uint8_t* Compress(uint8_t* buf, int buffersSize, SPI_VERSION spiType, int* outCompressedSize) {
     uint8_t* compressedPtr = NULL;
     uint8_t* tempBits = NULL;
     uint8_t* tempNibbles = NULL;
@@ -265,7 +289,18 @@ uint8_t* Compress(uint8_t* buf, int buffersSize, SPI_TYPE spiType, int* outCompr
     sSpiHeader.header[0] = 'S';
     sSpiHeader.header[1] = 'P';
     sSpiHeader.header[2] = 'I';
-    sSpiHeader.header[3] = (spiType == SPI_0) ? '0' : '1';
+
+    char spiVersion;
+
+    if (spiType == SPI_0) {
+        spiVersion = '0';
+    } else if (spiType == SPI_1) {
+        spiVersion = '1';
+    } else {
+        spiVersion = 'N';
+    }
+
+    sSpiHeader.header[3] = spiVersion;
 
     sSpiHeader.unk8 = (int) (D_8016044C - D_80160464);
     sSpiHeader.unkC = (int) (D_8016043C - D_8016045C);
@@ -284,7 +319,11 @@ uint8_t* Compress(uint8_t* buf, int buffersSize, SPI_TYPE spiType, int* outCompr
     }
 
     uint8_t* p = compressedPtr;
+
+    swapSpiHeader(&sSpiHeader);
     memcpy(p, &sSpiHeader, sizeof(SpiHeader));
+    swapSpiHeader(&sSpiHeader);
+
     p += sizeof(SpiHeader);
 
     if (sSpiHeader.unk8 > 0) {
@@ -314,7 +353,7 @@ uint8_t* Compress(uint8_t* buf, int buffersSize, SPI_TYPE spiType, int* outCompr
     return compressedPtr;
 }
 
-uint8_t* Decompress(SPI_TYPE spiType, uint8_t* compressedPtr, int outSize, int unk8, int unkC) {
+uint8_t* Decompress(SPI_VERSION spiType, uint8_t* compressedPtr, int outSize, int unk8, int unkC) {
     int sp2C;
     int sp28;
     int sp24;
@@ -340,17 +379,20 @@ uint8_t* Decompress(SPI_TYPE spiType, uint8_t* compressedPtr, int outSize, int u
 
     outPtr = out;
 
-    // Set read pointer
-
-    sSpiCompSrcPtr = compressedPtr;
-    D_8016044C = sSpiCompSrcPtr;
-    sSpiCompSrcPtr = &sSpiCompSrcPtr[unk8];
-    D_8016043C = sSpiCompSrcPtr;
-    sSpiCompSrcPtr = &sSpiCompSrcPtr[unkC];
-    sSpiCompDataPtr = sSpiCompSrcPtr;
-    sSpiCompSrcBase = sSpiCompSrcPtr;
-    D_8016045C = D_8016043C;
-    D_80160464 = D_8016044C;
+    // Set pointers
+    if (spiType != SPI_N) {
+        sSpiCompSrcPtr = compressedPtr;
+        D_8016044C = sSpiCompSrcPtr;
+        sSpiCompSrcPtr = &sSpiCompSrcPtr[unk8];
+        D_8016043C = sSpiCompSrcPtr;
+        sSpiCompSrcPtr = &sSpiCompSrcPtr[unkC];
+        sSpiCompDataPtr = sSpiCompSrcPtr;
+        sSpiCompSrcBase = sSpiCompSrcPtr;
+        D_8016045C = D_8016043C;
+        D_80160464 = D_8016044C;
+    } else {
+        sSpiCompSrcPtr = compressedPtr;
+    }
 
     // SPI0
     if (spiType == SPI_0) {
@@ -414,7 +456,7 @@ uint8_t* Decompress(SPI_TYPE spiType, uint8_t* compressedPtr, int outSize, int u
                 }
             }
         }
-    } else {
+    } else { // SPIN
         memcpy(outPtr, sSpiCompSrcPtr, outSize);
     }
 
@@ -434,15 +476,15 @@ FILE* createOutputFile(const char* fileName) {
 }
 
 void printInfo(void) {
-    printf("The ultimate SPI files tools: \n -c Compress (Disables Decompress)\n  -d Decompress (Default)\n -i Input "
-           "file\n -o Output file\n -h Help\n");
+    printf("The ultimate SPI files tool: \n -c Compress (Disables Decompress)\n -d Decompress (Default)\n -i Input "
+           "file\n -o Output file\n -s [0 = SPI_0, 1 = SPI_1, 2 = SPIN]\n -h Help\n");
 }
 
 void printOptionWarning(char* s) {
     printf("Option %s requires an argument\n", s);
 }
 
-int handleCompression(char* inputFileName, char* outputFileName) {
+int handleCompression(char* inputFileName, char* outputFileName, int version) {
 
     FILE* fp = fopen(inputFileName, "rb");
     if (fp == NULL) {
@@ -473,7 +515,7 @@ int handleCompression(char* inputFileName, char* outputFileName) {
     }
 
     int compressedSize = 0;
-    uint8_t* compressedOutput = Compress(buf, fileSize, SPI_1, &compressedSize);
+    uint8_t* compressedOutput = Compress(buf, fileSize, version, &compressedSize);
     free(buf);
 
     if (!compressedOutput || compressedSize <= 0) {
@@ -508,6 +550,7 @@ int handleDecompression(char* inputFileName, char* outputFileName) {
     uint8_t* buf;
     size_t read;
     SpiHeader header;
+    SPI_VERSION version;
 
     fp = fopen(inputFileName, "rb");
     if (fp == NULL) {
@@ -527,15 +570,31 @@ int handleDecompression(char* inputFileName, char* outputFileName) {
     printf("SPI Header:\n");
     printf("  header: %c%c%c%c\n", header.header[0], header.header[1], header.header[2], header.header[3]);
 
-    header.fileSize = __swab32(header.fileSize);
-    header.unk8 = __swab32(header.unk8);
-    header.unkC = __swab32(header.unkC);
-    header.unk10 = __swab32(header.unk10);
+    if (header.header[3] == '0') {
+        version = SPI_0;
+    } else if (header.header[3] == '1') {
+        version = SPI_1;
+    } else {
+        version = SPI_N;
+    }
 
-    printf("  fileSize: %d\n", header.fileSize);
-    printf("  unk8: %d\n", header.unk8);
-    printf("  unkC: %d\n", header.unkC);
-    printf("  unk10: %d\n", header.unk10);
+    /* If SPI_N read again the header to only obtain the first 8 bytes of the file */
+    if (version == SPI_N) {
+        fseek(fp, 0, SEEK_SET);
+        read = fread(&header, sizeof(SpiHeader) - 12, 1, fp);
+        header.fileSize = __swab32(header.fileSize);
+        header.unk8 = header.unkC = header.unk10 = -1;
+    } else {
+        header.fileSize = __swab32(header.fileSize);
+        header.unk8 = __swab32(header.unk8);
+        header.unkC = __swab32(header.unkC);
+        header.unk10 = __swab32(header.unk10);
+
+        printf("  fileSize: %d\n", header.fileSize);
+        printf("  unk8: %d\n", header.unk8);
+        printf("  unkC: %d\n", header.unkC);
+        printf("  unk10: %d\n", header.unk10);
+    }
 
     int compressedDataSize = fileSize - sizeof(SpiHeader);
 
@@ -547,10 +606,10 @@ int handleDecompression(char* inputFileName, char* outputFileName) {
     }
 
     read = fread(buf, 1, compressedDataSize, fp);
-    if ((int)read != (int)compressedDataSize) {
-       puts("Failed to read the entire file");
-       free(buf);
-       return EXIT_FAILURE;
+    if ((int) read != (int) compressedDataSize) {
+        puts("Failed to read the entire file");
+        free(buf);
+        return EXIT_FAILURE;
     }
 
     FILE* outputFile = fopen(outputFileName, "wb");
@@ -558,8 +617,8 @@ int handleDecompression(char* inputFileName, char* outputFileName) {
         puts("Can't open output decompression file!");
         exit(EXIT_FAILURE);
     }
-    
-    uint8_t* decompressedOutput = Decompress(SPI_1, buf, header.fileSize, header.unk8, header.unkC);
+
+    uint8_t* decompressedOutput = Decompress(version, buf, header.fileSize, header.unk8, header.unkC);
 
     size_t written = fwrite(decompressedOutput, 1, (size_t) header.fileSize, outputFile);
     fclose(outputFile);
@@ -579,13 +638,15 @@ int parseArgs(int argc, char* argv[]) {
     static char* inputFileName;
     // extern int optind; // Declaration is often implicit or in unistd.h
     PROGRAM_ACTION action = DECOMPRESS;
+    static int sSpiVersions[3] = { SPI_0, SPI_1, SPI_N };
+    int version = -1;
 
     if (argc < 2) {
         printInfo();
         exit(EXIT_SUCCESS);
     }
 
-    while ((opt = getopt(argc, argv, "ho:i:dc")) != -1) {
+    while ((opt = getopt(argc, argv, "ho:i:dcs:")) != -1) {
         switch (opt) {
             case OPTION_COMPRESS:
                 action = COMPRESS;
@@ -602,6 +663,15 @@ int parseArgs(int argc, char* argv[]) {
             case OPTION_HELP:
                 printInfo();
                 break;
+            case OPTION_SPI_VERSION:
+                version = atoi(optarg);
+
+                if (version > 2) {
+                    printf("Invalid value for version!\n");
+                    exit(EXIT_FAILURE);
+                }
+
+                version = sSpiVersions[version];
             default:
                 break;
         }
@@ -617,8 +687,14 @@ int parseArgs(int argc, char* argv[]) {
     }
 
     int status;
+
+    if (action == COMPRESS && version == -1) {
+        puts("You must specify the SPI version to use compress");
+        exit(EXIT_FAILURE);
+    }
+
     if (action == COMPRESS) {
-        status = handleCompression(inputFileName, outputFileName);
+        status = handleCompression(inputFileName, outputFileName, version);
     } else {
         status = handleDecompression(inputFileName, outputFileName);
     }

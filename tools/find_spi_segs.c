@@ -55,12 +55,12 @@ int main() {
 
     printf("Got SPI segments in the following offsets:\n");
 
-    for (int pos = 0; ptr < &buf[romSize]; ptr++, pos += 0x10) {
+    for (int pos = 0; ptr < &buf[romSize]; ptr++, pos++) {
         SpiHeader* header = (SpiHeader*) ptr;
 
         if (CHECK_SPI_HEADER(header)) {
-            int seg = ALIGN16(pos);
-            printf("- [%x]\n", seg);
+            int seg = pos;
+            printf("- [0x%x]\n", seg);
         }
     }
 

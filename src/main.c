@@ -1,10 +1,4 @@
-#include <ultra64.h>
-#include "functions.h"
-#include "structs.h"
-#include "macro.h"
-#include "variables.h"
-#include "segment.h"
-#include "controller.h"
+#include "common.h"
 
 extern f32 D_801825A0;
 extern f32 D_801825A8;
@@ -216,7 +210,7 @@ void func_800BE0FC(void) {
     D_801A1B14 = (s32) (D_801A1B14 + 1) % 3;
     D_80189AF8 = D_80189B08[(D_801824FC ? 0 : 1) << 0xf];
     D_801A1B4C = D_80189AF8;
-    D_801A1B44 = D_801A1B4C;
+    gDisplayListHead = D_801A1B4C;
 }
 
 void func_800BE18C(Gfx** arg0) {
@@ -258,11 +252,11 @@ void func_800BE4EC(void) {
 
 void func_800BE510(f32 arg0, f32 arg1, f32 arg2) {
     func_800BE0FC();
-    func_800BE18C((Gfx** ) &D_801A1B44);
-    func_800BE328((Gfx** ) &D_801A1B44);
-    func_800ABC30(&D_801A1B44);
-    func_800AC524(&D_801A1B44);
-    func_800B0E88(&D_801A1B44, arg0, arg1, arg2, 1.0f, 320.0f, 240.0f);
+    func_800BE18C((Gfx** ) &gDisplayListHead);
+    func_800BE328((Gfx** ) &gDisplayListHead);
+    func_800ABC30(&gDisplayListHead);
+    func_800AC524(&gDisplayListHead);
+    func_800B0E88(&gDisplayListHead, arg0, arg1, arg2, 1.0f, 320.0f, 240.0f);
     D_801825A0 = arg0;
     D_801825A8 = arg1;
     D_801825B0 = arg2;
@@ -273,17 +267,17 @@ void func_800BE510(f32 arg0, f32 arg1, f32 arg2) {
 }
 
 void func_800BE610(void) {
-    gDPFullSync(D_801A1B44++);
-    gSPEndDisplayList(D_801A1B44++);
+    gDPFullSync(gDisplayListHead++);
+    gSPEndDisplayList(gDisplayListHead++);
 }
 
 
 void func_800BE684(void) {
-    gSPDisplayList(D_801A1B44++, D_1000080);
-    gSPDisplayList(D_801A1B44++, D_1000058);
-    gDPPipeSync(D_801A1B44++);
-    func_800BE328((Gfx **) &D_801A1B44);
-    gDPSetColorImage(D_801A1B44++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, VIRTUAL_TO_PHYSICAL2(D_801824DC));
+    gSPDisplayList(gDisplayListHead++, D_1000080);
+    gSPDisplayList(gDisplayListHead++, D_1000058);
+    gDPPipeSync(gDisplayListHead++);
+    func_800BE328((Gfx **) &gDisplayListHead);
+    gDPSetColorImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, VIRTUAL_TO_PHYSICAL2(D_801824DC));
 }
 
 

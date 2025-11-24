@@ -13,8 +13,8 @@ extern s16 D_801A7280;
 extern s16 D_801A728C;
 
 extern FuncPtr D_800DDB74[][2];
-extern UnkStruct_80156DC0 D_80156DC0[];
-extern UnkStruct_80156DC0 D_80156C20[];
+extern UnkStruct_8000DDE0 D_80156DC0[];
+extern UnkStruct_8000DDE0 D_80156C20[];
 
 void* SysMain(ThreadEntry* entry) {
     s32 sp1DC;
@@ -57,7 +57,7 @@ void* SysMain(ThreadEntry* entry) {
     
     D_800F193C = SysMem_GetPhysicalAddressFromVirtual(D_80153E2C, D_801540D8, &D_807A1A20);
     D_80153DB0 = SysMem_GetPhysicalAddressFromVirtual(D_801560E0, D_801560E8, &D_809A8230);
-    func_800B1A50(SpriteSeg1_VRAM, &D_80409B40, &D_8040A9A0, &D_80412A40, &D_804412E0, &D_8044AB00, &D_8078D1C0,
+    func_800B1A50(SpriteSeg1_VRAM, &D_80409B40, &gSpriteObjDefs, &gSpriteFramesStart, &gMainSpritesSpiOffsets, &gMainSprites, &gSpritePalettes,
                   &D_807991C0, &D_8079A730, 3);
     D_8015B334 = 5;
     D_8015B33C = 0xC8;
@@ -99,7 +99,7 @@ void* SysMain(ThreadEntry* entry) {
     D_8015F880 = SysMem_GetPhysicalAddressFromVirtual(D_801829B8, D_801849C0, &D_80999AA0);
     sp1DC = Sys_GetSPIHeaderInfoFromVaddr(D_8015F880);
     D_8015F874 = SysMem_HeapAllocMark(D_80160494);
-    func_800BF0B4(D_8015F880, sp1DC, D_8015F874);
+    Spi_DecompressAsset(D_8015F880, sp1DC, D_8015F874);
     D_8015F880 = D_8015F874;
     D_801A8D88[0] |= 2;
     D_80153DF4 = 0;
@@ -174,7 +174,7 @@ void* SysMain(ThreadEntry* entry) {
 #pragma GLOBAL_ASM("asm/nonmatchings/sys/sys_main/func_80000C90.s")
 
 s32 func_80001F54(void) {
-    UnkStruct_80156DC0* sp1C;
+    UnkStruct_8000DDE0* sp1C;
 
     if (!(D_801A8D88[0] & 0x80) && (D_801A8D88[3] & 1)) {
         D_801A8D88[3] = (u16) (D_801A8D88[3] & ~1);
@@ -203,7 +203,7 @@ s32 func_80001F54(void) {
 s32 func_800020A8(s32 arg0) {
 #undef FABS
 #define FABS(x) ((x) > 0.0f ? (x) : -(x))
-    UnkStruct_80156DC0* sp1C;
+    UnkStruct_8000DDE0* sp1C;
 
     sp1C = NULL;
     if (D_801A8C34 != -1) {
@@ -330,19 +330,19 @@ void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
 }
 
 void func_80002824(void) {
-    UnkStruct_80156DC0* sp1C;
+    UnkStruct_8000DDE0* sp1C;
     s32 sp18;
 
     for (sp18 = 0; sp18 < 32; sp18++) {
-        if (D_80156DC0[sp18].unk0 & 4) {
-            D_80156DC0[sp18].unk0 = 0;
+        if (D_80156DC0[sp18].unk0.unk0 & 4) {
+            D_80156DC0[sp18].unk0.unk0 = 0;
             continue;
         } 
 
-        if (!(D_80156DC0[sp18].unk0 & 1)) {
+        if (!(D_80156DC0[sp18].unk0.unk0 & 1)) {
             continue;
         }  
-        if (D_80156DC0[sp18].unk0 & 8) {
+        if (D_80156DC0[sp18].unk0.unk0 & 8) {
             continue;
         } 
             

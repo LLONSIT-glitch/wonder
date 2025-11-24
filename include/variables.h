@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <PR/sched.h>
+#include "math.h"
 
 
 #ifndef VARIABLES_H
@@ -52,7 +53,7 @@ extern s32 gFrameBuffer1;
 extern u16 gFrameBuffer2[];
 extern void* D_80189AF8;
 extern char D_80189B08[][1];
-extern Gfx* D_801A1B44;
+extern Gfx* gDisplayListHead;
 extern void* D_801A1B4C;
 extern s32 D_1000058[];
 extern s32 D_1000080[];
@@ -161,11 +162,11 @@ extern s16 D_801A8D80;
 extern u16 D_801A8D88[];
 extern s32 D_801AA4EC;
 extern s32 D_801ACC44;
-extern UNK_TYPE D_8040A9A0;
-extern UNK_TYPE D_80412A40;
-extern UNK_TYPE D_804412E0;
-extern UNK_TYPE D_8044AB00;
-extern u8 D_8078D1C0[];
+extern UNK_TYPE gSpriteObjDefs;
+extern UNK_TYPE gSpriteFramesStart;
+extern UNK_TYPE gMainSpritesSpiOffsets;
+extern UNK_TYPE gMainSprites;
+extern u8 gSpritePalettes[];
 extern u8 D_807991C0[];
 extern UNK_TYPE D_8079A730;
 extern UNK_TYPE D_807A0080;
@@ -193,12 +194,12 @@ extern s16 D_801A721C;
 extern s16 D_801A7254;
 extern s16 D_801A725C;
 extern s32 D_801A72DC;
-extern UNK_TYPE D_801A7340;
+extern UnkStruct_80099E2C D_801A7340[];
 extern s16 D_801A8C10;
 extern s16 D_801A8C1C;
 extern UNK_TYPE* D_801A8C54;
 extern s32 D_801A8C34;
-extern UnkStruct_80156DC0** D_8015BAC8;
+extern UnkStruct_8000DDE0** D_8015BAC8;
 extern UnkStruct_80099E2C* D_801A8C18;
 extern UnkStruct_80099E2C* D_801A8C24;
 extern s32 D_8018129C;
@@ -209,6 +210,6 @@ extern s32 D_80180D30;
 extern UnkStruct_801560F0 D_801560F0[];
 extern s32 D_801825F0[10];
 extern UnkStruct_80182618 D_80182618[];
-
+extern MtxF* D_8015F884;
 #endif /* VARIABLES_H */
 
