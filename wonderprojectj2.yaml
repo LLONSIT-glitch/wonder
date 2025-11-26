@@ -297,6 +297,7 @@ segments:
       - [0xF04B0, rodata]
       - [0xF0500, rodata]
       - [0xF0520, rodata]
+      - [0xF0540, rodata] # code_B2650
       - [0xF06E0, rodata]
       - [0xF0790, rodata]
       - [0xF09E0, .rodata, main]

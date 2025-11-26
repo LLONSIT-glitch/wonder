@@ -58,7 +58,7 @@ void func_8001F6B8(void) {
     u8* sp24;
     s32 spriteLoopFlag;
 
-    sp24 = D_80182618->ptrs[0];
+    sp24 = D_80182618->ptrs[0]; // Access to F27E0 - ObjHeader
     sp24 += D_801825F0[1] * 0x10;
     if ((s32) D_801825F0[0] & 4) {
         spriteLoopFlag = TRUE;

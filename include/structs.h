@@ -101,7 +101,7 @@ typedef struct UnkStruct_80099E2C_s {
     /* 0x124 */ s16 unk124;
     /* 0x126 */ s16 unk126;
     /* 0x128 */ u8* ptrs[4];
-    /* 0x138 */ s16* unk138;
+    /* 0x138 */ s16* currentPaletteColors;
     /* 0x13C */ u8* unk13C;
     /* 0x140 */ u8* unk140;
     /* 0x144 */ s32 unk144;
@@ -212,9 +212,13 @@ typedef struct UnkStruct_8000DDE0_s {
 } UnkStruct_8000DDE0;              /* size = 0x238 */
 
 typedef struct UnkStruct_801A3068_s {
-    /* 0x00 */ char pad0[4];
-    /* 0x04 */ u16 unk4;       /* inferred */
-    /* 0x06 */ char pad6[0xA]; /* maybe part of unk4[6]? */
-} UnkStruct_801A3068;          /* size = 0x10 */
+    /* 0x00 */ s32 unk0;                            /* inferred */
+    /* 0x04 */ u16 unk4;
+    /* 0x06 */ u16 unk6;                            /* inferred */
+    /* 0x08 */ u16 unk8;                            /* inferred */
+    /* 0x0A */ s16 unkA;                            /* inferred */
+    /* 0x0C */ f32 unkC;                            /* inferred */
+} UnkStruct_801A3068;                               /* size = 0x10 */
+
 
 #endif /* STRUCTS_H */

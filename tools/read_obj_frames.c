@@ -72,10 +72,10 @@ void readObjsFrames() {
     }
 }
 
-void getSPIsOffsets(void) {
+void getSPIsOffsets(char* path) {
     int fileSize;
     long doubleWord;
-    char* buf = readFile("assets/133AC0.bin", &fileSize);
+    char* buf = readFile(path, &fileSize);
     int spiBaseOffset = 0x133AC0;
     int spiDataOffset = 0x0013d2e0;
 
@@ -120,8 +120,12 @@ void getSPIsOffsets(void) {
     free(buf);
 }
 
-int main() {
+int main(int argc, char** argv) {
+    if (argc < 2) {
+        puts("Not enough args!");
+        exit(EXIT_FAILURE);
+    }
 
     printf("Size of long is: %d\n", sizeof(long));
-    getSPIsOffsets();
+    getSPIsOffsets(argv[1]);
 }

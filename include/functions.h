@@ -96,19 +96,19 @@ s32 func_800AEDE8(void);
 s32 func_800AEFD4(void);
 void* func_8001F60C(u8**);
 void func_80099E2C(void*);
-void func_800B1B3C(UnkStruct_80099E2C**, u8**, s32);
-void func_800B1C10(UnkStruct_80099E2C**, u8**, s32);
+void func_800B1B3C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
+void func_800B1C10(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
 s32 func_8001F390(UnkStruct_80020720* arg0);
 void func_8001F6B8(void);
 void func_8001F800(void);
 void func_80022124(void);                                  /* extern */
 void func_8009A14C(void*);                               /* extern */
-s32 func_800B202C(u8**, u8**, u32, s32, f32, f32, s32); /* extern */
-s32 func_800B2748(u8**, u8**);                      /* extern */
-s32 func_800B2CBC(u8**, u8**, s32);                   /* extern */
+s32 func_800B202C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u32 arg2, u16 arg3, f32 arg4, f32 arg5, u8 arg6);
+s32 func_800B2748(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1);
+s32 func_800B2CBC(UnkStruct_80099E2C**, UnkStruct_800B23C4**, s32);                   /* extern */
 u16 func_800B32E4(u8**, s32);                         /* extern */
-u16 func_800B3434(u8**, s32);                         /* extern */
-void func_800B3DBC(u8**, u8**, s32);                   /* extern */
+s32 func_800B3434(UnkStruct_800B23C4 **arg0, u8 arg1);
+void func_800B3DBC(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u16 paletteIndex) ;             /* extern */
 void func_800B9000(u16);                               /* extern */
 s32 func_8001F390(UnkStruct_80020720* arg0);
 void func_8001F6B8(void);

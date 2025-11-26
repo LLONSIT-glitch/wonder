@@ -83,6 +83,7 @@ Spi_DecompressAsset = 0x800BF0B4;
 gDisplayListHead = 0x801A1B44;
 MtxFToMtx = 0x800C2DD0;
 CreateGfxTask = 0x8009908C;
+LoadPalette = 0x800B53A0;
 
 D_80403000 = 0x80403000; //defined:true
 D_80409B40 = 0x80409B40; //defined:true
@@ -94,6 +95,7 @@ sObjDefsStart = 0x80180D38;
 sSpriteFrames = 0x80180D3C;
 sMainSpritesSpiOffsets = 0x80180D40;
 sMainSpritesStart = 0x80180D44;
+sMainSpritesPalettes = 0x80180D48;
 D_807991C0 = 0x807991C0; 
 D_8079A730 = 0x8079A730; 
 

@@ -104,7 +104,7 @@ int getFileSize(FILE* fp) {
 }
 
 int main() {
-    FILE* fp = fopen("assets/F27E0.bin", "rb");
+    FILE* fp = fopen("bins/F27E0.bin", "rb");
     if (!fp) {
         fprintf(stderr, "Can't open file!\n");
         return EXIT_FAILURE;

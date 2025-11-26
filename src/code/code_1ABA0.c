@@ -280,8 +280,8 @@ s32 func_8001A690(UnkStruct_8000DDE0* arg0) {
             sp28->unk0.ptrs[2][sp2C] = 0;
         }
     }
-    sp28->unk0.unk138 = SysMem_HeapAlloc(0x200);
-    func_80090A38(sp28->unk0.unk138, 0x100);
+    sp28->unk0.currentPaletteColors = SysMem_HeapAlloc(0x200);
+    func_80090A38(sp28->unk0.currentPaletteColors, 0x100);
     func_80096474();
     Sys_SwapFrameBuffer((s32*) sp28->unk0.ptrs[0]);
     func_8008EC8C((f32) sp28->unk0.unk100, (f32) sp28->unk0.unk102);
@@ -347,13 +347,13 @@ void* func_8001AD24(u16 arg0, s32 arg1) {
     if ((sp1C = func_80016074(1)) == NULL) {
         return (void*) -1;
     }
-    sp1C->unk0.unk138[arg1] = (arg0 * 2) | (arg0 >> 0xF);
+    sp1C->unk0.currentPaletteColors[arg1] = (arg0 * 2) | (arg0 >> 0xF);
 
     /* @bug No return here */
 }
 
 void func_8001AD98(UnkStruct_8000DDE0* arg0, u16 arg1, s32 arg2) {
-    arg0->unk0.unk138[arg2] = arg1;
+    arg0->unk0.currentPaletteColors[arg2] = arg1;
 }
 
 s32 func_8001ADBC(UnkStruct_8000DDE0* arg0);
@@ -392,9 +392,9 @@ void func_8001AE90(UnkStruct_8000DDE0* arg0) {
         SysMem_Free(sp1C->unk0.ptrs[2]);
         sp1C->unk0.ptrs[2] = NULL;
     }
-    if (sp1C->unk0.unk138 != NULL) {
-        SysMem_Free(sp1C->unk0.unk138);
-        sp1C->unk0.unk138 = NULL;
+    if (sp1C->unk0.currentPaletteColors != NULL) {
+        SysMem_Free(sp1C->unk0.currentPaletteColors);
+        sp1C->unk0.currentPaletteColors = NULL;
     }
 }
 
@@ -511,7 +511,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                     func_80090754(0xE8);
                     func_80090728(0x600);
                     if (sp48 == NULL) {
-                        sp5C->unk138[1] = 0x3F;
+                        sp5C->currentPaletteColors[1] = 0x3F;
                         sp50 = D_800DB1A0;
                         sp70 = 0;
                         sp94 = 0;
@@ -596,7 +596,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                             func_8001C1F4(sp5C);
                         }
                     } else {
-                        sp5C->unk138[1] = 0;
+                        sp5C->currentPaletteColors[1] = 0;
                         if (sp48(sp4C) < 0) {
                             sp48 = NULL;
                             func_8001C1F4(sp5C);
@@ -989,7 +989,7 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
                 func_80099E2C(sp38);
                 sp38->unkC0 |= 0x10C;
                 sp38->unk116 = 1;
-                sp38->unk138 = (s16*) D_801AB2B8;
+                sp38->currentPaletteColors = (s16*) D_801AB2B8;
                 sp38->ptrs[0] = &D_800DB4E8;
                 sp38->unkC8 = 0x1000;
                 sp38->ptrs[1] = SysMem_HeapAlloc(0x40);
@@ -1021,7 +1021,7 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
                     func_80099E2C(sp38);
                     sp38->unkC0 |= 0x10C;
                     sp38->unk116 = 1;
-                    sp38->unk138 = (s16*) D_801AB2B8;
+                    sp38->currentPaletteColors = (s16*) D_801AB2B8;
                     sp38->ptrs[0] = &D_800DB4E8;
                     sp38->unkC8 = 0x1000;
                     sp38->ptrs[1] = sp24;

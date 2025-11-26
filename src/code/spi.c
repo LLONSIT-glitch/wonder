@@ -7,7 +7,6 @@ typedef enum {
     SPI_N
 } SPI_TYPE;
 
-
 typedef struct SpiHeader {
     u8 header[4];
     s32 decompressedSize;
