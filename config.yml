@@ -1,0 +1,12 @@
+3a311ec0d77d4e0fc425a99cb6b9416f072e268e:
+  name: WONDER PROJECT J2 JP REV 0 (v0.80)
+  path: assets/yaml/  
+  config:
+    gbi: F3D
+    sort: OFFSET
+    logging: ERROR
+    textures: ADDITIONAL_DEFINES
+    output:
+      code: src/assets
+      headers: include/assets
+      modding: src/assets
