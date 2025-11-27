@@ -375,28 +375,28 @@ s32 SysMem_DmaCopy(u32 src, void* dest, s32 size) {
             sp2C = osSetIntMask(1U);
         }
         if ((((u32) ((u32) dest + 0xF) >> 4) * 0x10) == (u32) dest) {
-            func_800CAFD0(dest, size);
+            osInvalDCache(dest, size);
 
-            if (func_800CB080() & 7) {
+            if (osPiGetStatus() & 7) {
                 do { 
 
-                } while (func_800CB080() & 7); 
+                } while (osPiGetStatus() & 7); 
             }
             func_800CB090(0, src, dest, size);
-            if (func_800CB080() & 7) {
-                do { } while (func_800CB080() & 7); }
+            if (osPiGetStatus() & 7) {
+                do { } while (osPiGetStatus() & 7); }
             goto block_28;
         }
         if (size >= 0x10001) {
             return -1;
         }
         sp30 = ((u32) (D_801604A8 + 0xF) >> 4) * 0x10;
-        func_800CAFD0((void*) sp30, size);
-        if (func_800CB080() & 7) {
-            do { } while (func_800CB080() & 7); }
+        osInvalDCache((void*) sp30, size);
+        if (osPiGetStatus() & 7) {
+            do { } while (osPiGetStatus() & 7); }
         func_800CB090(0, src, (void*) sp30, size);
-        if (func_800CB080() & 7) {
-            do { } while (func_800CB080() & 7); }
+        if (osPiGetStatus() & 7) {
+            do { } while (osPiGetStatus() & 7); }
         SysMem_Copy8(dest, (void*) sp30, size);
     block_28:
         if (!(D_80182640 & 2)) {
@@ -408,7 +408,7 @@ s32 SysMem_DmaCopy(u32 src, void* dest, s32 size) {
     D_801895F4++;
 
     if (!((s32) dest % 8)) {
-        func_800CAFD0(dest, size);
+        osInvalDCache(dest, size);
         osPiStartDma(&D_80187B58, 0, 0, src, dest, (u32) size, &D_80187BC0);
         osRecvMesg(&D_80187BC0, NULL, 1);
         goto exit;
@@ -418,7 +418,7 @@ s32 SysMem_DmaCopy(u32 src, void* dest, s32 size) {
         return -1;
     }
     sp30 = ((u32) (D_801604A8 + 0xF) >> 4) * 0x10;
-    func_800CAFD0((void*) sp30, size);
+    osInvalDCache((void*) sp30, size);
     osPiStartDma(&D_80187B58, 0, 0, src, (void*) sp30, (u32) size, &D_80187BC0);
     osRecvMesg(&D_80187BC0, NULL, 1);
     SysMem_Copy8(dest, (void*) sp30, size);

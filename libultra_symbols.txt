@@ -207,3 +207,6 @@ alSndpGetState = 0x800C97D0;
 _removeEvents = 0x800C9840;
 _handleEvent = 0x800C98CC;
 alSndpAllocate = 0x800C9F50;
+__libm_qnan_f = 0x800F05B0;
+osInvalDCache = 0x800CAFD0;
+osPiGetStatusus = 0x800CB080;

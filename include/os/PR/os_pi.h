@@ -192,7 +192,7 @@ extern OSPiHandle      *__osPiTable;    /* The head of OSPiHandle link list */
  *
  */
 
-extern u32  osPiGetStatus(void);
+extern u32  osPiGetStatusus(void);
 extern s32  osPiGetDeviceType(void);
 extern s32  osPiWriteIo(u32, u32);
 extern s32  osPiReadIo(u32, u32 *);

@@ -44,10 +44,9 @@ s32 Thread_CreateMesgQueue(OSMesgQueue *arg0, OSMesg *arg1, s32 arg2);
 s32 func_800C1154(u8 threadId, s32 arg1);
 s32 func_800AE0EC(OSMesgQueue*); 
 s32 func_800C143C(u8 threadId, void **mesg, s32 arg2);
-void func_800CAFD0(void*, s32);                        /* extern */
-s32 func_800CB080();                                /* extern */
+s32 osPiGetStatus();                                /* extern */
 void func_800CB090(s32, u32, void*, s32);                /* extern */
-s32 func_800CB080(void);
+s32 osPiGetStatus(void);
 s32 Sys_GetSPIHeaderInfoFromVaddr(s32);          /* extern */
 void func_80002F20(void);
 void func_800044BC(void);

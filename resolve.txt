@@ -1,7 +1,6 @@
 D_801AFC0C = 0x801AFC0C;
 
 
-// Undefined offsets for gAssetsTable that would be defined when extracting segment: 6E3A40
 D_809F13F0 = 0x809F13F0;
 D_809F159C = 0x809F159C;
 D_809F193C = 0x809F193C;
