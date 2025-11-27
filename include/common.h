@@ -1,6 +1,5 @@
 #include <ultra64.h>
 #include "macro.h"
-#include "structs.h"
 #include "memory.h"
 #include "controller.h"
 #include "pfs.h"
@@ -9,6 +8,7 @@
 #include "sys_matrix.h"
 #include "temp_heap.h"
 #include "obj.h"
+#include "structs.h"
 #include "functions.h"
 #include "variables.h"
 

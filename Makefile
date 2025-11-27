@@ -37,7 +37,9 @@ TOOLS_DIR = tools
 
 S_FILES         = $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 LIBULTRA_HASM_FILES = $(foreach dir,$(LIBULTRA_HASM_DIRS),$(wildcard $(dir)/*.s))
-C_FILES         = $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
+C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
+C_FILES       := $(filter-out %.inc.c,$(C_FILES))
+C_FILES       := $(filter-out %.incbin.c,$(C_FILES))
 BIN_FILES       = $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.bin))
 
 O_FILES := $(addprefix $(BUILD_DIR)/,$(S_FILES:.s=.o)) \

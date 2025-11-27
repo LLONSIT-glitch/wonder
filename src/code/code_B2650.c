@@ -338,6 +338,7 @@ s32 func_800B2A34(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
     return 0;
 }
 
+
 s32 func_800B2C4C(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u8 arg2) {
     if (func_800B2FB0(arg0, arg1, arg2) != 0) {
         arg1->unk3A |= 0x400;
@@ -455,10 +456,6 @@ s32 func_800B3230(u16* arg0, s16* arg1, s16* arg2, s32 arg3) {
     }
     return 0;
 }
-
-s32 func_800B32E4(UnkStruct_800B23C4*); /* extern */
-
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_B2650/func_800B32E4.s")
 

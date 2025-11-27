@@ -366,7 +366,7 @@ segments:
     - { start: 0x105220, vram: 0x80412A40, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_105220 }
     - { start: 0x133AC0, vram: 0x804412E0, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_133AC0 }
     - { start: 0x13D2E0, vram: 0x8044AB00, type: databin, use_src_path: True, name: sprites/SpriteSeg1/MainSprites } # Main sprites
-    - [0x47F9A0, bin] # Sprite Palettes
+    #- [0x47F9A0, bin] # Sprite Palettes
     - [0x48b7a0, bin]
 
   - name: SpriteSeg2

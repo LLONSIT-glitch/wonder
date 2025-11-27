@@ -59,6 +59,17 @@ typedef struct ThreadEntry {
     char pad[0x8];
 } ThreadEntry;
 
+typedef struct UnkStruct_801A7340_unk144_s {
+    /* 0x00 */ u16 unk0;                            /* inferred */
+    /* 0x02 */ u16 unk2;                            /* inferred */
+    /* 0x04 */ char pad4[4];                        /* maybe part of unk2[3]? */
+    /* 0x08 */ u16 unk8;                            /* inferred */
+    /* 0x0A */ char padA[2];
+    /* 0x0C */ s16 unkC;                            /* inferred */
+    /* 0x0E */ s16 unkE;                            /* inferred */
+} UnkStruct_801A7340_unk144;                        /* size = 0x10 */
+
+
 typedef struct UnkStruct_80099E2C_s {
     /* 0x000 */ s32 unk0;
     /* 0x001 */ char pad1[0x4]; /* maybe part of unk0[8]? */
@@ -104,7 +115,7 @@ typedef struct UnkStruct_80099E2C_s {
     /* 0x138 */ s16* currentPaletteColors;
     /* 0x13C */ u8* unk13C;
     /* 0x140 */ u8* unk140;
-    /* 0x144 */ s32 unk144;
+    /* 0x144 */ UnkStruct_801A7340_unk144* unk144;
     /* 0x148 */ s32 unk148;
     /* 0x14C */ s32 unk14C;
     /* 0x150 */ s32 unk150;
@@ -220,5 +231,45 @@ typedef struct UnkStruct_801A3068_s {
     /* 0x0C */ f32 unkC;                            /* inferred */
 } UnkStruct_801A3068;                               /* size = 0x10 */
 
+typedef struct UnkStruct_8008250C_s {
+    /* 0x00 */ s16 unk0;
+    /* 0x02 */ s16 unk2;                            /* inferred */
+    /* 0x04 */ s16 unk4;                            /* inferred */
+    /* 0x06 */ char pad6[2];
+    /* 0x08 */ UnkStruct_80099E2C* unk8;            /* inferred */
+    /* 0x0C */ UnkStruct_800B23C4* unkC;            /* inferred */
+    /* 0x10 */ u16 unk10;                           /* inferred */
+    /* 0x12 */ char pad12[2];
+    /* 0x14 */ s32 unk14;                           /* inferred */
+    /* 0x18 */ s32 unk18;                           /* inferred */    
+               s32 unk1C;
+} UnkStruct_8008250C;                               /* size = 0x1C */
+
+typedef struct UnkStruct_8018165C_s {
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ char pad1[1];
+    /* 0x02 */ s16 unk2;
+    /* 0x04 */ s16 unk4;
+    /* 0x06 */ s16 unk6;
+    /* 0x08 */ s16 unk8;
+    /* 0x0A */ s16 unkA;
+    /* 0x0C */ s16 unkC;
+    /* 0x0E */ s16 unkE;                            /* inferred */
+    /* 0x10 */ f32 unk10;
+    /* 0x14 */ f32 unk14;
+    /* 0x18 */ f32 unk18;
+    /* 0x1C */ f32 unk1C;
+    /* 0x20 */ f32 unk20;
+    /* 0x24 */ UnkStruct_80099E2C* unk24;
+    /* 0x28 */ UnkStruct_800B23C4* unk28;
+    /* 0x2C */ u16 unk2C;
+    /* 0x2E */ char pad2E[2];
+    /* 0x30 */ s32 unk30;
+    /* 0x34 */ s32 unk34;
+    /* 0x38 */ s32 unk38;
+    /* 0x3C */ s32 unk3C;
+    /* 0x40 */ s32 unk40;
+    /* 0x44 */ s32 unk44;
+} UnkStruct_8018165C;                               /* size = 0x48 */
 
 #endif /* STRUCTS_H */
