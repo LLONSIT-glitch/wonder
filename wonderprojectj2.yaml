@@ -394,8 +394,9 @@ segments:
     start: 0x6E3A40
     subsegments:
     - [0x6e3a40, bin]
+    - [0x6f74c0, .data, spi_offset_table_6E3A40]  # SPI offsets
+    - [0x6f7960, bin] # SPI data
   
-
   - name: audioTblStart
     type: bin
     start: 0x756140
