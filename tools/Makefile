@@ -14,6 +14,10 @@ default:
 	@make  -C ido-static-recomp/ setup
 	@make  -C ido-static-recomp/ VERSION=5.3
 	@printf "done\n"
+	@echo "Building torch..."
+	$(MAKE) -C Torch type=release -j$(N_THREADS)
+
 
 clean:
 	rm n64crc
+	@make -C Torch clean

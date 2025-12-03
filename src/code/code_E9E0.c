@@ -386,6 +386,8 @@ void func_80010150(UnkStruct_8000DDE0* arg0) {
         }
     }
 }
+
+// NEEDS RODATA
 extern f64 D_800ED484;
 extern f64 D_800ED488;
 extern f64 D_800ED490;

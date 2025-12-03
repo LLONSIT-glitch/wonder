@@ -67,6 +67,7 @@ CPP      = cpp
 LD       = $(CROSS)ld
 AS       = $(CROSS)as
 #IDO_AS = tools/ido-static-recomp/build/5.3/out/
+TORCH	 = tools/Torch/build/torch
 #OBJCOPY  = $(ROOT)/objcopy
 OBJCOPY  = $(CROSS)objcopy
 PYTHON   = python3
@@ -174,7 +175,7 @@ LD_FLAGS_EXTRA  =
 endif
 
 ASM_PROCESSOR_DIR := $(TOOLS_DIR)/asm-processor
-ASM_PROCESSOR      = $(PYTHON) $(ASM_PROCESSOR_DIR)/asm_processor.py
+ASM_PROCESSOR      = $(PYTHON) $(ASM_PROCESSOR_DIR)/asm_processor.py --asm-prelude include/prelude.inc
 
 ### Optimisation Overrides
 #$(BUILD_DIR)/$(SRC_DIR)/os/%.c.o: OPT_FLAGS := -O1
@@ -222,6 +223,7 @@ splat: $(SPLAT)
 
 extract: splat
 	$(PYTHON) $(SPLAT) $(YAML)
+	$(TORCH) modding export baserom.jp.z64
 
 dependencies: tools
 	make -C tools
