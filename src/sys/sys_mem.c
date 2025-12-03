@@ -1,4 +1,5 @@
 #include "common.h"
+#include "PRinternal/piint.h"
 
 extern HeapBlock* sHeapHead;
 extern HeapBlock* sHeapTail; // Heap end
@@ -7,7 +8,6 @@ extern HeapBlock sMemBlock[];
 extern s32 D_80182610;
 extern s32 D_80182640;
 extern u8 D_801604A8[];
-
 
 #define HEAP_SIZE_ALIGN(size) ((u32) (size + 15) >> 4) + 1
 
@@ -171,7 +171,7 @@ void func_800BCCE4(void* arg0) {
 }
 
 /**
- *  Tells us how much memory is unlocked on the heap 
+ *  Tells us how much memory is unlocked on the heap
  */
 s32 SysMem_GetUnlockedSize(void) {
     s32 sp4;
@@ -378,11 +378,8 @@ s32 SysMem_DmaCopy(u32 src, void* dest, s32 size) {
             osInvalDCache(dest, size);
 
             if (osPiGetStatus() & 7) {
-                do { 
-
-                } while (osPiGetStatus() & 7); 
-            }
-            func_800CB090(0, src, dest, size);
+                do { } while (osPiGetStatus() & 7); }
+            osPiRawStartDma(0, src, dest, size);
             if (osPiGetStatus() & 7) {
                 do { } while (osPiGetStatus() & 7); }
             goto block_28;
@@ -394,7 +391,7 @@ s32 SysMem_DmaCopy(u32 src, void* dest, s32 size) {
         osInvalDCache((void*) sp30, size);
         if (osPiGetStatus() & 7) {
             do { } while (osPiGetStatus() & 7); }
-        func_800CB090(0, src, (void*) sp30, size);
+        osPiRawStartDma(0, src, (void*) sp30, size);
         if (osPiGetStatus() & 7) {
             do { } while (osPiGetStatus() & 7); }
         SysMem_Copy8(dest, (void*) sp30, size);

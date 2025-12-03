@@ -13,7 +13,6 @@ static OSMesg viEventBuf[5] ALIGNED(0x8);
 static OSIoMesg viRetraceMsg ALIGNED(0x8);
 static OSIoMesg viCounterMsg ALIGNED(0x8);
 
-
 static void viMgrMain(void* arg);
 void osCreateViManager(OSPri pri) {
     u32 savedMask;
@@ -82,10 +81,10 @@ static void viMgrMain(void* arg) {
     if (retrace == 0) {
         retrace = 1;
     }
-    dm = (OSDevMgr*)arg;
+    dm = (OSDevMgr*) arg;
 
     while (TRUE) {
-        osRecvMesg(dm->evtQueue, (OSMesg)&mb, OS_MESG_BLOCK);
+        osRecvMesg(dm->evtQueue, (OSMesg) &mb, OS_MESG_BLOCK);
         switch (mb->hdr.type) {
             case OS_MESG_TYPE_VRETRACE:
                 __osViSwapContext();

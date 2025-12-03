@@ -6,9 +6,9 @@ typedef struct UnkStruct_8000D74C_s {
     s32 unk10;
 } UnkStruct_8000D74C;
 
-s32 func_80004654(s32); /* extern */
-s32 func_800B55B0(s32);                             /* extern */
-s32 func_800B56F0(void);                                /* extern */
+s32 func_80004654(s32);  /* extern */
+s32 func_800B55B0(s32);  /* extern */
+s32 func_800B56F0(void); /* extern */
 
 extern s32 D_80156C10;
 extern s32 D_8015F804;
@@ -92,15 +92,15 @@ s32 func_8000D74C(UnkStruct_8000DDE0* arg0) {
     return -1;
 }
 
-void func_8000D90C(UnkStruct_8000DDE0 *arg0) {
+void func_8000D90C(UnkStruct_8000DDE0* arg0) {
     arg0->unk1EC = 0.0f;
     arg0->unk1E8 = (f32) arg0->unk1EC;
 }
 
-s32 func_8000D934(s32 arg0, s32 arg1, u16 *arg2) {
+s32 func_8000D934(s32 arg0, s32 arg1, u16* arg2) {
     s32 sp24;
     s32 sp20;
-    UnkStruct_8000DDE0 *sp1C;
+    UnkStruct_8000DDE0* sp1C;
 
     sp1C = func_8000D688(arg0);
     if (sp1C == NULL) {
@@ -117,7 +117,7 @@ s32 func_8000D934(s32 arg0, s32 arg1, u16 *arg2) {
 s32 func_8000DA44(UnkStruct_8000DDE0* arg0, s32 arg1, s16* arg2) {
     s32 sp4;
     s32 sp0;
-    
+
     for (sp4 = 0; sp4 < arg1; sp4++) {
         if (arg0->unk1EC == arg0->unk1E8) {
             return -1;
@@ -153,24 +153,26 @@ s32 func_8000DB14(UnkStruct_8000DDE0* arg0) {
     if (arg0->unk1A8 == 0) {
         if (D_801A8D70 < 0x1F4) {
             sp28 = &D_80947340;
-            sp24 = (s16*)&D_80949150;
+            sp24 = (s16*) &D_80949150;
         } else {
             sp28 = &D_80993AE0;
-            sp24 = (s16*)&D_80993C00;
+            sp24 = (s16*) &D_80993C00;
         }
 
         do {
-            SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) D_801829B8, (s32) D_801849C0, (s32) sp28), &sp2C, 0xC);
+            SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) D_801829B8, (s32) D_801849C0, (s32) sp28), &sp2C,
+                           0xC);
             if ((sp2C == D_801A8D70) && (sp2E == D_801A8D78) && (sp30.s == D_801A8D80)) {
                 arg0->unk1A8 = (s32) (arg0->unk1A8 | 1);
                 break;
             }
-            sp28+=3; // TODO: Might be a custom type!
+            sp28 += 3; // TODO: Might be a custom type!
         } while (sp2C != -1);
         if (arg0->unk1A8 == 0) {
             return -1;
         }
-        if (func_800B55B0(SysMem_GetPhysicalAddressFromVirtual((u32) D_801829B8, (s32) D_801849C0, (s32) &sp24[sp34] )) != 0) {
+        if (func_800B55B0(
+                SysMem_GetPhysicalAddressFromVirtual((u32) D_801829B8, (s32) D_801849C0, (s32) &sp24[sp34])) != 0) {
             arg0->unk1A8 = 0;
         }
         return 0;
@@ -184,7 +186,7 @@ s32 func_8000DB14(UnkStruct_8000DDE0* arg0) {
     return 0;
 }
 
-s32 func_8000DD94(UnkStruct_8000DDE0 *arg0) {
+s32 func_8000DD94(UnkStruct_8000DDE0* arg0) {
     arg0->unk1A8 = 0;
     if (D_801A3068 != NULL) {
         D_801A3068->unk4 = 0;

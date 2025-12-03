@@ -4,7 +4,7 @@
 #include "PRinternal/siint.h"
 
 #if BUILD_VERSION < VERSION_I
-#define OS_USEC_TO_CYCLES2(n)	(((u64)(n)*osClockRate)/1000000LL)
+#define OS_USEC_TO_CYCLES2(n) (((u64) (n) * osClockRate) / 1000000LL)
 #define HALF_A_SECOND OS_USEC_TO_CYCLES2(500000)
 #endif
 
@@ -18,8 +18,7 @@ OSMesg __osEepromTimerMsg;
 
 s32 __osContinitialized = FALSE;
 
-s32 osContInit(OSMesgQueue *mq, u8 *bitpattern, OSContStatus *data)
-{
+s32 osContInit(OSMesgQueue* mq, u8* bitpattern, OSContStatus* data) {
     OSMesg dummy;
     s32 ret;
     OSTime t;
@@ -28,14 +27,12 @@ s32 osContInit(OSMesgQueue *mq, u8 *bitpattern, OSContStatus *data)
 
     ret = 0;
 
-    if (__osContinitialized) 
-    {
+    if (__osContinitialized) {
         return ret;
     }
     __osContinitialized = TRUE;
     t = osGetTime();
-    if (t < HALF_A_SECOND)
-    {
+    if (t < HALF_A_SECOND) {
         osCreateMesgQueue(&timerMesgQueue, &dummy, 1);
         osSetTimer(&mytimer, HALF_A_SECOND - t, 0, &timerMesgQueue, &dummy);
         osRecvMesg(&timerMesgQueue, &dummy, OS_MESG_BLOCK);
@@ -61,9 +58,9 @@ void __osContGetInitData(u8* pattern, OSContStatus* data) {
     int i;
     u8 bits = 0;
 
-    ptr = (u8*)__osContPifRam.ramarray;
+    ptr = (u8*) __osContPifRam.ramarray;
     for (i = 0; i < __osMaxControllers; i++, ptr += sizeof(requestHeader), data++) {
-        requestHeader = *(__OSContRequesFormat*)ptr;
+        requestHeader = *(__OSContRequesFormat*) ptr;
         data->errno = CHNL_ERR(requestHeader);
 
         if (data->errno != 0) {
@@ -82,12 +79,12 @@ void __osPackRequestData(u8 cmd) {
     __OSContRequesFormat requestHeader;
     s32 i;
 
-    for (i = 0; i < ARRLEN(__osContPifRam.ramarray)+1; i++) {
+    for (i = 0; i < ARRLEN(__osContPifRam.ramarray) + 1; i++) {
         __osContPifRam.ramarray[i] = 0;
     }
 
     __osContPifRam.pifstatus = CONT_CMD_EXE;
-    ptr = (u8*)__osContPifRam.ramarray;
+    ptr = (u8*) __osContPifRam.ramarray;
     requestHeader.dummy = CONT_CMD_NOP;
     requestHeader.txsize = CONT_CMD_RESET_TX;
     requestHeader.rxsize = CONT_CMD_RESET_RX;
@@ -98,7 +95,7 @@ void __osPackRequestData(u8 cmd) {
     requestHeader.dummy1 = CONT_CMD_NOP;
 
     for (i = 0; i < __osMaxControllers; i++) {
-        *(__OSContRequesFormat*)ptr = requestHeader;
+        *(__OSContRequesFormat*) ptr = requestHeader;
         ptr += sizeof(requestHeader);
     }
     *ptr = CONT_CMD_END;

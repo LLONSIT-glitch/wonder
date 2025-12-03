@@ -16,7 +16,6 @@ f32 func_80033CF0(f32 arg0) {
     return arg0;
 }
 
-
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_34860/func_80033D78.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_34860/func_80033EFC.s")

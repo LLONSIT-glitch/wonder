@@ -1,11 +1,11 @@
 /*
-* possible name: sys_thread.c
-*/
+ * possible name: sys_thread.c
+ */
 #include "common.h"
 
 #define MAX_THREADS 12
 
-#define THREAD_ERROR -1 /* Generic error code */
+#define THREAD_ERROR -1  /* Generic error code */
 #define THREAD_SUCCESS 0 /* Generic success code */
 
 /* Thread flags */
@@ -23,17 +23,17 @@ void Thread_Init(void) {
 }
 
 /*
-* @brief Creates a simple thread and asigns it a threadId that is not used
-* @param entry Thread entry
-* @param arg Thread argument
-* @param pri Thread priority see os.h for reseved priorities
-*/
-u8 Thread_CreateSimple(void (*entry)(void *), void* arg, OSPri pri) {
+ * @brief Creates a simple thread and asigns it a threadId that is not used
+ * @param entry Thread entry
+ * @param arg Thread argument
+ * @param pri Thread priority see os.h for reseved priorities
+ */
+u8 Thread_CreateSimple(void (*entry)(void*), void* arg, OSPri pri) {
     u8 threadId;
 
     for (threadId = 0; threadId < MAX_THREADS; threadId++) {
         if (D_800F9C38[threadId].flags == THREAD_AVAILABLE) {
-           break;
+            break;
         }
     }
 
@@ -55,7 +55,7 @@ ThreadEntry* Thread_CreateExtended(void (*entry)(void*), OSPri pri) {
 
     for (threadId = 0; threadId < MAX_THREADS; threadId++) {
         if (D_800F9C38[threadId].flags == THREAD_AVAILABLE) {
-           break;
+            break;
         }
     }
 
@@ -63,15 +63,16 @@ ThreadEntry* Thread_CreateExtended(void (*entry)(void*), OSPri pri) {
     if (threadId >= MAX_THREADS) {
         return NULL;
     }
-    
+
     if (D_80153DC0[threadId] == NULL) {
         if ((D_80153DC0[threadId] = SysMem_HeapAllocMark(sizeof(ThreadEntry))) == NULL) {
             return NULL;
         }
     }
-    
+
     sp30 = D_80153DC0[threadId];
-    osCreateThread(&D_800F1950[threadId].thread, threadId + 10, entry, (void* ) D_80153DC0[threadId], &D_800F1950[threadId].threadSp, pri);
+    osCreateThread(&D_800F1950[threadId].thread, threadId + 10, entry, (void*) D_80153DC0[threadId],
+                   &D_800F1950[threadId].threadSp, pri);
     D_800F9C38[threadId].flags = THREAD_CREATED;
     sp30->threadId = threadId;
     sp30->unk18 = &D_800F1950[threadId];
@@ -98,7 +99,7 @@ void func_800C0A40(void) {
             D_800F9C38[sp1C].flags = THREAD_AVAILABLE;
             func_800CB840(&D_800F1950[sp1C].thread);
         }
-    } 
+    }
 }
 
 s32 func_800C0B70(u8 arg0) {
@@ -149,7 +150,7 @@ s32 func_800C0E84(void) {
         if (D_800F9C38[threadId].flags & 0x80) {
             sp0++;
         }
-    } 
+    }
 
     return sp0;
 }
@@ -190,7 +191,7 @@ s32 Thread_GetPriority(u8 arg0) {
 }
 
 s32 func_800C1154(u8 threadId, s32 arg1) {
-    UnkStruct_800F9C38 *sp1C;
+    UnkStruct_800F9C38* sp1C;
 
     sp1C = &D_800F1950[threadId];
     if (!(sp1C->unk82E8 & THREAD_CREATED)) {
@@ -203,34 +204,34 @@ s32 func_800C1154(u8 threadId, s32 arg1) {
         func_800C13B8(threadId);
         return 0;
     }
-    osCreateMesgQueue(&sp1C->mq, &sp1C->unk82B0, arg1);
+    osCreateMesgQueue(&sp1C->mq, &sp1C->mesg, arg1);
     sp1C->unk82E9 |= 1;
     return 0;
 }
 
-s32 func_800C1264(u8 arg0, void *arg1, /* unused */ s32 arg2) {
+s32 func_800C1264(u8 arg0, void* arg1, /* unused */ s32 arg2) {
     if (!(D_800F9C38[arg0].flags & 0x80)) {
         return -1;
     }
-    osSendMesg((OSMesgQueue *) &D_800F1950[arg0].mq, arg1, 0);
+    osSendMesg((OSMesgQueue*) &D_800F1950[arg0].mq, arg1, 0);
     /* @bug no return */
 }
 
 s32 func_800C1314(u8 arg0, s32 arg1) {
-    UnkStruct_800F9C38 *sp1C;
+    UnkStruct_800F9C38* sp1C;
 
     sp1C = &D_800F1950[arg0];
     if (!(sp1C->unk82E8 & 0x80)) {
         return -1;
     }
-    osRecvMesg((OSMesgQueue *) &sp1C->mq, (void **) &sp1C->unk82B0, arg1);
+    osRecvMesg((OSMesgQueue*) &sp1C->mq, (void**) &sp1C->mesg, arg1);
     return 0;
 }
 
-s32 func_800C13B8(u8 arg0) {
-    UnkStruct_800F9C38 *sp4;
+s32 func_800C13B8(u8 threadId) {
+    UnkStruct_800F9C38* sp4;
 
-    sp4 = &D_800F1950[arg0];
+    sp4 = &D_800F1950[threadId];
     if (!(sp4->unk82E8 & 0x80)) {
         return -1;
     }
@@ -238,27 +239,26 @@ s32 func_800C13B8(u8 arg0) {
     return 0;
 }
 
-s32 func_800C143C(u8 threadId, void **mesg, s32 flag) {
-    UnkStruct_800F9C38 *sp1C;
+s32 func_800C143C(u8 threadId, void** mesg, s32 flag) {
+    UnkStruct_800F9C38* sp1C;
 
     sp1C = &D_800F1950[threadId];
     if (!(sp1C->unk82E8 & 0x80)) {
         return -1;
     }
-    osRecvMesg((OSMesgQueue *) &sp1C->mq, mesg, flag);
+    osRecvMesg((OSMesgQueue*) &sp1C->mq, mesg, flag);
     return 0;
 }
 
-s32 Thread_CreateMesgQueue(OSMesgQueue *arg0, OSMesg *arg1, s32 arg2) {
+s32 Thread_CreateMesgQueue(OSMesgQueue* arg0, OSMesg* arg1, s32 arg2) {
     osCreateMesgQueue(arg0, arg1, arg2);
     return 0;
 }
 
-s32 Thread_SendMsg(OSMesgQueue *mq, OSMesg msg, s32 flag) {
+s32 Thread_SendMsg(OSMesgQueue* mq, OSMesg msg, s32 flag) {
     return osSendMesg(mq, msg, flag);
 }
 
-s32 Thread_ReceiveMsg(OSMesgQueue *mq, OSMesg *msg, s32 flag) {
+s32 Thread_ReceiveMsg(OSMesgQueue* mq, OSMesg* msg, s32 flag) {
     return osRecvMesg(mq, msg, flag);
 }
-

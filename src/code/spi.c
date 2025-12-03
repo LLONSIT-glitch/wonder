@@ -1,11 +1,6 @@
 #include "common.h"
 
-
-typedef enum {
-    SPI_1,
-    SPI_0,
-    SPI_N
-} SPI_TYPE;
+typedef enum { SPI_1, SPI_0, SPI_N } SPI_TYPE;
 
 typedef struct SpiHeader {
     u8 header[4];
@@ -33,18 +28,18 @@ extern s32 D_80160474;
 extern s32 D_8016047C;
 extern s32 D_80160484;
 
-void Spi_Decompress(void);             /* extern */
+void Spi_Decompress(void);            /* extern */
 void SysMem_Copy8(void*, void*, s32); /* extern */
 void Spi_Compress(SPI_TYPE spiMode, s32 arg1);
-void func_800C0108(s32);              /* extern */
-void func_800C0194(void);             /* extern */
-void func_800C0278(s32);              /* extern */
-void func_800C03C8(void);             /* extern */
-s32 func_800C0444(s32);               /* extern */
-s32 func_800C01D4(void);              /* extern */
-s32 func_800C0328(void);              /* extern */
-s32 func_800C0534(s32);               /* extern */
-void func_800C055C(s32);              /* extern */
+void func_800C0108(s32);  /* extern */
+void func_800C0194(void); /* extern */
+void func_800C0278(s32);  /* extern */
+void func_800C03C8(void); /* extern */
+s32 func_800C0444(s32);   /* extern */
+s32 func_800C01D4(void);  /* extern */
+s32 func_800C0328(void);  /* extern */
+s32 func_800C0534(s32);   /* extern */
+void func_800C055C(s32);  /* extern */
 static s32 Spi_Memcmp(u8* s1, u8* s2, s32 size);
 
 #define ALIGN8(x) ((s32) (x + 7) / 8) * 8
@@ -207,7 +202,7 @@ UNUSED u8* Spi_TestSpi_Compression(u8* arg0, s32 arg1, SPI_TYPE spiType) {
 
     // First copy the SPI header
     SysMem_Copy8(compressedOutput, &sSpiHeader, sizeof(SpiHeader));
-    
+
     compressedOutput += sizeof(SpiHeader);
 
     SysMem_Copy8(compressedOutput, D_80160464, sSpiHeader.unk8);
@@ -262,7 +257,6 @@ void Spi_Compress(SPI_TYPE spiType, s32 size) {
             sp24 = sSpiCompSrcPtr - sSpiCompSrcBase;
         }
         sp18 = sp24;
-
 
         // Sliding window?
         for (sp20 = 0, sp1C = 0; sp24 > 0; sp24--) {
@@ -337,7 +331,8 @@ void Spi_Decompress(void) {
 
     // SPI0
     if (sSpiHeader.header[3] == '0') {
-        while ((uintptr_t) ((uintptr_t) D_80160454 - (uintptr_t) D_8016046C) < (uintptr_t) sSpiHeader.decompressedSize) {
+        while ((uintptr_t) ((uintptr_t) D_80160454 - (uintptr_t) D_8016046C) <
+               (uintptr_t) sSpiHeader.decompressedSize) {
             if (func_800C0328() != 0) {
                 *D_80160454++ = *sSpiCompDataPtr++;
             } else {

@@ -121,8 +121,8 @@ segments:
       - [0xAEAD0, c, code/code_AEAD0]
       - [0xAFC60, c, code/code_AFC60]
       - [0xB2650, c, code/code_B2650]
-      - [0xB90F0, c, code/code_B90F0]
-      - [0xBA180, c, code/code_BA180]
+      - [0xB90F0, c, audio/audio_mgr]
+      - [0xBA180, c, audio/audio_driver]
       - [0xBD190, c, sys/dma_copy]
       - [0xBD220, c, sys/sys_mem]
       - [0xBE2F0, c, main]
@@ -198,7 +198,8 @@ segments:
       - [0xCBA10, c, libultra/gu/sinf]
       - [0xCBBD0, hasm, invaldcache]
       - [0xCBC80, c, libultra/io/pigetstat]
-      - [0xCBC90, asm]
+      - [0xCBC90, c, libultra/io/pirawdma]
+      - [0xCBD70, asm]
       - [0xCC1A0, asm]
       - [0xCC440, asm]
       - [0xCC540, asm]
@@ -267,6 +268,8 @@ segments:
       - [0xDC210, data]
       - [0xDC3E0, .data, code/code_2CE70]
       - [0xDC470, data]
+      - [0xE98F0, .data, audio/audio_driver]
+      - [0xE9900, data]
       - [0xECAC0, .data, libultra/gu/random]
       - [0xECAD0, data]
       - [0xED7F0, .data, libultra/io/vimgr]
@@ -302,7 +305,7 @@ segments:
       - [0xF0520, rodata]
       - [0xF0540, rodata] # code_B2650
       - [0xF06E0, rodata]
-      - [0xF0790, rodata]
+      - [0xF0790, .rodata, audio/audio_driver]
       - [0xF09E0, .rodata, main]
       - [0xF0A60, rodata]
       - [0xF0AE0, rodata]
@@ -401,6 +404,10 @@ segments:
     - [0x6e3a40, bin]
     - [0x6f74c0, .data, spi_offset_table_6E3A40]  # SPI offsets
     - [0x6f7960, bin] # SPI data
+
+  - name: audioSequences
+    type: bin
+    start: 0x730E80
   
   - name: audioTblStart
     type: bin

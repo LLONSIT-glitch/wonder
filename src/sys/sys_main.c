@@ -24,7 +24,7 @@ void* SysMain(ThreadEntry* entry) {
     s32 pad2[4];
 
     threadEntry = entry;
-    gSysThreadIds[0] = (s32) threadEntry->threadId;
+    gSysThreadIds[THREAD_SYS_MAIN] = threadEntry->threadId;
     sp50 = threadEntry->unk18;
     func_800983B0(0, 1);
     func_800AD800();
@@ -38,7 +38,7 @@ void* SysMain(ThreadEntry* entry) {
     osViSwapBuffer(&gFrameBuffer2);
     SysMem_Copy64(&gFrameBuffer1, &gFrameBuffer2, 0x4B00);
     func_8008E5A0();
-    func_800B8A2C();
+    AudioMgr_InitThread();
 
     gSpriteObjHeaderSegment = SpriteSeg1_ROM_START;
     gSpriteSeg1VramStart = SpriteSeg1_VRAM;
@@ -54,11 +54,11 @@ void* SysMain(ThreadEntry* entry) {
 
     D_8015FB78 = &D_6E3A40;
     D_8015FB80 = &D_809F1260;
-    
+
     D_800F193C = SysMem_GetPhysicalAddressFromVirtual(D_80153E2C, D_801540D8, &D_807A1A20);
     D_80153DB0 = SysMem_GetPhysicalAddressFromVirtual(D_801560E0, D_801560E8, &D_809A8230);
-    func_800B1A50(SpriteSeg1_VRAM, &D_80409B40, &gSpriteObjDefs, &gSpriteFramesStart, &gMainSpritesSpiOffsets, &gMainSprites, &gSpritePalettes,
-                  &D_807991C0, &D_8079A730, 3);
+    func_800B1A50(SpriteSeg1_VRAM, D_80409B40, gSpriteObjDefs, gSpriteFramesStart, gMainSpritesSpiOffsets, gMainSprites,
+                  gSpritePalettes, D_807991C0, D_8079A730, 3);
     D_8015B334 = 5;
     D_8015B33C = 0xC8;
     D_801825D8 = D_800ED130;
@@ -147,7 +147,7 @@ void* SysMain(ThreadEntry* entry) {
             func_80002F20();
             D_801A723C = 0;
             D_801A7234 = 0;
-            func_8001AFA0(threadEntry);
+            func_8001AFA0((void*) threadEntry); // TODO: is UnkStruct_8000DDE0 ThreadEntry?
             if ((D_801A7234 == D_801A723C) && (D_801A7234 == 0)) {
                 D_801A8C40 = 0x1F4;
                 D_801A7234 = D_801A723C = 1;
@@ -233,17 +233,17 @@ s32 func_800020A8(s32 arg0) {
             D_801A7280 = D_801A723C;
             D_801A728C = D_801A7248;
             if (D_801A8D88[3] & 2) {
-                D_801A8D88[3] = (u16) (D_801A8D88[3] & ~2);
+                D_801A8D88[3] &= ~2;
                 func_80021F20(0x2A);
             }
             if (((D_801A7234 & 0x7FFF) == 1) && ((D_801A723C & 0x7FFF) == 3) && ((D_801A7254 & 0x7FFF) == 2) &&
                 ((D_801A725C & 0x7FFF) == 1)) {
-                D_801A8D88[3] = (u16) (D_801A8D88[3] & ~2);
+                D_801A8D88[3] &= ~2;
                 func_80021F20(0x2A);
             }
             if (((D_801A7234 & 0x7FFF) == 2) && ((D_801A723C & 0x7FFF) == 1) && ((D_801A7254 & 0x7FFF) == 1) &&
                 ((D_801A725C & 0x7FFF) == 3)) {
-                D_801A8D88[3] = (u16) (D_801A8D88[3] & ~2);
+                D_801A8D88[3] &= ~2;
                 func_80021F20(0x2A);
             }
             if (D_801A8D88[3] & 0x800) {
@@ -251,8 +251,7 @@ s32 func_800020A8(s32 arg0) {
                 D_801A8C34 = 0xF;
             }
             if (D_801A8C34 == 0xF) {
-                if (FALSE)
-                    ;
+                if (FALSE) {}
                 if (D_8015BAF8 == 0.0f) {
                     D_8015BAF8 = -4.0f;
                 } else if (D_8015BAF8 > 0.0f) {
@@ -289,7 +288,6 @@ exit:
 #undef FABS
 }
 
-
 void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
     s32 sp24;
     UnkStruct_80099E2C* sp20;
@@ -302,7 +300,7 @@ void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
     if (arg1 != NULL) {
         D_801A8C24 = arg1;
     }
-    
+
     for (sp24 = 0, sp20 = D_801A8C18; sp24 < 4; sp24++, sp20++) {
         if (sp20->unkC0 & 0x10000000) {
             func_800C1754();
@@ -313,7 +311,7 @@ void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
             func_800997D8(sp20);
             func_800C1A28();
         }
-    } 
+    }
     if ((func_80016074(0xD) != NULL) && ((*D_8015BAC8)->unk1A8 & 1)) {
         for (sp24 = 0, sp20 = D_801A8C24; sp24 < 4; sp24++, sp20++) {
             if (sp20->unkC0 & 0x10000000) {
@@ -325,7 +323,7 @@ void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
                 func_800997D8(sp20);
                 func_800C1A28();
             }
-        } 
+        }
     }
 }
 
@@ -337,20 +335,20 @@ void func_80002824(void) {
         if (D_80156DC0[sp18].unk0.unk0 & 4) {
             D_80156DC0[sp18].unk0.unk0 = 0;
             continue;
-        } 
+        }
 
         if (!(D_80156DC0[sp18].unk0.unk0 & 1)) {
             continue;
-        }  
+        }
         if (D_80156DC0[sp18].unk0.unk0 & 8) {
             continue;
-        } 
-            
+        }
+
         sp1C = &D_80156C20[sp18];
-            
+
         if (D_800DDB74[sp1C->unk1A4][0] == 0) {
             continue;
-        } 
+        }
         D_800DDB74[sp1C->unk1A4][0](sp1C);
     }
 }

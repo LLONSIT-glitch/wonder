@@ -44,12 +44,12 @@ void __osPackResetData(void) {
     u8* ptr;
     s32 i;
 
-    for (i = 0; i < ARRLEN(__osContPifRam.ramarray)+1; i++) {
+    for (i = 0; i < ARRLEN(__osContPifRam.ramarray) + 1; i++) {
         __osContPifRam.ramarray[i] = 0;
-    } 
-    
+    }
+
     __osContPifRam.pifstatus = 1;
-    ptr = (u8*)__osContPifRam.ramarray;
+    ptr = (u8*) __osContPifRam.ramarray;
 
     for (i = 0; i < MAXCONTROLLERS; i++) {
         *ptr++ = CONT_CMD_CHANNEL_RESET;

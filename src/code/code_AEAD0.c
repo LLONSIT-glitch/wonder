@@ -114,7 +114,7 @@ s32 FindPfsSlot(UNUSED OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, 
  * @param length       Length of the gameName and extName buffers.
  * @param fileNo       Pointer to an integer where the found file number will be stored.
  * @return             Status code indicating success or failure of the operation.
- * 
+ *
  * @note If the file doesn't exists the function will try to create a new by calling osPfsAllocateFile
  */
 s32 GetPfsFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32 length, s32* fileNo) {
@@ -127,7 +127,6 @@ s32 GetPfsFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extN
     }
     return osPfsAllocateFile((OSPfs*) pfs, companyCode, gameCode, gameName, extName, length, fileNo);
 }
-
 
 /**
  * Sets the PFS (Peripheral File System) codes for the game.

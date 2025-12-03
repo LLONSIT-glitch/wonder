@@ -11,7 +11,6 @@ Thread_CreateExtended = 0x800C0780;
 Thread_GetPriority = 0x800C10AC;
 DmaCopy = 0x800BC590;
 // Temporal audio names
-__clearAudioDMA = 0x800B93E0;
 F24E0_ROM_START = 0xF24E0; //defined:true
 F24E0_ROM_END = 0xF27E0; //defined:true
 __osTimerInterrupt = 0x800CBC4C;
@@ -97,6 +96,15 @@ sSpriteFrames = 0x80180D3C;
 sMainSpritesSpiOffsets = 0x80180D40;
 sMainSpritesStart = 0x80180D44;
 sMainSpritesPalettes = 0x80180D48;
+
+// Audio symbols
+AudioMgr_InitThread = 0x800B8A2C;
+AudioMgr_AudioThread = 0x800B8A7C;
+AudioMgr_HandleFrameMsg = 0x800B8CA0;
+AudioMgr_ClearAudioDMA = 0x800B93E0;
+
+gAudioHeap = 0x801ACF88;
+
 D_807991C0 = 0x807991C0; 
 D_8079A730 = 0x8079A730; 
 

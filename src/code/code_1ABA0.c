@@ -1324,8 +1324,7 @@ s32 func_8001E348(UnkStruct_80020720* arg0) {
             }
             goto skip_dead_code;
         default:
-            if (FALSE)
-                ;
+            if (FALSE) {}
         skip_dead_code:
             if (D_801560F0->unk6 & (u16) D_801811A4) {
                 return -1;

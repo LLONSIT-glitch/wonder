@@ -23,22 +23,22 @@ s32 osPfsInit(OSMesgQueue* queue, OSPfs* pfs, int channel) {
     return ret;
 }
 
-s32 __osPfsGetStatus(OSMesgQueue *queue, int channel) {
+s32 __osPfsGetStatus(OSMesgQueue* queue, int channel) {
     s32 ret;
     OSMesg dummy;
     u8 pattern;
     OSContStatus data[MAXCONTROLLERS];
-	
-	ret = 0;
+
+    ret = 0;
     __osPfsRequestData(0);
-    
-	ret = __osSiRawStartDma(OS_WRITE, &__osPfsPifRam);
+
+    ret = __osSiRawStartDma(OS_WRITE, &__osPfsPifRam);
     osRecvMesg(queue, &dummy, OS_MESG_BLOCK);
-    
-	ret = __osSiRawStartDma(OS_READ, &__osPfsPifRam);
+
+    ret = __osSiRawStartDma(OS_READ, &__osPfsPifRam);
     osRecvMesg(queue, &dummy, OS_MESG_BLOCK);
-    
-	__osPfsGetInitData(&pattern, data);
+
+    __osPfsGetInitData(&pattern, data);
 
     if (((data[channel].status & CONT_CARD_ON) != 0) && ((data[channel].status & CONT_CARD_PULL) != 0)) {
         return PFS_ERR_NEW_PACK;

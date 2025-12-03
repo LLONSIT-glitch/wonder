@@ -12,7 +12,6 @@
 static HeapBlock* sTempHeapHead;
 static HeapBlock* sTempHeapTail;
 
-
 /**
  * Initializes the temporary heap.
  *

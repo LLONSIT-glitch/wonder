@@ -13,7 +13,6 @@
 extern f64 D_800EFEB8;
 extern f64 D_800EFEC0;
 
-
 f32 func_800C38F4(f32 arg0) {
     s32 sp4;
     f32 sp0;
@@ -26,14 +25,12 @@ f32 func_800C38F4(f32 arg0) {
         sp4 -= 1;
         arg0 = (1.0 / arg0);
     }
-    sp0 = (arg0 / (1.0 + ( (arg0 * arg0) * D_800EFEB8)));
+    sp0 = (arg0 / (1.0 + ((arg0 * arg0) * D_800EFEB8)));
     if (sp4 != 0) {
         return (f32) ((D_800EFEC0 - (f64) sp0) * (f64) sp4);
     }
     return sp0;
 }
-
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_C3C70/func_800C3A34.s")
 
@@ -56,4 +53,3 @@ float MathUtil_GetDistance2D(float x1, float y1, float x2, float y2) {
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_C3C70/func_800C3D70.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_C3C70/func_800C3F2C.s")
-

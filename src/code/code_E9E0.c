@@ -92,7 +92,7 @@ s32 func_8000E524(UnkStruct_8000DDE0* arg0) {
         return -1;
     }
     if (func_80031AC8() != -2) {
-        func_800B2CBC((u8**) &sp24->unkC, (u8**) &sp24->unk10, 2);
+        func_800B2CBC(&sp24->unkC, &sp24->unk10, 2);
         func_80031728();
         sp24->unk62 = 0xe007;
         arg0->unk1A8 |= 0x100;
@@ -175,9 +175,8 @@ s32 func_8000E7E4(UnkStruct_8000DDE0* arg0) {
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_E9E0/func_8000E9F8.s")
 
 void func_8000F4B0(UnkStruct_8000DDE0* arg0) {
-    s32 sp4;
+    UNUSED s32 sp4 = arg0->unk20C;
 
-    sp4 = arg0->unk20C;
     if (arg0->unk1A8 & 0x80) {
         arg0->unk1F0 = (f32) (arg0->unk1F0 - 1.0f);
     }
@@ -191,7 +190,7 @@ void func_8000F53C(UnkStruct_8000DDE0* arg0) {
     UnkStruct_8000E3D4* sp1C;
 
     sp1C = arg0->unk20C;
-    func_800B1C10(&sp1C->unkC, (u8**) &sp1C->unk10, (s32) sp1C->unk6);
+    func_800B1C10(&sp1C->unkC, &sp1C->unk10, (s32) sp1C->unk6);
     func_8000D74C(arg0);
 }
 
@@ -200,7 +199,7 @@ void func_8000F598(UnkStruct_8000DDE0* arg0) {
     s32 sp18;
 
     sp1C = arg0->unk20C;
-    sp18 = func_800B2748((u8**) &sp1C->unkC, (u8**) &sp1C->unk10);
+    sp18 = func_800B2748(&sp1C->unkC, &sp1C->unk10);
     if (sp18 < 0) {
         sp1C->unk0 &= ~2;
     } else {
@@ -439,7 +438,7 @@ void func_80010734(UnkStruct_8000DDE0* arg0) {
     sp1C->unk4C = (f32) ((f64) sp1C->unk4C - ((f64) D_8018257C * 0.5));
 
     while (sp1C->unk4C < 0.0) {
-        func_800B3DBC((u8**) &sp1C->unkC, (u8**) &sp1C->unk10, (s32) (u16) sp1C->unk54[sp1C->unk52]);
+        func_800B3DBC(&sp1C->unkC, &sp1C->unk10, (s32) (u16) sp1C->unk54[sp1C->unk52]);
         sp1C->unk4C += (f32) sp1C->unk50;
         sp1C->unk52 += 1;
 

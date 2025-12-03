@@ -10,7 +10,7 @@ extern SpritePalette* sMainSpritesPalettes;
 extern s32 D_80180D4C;
 extern s32 D_80180D50;
 extern u16 D_80180D54;
-extern s32 D_80180D60;
+extern u32 D_80180D60;
 extern s32 D_80180D64;
 extern s16 D_80180D68;
 extern s16 D_80180D6A;
@@ -22,7 +22,7 @@ s32 func_800B23C4(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 objDef
                   u8 arg6);
 void func_800B4F68(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2);
 void LoadPalette(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2);
-s32 func_800B3EC0(ObjInfo*, s32);                             /* extern */
+s32 func_800B3EC0(ObjInfo*, u32);                             /* extern */
 void func_800B4AB4(UnkStruct_80099E2C*, UnkStruct_800B23C4*); /* extern */
 void func_800B5558(UnkStruct_80099E2C*, UnkStruct_800B23C4*); /* extern */
 s32 func_800B2A34(UnkStruct_80099E2C*, UnkStruct_800B23C4*);
@@ -41,8 +41,8 @@ void func_800B5AA0(void); /* extern */
 s32 func_800B5AF0(void);  /* extern */
 s32 func_800B5FB4(void);  /* extern */
 
-void func_800B1A50(s32 arg0, s32 arg1, s32 objDefsStart, s32 spriteFramesStart, s32 mainSpritesSpiOffsets,
-                   s32 mainSprites, s32 mainSpritesPalettes, s32 arg7, s32 arg8, u16 arg9) {
+void func_800B1A50(u8* arg0, u8* arg1, u8* objDefsStart, u8* spriteFramesStart, u8* mainSpritesSpiOffsets,
+                   u8* mainSprites, u8* mainSpritesPalettes, u8* arg7, u8* arg8, u16 arg9) {
     D_80180D30 = arg0;
     D_80180D34 = arg1;
     sObjDefsStart = objDefsStart;
@@ -167,9 +167,8 @@ s32 func_800B202C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u32 arg2
     u16 sp40[15];
     s32 sp3C;
     s32 sp38;
-    s32 sp34;
+    UNUSED s32 sp34 = 0;
 
-    sp34 = 0;
     if ((*arg1)->objInfo == NULL) {
         (*arg1)->objInfo = SysMem_HeapAlloc(sizeof(ObjInfo));
     }
@@ -337,7 +336,6 @@ s32 func_800B2A34(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
     }
     return 0;
 }
-
 
 s32 func_800B2C4C(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u8 arg2) {
     if (func_800B2FB0(arg0, arg1, arg2) != 0) {
@@ -655,7 +653,7 @@ void func_800B3DBC(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u16 pal
     }
 }
 
-s32 func_800B3EC0(ObjInfo* arg0, s32 arg1) {
+s32 func_800B3EC0(ObjInfo* arg0, u32 arg1) {
     u32 sp34;
     u32* sp30;
     u32* sp2C;
@@ -1253,7 +1251,7 @@ s32 func_800B5FB4(void) {
     s32 sp24 = 0;
 
     do {
-        SysMem_DmaCopy((u32)D_801A3068->unk0, &sp30, 0x10);
+        SysMem_DmaCopy((u32) D_801A3068->unk0, &sp30, 0x10);
         sp2C = &sp30;
         sp2A = sp2C[0];
 
@@ -1396,7 +1394,7 @@ s32 func_800B5FB4(void) {
             case 0xF081:
                 D_801A3068->unk0 += func_800B80A4(sp2C, 3, sp2C[1]) * 2;
                 break;
-                D_801A3068->unk0  += 2;
+                D_801A3068->unk0 += 2;
                 break;
         }
 

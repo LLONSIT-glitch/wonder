@@ -13,4 +13,3 @@ s32 __osAiDeviceBusy(void) {
         return FALSE;
     }
 }
-

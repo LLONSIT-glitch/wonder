@@ -2,7 +2,7 @@
 #include "PR/os_internal.h"
 #include "PR/ultraerror.h"
 #include "PRinternal/osint.h"
-    
+
 __OSEventState __osEventStateTab[OS_NUM_EVENTS] ALIGNED(0x8);
 
 void osSetEventMesg(OSEvent event, OSMesgQueue* mq, OSMesg msg) {

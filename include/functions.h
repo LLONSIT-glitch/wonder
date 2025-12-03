@@ -45,7 +45,6 @@ s32 func_800C1154(u8 threadId, s32 arg1);
 s32 func_800AE0EC(OSMesgQueue*); 
 s32 func_800C143C(u8 threadId, void **mesg, s32 arg2);
 s32 osPiGetStatus();                                /* extern */
-void func_800CB090(s32, u32, void*, s32);                /* extern */
 s32 osPiGetStatus(void);
 s32 Sys_GetSPIHeaderInfoFromVaddr(s32);          /* extern */
 void func_80002F20(void);
@@ -63,9 +62,8 @@ void func_800985BC(u8);
 void func_80098820(void);
 void func_80098868(void);
 void func_800AD800(void);
-//void func_800B1A50(UNK_TYPE*, UNK_TYPE*, UNK_TYPE*, UNK_TYPE*, UNK_TYPE*, UNK_TYPE*, UNK_TYPE*, UNK_TYPE*,
-  //                     UNK_TYPE*, s32);
-void func_800B8A2C(void);
+void func_800B1A50(u8*, u8*, u8*, u8*, u8*, u8*, u8*, u8*, u8*, u16);
+void AudioMgr_InitThread(void);
 void func_800BCB54(void);
 s32 func_800BD620(UNK_TYPE);
 void func_800BDC70(UNK_TYPE, UNK_TYPE, UNK_TYPE, UNK_TYPE);

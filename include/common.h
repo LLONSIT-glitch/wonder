@@ -11,6 +11,9 @@
 #include "structs.h"
 #include "functions.h"
 #include "variables.h"
+#include "thread.h"
+#include "buffers.h"
+#include "simple.h" // For the PRINTF macro
 
 // Why this is not Ultratypes?
 typedef u32 uintptr_t;
