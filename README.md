@@ -93,9 +93,6 @@ make dependencies
 #### 5. Prepare a base ROM
 Copy your ROM to the root of this new project directory, and rename the file of the baserom to reflect the version of ROM you are using. ex: `baserom.jp.z64`
 
-#### 6. Make and Build the ROM
-
-To start the extraction/build process, run the following command:
 
 ```bash
 make extract
@@ -117,6 +114,10 @@ build/wonderprojectj2.jp.z64: FAILED
 This means that something is wrong with the ROM's contents. Either the base files are incorrect due to a bad ROM, or some of the code is not matching.
 
 From now on you should be able to build the rom by running `make`.
+
+#### 6. Make and Build the ROM
+
+To start the extraction/build process, run the following command:
 
 
 # Extracting sprites
@@ -156,6 +157,6 @@ The ROM appears to have some sections compressed by what seems to be a custom ve
 
 
 # Special thanks 
-Thanks to @Ruin0x11 for it's josette tool which has been really useful to know more about the SPI compression format and the segments containing the sprites and object data. Most of the structures in `obj.h` are ported directly from the mentioned tool.
+Thanks to @Ruin0x11 for its josette tool which has been really useful to know more about the SPI compression format and the segments containing the sprites and object data. Most of the structures in `obj.h` are ported directly from the mentioned tool.
 
 

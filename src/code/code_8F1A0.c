@@ -1,6 +1,33 @@
 #include "common.h"
+#include "compiler/ido/stdarg.h"
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_8008E5A0.s")
+typedef struct UnkStruct_8015C748_s {
+    s32 unk0;
+    s32 unk4;
+    s32 unk8;
+    s32 unkC;
+} UnkStruct_8015C748;
+
+extern u16 D_8015BB38;
+extern UnkStruct_8015C748 D_8015C748[];
+
+int vsprintf( char* buffer, const char* format, va_list vlist);
+void func_80090E58(char** buf);
+
+
+void func_8008E5A0(void) {
+    s32 sp4;
+
+    for (sp4 = 0; sp4 < 0x100; sp4++) {
+        D_8015C748[sp4].unk0 = 0;
+        D_8015C748[sp4].unk4 = 0;
+        D_8015C748[sp4].unk8 = 1;
+        D_8015C748[sp4].unkC = 0;
+    } 
+
+    D_8015BB38 = 4;
+}
+
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_8008E630.s")
 
@@ -10,9 +37,21 @@
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_8008ECAC.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/Sys_SwapFrameBuffer.s")
+void Sys_SwapFrameBuffer(void* arg0) {
+    gCurrentFrameBuffer = arg0;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_8008ECE4.s")
+void func_8008ECE4(char* format, ...) {
+    va_list ap;
+    char* s;
+    char buf[0x400];
+    s = buf;
+
+    va_start(ap, format);
+    vsprintf(s, format, ap);
+    func_80090E58(&s);
+    return;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_8008ED4C.s")
 

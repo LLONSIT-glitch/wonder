@@ -212,3 +212,6 @@ osInvalDCache = 0x800CAFD0;
 osPiGetStatusus = 0x800CB080;
 bzero = 0x800D4630;
 osPiRawStartDma = 0x800CB090;
+osDestroyThread = 0x800CB840;
+osStopThread = 0x800CB940;
+__osDequeueThread = 0x800CBFC0;

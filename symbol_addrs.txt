@@ -84,6 +84,9 @@ MtxFToMtx = 0x800C2DD0;
 CreateGfxTask = 0x8009908C;
 LoadPalette = 0x800B53A0;
 gAssetsTable = 0x80A04CE0;
+Thread_ResetMqValidCount = 0x800C13B8;
+Thread_SendMesgNoBlock = 0x800C1264;
+Thread_StopThread = 0x800C0D34;
 
 D_80403000 = 0x80403000; //defined:true
 D_80409B40 = 0x80409B40; //defined:true
@@ -676,3 +679,4 @@ D_80A3485C = 0x80A3485C;
 D_80A34878 = 0x80A34878;
 D_80A3CFB0 = 0x80A3CFB0;
 
+D_8015C748 = 0x8015C748; //size:0x1000

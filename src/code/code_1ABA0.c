@@ -688,7 +688,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                 func_80005460();
                 func_80005124(D_801825F0[0], D_801825F0[1]);
                 sp68->unk82EC = 0;
-                func_800C13B8(sp6C->unk0.unk0);
+                Thread_ResetMqValidCount(sp6C->unk0.unk0);
                 func_80098820();
                 break;
             case 4:
@@ -1162,7 +1162,7 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
     return 0;
 }
 
-void func_800C1264(u8, s16*, s32); /* extern */
+void Thread_SendMesgNoBlock(u8, s16*, s32); /* extern */
 
 extern s32 D_80156B98;
 extern s32 D_801AB248;
@@ -1217,7 +1217,7 @@ s32 func_8001DC00(UnkStruct_80020720* arg0) {
                 D_801825F0[1] = 1;
             }
             if (D_801560F0->unk8 & D_80180FF4) {
-                func_800C1264(D_800F1918, &D_8015F7E0, 1);
+                Thread_SendMesgNoBlock(D_800F1918, &D_8015F7E0, 1);
             }
             if (D_801560F0->unk6 & D_801810F2) {
                 D_801825F0[2] += 1;

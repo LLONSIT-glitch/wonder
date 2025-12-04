@@ -14,7 +14,7 @@ s32 Thread_Start(u8);                                /* extern */
 UnkStruct_800F9C38* Thread_GetPtr(u8);                              /* extern */
 s32 func_800CB410(s32, s32 *, s32 *, s32);                    /* extern */
 void func_800CB680(s32);
-s32 Sys_SwapFrameBuffer(void*);                          /* extern */
+void Sys_SwapFrameBuffer(void*);                          /* extern */
 s32 func_8008E630(void);                                  /* extern */
 s32 func_80099660(s32);                               /* extern */
 s32 func_800A6440(void);                                  /* extern */
@@ -37,7 +37,7 @@ void func_800CB840(OSThread *);                        /* extern */
 void func_800CB940(OSThread *);                        /* extern */
 s32 func_800C0FFC(u8, s32);          
 s32 osGetThreadPri(OSThread *); 
-s32 func_800C13B8(u8);                                /* extern */
+s32 Thread_ResetMqValidCount(u8);                                /* extern */
 s32 Thread_SendMsg(OSMesgQueue *mq, OSMesg msg, s32 flag);
 s32 Thread_ReceiveMsg(OSMesgQueue *mq, OSMesg *msg, s32 flag);
 s32 Thread_CreateMesgQueue(OSMesgQueue *arg0, OSMesg *arg1, s32 arg2);

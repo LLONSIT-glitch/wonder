@@ -201,8 +201,9 @@ segments:
       - [0xCBC90, c, libultra/io/pirawdma]
       - [0xCBD70, asm]
       - [0xCC1A0, asm]
-      - [0xCC440, asm]
-      - [0xCC540, asm]
+      - [0xCC440, c, libultra/os/destroythread]
+      - [0xCC540, c, libultra/os/stopthread]
+      - [0xCC600, c, libultra/os/getthreadpri]
       - [0xCC620, asm]
       - [0xCC660, asm]
       - [0xCC7B0, asm]
@@ -395,8 +396,17 @@ segments:
     #- { start: 0x6862c0, vram: 0x80993ae0, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_6862c0 }
     #- { start: 0x6863e0, vram: 0x80993c00, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_6863e0 }
 
+  - name: Seg_639B20
+    type: bin
+    start: 0x639B20
+    vram: 0x80947340
+
+  - name: Seg_69A970
+    type: bin
+    start: 0x69A970
+    vram: 0x809A8190
            
-  - name: SpriteSeg3
+  - name: Seg_6E3A40
     type: code 
     vram: 0x809F1260
     start: 0x6E3A40

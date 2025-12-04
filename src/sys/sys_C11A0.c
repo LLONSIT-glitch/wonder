@@ -97,20 +97,20 @@ void func_800C0A40(void) {
                 func_800989BC(sp1C);
             }
             D_800F9C38[sp1C].flags = THREAD_AVAILABLE;
-            func_800CB840(&D_800F1950[sp1C].thread);
+            osDestroyThread(&D_800F1950[sp1C].thread);
         }
     }
 }
 
-s32 func_800C0B70(u8 arg0) {
-    if (!(D_800F9C38[arg0].flags & 0x80)) {
+s32 func_800C0B70(u8 threadId) {
+    if (!(D_800F9C38[threadId].flags & 0x80)) {
         return -1;
     }
-    if (D_800F9C38[arg0].flags & 2) {
-        func_800989BC((s32) arg0);
+    if (D_800F9C38[threadId].flags & 2) {
+        func_800989BC(threadId);
     }
-    D_800F9C38[arg0].flags = 0;
-    func_800CB840(&D_800F1950[arg0].thread);
+    D_800F9C38[threadId].flags = 0;
+    osDestroyThread(&D_800F1950[threadId].thread);
     return 0;
 }
 
@@ -122,11 +122,11 @@ s32 Thread_Start(u8 threadId) {
     return 0;
 }
 
-s32 func_800C0D34(u8 arg0) {
-    if (!(D_800F9C38[arg0].flags & 0x80)) {
-        return -1;
+s32 Thread_StopThread(u8 threadId) {
+    if (!(D_800F9C38[threadId].flags & THREAD_CREATED)) {
+        return THREAD_ERROR;
     }
-    func_800CB940(&D_800F1950[arg0].thread);
+    osStopThread(&D_800F1950[threadId].thread);
     return 0;
 }
 
@@ -142,17 +142,17 @@ UnkStruct_800F9C38* Thread_GetPtr(u8 threadId) {
     return &D_800F1950[threadId];
 }
 
-s32 func_800C0E84(void) {
+UNUSED s32 Thread_GetAvailableThreadsCount(void) {
     s32 threadId;
-    s32 sp0;
+    s32 availableThreads;
 
-    for (threadId = 0, sp0 = 0; threadId < MAX_THREADS; threadId++) {
+    for (threadId = 0, availableThreads = 0; threadId < MAX_THREADS; threadId++) {
         if (D_800F9C38[threadId].flags & 0x80) {
-            sp0++;
+            availableThreads++;
         }
     }
 
-    return sp0;
+    return availableThreads;
 }
 
 /* Unused function */
@@ -165,18 +165,18 @@ s32 func_800C0F10(u8 threadId, u8 threadId2) {
     }
     Thread_Start(threadId2);
 
-    func_800C0D34(threadId);
+    Thread_StopThread(threadId);
     // @bug no return value
 }
 
-void func_800C0FB0(u8 arg0, u8 arg1) {
-    Thread_Start(arg1);
-    func_800C0D34(arg0);
-    func_800C0B70(arg1);
+void func_800C0FB0(u8 stopThreadId, u8 startThreadId) {
+    Thread_Start(startThreadId);
+    Thread_StopThread(stopThreadId);
+    func_800C0B70(startThreadId);
 }
 
 s32 Thread_SetPriority(u8 threadId, OSPri pri) {
-    if (!(D_800F9C38[threadId].flags & 0x80)) {
+    if (!(D_800F9C38[threadId].flags & THREAD_CREATED)) {
         return THREAD_ERROR;
     }
     osSetThreadPri(&D_800F1950[threadId].thread, pri);
@@ -184,7 +184,7 @@ s32 Thread_SetPriority(u8 threadId, OSPri pri) {
 }
 
 s32 Thread_GetPriority(u8 arg0) {
-    if (!(D_800F9C38[arg0].flags & 0x80)) {
+    if (!(D_800F9C38[arg0].flags & THREAD_CREATED)) {
         return THREAD_ERROR;
     }
     return osGetThreadPri(&D_800F1950[arg0].thread);
@@ -201,7 +201,7 @@ s32 func_800C1154(u8 threadId, s32 arg1) {
         return -2;
     }
     if (sp1C->unk82E9 & 1) {
-        func_800C13B8(threadId);
+        Thread_ResetMqValidCount(threadId);
         return 0;
     }
     osCreateMesgQueue(&sp1C->mq, &sp1C->mesg, arg1);
@@ -209,11 +209,11 @@ s32 func_800C1154(u8 threadId, s32 arg1) {
     return 0;
 }
 
-s32 func_800C1264(u8 arg0, void* arg1, /* unused */ s32 arg2) {
-    if (!(D_800F9C38[arg0].flags & 0x80)) {
+s32 Thread_SendMesgNoBlock(u8 arg0, void* arg1, /* unused */ s32 arg2) {
+    if (!(D_800F9C38[arg0].flags & THREAD_CREATED)) {
         return -1;
     }
-    osSendMesg((OSMesgQueue*) &D_800F1950[arg0].mq, arg1, 0);
+    osSendMesg((OSMesgQueue*) &D_800F1950[arg0].mq, arg1, OS_MESG_NOBLOCK);
     /* @bug no return */
 }
 
@@ -228,7 +228,7 @@ s32 func_800C1314(u8 arg0, s32 arg1) {
     return 0;
 }
 
-s32 func_800C13B8(u8 threadId) {
+s32 Thread_ResetMqValidCount(u8 threadId) {
     UnkStruct_800F9C38* sp4;
 
     sp4 = &D_800F1950[threadId];
