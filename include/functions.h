@@ -56,7 +56,7 @@ void func_8005D150(void);
 void func_8005F01C(void);
 void func_80083EAC(void);
 void func_8008E5A0(void);
-void func_800983B0(UNK_TYPE, UNK_TYPE);
+void func_800983B0(UnkStruct_801AC8A8*, UNK_TYPE);
 void func_800984B4(void);
 void func_800985BC(u8);
 void func_80098820(void);

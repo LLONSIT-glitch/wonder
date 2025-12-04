@@ -301,6 +301,8 @@ segments:
       - [0xF0130, rodata]
       - [0xF01E0, rodata]
       - [0xF0210, rodata]
+      - [0xF0390, .rodata, code/code_97AE0]
+      - [0xF03B0, rodata]
       - [0xF04B0, rodata]
       - [0xF0500, rodata]
       - [0xF0520, rodata]

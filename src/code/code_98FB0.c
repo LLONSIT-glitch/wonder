@@ -1,6 +1,35 @@
 #include "common.h"
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800983B0.s")
+extern UnkStruct_801AC8A8 D_801AC8A8;
+
+extern void func_80096EE0(UnkStruct_801AC8A8* arg0, u8 arg1, s32 arg2);
+
+extern UnkStruct_801AC8A8 D_80153E30;
+extern void *D_801AC850;
+extern OSMesgQueue D_801AC870;
+extern s16 D_801AC888;
+
+void func_800983B0(UnkStruct_801AC8A8* arg0, s32 arg1) {
+    UnkStruct_801AC8A8 *sp1C;
+
+    func_80096EE0(&D_80153E30, arg0, arg1);
+    Thread_CreateMesgQueue(&D_801AC870, &D_801AC850, 8);
+    D_801AC888 = 2;
+    sp1C = &D_801AC8A8;
+    sp1C->unk294 = 0;
+    sp1C->unk298 = 0;
+    sp1C->unk280 = 0;
+    sp1C->unk29C = 0;
+    sp1C->unk2A0 = 0;
+    sp1C->unk284 = 0;
+    sp1C->unk288 = 0;
+    sp1C->unk28C = 0;
+    sp1C->unk290 = 0;
+    sp1C->unk0 = 1;
+    sp1C->unk20 = 4;
+    sp1C->unk40 = 5;
+    D_801560E4 = 0;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800984B4.s")
 

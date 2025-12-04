@@ -1,8 +1,19 @@
 #include "common.h"
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_34860/func_80033C60.s")
+void func_80033C60(UnkStruct_800B23C4 *arg0) {
+    u16 sp26;
 
-// .rodata
+    sp26 = func_800B3434(&arg0, 0U);
+    if (sp26 & 0x4000) {
+        func_800B9000(func_800B32E4(&arg0, 0));
+    }
+    if (sp26 & 0x8000) {
+        func_800B9000(func_800B32E4(&arg0, 1));
+    }
+}
+
+
+// NEEDS RODATA
 extern f64 D_800EE970;
 extern f64 D_800EE978;
 extern f64 D_800EE980;

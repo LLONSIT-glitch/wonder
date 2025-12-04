@@ -279,5 +279,66 @@ typedef struct UnkStruct_801AE5A0_s {
     /* 0x1A */ u8 unk1A;                            /* inferred */
     /* 0x1B */ char pad1B[1];
 } UnkStruct_801AE5A0;                               /* size = 0x1C */
+
+typedef struct UnkStruct_800970CC_arg1_s {
+    /* 0x0 */ struct UnkStruct_800970CC_arg1_s* unk0;                             /* inferred */
+    /* 0x4 */ OSMesgQueue* unk4;                             /* inferred */
+    /* 0x8 */ s32 unk8;                             /* inferred */
+} UnkStruct_800970CC;                               /* size = 0xC */
+
+typedef struct UnkStruct_801AC8A8_unk294_s {
+    /* 0x00 */ s32 unk0;                            /* inferred */
+    /* 0x04 */ s32 unk4;                            /* inferred */
+    /* 0x08 */ s32 unk8;                            /* inferred */
+    /* 0x0C */ char padC[4];
+    /* 0x10 */ OSTask unk10;
+} UnkStruct_801AC8A8_unk294;                        /* size = 0x50 */
+
+typedef struct UnkStruct_801AC8A8_unk298_s {
+    /* 0x00 */ char pad0[4];
+    /* 0x04 */ s32 unk4;
+    /* 0x08 */ s32 unk8;
+    /* 0x0C */ void *unkC;
+    /* 0x10 */ OSTask unk10;
+    /* 0x50 */ OSMesgQueue *unk50;
+    /* 0x54 */ void *unk54;
+} UnkStruct_801AC8A8_unk298;                        /* size = 0x58 */
+
+typedef struct UnkStruct_801AC8A8_unk284_s {
+    /* 0x0 */ struct UnkStruct_801AC8A8_unk284_s *unk0;      /* inferred */
+    /* 0x4 */ s32 unk4;                             /* inferred */
+    /* 0x8 */ s32 unk8;                             /* inferred */
+             s32 padC;
+            s32 unk10;
+} UnkStruct_801AC8A8_unk284;                        /* size = 0xC */
+
+typedef struct UnkStruct_801AC8A8_s {
+    /* 0x000 */ s16 unk0;
+    /* 0x002 */ char pad2[0x1E];                    /* maybe part of unk0[0x10]? */
+    /* 0x020 */ s16 unk20;
+    /* 0x022 */ char pad22[0x1E];                   /* maybe part of unk20[0x10]? */
+    /* 0x040 */ s16 unk40;
+    /* 0x042 */ char pad42[0x1E];                   /* maybe part of unk40[0x10]? */
+    /* 0x060 */ OSMesgQueue unk60;
+    /* 0x078 */ void* unk78;
+    /* 0x07C */ char pad7C[0x1C];                   /* maybe part of unk78[8]? */
+    /* 0x098 */ OSMesgQueue unk98;
+    /* 0x0B0 */ void* unkB0;
+    /* 0x0B4 */ char padB4[0x1C];                   /* maybe part of unkB0[8]? */
+    /* 0x0D0 */ OSThread unkD0;
+    /* 0x280 */ UnkStruct_800970CC* unk280;
+    /* 0x284 */ UnkStruct_801AC8A8_unk284* unk284;
+    /* 0x288 */ UnkStruct_801AC8A8_unk284* unk288;
+    /* 0x28C */ UnkStruct_801AC8A8_unk284* unk28C;
+    /* 0x290 */ UnkStruct_801AC8A8_unk284* unk290;
+    
+    /* 0x294 */ UnkStruct_801AC8A8_unk294* unk294;
+    /* 0x298 */ UnkStruct_801AC8A8_unk298* unk298;
+    /* 0x29C */ s32 unk29C;
+    /* 0x2A0 */ s32 unk2A0;
+    /* 0x2A4 */ s32 unk2A4;                         /* inferred */
+} UnkStruct_801AC8A8;                               /* size = 0x2A8 */
+
+
 #endif /* STRUCTS_H */
 
