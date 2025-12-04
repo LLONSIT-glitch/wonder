@@ -93,11 +93,16 @@ make dependencies
 #### 5. Prepare a base ROM
 Copy your ROM to the root of this new project directory, and rename the file of the baserom to reflect the version of ROM you are using. ex: `baserom.jp.z64`
 
+#### 6. Make and Build the ROM
+
+To start the extraction/build process, run the following command:
 
 ```bash
 make extract
 ```
 This will create the build folders, a new folder with the assembly as well as containing the disassembly of nearly all the files containing code.
+
+From now on you should be able to build the rom by running `make`.
 
 this make target will also build the ROM. If all goes well, a new ROM called "wonderprojectj2.jp.z64" should be built and the following text should be printed:
 
@@ -112,13 +117,6 @@ build/wonderprojectj2.jp.z64: FAILED
 ```
 
 This means that something is wrong with the ROM's contents. Either the base files are incorrect due to a bad ROM, or some of the code is not matching.
-
-From now on you should be able to build the rom by running `make`.
-
-#### 6. Make and Build the ROM
-
-To start the extraction/build process, run the following command:
-
 
 # Extracting sprites
 To extract the main sprites of the game, use `make extract`. Please note that I haven't determined the correct palette for each sprite, so for now most of them will just look like "gray images".
