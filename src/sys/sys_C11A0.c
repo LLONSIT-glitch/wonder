@@ -239,7 +239,7 @@ s32 Thread_ResetMqValidCount(u8 threadId) {
     return 0;
 }
 
-s32 func_800C143C(u8 threadId, void** mesg, s32 flag) {
+s32 Thread_ReceiveMsgInThread(u8 threadId, void** mesg, s32 flag) {
     UnkStruct_800F9C38* sp1C;
 
     sp1C = &D_800F1950[threadId];

@@ -265,6 +265,8 @@ segments:
 
       # Data starts!
       - [0xD7BB0, data]
+      - [0xDAB00, .data, sys/sys_main]
+      - [0xDAB80, data]
       - [0xDC200, .data, code/code_1FF90]
       - [0xDC210, data]
       - [0xDC3E0, .data, code/code_2CE70]
@@ -278,7 +280,7 @@ segments:
       - [0xED820, .data, libultra/audio/sl]
       - [0xED830, .data, libultra/io/aisetnextbuf]
       - [0xED840, data]
-      - [0xEDD40, rodata]
+      - [0xEDD40, .rodata, sys/sys_main]
       - [0xEDD60, rodata]
       - [0xEDD80, rodata]
       - [0xEDDE0, rodata]

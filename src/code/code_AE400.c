@@ -78,7 +78,7 @@ void func_800AD800(void) {
         osContStartReadData((OSMesgQueue*) &sp38->mq);
 
         // Wait for completion message from osContStartReadData
-        func_800C143C(sp3C->threadId, &sp34, OS_MESG_BLOCK);
+        Thread_ReceiveMsgInThread(sp3C->threadId, &sp34, OS_MESG_BLOCK);
         osContGetReadData(D_80182558);
         func_800AE0EC(&sp38->mq);
         func_800AE40C();
@@ -118,7 +118,7 @@ void func_800ADC50(ThreadEntry* arg0) {
             }
             D_801824D4 = 1;
         }
-        func_800C143C(sp60->threadId, (void**) &sp54, 1);
+        Thread_ReceiveMsgInThread(sp60->threadId, (void**) &sp54, 1);
         switch (*sp54) { /* irregular */
             case 2:
                 osContGetReadData(D_80182558);
@@ -130,7 +130,7 @@ void func_800ADC50(ThreadEntry* arg0) {
                 continue;
             case 4:
                 while (TRUE) {
-                    func_800C143C(sp60->threadId, (void**) &sp54, 1);
+                    Thread_ReceiveMsgInThread(sp60->threadId, (void**) &sp54, 1);
                 }
                 continue;
         }

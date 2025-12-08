@@ -9,6 +9,7 @@ void SysMem_HeapInit(void);                                  /* extern */
 void Thread_Init(void);                                  /* extern */
 u8 Thread_CreateSimple(void (*entry)(void *), void* arg, OSPri pri);
 ThreadEntry* Thread_CreateExtended(void (*entry)(void*), OSPri pri);
+s32 Thread_SendMesgNoBlock(u8 arg0, void* arg1, /* unused */ s32 arg2);
 s32 Thread_SetPriority(u8 threadId, OSPri pri);
 s32 Thread_Start(u8);                                /* extern */
 UnkStruct_800F9C38* Thread_GetPtr(u8);                              /* extern */
@@ -43,11 +44,11 @@ s32 Thread_ReceiveMsg(OSMesgQueue *mq, OSMesg *msg, s32 flag);
 s32 Thread_CreateMesgQueue(OSMesgQueue *arg0, OSMesg *arg1, s32 arg2);
 s32 func_800C1154(u8 threadId, s32 arg1);
 s32 func_800AE0EC(OSMesgQueue*); 
-s32 func_800C143C(u8 threadId, void **mesg, s32 arg2);
+s32 Thread_ReceiveMsgInThread(u8 threadId, void **mesg, s32 arg2);
 s32 osPiGetStatus();                                /* extern */
 s32 osPiGetStatus(void);
 s32 Sys_GetSPIHeaderInfoFromVaddr(s32);          /* extern */
-void func_80002F20(void);
+s32 func_80002F20(void);
 void func_800044BC(void);
 void func_8000A2C0(void*);
 void func_8001AFA0(UnkStruct_8000DDE0 *arg0);

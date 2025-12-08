@@ -52,12 +52,14 @@ typedef struct UnkStruct_800F9C38 {
 } UnkStruct_800F9C38;                /* size = 0x8308 */
 
 typedef struct ThreadEntry {
-    u8 threadId;
-    OSPri threadPri;
-    char pad4[0x10];
-    UnkStruct_800F9C38* unk18;
-    char pad[0x8];
-} ThreadEntry;
+    /* 0x00 */ u8 threadId;
+    /* 0x01 */ char pad1[3];                        /* maybe part of threadId[4]? */
+    /* 0x04 */ s32 threadPri;
+    /* 0x08 */ s32 unk8;                            /* inferred */
+    /* 0x0C */ char padC[0xC];                      /* maybe part of unk8[4]? */
+    /* 0x18 */ UnkStruct_800F9C38* unk18;
+    /* 0x1C */ char pad1C[8];                       /* maybe part of unk18[3]? */
+} ThreadEntry;                                      /* size = 0x24 */
 
 typedef struct UnkStruct_801A7340_unk144_s {
     /* 0x00 */ u16 unk0;                            /* inferred */
@@ -69,14 +71,15 @@ typedef struct UnkStruct_801A7340_unk144_s {
     /* 0x0E */ s16 unkE;                            /* inferred */
 } UnkStruct_801A7340_unk144;                        /* size = 0x10 */
 
-
 typedef struct UnkStruct_80099E2C_s {
     /* 0x000 */ s32 unk0;
-    /* 0x001 */ char pad1[0x4]; /* maybe part of unk0[8]? */
+    /* 0x004 */ char pad4[4];
     /* 0x008 */ s32 unk8;
-    /* 0x00C */ char padC[0xC]; /* maybe part of unk8[4]? */
+    /* 0x00C */ char padC[0xC];                     /* maybe part of unk8[4]? */
     /* 0x018 */ void* unk18;
-    /* 0x01C */ char pad1C[0xA4]; /* maybe part of unk18[0x2A]? */
+    /* 0x01C */ char pad1C[0x64];                   /* maybe part of unk18[0x1A]? */
+    /* 0x080 */ s32 unk80[2][4];                            /* inferred */
+    /* 0x0A0 */ f32 unkA0[2][4];                          /* inferred */
     /* 0x0C0 */ s32 unkC0;
     /* 0x0C4 */ s16 unkC4;
     /* 0x0C6 */ char padC6[2];
@@ -87,7 +90,7 @@ typedef struct UnkStruct_80099E2C_s {
     /* 0x0D8 */ f32 unkD8;
     /* 0x0DC */ s32 unkDC;
     /* 0x0E0 */ s32 unkE0;
-    /* 0x0E4 */ f32 unkE4; /* inferred */
+    /* 0x0E4 */ f32 unkE4;
     /* 0x0E8 */ f32 unkE8;
     /* 0x0EC */ f32 unkEC;
     /* 0x0F0 */ f32 unkF0;
@@ -119,9 +122,9 @@ typedef struct UnkStruct_80099E2C_s {
     /* 0x148 */ s32 unk148;
     /* 0x14C */ s32 unk14C;
     /* 0x150 */ s32 unk150;
-    /* 0x154 */ char pad154[8]; /* maybe part of unk150[3]? */
+    /* 0x154 */ char pad154[8];                     /* maybe part of unk150[3]? */
     /* 0x15C */ s32 unk160;
-} UnkStruct_80099E2C; /* size = 0x160 */
+} UnkStruct_80099E2C;                               /* size = 0x160 */
 
 typedef struct UnkStruct_80020720_s {
     s32 unk0;
@@ -137,6 +140,8 @@ typedef struct UnkStruct_801560F0_s {
     /* 0x10 */ f32 unk10;     /* inferred */
     /* 0x14 */ f32 unk14;     /* inferred */
     /* 0x18 */ char pad18[8]; /* maybe part of unk14[3]? */
+               char pad[0xC];
+               u16 unk2C;
 } UnkStruct_801560F0;         /* size = 0x20 */
 
 typedef struct UnkStruct_80182618_s {
@@ -280,9 +285,10 @@ typedef struct UnkStruct_801AE5A0_s {
     /* 0x1B */ char pad1B[1];
 } UnkStruct_801AE5A0;                               /* size = 0x1C */
 
+// A linked list of thread message queues?
 typedef struct UnkStruct_800970CC_arg1_s {
-    /* 0x0 */ struct UnkStruct_800970CC_arg1_s* unk0;                             /* inferred */
-    /* 0x4 */ OSMesgQueue* unk4;                             /* inferred */
+    /* 0x0 */ struct UnkStruct_800970CC_arg1_s* next;                             /* inferred */
+    /* 0x4 */ OSMesgQueue* mq;                             /* inferred */
     /* 0x8 */ s32 unk8;                             /* inferred */
 } UnkStruct_800970CC;                               /* size = 0xC */
 
@@ -295,7 +301,7 @@ typedef struct UnkStruct_801AC8A8_unk294_s {
 } UnkStruct_801AC8A8_unk294;                        /* size = 0x50 */
 
 typedef struct UnkStruct_801AC8A8_unk298_s {
-    /* 0x00 */ char pad0[4];
+    /* 0x00 */ s32 unk0;
     /* 0x04 */ s32 unk4;
     /* 0x08 */ s32 unk8;
     /* 0x0C */ void *unkC;
@@ -332,7 +338,7 @@ typedef struct UnkStruct_801AC8A8_s {
     /* 0x28C */ UnkStruct_801AC8A8_unk284* unk28C;
     /* 0x290 */ UnkStruct_801AC8A8_unk284* unk290;
     
-    /* 0x294 */ UnkStruct_801AC8A8_unk294* unk294;
+    /* 0x294 */ UnkStruct_801AC8A8_unk298* unk294;
     /* 0x298 */ UnkStruct_801AC8A8_unk298* unk298;
     /* 0x29C */ s32 unk29C;
     /* 0x2A0 */ s32 unk2A0;

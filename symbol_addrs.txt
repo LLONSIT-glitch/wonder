@@ -87,6 +87,7 @@ gAssetsTable = 0x80A04CE0;
 Thread_ResetMqValidCount = 0x800C13B8;
 Thread_SendMesgNoBlock = 0x800C1264;
 Thread_StopThread = 0x800C0D34;
+Thread_ReceiveMsgInThread = 0x800C143C;
 
 D_80403000 = 0x80403000; //defined:true
 D_80409B40 = 0x80409B40; //defined:true
