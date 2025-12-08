@@ -784,24 +784,26 @@ void func_800029BC(void) {
     s32 sp3C;
     s32 pad;
     s32 sp34;
-    frame_row* sp30;
-    void* curFrameBuf;
-    u32 sp28;
+    union {
+        frame_row* frameRow;
+        u8* ptr;
+    } sp30;
 
-    sp28 = osSetIntMask(OS_IM_NONE);
+    void* curFrameBuf;
+    u32 imask = osSetIntMask(OS_IM_NONE);
     curFrameBuf = osViGetCurrentFramebuffer();
     switch (guRandom() % 3) {
         case 0:
             for (sp4C = 0; sp4C < 16; sp4C++) {
-                sp30 = curFrameBuf;
-                sp30[0][0][0] = 1;
-                sp30[0][0][1] = 1;
-                sp30[0][0][2] = 1;
-                sp30[0][0][3] = 1;
-                SysMem_Copy64(sp30[0] + 4, sp30, (sp4C * 0x50) + 0x4F);
+                sp30.frameRow = curFrameBuf;
+                sp30.frameRow[0][0][0] = 1;
+                sp30.frameRow[0][0][1] = 1;
+                sp30.frameRow[0][0][2] = 1;
+                sp30.frameRow[0][0][3] = 1;
+                SysMem_Copy64(sp30.frameRow[0] + 4, sp30.frameRow, (sp4C * 0x50) + 0x4F);
 
                 for (sp48 = 1; sp48 < 15; sp48++) {
-                    SysMem_Copy64((sp48 * 0x140 * 0x10 * 2) + (u8*) sp30, sp30, (sp4C * 0x50) + 0x50);
+                    SysMem_Copy64((sp48 * 0x140 * 0x10 * 2) + (u8*) sp30.frameRow, sp30.frameRow, (sp4C * 0x50) + 0x50);
                 }
 
                 for (sp34 = 0x12C; sp34 > 0; sp34--) {
@@ -812,19 +814,19 @@ void func_800029BC(void) {
         case 1:
             // Wtf this is actually insane...
             for (sp4C = 0; sp4C < 0x40; sp4C++) {
-                sp30 = curFrameBuf;
+                sp30.frameRow = curFrameBuf;
                 for (sp3C = 0; sp3C < 0xF0; sp3C += 8) {
                     for (sp40 = 0; sp40 < 0x140; sp40 += 0x40) {
                         for (sp48 = 0; sp48 <= sp4C; sp48++) {
                             // sp40 is multiplied too much here, it should just access a s16/u16 here
-                            (&(&((u16*) sp30)[sp40])[sp3C * 0x140])[D_800D9F00[sp48]] = 1;
-                            (&(&((u16*) sp30)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 8] = 1;
-                            (&(&((u16*) sp30)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 16] = 1;
-                            (&(&((u16*) sp30)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 24] = 1;
-                            (&(&((u16*) sp30)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 32] = 1;
-                            (&(&((u16*) sp30)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 40] = 1;
-                            (&(&((u16*) sp30)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 48] = 1;
-                            (&(&((u16*) sp30)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 56] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48]] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 8] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 16] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 24] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 32] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 40] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 48] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 56] = 1;
                         }
                     }
                 }
@@ -838,12 +840,12 @@ void func_800029BC(void) {
 
         case 2:
             for (sp4C = 0; sp4C < 6; sp4C++) {
-                sp30 = curFrameBuf;
+                sp30.frameRow = curFrameBuf;
                 for (sp44 = 0; sp44 < 0x3200; sp44++) {
                     for (sp48 = 0; sp48 <= sp4C; sp48++) {
-                        ((s16*) sp30)[sp48] = 1;
+                        ((s16*) sp30.frameRow)[sp48] = 1;
                     }
-                    ((u8*) sp30) += 0xC;
+                    sp30.ptr += 0xC;
                 }
 
                 for (sp34 = 0x320; sp34 > 0; sp34--) {
@@ -853,6 +855,6 @@ void func_800029BC(void) {
             break;
     }
 
-    while (TRUE)
-        ;
+    // Halt
+    while (TRUE) {}
 }
