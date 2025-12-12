@@ -1,28 +1,8 @@
 #include "common.h"
 
-#define FLAGS_DELETE_FILE 0x10
-#define FLAGS_PFS_DEL_FILE 0x20
-
-#define FLAGS_OPEN_FILE 0x20
-#define FLAGS_PFS_OPEN_FILE 0x40
-
-#define FLAGS_READ_FILE 0x40
-#define FLAGS_PFS_READ_FILE \
-    0x80 /* Flags to indicate that the pfs operations that are being perfomed because of the read operation */
-
-#define FLAGS_WRITE_FILE 0x80
-#define FLAGS_PFS_WRITE_FILE \
-    0x100 /* Flags to indicate that the pfs operations that are being perfomed because of the read operation */
-
-#define FLAGS_FIND_FILE 0x100
-#define FLAGS_PFS_FIND_FILE 0x200
-
-extern s32 gCurrentPakPfsFlags; // Flags used
-
+extern s32 gCurrentPakPfsFlags;
 extern OSPfs sPfs;
 extern OSPfsState gPfsState[];
-// extern ? D_801813D4;
-// extern ? D_801813D8;
 extern s32 sPfsFilesUsed;
 extern s32 sPfsMaxFiles;
 extern s32 gPfsFreeSpace;
@@ -36,49 +16,8 @@ extern s32 sFileSize;
 extern s32 sFileOffset;
 extern s32 sPfsSlot;
 extern s32 sPfsResult;
-extern s32 D_80181690;
-
-// gCurrentPakOperationFlags = SysPfs api flags?
+extern s32 gContPakInitializeAttempts;
 extern s32 gContPakFilesState[];
-
-/*
- * Flag layout used by this module
- *
- * gCurrentPakOperationFlags (high-level PFS state / pending operations)
- *   0x0001 : Detection / init failed (see func_800AE0EC, func_800AE398)
- *   0x0002 : Detection in progress (set by func_800AE348, cleared in func_800AE0EC)
- *   0x0004 : Detection completed successfully; controller + PFS ready
- *   0x0008 : Reserved for directory refresh scheduling (cleared here, set elsewhere)
- *   0x0010 : Delete-file operation scheduled / in progress (ContPak_SetFileDeleteParams, ContPak_DeleteFile)
- *   0x0020 : Create/open-file parameters staged (ContPak_SetOpenFileParams); not part of the global
- *            "busy" mask, but used to gate result polling (ContPak_GetOpenFileResult)
- *   0x0040 : Read-file parameters staged / read in progress (ContPak_SetFileReadParams, ContPak_ReadFile)
- *   0x0080 : Write-file parameters staged / write in progress (ContPak_SetFileWriteParams, ContPak_WriteFile)
- *   0x0100 : Find-existing-file operation staged / in progress (ContPak_SetFileFindParams, func_800AEB14)
- *
- *   0x01D8 : Aggregate "PFS busy" mask used by this file when scheduling new operations
- *            (bits 0x8, 0x10, 0x40, 0x80, 0x100).
- *
- * gCurrentPakPfsFlags (low-level PFS status and error flags)
- *   0x0001 : Controller Pak presence/status flag mirrored from D_8018127C & 0x10
- *   0x0002 : At least one Controller Pak detected (D_8018127C != 0)
- *   0x0004 : Directory / free-block info is valid (set on successful func_800AE40C)
- *   0x0008 : Error while querying number of files (osPfsNumFiles failure in func_800AE40C)
- *   0x0010 : Error while querying free blocks (osPfsFreeBlocks failure in func_800AE40C)
- *   0x0020 : Delete-file operation active (ContPak_DeleteFile / func_800AE7FC)
- *   0x0040 : Create/open-file operation active (ContPak_OpenFile / ContPak_GetOpenFileResult)
- *   0x0080 : Read-file operation active (ContPak_ReadFile / ContPak_GetReadFileResult)
- *   0x0100 : Write-file operation active (ContPak_WriteFile / ContPak_GetWriteFileResult)
- *   0x0200 : Find-existing-file operation active (func_800AEB14 / ContPak_GetFindFileResult)
- *
- *   0x03E0 : Aggregate "error/busy" mask for operations started via this module
- *            (bits 0x20, 0x40, 0x80, 0x100, 0x200). When any of these bits are set,
- *            new high-level operations are rejected.
- */
-
-#define SLOT_FOUND 0
-#define SLOT_NOT_FOUND 5
-#define FILE_FOUND 9
 
 /**
  * Finds a Controller Pak/Pfs file slot matching the specified parameters.
@@ -163,89 +102,85 @@ s32 ContPak_SetPfsCodes(u16 companyCode, u32 gameCode) {
  * Runs one step of the controller / Controller Pak detection and initialisation.
  *
  * This function is expected to be called repeatedly while a retry countdown
- * (stored in D_80181690) is non‑zero. It performs a controller reset, checks
+ * (stored in gContPakInitializeAttempts) is non‑zero. It performs a controller reset, checks
  * whether a Controller Pak is present, and, if so, calls `osPfsInit` to set up
  * the `OSPfs` handle used by the rest of this module.
  *
- * On success, the global flags in `gCurrentPakOperationFlags` / `gCurrentPakPfsFlags` are updated to
- * reflect a ready PFS state and the retry counter is cleared. If the PFS
- * subsystem is currently busy, an error condition is active, or the retry
- * counter has expired, the function returns `-1` without changing the current
- * state.
+ * On success, it updates the global flags `gCurrentPakOperationFlags` and `gCurrentPakPfsFlags` to
+ * reflect a ready PFS state and the retry counter is cleared. If all PFS and pak operations have already been applied
+ * or the retry counter has expired, the function returns `-1` without changing the current state.
  *
  * @param contMesgQueue Message queue used by the controller / PFS APIs.
  * @return              0 on success, -1 if busy, an error occurred or the
  *                      retry count has run out.
  */
-s32 func_800AE0EC(OSMesgQueue* contMesgQueue) {
+s32 ContPak_InitializePak(OSMesgQueue* contMesgQueue) {
     UNUSED s32 pad;
-    if (gCurrentPakOperationFlags & 0x1D8) {
+    if (gCurrentPakOperationFlags & PAK_BUSY) {
         return -1;
     }
-    if (gCurrentPakPfsFlags &
-        (FLAGS_PFS_DEL_FILE | FLAGS_PFS_FIND_FILE | FLAGS_PFS_OPEN_FILE | FLAGS_PFS_READ_FILE | FLAGS_PFS_WRITE_FILE)) {
+    if (gCurrentPakPfsFlags & PFS_BUSY) {
         return -1;
     }
-    if (D_80181690 == 0) {
+    if (gContPakInitializeAttempts == 0) {
         return -1;
     } else {
-        D_80181690--;
+        gContPakInitializeAttempts--;
     }
 
-    osContReset(contMesgQueue, D_80182540);
+    osContReset(contMesgQueue, gContStatus);
 
     // If the controller is not inserted
-    if (!(D_80182540->status & CONT_CARD_ON)) {
-        if (D_80181690 == 0) {
-            gCurrentPakOperationFlags = 1;
-            D_8018127C = 0;
+    if (!(gContStatus->status & CONT_CARD_ON)) {
+        if (gContPakInitializeAttempts == 0) {
+            gCurrentPakOperationFlags = FLAGS_PAK_INITILIZATION_FAILED;
+            gContPakBitPattern = 0;
             gCurrentPakPfsFlags = 0;
         }
         return -1;
-    } else if (osPfsIsPlug(contMesgQueue, &D_8018127C) < 0) {
-        if (D_80181690 == 0) {
-            gCurrentPakOperationFlags = 1;
-            D_8018127C = 0;
+    } else if (osPfsIsPlug(contMesgQueue, &gContPakBitPattern) < 0) {
+        if (gContPakInitializeAttempts == 0) {
+            gCurrentPakOperationFlags = FLAGS_PAK_INITILIZATION_FAILED;
+            gContPakBitPattern = 0;
             gCurrentPakPfsFlags = 0;
         }
         return -1;
     }
-    if (D_8018127C != 0) {
+    if (gContPakBitPattern != 0) {
         gCurrentPakPfsFlags |= 2;
     } else {
         gCurrentPakPfsFlags &= ~2;
     }
-    if (D_8018127C & 16) {
+    if (gContPakBitPattern & 16) {
         gCurrentPakPfsFlags |= 1;
     } else {
         gCurrentPakPfsFlags &= ~1;
     }
-    if (D_8018127C & 1) {
+
+    if (gContPakBitPattern & 1) {
         osPfsInit(contMesgQueue, &sPfs, 0);
     }
-    gCurrentPakOperationFlags = 4;
-    gCurrentPakOperationFlags &= ~2; // Still 4
+    gCurrentPakOperationFlags = FLAGS_PAK_INITILIZATION_SUCCESS;
+    gCurrentPakOperationFlags &= ~2;
     gCurrentPakPfsFlags &= ~4;
-    D_80181690 = 0;
+    gContPakInitializeAttempts = 0;
     return 0;
 }
 
 /**
  * Starts a controller / Controller Pak detection sequence.
  *
- * This function sets up the retry counter used by `func_800AE0EC` and marks
- * the PFS subsystem as "checking" in `gCurrentPakOperationFlags`. The actual hardware
- * interaction happens inside `func_800AE0EC`.
+ * This function sets up the retry counter used by `ContPak_InitializePak`
  *
- * @param arg0 Number of attempts to allow; if negative, it is clamped to 1.
+ * @param attempts Number of attempts to allow; if negative, it is clamped to 1.
  */
-void func_800AE348(s32 arg0) {
+void ContPak_SetPakInitializationAttempts(s32 attempts) {
     gCurrentPakOperationFlags |= 2;
     gCurrentPakOperationFlags &= ~5;
-    if (arg0 < 0) {
-        arg0 = 1;
+    if (attempts < 0) {
+        attempts = 1;
     }
-    D_80181690 = arg0;
+    gContPakInitializeAttempts = attempts;
 }
 
 /**
@@ -256,32 +191,31 @@ void func_800AE348(s32 arg0) {
  *   -  0: detection completed successfully.
  *   - -1: detection failed.
  *   -  1: detection is still in progress (more retries remaining).
- *   - -2: detection has not been started.
+ *   - -2: detection has not been started maybe?.
  */
-s32 func_800AE398(void) {
-    if (gCurrentPakOperationFlags & 4) {
+s32 ContPak_GetPakInitilizationResult(void) {
+    if (gCurrentPakOperationFlags & FLAGS_PAK_INITILIZATION_SUCCESS) {
         return 0;
     }
-    if (gCurrentPakOperationFlags & 1) {
+    if (gCurrentPakOperationFlags & FLAGS_PAK_INITILIZATION_FAILED) {
         return -1;
     }
-    if (D_80181690 != 0) {
+    if (gContPakInitializeAttempts != 0) {
         return 1;
     }
     return -2;
 }
 
 /**
- * Refreshes cached Controller Pak directory information.
+ * Updates the Controller Pak files state
  *
- * Reads the number of files, queries the state of each file slot and caches
+ * Reads the number of files, queries the state of each file slot and stores
  * the result in `gContPakFilesState` / `gPfsState`, and updates the free block
- * count in `gPfsFreeSpace`. Various error flags are stored in `gCurrentPakPfsFlags` and
- * the raw libultra return code is left in `sPfsResult`.
+ * count in `gPfsFreeSpace`.
  *
- * @return 0 on success, -1 if any of the underlying libultra calls failed.
+ * @return 0 on success, -1 if any of the underlying libultra pfs calls failed.
  */
-s32 func_800AE40C(void) {
+s32 ContPak_UpdateFilesState(void) {
     s32 fileSlot;
 
     gCurrentPakOperationFlags &= ~8;
@@ -300,7 +234,7 @@ s32 func_800AE40C(void) {
         gCurrentPakPfsFlags |= 0x10;
         return -1;
     }
-    gPfsFreeSpace = (s32) gPfsFreeSpace >> 8;
+    gPfsFreeSpace >>= 8;
     gCurrentPakPfsFlags |= 4;
     return 0;
 }
@@ -326,24 +260,18 @@ s32 ContPak_GetAvailableSlots(void) {
 }
 
 /**
- * Schedules deletion of a Controller Pak file.
- *
- * The actual deletion is performed by `ContPak_DeleteFile`; this function just
- * records the target slot and marks the PFS subsystem as busy so that other
- * operations cannot run concurrently.
- *
+ * Set the required parameters for the deletion of a Controller Pak file.
  * @param fileSlot File slot index to delete.
  * @return     0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_SetFileDeleteParams(s32 fileSlot) {
-    if (gCurrentPakOperationFlags & 0x1D8) {
+    if (gCurrentPakOperationFlags & PAK_BUSY) {
         return -1;
     }
-    if (gCurrentPakPfsFlags &
-        (FLAGS_PFS_DEL_FILE | FLAGS_PFS_FIND_FILE | FLAGS_PFS_OPEN_FILE | FLAGS_PFS_READ_FILE | FLAGS_PFS_WRITE_FILE)) {
+    if (gCurrentPakPfsFlags & PFS_BUSY) {
         return -1;
     }
-    gCurrentPakOperationFlags |= FLAGS_DELETE_FILE;
+    gCurrentPakOperationFlags |= FLAGS_PAK_DELETE_FILE;
     sContPakFileDeleteSlot = fileSlot;
     return 0;
 }
@@ -353,27 +281,28 @@ s32 ContPak_SetFileDeleteParams(s32 fileSlot) {
  *
  * This uses the slot index prepared by `ContPak_SetFileDeleteParams`, calls
  * `osPfsDeleteFile`, and, on success, updates the cached directory and free
- * block information by calling `func_800AE40C`.
+ * block information by calling `ContPak_UpdateFilesState`.
  *
  * @return 0 on success, -1 on failure or when the slot does not contain a file.
  */
 s32 ContPak_DeleteFile(void) {
-    gCurrentPakOperationFlags &= ~FLAGS_DELETE_FILE;
+    gCurrentPakOperationFlags &= ~FLAGS_PAK_DELETE_FILE;
     if (gContPakFilesState[sContPakFileDeleteSlot] == 0) {
         gCurrentPakPfsFlags |= FLAGS_PFS_DEL_FILE;
-        sPfsResult = osPfsDeleteFile(&sPfs, gPfsState[sContPakFileDeleteSlot].company_code, gPfsState[sContPakFileDeleteSlot].game_code,
-                                     (u8*) gPfsState[sContPakFileDeleteSlot].game_name, (u8*) gPfsState[sContPakFileDeleteSlot].ext_name);
+        sPfsResult = osPfsDeleteFile(
+            &sPfs, gPfsState[sContPakFileDeleteSlot].company_code, gPfsState[sContPakFileDeleteSlot].game_code,
+            (u8*) gPfsState[sContPakFileDeleteSlot].game_name, (u8*) gPfsState[sContPakFileDeleteSlot].ext_name);
         if (sPfsResult == 0) {
             gContPakFilesState[sContPakFileDeleteSlot] = -1;
             gPfsFreeSpace += (u32) (gPfsState[sContPakFileDeleteSlot].file_size + 255) >> 8;
-            if (func_800AE40C() < 0) {
+            if (ContPak_UpdateFilesState() < PFS_SUCCESS) {
                 gCurrentPakPfsFlags &= ~FLAGS_PFS_DEL_FILE;
                 return -1;
             }
         }
     } else {
         gCurrentPakPfsFlags &= ~FLAGS_PFS_DEL_FILE;
-        sPfsResult = 5;
+        sPfsResult = PFS_ERR_INVALID;
         return -1;
     }
 
@@ -386,17 +315,17 @@ s32 ContPak_DeleteFile(void) {
  *
  * @return 0 if the last deletion finished successfully, a negative value if
  *         the operation is still in progress or blocked by another operation,
- *         or `sPfsResult | 0x1000` if libultra reported an error.
+ *         or `sPfsResult | PFS_ERROR_MAGIC` if libultra reported an error.
  */
 s32 ContPak_GetDeleteFileResult(void) {
-    if (gCurrentPakOperationFlags & FLAGS_DELETE_FILE) {
+    if (gCurrentPakOperationFlags & FLAGS_PAK_DELETE_FILE) {
         return -1;
     }
     if (gCurrentPakPfsFlags & FLAGS_PFS_DEL_FILE) {
         return -1;
     }
     if (sPfsResult != 0) {
-        return sPfsResult | 0x1000;
+        return sPfsResult | PFS_ERROR_MAGIC;
     }
     return 0;
 }
@@ -408,28 +337,27 @@ s32 ContPak_GetDeleteFileResult(void) {
  * desired game name, extension and size and marks the operation as pending in
  * `gCurrentPakOperationFlags`.
  *
- * @param arg0 Pointer to the game name.
- * @param arg1 Pointer to the extension name.
- * @param arg2 Requested file size in bytes.
+ * @param gameName Pointer to the game name.
+ * @param extName Pointer to the extension name.
+ * @param fileSize Requested file size in bytes.
  * @return     0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_SetOpenFileParams(u8* gameName, u8* extName, s32 fileSize) {
-    if (gCurrentPakOperationFlags & 0x1D8) {
+    if (gCurrentPakOperationFlags & PAK_BUSY) {
         return -1;
     }
-    if (gCurrentPakPfsFlags &
-        (FLAGS_PFS_DEL_FILE | FLAGS_PFS_FIND_FILE | FLAGS_PFS_OPEN_FILE | FLAGS_PFS_READ_FILE | FLAGS_PFS_WRITE_FILE)) {
+    if (gCurrentPakPfsFlags & PFS_BUSY) {
         return -1;
     }
     sGameName = gameName;
     sExtname = extName;
     sFileSize = fileSize;
-    gCurrentPakOperationFlags |= FLAGS_OPEN_FILE;
+    gCurrentPakOperationFlags |= FLAGS_PAK_OPEN_FILE;
     return 0;
 }
 
 /**
- * Creates or opens a Controller Pak save file using the prepared parameters.
+ * Creates or opens a Controller Pak save file using the prepared parameters by `ContPak_SetOpenFileParams`
  *
  * This function refreshes the directory information, calls `ContPak_GetPfsFile` to
  * locate or create the file, and stores both the libultra return code and the
@@ -439,15 +367,15 @@ s32 ContPak_SetOpenFileParams(u8* gameName, u8* extName, s32 fileSize) {
  *         succeeded), -1 if the directory refresh failed.
  */
 s32 ContPak_OpenFile(void) {
-    gCurrentPakOperationFlags &= ~FLAGS_OPEN_FILE;
+    gCurrentPakOperationFlags &= ~FLAGS_PAK_OPEN_FILE;
     gCurrentPakPfsFlags |= FLAGS_PFS_OPEN_FILE;
-    if (func_800AE40C() < 0) {
+    if (ContPak_UpdateFilesState() < 0) {
         gCurrentPakPfsFlags &= ~FLAGS_PFS_OPEN_FILE;
         return -1;
     }
     sPfsResult = ContPak_GetPfsFile(&sPfs, sCompanyCode, sGameCode, sGameName, sExtname, sFileSize, &sPfsSlot);
     if (sPfsResult == 0) {
-        func_800AE40C();
+        ContPak_UpdateFilesState();
     }
     gCurrentPakPfsFlags &= ~FLAGS_PFS_OPEN_FILE;
     return 0;
@@ -459,16 +387,18 @@ s32 ContPak_OpenFile(void) {
  * If the operation completed successfully, this returns the file slot index.
  * Otherwise it either reports that the operation is still busy or propagates
  * the libultra error code stored in `sPfsResult`.
+ * 
+ * @return 0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_GetOpenFileResult(void) {
-    if (gCurrentPakOperationFlags & FLAGS_OPEN_FILE) {
+    if (gCurrentPakOperationFlags & FLAGS_PAK_OPEN_FILE) {
         return -1;
     }
     if (gCurrentPakPfsFlags & FLAGS_PFS_OPEN_FILE) {
         return -1;
     }
-    if (sPfsResult != 0) {
-        return sPfsResult | 0x1000;
+    if (sPfsResult != PFS_SUCCESS) {
+        return sPfsResult | PFS_ERROR_MAGIC;
     }
     return sPfsSlot;
 }
@@ -476,24 +406,23 @@ s32 ContPak_GetOpenFileResult(void) {
 /**
  * Prepares parameters for searching an existing Controller Pak file.
  *
- * The actual search is carried out by `func_800AEB14`; this function stores
- * the game and extension names and marks the operation as pending.
+ * The actual search is carried out by `ContPak_FindFile`; this function stores
+ * the game and extension names.
  *
  * @param gameName Pointer to the game name.
  * @param extName Pointer to the extension name.
  * @return     0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_SetFileFindParams(u8* gameName, u8* extName) {
-    if (gCurrentPakOperationFlags & 0x1D8) {
+    if (gCurrentPakOperationFlags & PAK_BUSY) {
         return -1;
     }
-    if (gCurrentPakPfsFlags &
-        (FLAGS_PFS_DEL_FILE | FLAGS_PFS_FIND_FILE | FLAGS_PFS_OPEN_FILE | FLAGS_PFS_READ_FILE | FLAGS_PFS_WRITE_FILE)) {
+    if (gCurrentPakPfsFlags & PFS_BUSY) {
         return -1;
     }
     sGameName = gameName;
     sExtname = extName;
-    gCurrentPakOperationFlags |= FLAGS_FIND_FILE;
+    gCurrentPakOperationFlags |= FLAGS_PAK_FIND_FILE;
     return 0;
 }
 
@@ -507,9 +436,9 @@ s32 ContPak_SetFileFindParams(u8* gameName, u8* extName) {
  *         status and slot index.
  */
 s32 ContPak_FindFile(void) {
-    gCurrentPakOperationFlags &= ~FLAGS_FIND_FILE;
+    gCurrentPakOperationFlags &= ~FLAGS_PAK_FIND_FILE;
     gCurrentPakPfsFlags |= FLAGS_PFS_FIND_FILE;
-    if (func_800AE40C() < 0) {
+    if (ContPak_UpdateFilesState() < 0) {
         gCurrentPakPfsFlags &= ~FLAGS_PFS_FIND_FILE;
         return -1;
     }
@@ -520,28 +449,27 @@ s32 ContPak_FindFile(void) {
 
 /**
  * Returns the result of the last "find existing file" operation.
- *
- * If a matching file was found, this returns its slot index. Otherwise it
- * either reports that the operation is still busy or propagates the libultra
- * error code stored in `sPfsResult`.
+ * 
+ * @return If a matching file was found, returns a slot index otherwise -1 if the PFS subsystem is busy or in an error
+ * state.
  */
 s32 ContPak_GetFindFileResult(void) {
-    if (gCurrentPakOperationFlags & FLAGS_FIND_FILE) {
+    if (gCurrentPakOperationFlags & FLAGS_PAK_FIND_FILE) {
         return -1;
     }
     if (gCurrentPakPfsFlags & FLAGS_PFS_FIND_FILE) {
         return -1;
     }
-    if (sPfsResult != 0) {
-        return sPfsResult | 0x1000;
+    if (sPfsResult != PFS_SUCCESS) {
+        return sPfsResult | PFS_ERROR_MAGIC;
     }
     return sPfsSlot;
 }
 
 /**
- * Sets up parameters for an asynchronous write to a Controller Pak file.
+ * Sets up parameters for writing to a Controller Pak file.
  *
- * The actual write is performed by `ContPak_WriteFile`; this function records the file
+ * The actual write is performed by `ContPak_WriteFile`; this function sets the file
  * slot, offset, size and buffer pointer and marks the write operation as
  * pending in `gCurrentPakOperationFlags`.
  *
@@ -552,35 +480,33 @@ s32 ContPak_GetFindFileResult(void) {
  * @return       0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_SetFileWriteParams(s32 slot, s32 offset, s32 size, u8* buf) {
-    if (gCurrentPakOperationFlags & 0x1D8) {
+    if (gCurrentPakOperationFlags & PAK_BUSY) {
         return -1;
     }
-    if (gCurrentPakPfsFlags &
-        (FLAGS_PFS_DEL_FILE | FLAGS_PFS_FIND_FILE | FLAGS_PFS_OPEN_FILE | FLAGS_PFS_READ_FILE | FLAGS_PFS_WRITE_FILE)) {
+    if (gCurrentPakPfsFlags & PFS_BUSY) {
         return -1;
     }
     sPfsSlot = slot;
     sFileOffset = offset;
     sFileSize = size;
     sFileData = buf;
-    gCurrentPakOperationFlags |= FLAGS_WRITE_FILE;
+    gCurrentPakOperationFlags |= FLAGS_PAK_WRITE_FILE;
     return 0;
 }
 
 /**
  * Performs the actual write to a Controller Pak file.
  *
- * This function first refreshes the directory information, then calls
- * `osPfsReadWriteFile` in write mode and stores the libultra return code in
+ * This function updates the Controller Pak files state, and then calls to
+ * `osPfsReadWriteFile` in write mode and stores the return code in
  * `sPfsResult`.
  *
- * @return 0 on success (irrespective of the libultra result), -1 if the
- *         directory refresh step failed.
+ * @return 0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_WriteFile(void) {
-    gCurrentPakOperationFlags &= ~FLAGS_WRITE_FILE;
+    gCurrentPakOperationFlags &= ~FLAGS_PAK_WRITE_FILE;
     gCurrentPakPfsFlags |= FLAGS_PFS_WRITE_FILE;
-    if (func_800AE40C() < 0) {
+    if (ContPak_UpdateFilesState() < 0) {
         gCurrentPakPfsFlags &= ~FLAGS_PFS_WRITE_FILE;
         return -1;
     }
@@ -592,29 +518,26 @@ s32 ContPak_WriteFile(void) {
 /**
  * Returns the result of the last write-file operation.
  *
- * @return 0 if the write finished successfully, a negative value if the
- *         operation is still in progress or blocked, or `sPfsResult | 0x1000`
- *         if libultra reported an error.
+ * @return 0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_GetWriteFileResult(void) {
-    if (gCurrentPakOperationFlags & FLAGS_WRITE_FILE) {
+    if (gCurrentPakOperationFlags & FLAGS_PAK_WRITE_FILE) {
         return -1;
     }
     if (gCurrentPakPfsFlags & FLAGS_PFS_WRITE_FILE) {
         return -1;
     }
-    if (sPfsResult != 0) {
-        return sPfsResult | 0x1000;
+    if (sPfsResult != PFS_SUCCESS) {
+        return sPfsResult | PFS_ERROR_MAGIC;
     }
     return 0;
 }
 
 /**
- * Sets up parameters for an asynchronous read from a Controller Pak file.
+ * Sets up parameters for reading from a Controller Pak file.
  *
- * The actual read is performed by `ContPak_ReadFile`; this function records the file
- * slot, offset, size and buffer pointer and marks the read operation as
- * pending in `gCurrentPakOperationFlags`.
+ * The actual read is performed by `ContPak_ReadFile`; this function sets the file
+ * slot, offset, size and buffer pointer.
  *
  * @param slot   File slot to read from.
  * @param offset Byte offset within the file.
@@ -623,18 +546,17 @@ s32 ContPak_GetWriteFileResult(void) {
  * @return       0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_SetFileReadParams(s32 slot, s32 offset, s32 size, u8* buf) {
-    if (gCurrentPakOperationFlags & 0x1D8) {
+    if (gCurrentPakOperationFlags & PAK_BUSY) {
         return -1;
     }
-    if (gCurrentPakPfsFlags &
-        (FLAGS_PFS_DEL_FILE | FLAGS_PFS_FIND_FILE | FLAGS_PFS_OPEN_FILE | FLAGS_PFS_READ_FILE | FLAGS_PFS_WRITE_FILE)) {
+    if (gCurrentPakPfsFlags & PFS_BUSY) {
         return -1;
     }
     sPfsSlot = slot;
     sFileOffset = offset;
     sFileSize = size;
     sFileData = buf;
-    gCurrentPakOperationFlags |= FLAGS_READ_FILE;
+    gCurrentPakOperationFlags |= FLAGS_PAK_READ_FILE;
     return 0;
 }
 
@@ -645,13 +567,12 @@ s32 ContPak_SetFileReadParams(s32 slot, s32 offset, s32 size, u8* buf) {
  * `osPfsReadWriteFile` in read mode and stores the libultra return code in
  * `sPfsResult`.
  *
- * @return 0 on success (irrespective of the libultra result), -1 if the
- *         directory refresh step failed.
+ * @return 0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_ReadFile(void) {
-    gCurrentPakOperationFlags &= ~FLAGS_READ_FILE;
+    gCurrentPakOperationFlags &= ~FLAGS_PAK_READ_FILE;
     gCurrentPakPfsFlags |= FLAGS_PFS_READ_FILE;
-    if (func_800AE40C() < 0) {
+    if (ContPak_UpdateFilesState() < 0) {
         gCurrentPakPfsFlags &= ~FLAGS_PFS_READ_FILE;
         return -1;
     }
@@ -663,19 +584,17 @@ s32 ContPak_ReadFile(void) {
 /**
  * Returns the result of the last read-file operation.
  *
- * @return 0 if the read finished successfully, a negative value if the
- *         operation is still in progress or blocked, or `sPfsResult | 0x1000`
- *         if libultra reported an error.
+ * @return 0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_GetReadFileResult(void) {
-    if (gCurrentPakOperationFlags & FLAGS_READ_FILE) {
+    if (gCurrentPakOperationFlags & FLAGS_PAK_READ_FILE) {
         return -1;
     }
     if (gCurrentPakPfsFlags & FLAGS_PFS_READ_FILE) {
         return -1;
     }
-    if (sPfsResult != 0) {
-        return sPfsResult | 0x1000;
+    if (sPfsResult != PFS_SUCCESS) {
+        return sPfsResult | PFS_ERROR_MAGIC;
     }
     return 0;
 }

@@ -302,7 +302,7 @@ s32 func_800BE7A0(s32 arg0) {
     D_80180E5C = 70.0f;
     osCreateMesgQueue((OSMesgQueue*) &D_80182500, &D_8018252C, 1);
     osSetEventMesg(OS_EVENT_SI, (OSMesgQueue*) &D_80182500, (void*) 1);
-    sp1C = osContInit((OSMesgQueue*) &D_80182500, &D_8018127C, D_80182540);
+    sp1C = osContInit((OSMesgQueue*) &D_80182500, &gContPakBitPattern, gContStatus);
 
     for (sp1C = 0; sp1C < 4; sp1C++) {
         D_80180DA8[sp1C].state = STATE_CONNECTED;

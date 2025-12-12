@@ -75,10 +75,10 @@ extern u16 D_801811AC;
 extern u16 D_80181258;
 extern u16 D_80181260;
 extern u16 D_8018126C;
-extern u8 D_8018127C;
+extern u8 gContPakBitPattern;
 extern s32 D_80182500;
 extern OSMesg D_8018252C;
-extern OSContStatus D_80182540[];
+extern OSContStatus gContStatus[];
 extern s32 gCurrentPakOperationFlags;
 
 extern OSMesgQueue D_801824E0;

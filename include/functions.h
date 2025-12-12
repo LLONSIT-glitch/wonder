@@ -43,7 +43,6 @@ s32 Thread_SendMsg(OSMesgQueue *mq, OSMesg msg, s32 flag);
 s32 Thread_ReceiveMsg(OSMesgQueue *mq, OSMesg *msg, s32 flag);
 s32 Thread_CreateMesgQueue(OSMesgQueue *arg0, OSMesg *arg1, s32 arg2);
 s32 func_800C1154(u8 threadId, s32 arg1);
-s32 func_800AE0EC(OSMesgQueue*); 
 s32 Thread_ReceiveMsgInThread(u8 threadId, void **mesg, s32 arg2);
 s32 osPiGetStatus();                                /* extern */
 s32 osPiGetStatus(void);
@@ -83,15 +82,7 @@ void func_800C2780(f32);                               /* extern */
 
 void func_8008EAA8(s32, s32);
 void func_8008ECE4(char* fmt, ...);
-void func_800AE348(s32);
-s32 ContPak_SetFileDeleteParams(s32);
 s32 func_800AE7FC(void);
-s32 ContPak_SetOpenFileParams(u8*, u8*, s32);
-s32 ContPak_GetOpenFileResult(void);
-s32 ContPak_SetFileFindParams(u8*, u8*);
-s32 ContPak_GetFindFileResult(void);
-s32 ContPak_GetWriteFileResult(void);
-s32 ContPak_GetReadFileResult(void);
 void* func_8001F60C(u8**);
 void func_80099E2C(void*);
 void func_800B1B3C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2);

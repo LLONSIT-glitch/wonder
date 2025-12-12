@@ -274,7 +274,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     break;
                 default: /* switch 1 */
                     if (D_801560F0->unk6 & (u16) D_801810F2) {
-                        func_800AE348(1);
+                        ContPak_SetPakInitializationAttempts(1);
                     }
                     if ((D_801560F0->unk6 & D_80180FF4) && (ContPak_SetOpenFileParams(gameName, extName, 0x1600) == 0)) {
                         D_801825F0[0] = 1;

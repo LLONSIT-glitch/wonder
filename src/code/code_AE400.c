@@ -2,7 +2,7 @@
 
 
 void func_800ADC50(ThreadEntry* arg0);
-void func_800AE40C(void); /* extern */
+void ContPak_UpdateFilesState(void); /* extern */
 void ContPak_DeleteFile(void); /* extern */
 void ContPak_OpenFile(void); /* extern */
 void func_800AEB14(void); /* extern */
@@ -71,18 +71,18 @@ void func_800AD800(void) {
     D_801819B0 = 3;
     func_800C1154(sp3C->threadId, 8);
     osSetEventMesg(OS_EVENT_SI, (OSMesgQueue*) &sp38->mq, &D_801816A0);
-    osContInit((OSMesgQueue*) &sp38->mq, &D_8018127C, D_80182540);
+    osContInit((OSMesgQueue*) &sp38->mq, &gContPakBitPattern, gContStatus);
 
     // Check if the first conroll is a standard one
-    if (D_80182540->status & CONT_ABSOLUTE) {
+    if (gContStatus->status & CONT_ABSOLUTE) {
         D_801824D4 = 0;
         osContStartReadData((OSMesgQueue*) &sp38->mq);
 
         // Wait for completion message from osContStartReadData
         Thread_ReceiveMsgInThread(sp3C->threadId, &sp34, OS_MESG_BLOCK);
         osContGetReadData(D_80182558);
-        func_800AE0EC(&sp38->mq);
-        func_800AE40C();
+        ContPak_InitializePak(&sp38->mq);
+        ContPak_UpdateFilesState();
         D_801824D4 = 1;
     }
     Thread_Start(sp3C->threadId);
@@ -104,8 +104,8 @@ void func_800ADC50(ThreadEntry* arg0) {
         if (D_801824D4 != 0) {
             D_801824D4 = 0;
             if (gCurrentPakOperationFlags & 2) {
-                func_800AE0EC(&sp58->mq);
-                func_800AE40C();
+                ContPak_InitializePak(&sp58->mq);
+                ContPak_UpdateFilesState();
             } else if (gCurrentPakOperationFlags & 0x10) {
                 ContPak_DeleteFile();
             } else if (gCurrentPakOperationFlags & 0x20) {

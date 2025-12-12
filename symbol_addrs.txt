@@ -107,9 +107,16 @@ ContPak_GetOpenFileResult = 0x800AEA0C;
 
 sPfs = 0x80181360;
 sPfsMaxFiles = 0x8018162C;
+gContPakBitPattern = 0x8018127C;
 sContPakFileDeleteSlot = 0x80181640;
 sPfsFilesUsed = 0x80181620;
 gPfsFreeSpace = 0x80181638;
+gContPakInitializeAttempts = 0x80181690;
+ContPak_SetPakInitializationAttempts = 0x800AE348;
+ContPak_InitializePak = 0x800AE0EC;
+ContPak_UpdateFilesState = 0x800AE40C;
+gContStatus = 0x80182540;
+ContPak_GetPakInitilizationResult = 0x800AE398;
 
 D_80403000 = 0x80403000; //defined:true
 D_80409B40 = 0x80409B40; //defined:true
