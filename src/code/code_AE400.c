@@ -1,12 +1,13 @@
 #include "common.h"
 
+
 void func_800ADC50(ThreadEntry* arg0);
 void func_800AE40C(void); /* extern */
-void func_800AE664(void); /* extern */
-void func_800AE904(void); /* extern */
+void ContPak_DeleteFile(void); /* extern */
+void ContPak_OpenFile(void); /* extern */
 void func_800AEB14(void); /* extern */
-void WriteFile(void);     /* extern */
-void ReadFile(void);      /* extern */
+void ContPak_WriteFile(void);     /* extern */
+void ContPak_ReadFile(void);      /* extern */
 
 extern s32 D_80180DAC;
 extern s32 D_80180DAE;
@@ -33,7 +34,7 @@ void func_800AD800(void) {
     void* sp34;
     s32 sp30;
 
-    D_80181350 = 0;
+    gCurrentPakOperationFlags = 0;
     D_80180E68 = 0x800;
     D_80180E74 = 0x400;
     D_80180EC0 = 0x200;
@@ -102,19 +103,19 @@ void func_800ADC50(ThreadEntry* arg0) {
     while (TRUE) {
         if (D_801824D4 != 0) {
             D_801824D4 = 0;
-            if (D_80181350 & 2) {
+            if (gCurrentPakOperationFlags & 2) {
                 func_800AE0EC(&sp58->mq);
                 func_800AE40C();
-            } else if (D_80181350 & 0x10) {
-                func_800AE664();
-            } else if (D_80181350 & 0x20) {
-                func_800AE904();
-            } else if (D_80181350 & 0x100) {
-                func_800AEB14();
-            } else if (D_80181350 & 0x80) {
-                WriteFile();
-            } else if (D_80181350 & 0x40) {
-                ReadFile();
+            } else if (gCurrentPakOperationFlags & 0x10) {
+                ContPak_DeleteFile();
+            } else if (gCurrentPakOperationFlags & 0x20) {
+                ContPak_OpenFile();
+            } else if (gCurrentPakOperationFlags & 0x100) {
+                ContPak_FindFile();
+            } else if (gCurrentPakOperationFlags & 0x80) {
+                ContPak_WriteFile();
+            } else if (gCurrentPakOperationFlags & 0x40) {
+                ContPak_ReadFile();
             }
             D_801824D4 = 1;
         }

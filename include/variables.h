@@ -35,7 +35,7 @@ extern u8 D_801B20A0[];
 extern s32 D_803DA800;
 extern u8 D_F24E0[];
 extern u8 D_F27E0[];
-extern OSViMode D_800EBED0[];
+extern OSViMode osViModeTable[];
 extern s64 D_801819A8;
 extern s32 D_801819AC;
 extern u16* D_801824D0;
@@ -79,7 +79,7 @@ extern u8 D_8018127C;
 extern s32 D_80182500;
 extern OSMesg D_8018252C;
 extern OSContStatus D_80182540[];
-extern s32 D_80181350;
+extern s32 gCurrentPakOperationFlags;
 
 extern OSMesgQueue D_801824E0;
 extern OSContPad D_80182558[];
@@ -199,8 +199,8 @@ extern s32 D_801A8C34;
 extern UnkStruct_8000DDE0** D_8015BAC8;
 extern UnkStruct_80099E2C* D_801A8C18;
 extern UnkStruct_80099E2C* D_801A8C24;
-extern s32 D_8018129C;
-extern s32 D_80181638;
+extern s32 gCurrentPakPfsFlags;
+extern s32 gPfsFreeSpace;
 extern s32 D_801825E4;
 extern s32 D_80180D30;
 

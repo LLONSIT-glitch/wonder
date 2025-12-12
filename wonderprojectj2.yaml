@@ -118,7 +118,7 @@ segments:
       - [0x97AE0, c, code/code_97AE0]
       - [0x98FB0, c, code/code_98FB0]
       - [0xAE400, c, code/code_AE400]
-      - [0xAEAD0, c, code/code_AEAD0]
+      - [0xAEAD0, c, code/cont_pak]
       - [0xAFC60, c, code/code_AFC60]
       - [0xB2650, c, code/code_B2650]
       - [0xB90F0, c, audio/audio_mgr]

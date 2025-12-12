@@ -194,7 +194,7 @@ void* SysMain(ThreadEntry* entry) {
     D_8015BB18 = 0.0f;
     D_8015BB1C = 0x3E8;
     D_8015F7E0 = 0x21;
-    SetPfsCodes(0x4234U, 0x4E4A324AU);
+    ContPak_SetPfsCodes(0x4234U, 0x4E4A324AU);
 
     while (TRUE) {
         sp50->unk82EC = 0;
@@ -792,7 +792,8 @@ void func_800029BC(void) {
     void* curFrameBuf;
     u32 imask = osSetIntMask(OS_IM_NONE);
     curFrameBuf = osViGetCurrentFramebuffer();
-    switch (guRandom() % 3) {
+
+    switch (RAND(3)) {
         case 0:
             for (sp4C = 0; sp4C < 16; sp4C++) {
                 sp30.frameRow = curFrameBuf;
@@ -800,38 +801,40 @@ void func_800029BC(void) {
                 sp30.frameRow[0][0][1] = 1;
                 sp30.frameRow[0][0][2] = 1;
                 sp30.frameRow[0][0][3] = 1;
-                SysMem_Copy64(sp30.frameRow[0] + 4, sp30.frameRow, (sp4C * 0x50) + 0x4F);
+                SysMem_Copy64(sp30.frameRow[0] + 4, sp30.frameRow, (sp4C * 80) + 79);
 
                 for (sp48 = 1; sp48 < 15; sp48++) {
-                    SysMem_Copy64((sp48 * 0x140 * 0x10 * 2) + (u8*) sp30.frameRow, sp30.frameRow, (sp4C * 0x50) + 0x50);
+                    SysMem_Copy64((sp48 * 320 * 16 * 2) + (u8*) sp30.frameRow, sp30.frameRow, (sp4C * 80) + 80);
                 }
 
-                for (sp34 = 0x12C; sp34 > 0; sp34--) {
+                for (sp34 = 300; sp34 > 0; sp34--) {
                     osWritebackDCacheAll();
                 }
             }
             break;
         case 1:
             // Wtf this is actually insane...
-            for (sp4C = 0; sp4C < 0x40; sp4C++) {
+            for (sp4C = 0; sp4C < 64; sp4C++) {
                 sp30.frameRow = curFrameBuf;
-                for (sp3C = 0; sp3C < 0xF0; sp3C += 8) {
-                    for (sp40 = 0; sp40 < 0x140; sp40 += 0x40) {
+
+                // 3:4 aspect ratio
+                for (sp3C = 0; sp3C < 240; sp3C += 8) {
+                    for (sp40 = 0; sp40 < 320; sp40 += 64) {
                         for (sp48 = 0; sp48 <= sp4C; sp48++) {
                             // sp40 is multiplied too much here, it should just access a s16/u16 here
-                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48]] = 1;
-                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 8] = 1;
-                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 16] = 1;
-                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 24] = 1;
-                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 32] = 1;
-                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 40] = 1;
-                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 48] = 1;
-                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 0x140])[D_800D9F00[sp48] + 56] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 320])[D_800D9F00[sp48]] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 320])[D_800D9F00[sp48] + 8] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 320])[D_800D9F00[sp48] + 16] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 320])[D_800D9F00[sp48] + 24] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 320])[D_800D9F00[sp48] + 32] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 320])[D_800D9F00[sp48] + 40] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 320])[D_800D9F00[sp48] + 48] = 1;
+                            (&(&((u16*) sp30.frameRow)[sp40])[sp3C * 320])[D_800D9F00[sp48] + 56] = 1;
                         }
                     }
                 }
 
-                // huh?
+                // Unoptmized for loop
                 for (sp34 = 0; sp34 > 0; sp34--) {
                     osWritebackDCacheAll();
                 }

@@ -49,23 +49,23 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
             gameName = D_80182618->ptrs[0];
             extName = D_80182618->ptrs[1];
             func_8008EAA8(0, 4);
-            if (D_8018129C & 1) {
+            if (gCurrentPakPfsFlags & 1) {
                 // Backup available in ROM
                 func_8008ECE4("  ROM内Backup        あり\n");
             } else {
                 // No backup in ROM
                 func_8008ECE4("  ROM内Backup        なし\n");
             }
-            if (D_8018129C & 2) {
+            if (gCurrentPakPfsFlags & 2) {
                 // Controller packs available remaining
-                func_8008ECE4("  コントローラパック あり  残り %3d\n", D_80181638);
+                func_8008ECE4("  コントローラパック あり  残り %3d\n", gPfsFreeSpace);
             } else {
                 // Controller Pack: No
                 func_8008ECE4("  コントローラパック なし          \n");
             }
             switch (D_801825F0[0]) { /* switch 1 */
                 case 1:              /* switch 1 */
-                    sp40 = func_800AEA0C();
+                    sp40 = ContPak_GetOpenFileResult();
                     if (sp40 >= 0x1001) {
                         sp40 -= 0x1000;
                         switch (sp40) { /* switch 2 */
@@ -112,7 +112,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     }
                     break;
                 case 2: /* switch 1 */
-                    sp40 = func_800AEBF4();
+                    sp40 = ContPak_GetFindFileResult();
                     if (sp40 >= 0x1001) {
                         sp40 -= 0x1000;
                         switch (sp40) { /* switch 3 */
@@ -151,7 +151,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     }
                     break;
                 case 3: /* switch 1 */
-                    sp40 = func_800AEDE8();
+                    sp40 = ContPak_GetWriteFileResult();
                     if (sp40 >= 0x1001) {
                         sp40 -= 0x1000;
                         switch (sp40) { /* switch 4 */
@@ -186,7 +186,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     }
                     break;
                 case 4: /* switch 1 */
-                    sp40 = func_800AEFD4();
+                    sp40 = ContPak_GetReadFileResult();
                     if (sp40 >= 0x1001) {
                         sp40 -= 0x1000;
                         switch (sp40) { /* switch 5 */
@@ -231,7 +231,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     }
                     break;
                 case 5: /* switch 1 */
-                    sp40 = func_800AE7FC();
+                    sp40 = ContPak_GetDeleteFileResult();
                     if (sp40 >= 0x1001) {
                         sp40 -= 0x1000;
                         switch (sp40) { /* switch 6 */
@@ -276,15 +276,15 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     if (D_801560F0->unk6 & (u16) D_801810F2) {
                         func_800AE348(1);
                     }
-                    if ((D_801560F0->unk6 & D_80180FF4) && (func_800AE880(gameName, extName, 0x1600) == 0)) {
+                    if ((D_801560F0->unk6 & D_80180FF4) && (ContPak_SetOpenFileParams(gameName, extName, 0x1600) == 0)) {
                         D_801825F0[0] = 1;
                     }
-                    if ((D_801560F0->unk6 & (u16) D_8018101C) && (func_800AEA98(gameName, extName) == 0)) {
+                    if ((D_801560F0->unk6 & (u16) D_8018101C) && (ContPak_SetFileFindParams(gameName, extName) == 0)) {
                         D_801825F0[0] = 2;
                     }
                     if ((D_801560F0->unk6 & (u16) D_80181258)) {
                         if ((D_801825F0[2] != -1)) {
-                            if ((SetFileWriteParams(D_801825F0[2], 0, 0x1600, D_80182618->ptrs[2]) == 0)) {
+                            if ((ContPak_SetFileWriteParams(D_801825F0[2], 0, 0x1600, D_80182618->ptrs[2]) == 0)) {
                                 D_801825F0[0] = 3;
                             }
                         }
@@ -293,13 +293,13 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                         for (sp40 = 0; sp40 < 0x1600; sp40++) {
                             D_80182618->ptrs[3][sp40] = D_80182618->ptrs[2][sp40] ^ 0xFF;
                         }
-                        if (SetFileReadParams(D_801825F0[2], 0, 0x1600, D_80182618->ptrs[3]) == 0) {
+                        if (ContPak_SetFileReadParams(D_801825F0[2], 0, 0x1600, D_80182618->ptrs[3]) == 0) {
                             D_801825F0[0] = 4;
                         }
                     }
                     if ((D_801560F0->unk6 & (u16) D_8018126C)) {
                         if ((D_801825F0[2] != -1)) {
-                            if ((func_800AE5F0(D_801825F0[2]) == 0)) {
+                            if ((ContPak_SetFileDeleteParams(D_801825F0[2]) == 0)) {
                                 D_801825F0[0] = 5;
                             }
                         }

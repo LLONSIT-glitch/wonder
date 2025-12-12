@@ -57,9 +57,9 @@ void func_8005D150(void);
 void func_8005F01C(void);
 void func_80083EAC(void);
 void func_8008E5A0(void);
-void func_800983B0(UnkStruct_801AC8A8*, UNK_TYPE);
+void func_800983B0(Scheduler*, UNK_TYPE);
 void func_800984B4(void);
-void func_800985BC(u8);
+s32 func_800985BC(u8);
 void func_80098820(void);
 void func_80098868(void);
 void func_800AD800(void);
@@ -84,14 +84,14 @@ void func_800C2780(f32);                               /* extern */
 void func_8008EAA8(s32, s32);
 void func_8008ECE4(char* fmt, ...);
 void func_800AE348(s32);
-s32 func_800AE5F0(s32);
+s32 ContPak_SetFileDeleteParams(s32);
 s32 func_800AE7FC(void);
-s32 func_800AE880(u8*, u8*, s32);
-s32 func_800AEA0C(void);
-s32 func_800AEA98(u8*, u8*);
-s32 func_800AEBF4(void);
-s32 func_800AEDE8(void);
-s32 func_800AEFD4(void);
+s32 ContPak_SetOpenFileParams(u8*, u8*, s32);
+s32 ContPak_GetOpenFileResult(void);
+s32 ContPak_SetFileFindParams(u8*, u8*);
+s32 ContPak_GetFindFileResult(void);
+s32 ContPak_GetWriteFileResult(void);
+s32 ContPak_GetReadFileResult(void);
 void* func_8001F60C(u8**);
 void func_80099E2C(void*);
 void func_800B1B3C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
@@ -163,4 +163,24 @@ void func_800C1D44(MtxF*);                                /* extern */
 void func_800C2948(f32, f32, f32);                     /* extern */
 void func_800C2AE8(MtxF*);                             /* extern */
 f32 func_8002BB04(s16 arg0);
+void func_80097068(Scheduler* arg0, void* arg1, s32 arg2);
+
+void func_800970CC(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* arg2);
+void func_80097150(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* arg2);
+void func_800972DC(SchedulerClient* arg0);
+void func_8009731C(Scheduler* arg0, SchedulerClient* arg1);
+void func_80097420(Scheduler* arg0);
+void func_800974C0(Scheduler* arg0);
+void func_8009756C(Scheduler* arg0);
+void func_8009769C(Scheduler*);                            /* extern */
+void func_80097988(Scheduler*);                            /* extern */
+void func_80097B0C(Scheduler*);                            /* extern */
+void func_80097F04(Scheduler*);                            /* extern */
+s32 func_80097F78(Scheduler*, s32*, s32*, s32);            /* extern */
+s32 func_80097C5C(Scheduler*, Scheduler_unk298*); /* extern */
+void func_80097DDC(Scheduler* arg0, Scheduler_unk298* arg1, Scheduler_unk298* arg2);
+void func_80097258(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* mq);
+void func_800971D4(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* mq);
+void func_800972FC(SchedulerClient* arg0);
+s32 Thread_GetPriority(u8 arg0);
 #endif /* FUNCTIONS_H */

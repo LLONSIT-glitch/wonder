@@ -1,12 +1,12 @@
 #include "common.h"
 
-extern UnkStruct_801AC8A8 D_801AC8A8;
+extern Scheduler D_801AC8A8;
 
-extern void func_80096EE0(UnkStruct_801AC8A8* arg0, u8 arg1, s32 arg2);
+extern void func_80096EE0(Scheduler* arg0, u8 arg1, s32 arg2);
 s32 func_8009A084(Gfx**, f32); /* extern */
-void func_800C1680(void);          /* extern */
-void func_800C1A84(MtxF*);      /* extern */
-void func_800C1AF4(MtxF*);      /* extern */
+void func_800C1680(void);      /* extern */
+void func_800C1A84(MtxF*);     /* extern */
+void func_800C1AF4(MtxF*);     /* extern */
 void func_800C1B64(s32);       /* extern */
 
 extern f32 D_800EF84C;
@@ -21,13 +21,13 @@ extern s32 D_801A7250;
 extern s32 D_801A7258;
 extern s16* D_801A72D0;
 extern s16* D_801A72E0;
-extern UnkStruct_801AC8A8 D_80153E30;
+extern Scheduler D_80153E30;
 extern void* D_801AC850;
 extern OSMesgQueue D_801AC870;
 extern s16 D_801AC888;
 
-void func_800983B0(UnkStruct_801AC8A8* arg0, s32 arg1) {
-    UnkStruct_801AC8A8* sp1C;
+void func_800983B0(Scheduler* arg0, s32 arg1) {
+    Scheduler* sp1C;
 
     func_80096EE0(&D_80153E30, arg0, arg1);
     Thread_CreateMesgQueue(&D_801AC870, &D_801AC850, 8);
@@ -48,53 +48,276 @@ void func_800983B0(UnkStruct_801AC8A8* arg0, s32 arg1) {
     D_801560E4 = 0;
 }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800984B4.s")
+extern s32 D_801540E0;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800984F0.s")
+void func_800984B4(void) {
+    func_80097068(&D_80153E30, &D_801540E0 + 0x800, 0x40);
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800985BC.s")
+extern Scheduler D_80153E30;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098688.s")
+s32 func_800984F0(u8 arg0) {
+    UnkStruct_800F9C38* sp1C;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098754.s")
+    sp1C = &D_800F1950[arg0];
+    if (!(sp1C->unk82E8 & 0x80)) {
+        return -1;
+    }
+    func_800C1154(arg0, 8);
+    func_80097258(&D_80153E30, &sp1C->unk80B0, &sp1C->mq);
+    sp1C->unk82E8 |= 2;
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098820.s")
+extern Scheduler D_80153E30;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098868.s")
+s32 func_800985BC(u8 arg0) {
+    UnkStruct_800F9C38* sp1C;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098894.s")
+    sp1C = &D_800F1950[arg0];
+    if (!(sp1C->unk82E8 & 0x80)) {
+        return -1;
+    }
+    func_800C1154(arg0, 8);
+    func_80097150(&D_80153E30, &sp1C->unk80B0, &sp1C->mq);
+    sp1C->unk82E8 |= 2;
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098928.s")
+extern Scheduler D_80153E30;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800989BC.s")
+s32 func_80098688(u8 arg0) {
+    UnkStruct_800F9C38* sp1C;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098AD8.s")
+    sp1C = &D_800F1950[arg0];
+    if (!(sp1C->unk82E8 & 0x80)) {
+        return -1;
+    }
+    func_800C1154(arg0, 8);
+    func_800971D4(&D_80153E30, &sp1C->unk80B0, &sp1C->mq);
+    sp1C->unk82E8 |= 2;
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098BB8.s")
+extern Scheduler D_80153E30;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098BF4.s")
+s32 func_80098754(u8 arg0) {
+    UnkStruct_800F9C38* sp1C;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098C1C.s")
+    sp1C = &D_800F1950[arg0];
+    if (!(sp1C->unk82E8 & 0x80)) {
+        return -1;
+    }
+    func_800C1154(arg0, 8);
+    func_80097258(&D_80153E30, &sp1C->unk80B0, &sp1C->mq);
+    sp1C->unk82E8 |= 2;
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098C40.s")
+extern s32 D_801A72BC;
+extern s32 D_801A72CC;
+extern s32 D_801540CC;
+extern s32 D_801540D0;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098C64.s")
+void func_80098820(void) {
+    D_801A72CC = 0;
+    D_801A72BC = 0;
+    D_801540CC = 0;
+    D_801540D0 = 0;
+    D_801A72DC &= ~0x18;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098C8C.s")
+extern Scheduler D_80153E30;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098CB0.s")
+void func_80098868(void) {
+    func_80097420(&D_80153E30);
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098CD8.s")
+s32 func_80098894(u8 arg0) {
+    UnkStruct_800F9C38* sp1C;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098CFC.s")
+    sp1C = &D_800F1950[arg0];
+    if (!(sp1C->unk82E8 & 0x80)) {
+        return -1;
+    }
+    func_800972DC(&sp1C->unk80B0);
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80098D24.s")
+s32 func_80098928(u8 arg0) {
+    UnkStruct_800F9C38* sp1C;
+
+    sp1C = &D_800F1950[arg0];
+    if (!(sp1C->unk82E8 & 0x80)) {
+        return -1;
+    }
+    func_800972FC(&sp1C->unk80B0);
+    return 0;
+}
+
+extern Scheduler D_80153E30;
+
+s32 func_800989BC(s32 arg0) {
+    UnkStruct_800F9C38* sp1C;
+    SchedulerClient* sp18;
+
+    sp1C = &D_800F1950[(u8) arg0];
+    if (!(sp1C->unk82E8 & 0x80)) {
+        return -1;
+    }
+    if (!(sp1C->unk82E8 & 2)) {
+        return -1;
+    }
+    sp18 = &sp1C->unk80B0;
+    if (sp18->unk8 & 8) {
+        func_8009731C(&D_80153E30, sp18);
+    } else {
+        func_8009731C(&D_80153E30, sp18);
+    }
+    sp1C->unk82E8 &= 0xFD;
+    return 0;
+}
+
+extern Scheduler D_80153E30;
+
+s32 func_80098AD8(u8 arg0) {
+    UnkStruct_800F9C38* sp1C;
+
+    sp1C = &D_800F1950[arg0];
+    if (!(sp1C->unk82E8 & 0x80)) {
+        return -1;
+    }
+    if (!(sp1C->unk82E8 & 2)) {
+        return -1;
+    }
+    func_8009731C(&D_80153E30, &sp1C->unk80B0);
+    sp1C->unk82E8 &= 0xFD;
+    return 0;
+}
+
+void func_80098BB8(void) {
+    D_801A72DC |= 1;
+    D_801A72DC &= ~2;
+}
+
+void func_80098BF4(void) {
+    D_801A72DC &= ~3;
+}
+
+void func_80098C1C(void) {
+    D_801A72DC |= 2;
+}
+
+void func_80098C40(void) {
+    D_801A72DC |= 8;
+}
+
+void func_80098C64(void) {
+    D_801A72DC &= ~0x18;
+}
+
+void func_80098C8C(void) {
+    D_801A72DC |= 0x20;
+}
+
+void func_80098CB0(void) {
+    D_801A72DC &= ~0x20;
+}
+
+void func_80098CD8(void) {
+    D_801A72DC |= 4;
+}
+
+void func_80098CFC(void) {
+    D_801A72DC &= ~4;
+}
+
+extern OSMesg D_801816C8;
+extern s32 D_801824D4;
+
+s32 func_80098D24(s32 arg0) {
+    s32 i;
+    s32 prevButton;
+    ControllerStruct_80180DA8* sp24;
+    UNUSED s32 pad[2];
+
+    if (D_801824D4) {
+        Thread_SendMesgNoBlock(gSysThreadIds[THREAD_4], &D_801816C8, OS_MESG_BLOCK);
+    }
+
+    for (i = 0; i < 4; i++) {
+        if (!D_80182558[i].errno) {
+            sp24 = &D_80180DA8[i];
+            if (sp24->state != STATE_CONNECTED) {
+                sp24->unk18 = D_80180E50;
+                sp24->unk1C = D_80180E5C;
+            }
+            sp24->state = STATE_CONNECTED;
+            sp24->stickX = (f32) D_80182558[i].stick_x * (sp24->unk18 / 80.0f);
+            sp24->stickY = (f32) D_80182558[i].stick_y * (sp24->unk1C / 80.0f);
+            prevButton = sp24->button;
+            sp24->button = D_80182558[i].button;
+            sp24->unk6 = (sp24->button ^ prevButton) & sp24->button;
+            sp24->unkC -= D_8018257C;
+            if (sp24->button != sp24->unkA) {
+                sp24->unkA = sp24->button;
+                sp24->unk8 = sp24->button;
+                sp24->unkC = 10.0f;
+            } else if (sp24->unkC < 0.0f) {
+                sp24->unk8 = sp24->unkA;
+                sp24->unkC = 5.0f;
+            } else {
+                sp24->unk8 = 0;
+            }
+        } else {
+            sp24 = &D_80180DA8[i];
+            sp24->state = STATE_NOT_CONNECTED;
+            sp24->button = sp24->unk6 = sp24->unk8 = sp24->unkA = 0;
+            sp24->stickX = sp24->stickY = 0.0f;
+            sp24->unkC = 0.0f;
+        }
+    }
+    return 0;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/CreateGfxTask.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800993AC.s")
+void func_800993AC(SchedulerClient* arg0) {
+    UnkStruct_800F9C38* sp1C;
+    s32 sp18;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80099450.s")
+    for (sp18 = 0; sp18 < 0xC; sp18++) {
+        sp1C = &D_800F1950[sp18];
+        if (&sp1C->unk80B0 == arg0) {
+            break;
+        }
+    }
+        
+    Thread_GetPriority((u8) sp18);
+    return;
+}
+
+extern u16 D_801DA800;
+
+void func_80099450(void) {
+    s32 pad;
+
+    D_80182528 = 0;
+    D_801824FC ^= 1;
+    if (D_801824FC != 0) {
+        D_801824D0 = &D_801DA800;
+    } else {
+        D_801824D0 = gFrameBuffer2;
+    }
+    if (D_801824FC != 0) {
+        D_801824DC = gFrameBuffer2;
+    } else {
+        D_801824DC = &D_801DA800;
+    }
+    Sys_SwapFrameBuffer(D_801824D0);
+    D_8018258C += 1;
+}
+
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_80099520.s")
 
@@ -171,11 +394,11 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
     s16* imgPtr;
 
     func_800C1680();
-    func_800C1AF4((MtxF*)&D_801601E0);
+    func_800C1AF4((MtxF*) &D_801601E0);
     func_800C1B64(0);
-    func_800C1D44((MtxF*)(&arg6->unkA0));
-    func_800C1D44((MtxF*)&arg1->unk80);
-    func_800C1A84((MtxF*)&D_80156BC8);
+    func_800C1D44((MtxF*) (&arg6->unkA0));
+    func_800C1D44((MtxF*) &arg1->unk80);
+    func_800C1A84((MtxF*) &D_80156BC8);
     func_800C1A28();
     sp180 = (arg1->unkC0 | D_801A7250) & D_801A7258;
     if (!(sp180 & 0x20200)) {
@@ -192,9 +415,9 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
 
     D_8015B324 = (s16) (s32) (((f32) arg1->unk11E * arg6->unkE8) / 255.0f);
     func_800C1680();
-    func_800C1AF4((MtxF*)&arg6->unkA0);
-    func_800C1D44((MtxF*)&arg1->unk80);
-    func_800C1A84((MtxF*)&D_80156BC8);
+    func_800C1AF4((MtxF*) &arg6->unkA0);
+    func_800C1D44((MtxF*) &arg1->unk80);
+    func_800C1A84((MtxF*) &D_80156BC8);
     func_800C1A28();
     gdl = *gdlh;
     if (arg4 == 0.0f) {
@@ -226,7 +449,7 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
     if (arg1->unk116 == 3) {
         return -1;
     }
-    D_801A72D0 = (s16*)arg1->ptrs[0];
+    D_801A72D0 = (s16*) arg1->ptrs[0];
 
     gDPSetCycleType(gdl++, G_CYC_1CYCLE);
     gSPTexture(gdl++, 0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON);
@@ -280,7 +503,7 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
             imgPtr = D_801A72D0;
             D_801A72E0 = D_801A72D0;
             if (arg1->unk116 == 1) {
-                D_801A72E0 = (s16*)((u8*) D_801A72E0 + (texWidth * texHeight));
+                D_801A72E0 = (s16*) ((u8*) D_801A72E0 + (texWidth * texHeight));
             } else {
                 D_801A72E0 = (s16*) D_801A72E0 + (texWidth * texHeight);
             }
@@ -340,7 +563,8 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
                 sp150 = ((((f32) sp158 - (f32) arg1->unk108) * sp138) - sp128) + (120.0f - arg3);
                 sp140 = 0.0f;
             } else {
-                sp150 = ((((f32) -sp158 * sp138) - sp128) - ((f32) - (arg1->unk108 - texHeight) * sp138)) + (120.0f - arg3);
+                sp150 =
+                    ((((f32) -sp158 * sp138) - sp128) - ((f32) - (arg1->unk108 - texHeight) * sp138)) + (120.0f - arg3);
                 sp140 = (f32) texHeight;
             }
             sp148 = ((f32) texHeight * sp138) + sp150;
@@ -371,12 +595,12 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
 
                 } else if (arg1->unk116 == 2) {
                     gDPLoadTextureBlock(gdl++, imgPtr, G_IM_FMT_RGBA, G_IM_SIZ_16b, texWidth, texHeight, 0,
-                                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, texMasks, texMaskt, G_TX_NOLOD,
-                                        G_TX_NOLOD);
+                                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, texMasks, texMaskt,
+                                        G_TX_NOLOD, G_TX_NOLOD);
                 } else {
                     gDPLoadTextureBlock(gdl++, imgPtr, G_IM_FMT_CI, G_IM_SIZ_4b, texWidth, texHeight, 0,
-                                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, texMasks, texMaskt, G_TX_NOLOD,
-                                        G_TX_NOLOD);
+                                        G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, texMasks, texMaskt,
+                                        G_TX_NOLOD, G_TX_NOLOD);
                 }
 
                 gDPLoadSync(gdl++);

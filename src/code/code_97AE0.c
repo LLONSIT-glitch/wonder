@@ -1,29 +1,16 @@
+/*
+* @file scheduler.c
+* @brief Seems to be a modified version of libultra's RSP schedulere implementation (sched.c)
+*/
 #include "common.h"
 
 extern s32 D_801A72BC;
 extern s32 D_801A72CC;
 extern s16 D_801A72F0;
 
-void func_80097068(UnkStruct_801AC8A8* arg0, void* arg1, s32 arg2);
+void func_80097D44(Scheduler* arg0, Scheduler_unk284* arg1);
 
-void func_800970CC(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1, OSMesgQueue* arg2);
-void func_80097150(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1, OSMesgQueue* arg2);
-void func_800972DC(UnkStruct_800970CC* arg0);
-void func_8009731C(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1);
-void func_80097420(UnkStruct_801AC8A8* arg0);
-void func_800974C0(UnkStruct_801AC8A8* arg0);
-void func_8009756C(UnkStruct_801AC8A8* arg0);
-void func_8009769C(UnkStruct_801AC8A8*);                            /* extern */
-void func_80097988(UnkStruct_801AC8A8*);                            /* extern */
-void func_80097B0C(UnkStruct_801AC8A8*);                            /* extern */
-void func_80097F04(UnkStruct_801AC8A8*);                            /* extern */
-s32 func_80097F78(UnkStruct_801AC8A8*, s32*, s32*, s32);            /* extern */
-s32 func_80097C5C(UnkStruct_801AC8A8*, UnkStruct_801AC8A8_unk298*); /* extern */
-void func_80097DDC(UnkStruct_801AC8A8* arg0, UnkStruct_801AC8A8_unk298* arg1, UnkStruct_801AC8A8_unk298* arg2);
-
-void func_80097D44(UnkStruct_801AC8A8* arg0, UnkStruct_801AC8A8_unk284* arg1);
-
-void func_80096EE0(UnkStruct_801AC8A8* arg0, u8 arg1, s32 arg2) {
+void func_80096EE0(Scheduler* arg0, u8 arg1, s32 arg2) {
     arg0->unk294 = 0;
     arg0->unk298 = 0;
     arg0->unk280 = 0;
@@ -43,7 +30,7 @@ void func_80096EE0(UnkStruct_801AC8A8* arg0, u8 arg1, s32 arg2) {
     osCreateMesgQueue(&arg0->unk60, &arg0->unk78, 8);
     osCreateMesgQueue(&arg0->unk98, &arg0->unkB0, 8);
     osCreateViManager(OS_PRIORITY_VIMGR);
-    osViSetMode(&D_800EBED0[arg1]);
+    osViSetMode(&osViModeTable[arg1]);
     osViBlack(TRUE);
     osSetEventMesg(OS_EVENT_SP, &arg0->unk60, (void*) 0x29B);
     osSetEventMesg(OS_EVENT_DP, &arg0->unk60, (void*) 0x29C);
@@ -51,12 +38,12 @@ void func_80096EE0(UnkStruct_801AC8A8* arg0, u8 arg1, s32 arg2) {
     osViSetEvent(&arg0->unk60, (void*) 0x29A, (u32) (u8) arg2);
 }
 
-void func_80097068(UnkStruct_801AC8A8* arg0, void* arg1, s32 arg2) {
+void func_80097068(Scheduler* arg0, void* arg1, s32 arg2) {
     osCreateThread(&arg0->unkD0, 4, (void (*)(void*)) func_8009756C, arg0, arg1, arg2);
     osStartThread(&arg0->unkD0);
 }
 
-UNUSED void func_800970CC(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1, OSMesgQueue* mq) {
+UNUSED void func_800970CC(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* mq) {
     u32 imask = osSetIntMask(OS_IM_NONE);
 
     arg1->mq = mq;
@@ -66,7 +53,7 @@ UNUSED void func_800970CC(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1, OS
     osSetIntMask(imask);
 }
 
-void func_80097150(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1, OSMesgQueue* mq) {
+void func_80097150(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* mq) {
     u32 imask = osSetIntMask(OS_IM_NONE);
     arg1->mq = mq;
     arg1->next = arg0->unk280;
@@ -75,7 +62,7 @@ void func_80097150(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1, OSMesgQue
     osSetIntMask(imask);
 }
 
-void func_800971D4(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1, OSMesgQueue* mq) {
+void func_800971D4(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* mq) {
     u32 imask = osSetIntMask(OS_IM_NONE);
     arg1->mq = mq;
     arg1->next = arg0->unk280;
@@ -84,7 +71,7 @@ void func_800971D4(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1, OSMesgQue
     osSetIntMask(imask);
 }
 
-void func_80097258(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1, OSMesgQueue* mq) {
+void func_80097258(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* mq) {
     u32 imask = osSetIntMask(OS_IM_NONE);
     arg1->mq = mq;
     arg1->next = arg0->unk280;
@@ -93,17 +80,17 @@ void func_80097258(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1, OSMesgQue
     osSetIntMask(imask);
 }
 
-void func_800972DC(UnkStruct_800970CC* arg0) {
+void func_800972DC(SchedulerClient* arg0) {
     arg0->unk8 |= 4;
 }
 
-void func_800972FC(UnkStruct_800970CC* arg0) {
+void func_800972FC(SchedulerClient* arg0) {
     arg0->unk8 &= ~4;
 }
 
-void func_8009731C(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1) {
-    UnkStruct_800970CC* sp24;
-    UnkStruct_800970CC* sp20; /* compiler-managed */
+void func_8009731C(Scheduler* arg0, SchedulerClient* arg1) {
+    SchedulerClient* sp24;
+    SchedulerClient* sp20; /* compiler-managed */
     u32 mask;
 
     sp24 = arg0->unk280;
@@ -125,12 +112,12 @@ void func_8009731C(UnkStruct_801AC8A8* arg0, UnkStruct_800970CC* arg1) {
     osSetIntMask(mask);
 }
 
-s32 func_80097408(UnkStruct_801AC8A8* arg0) {
+s32 func_80097408(Scheduler* arg0) {
     return (s32) &arg0->unk98;
 }
 
-void func_80097420(UnkStruct_801AC8A8* arg0) {
-    UnkStruct_800970CC* sp4;
+void func_80097420(Scheduler* arg0) {
+    SchedulerClient* sp4;
 
     for (sp4 = arg0->unk280; sp4 != NULL; sp4 = sp4->next) {
         if (!(sp4->unk8 & 1)) {
@@ -143,9 +130,9 @@ void func_80097498(void) {
     D_801A72DC &= ~8;
 }
 
-void func_800974C0(UnkStruct_801AC8A8* arg0) {
+void func_800974C0(Scheduler* arg0) {
     s32 threadCount;
-    UnkStruct_800970CC* sp18;
+    SchedulerClient* sp18;
 
     for (threadCount = 0, sp18 = arg0->unk280; sp18 != NULL; sp18 = sp18->next) {
         if (sp18->unk8 & 8) {
@@ -158,10 +145,10 @@ void func_800974C0(UnkStruct_801AC8A8* arg0) {
     }
 }
 
-void func_8009756C(UnkStruct_801AC8A8* arg0) {
+void func_8009756C(Scheduler* arg0) {
     OSMesg sp2C;
-    UnkStruct_801AC8A8* sp28;
-    UnkStruct_800970CC* sp24;
+    Scheduler* sp28;
+    SchedulerClient* sp24;
 
     sp28 = arg0;
     while (TRUE) {
@@ -188,9 +175,9 @@ void func_8009756C(UnkStruct_801AC8A8* arg0) {
     }
 }
 
-void func_8009769C(UnkStruct_801AC8A8* arg0) {
+void func_8009769C(Scheduler* arg0) {
     void* sp2C;
-    UnkStruct_800970CC* sp28;
+    SchedulerClient* sp28;
     s32 sp24;
     s32 sp20;
     s32 sp1C;
@@ -237,8 +224,8 @@ void func_8009769C(UnkStruct_801AC8A8* arg0) {
     D_801819A8 = osGetTime();
 }
 
-void func_80097988(UnkStruct_801AC8A8* arg0) {
-    UnkStruct_801AC8A8_unk298* sp24;
+void func_80097988(Scheduler* arg0) {
+    Scheduler_unk298* sp24;
     s32 sp20;
     s32 sp1C;
     s32 sp18;
@@ -266,8 +253,8 @@ void func_80097988(UnkStruct_801AC8A8* arg0) {
     }
 }
 
-void func_80097B0C(UnkStruct_801AC8A8* arg0) {
-    UnkStruct_801AC8A8_unk298* sp24;
+void func_80097B0C(Scheduler* arg0) {
+    Scheduler_unk298* sp24;
     s32 sp20;
     s32 sp1C;
     s32 sp18;
@@ -313,7 +300,7 @@ s32 func_80097BDC(s32 changed) {
 
 extern s32 D_800E8CBC;
 
-s32 func_80097C5C(UnkStruct_801AC8A8* arg0, UnkStruct_801AC8A8_unk298* arg1) {
+s32 func_80097C5C(Scheduler* arg0, Scheduler_unk298* arg1) {
     UNUSED s32 sp1C;
 
     if (!(arg1->unk4 & 3)) {
@@ -332,7 +319,7 @@ s32 func_80097C5C(UnkStruct_801AC8A8* arg0, UnkStruct_801AC8A8_unk298* arg1) {
     return 0;
 }
 
-void func_80097D44(UnkStruct_801AC8A8* arg0, UnkStruct_801AC8A8_unk284* arg1) {
+void func_80097D44(Scheduler* arg0, Scheduler_unk284* arg1) {
     s32 sp4;
 
     sp4 = arg1->unk10;
@@ -359,7 +346,7 @@ void func_80097D44(UnkStruct_801AC8A8* arg0, UnkStruct_801AC8A8_unk284* arg1) {
 extern s32 D_800E8CB4;
 extern s32 D_800E8CB8;
 
-void func_80097DDC(UnkStruct_801AC8A8* arg0, UnkStruct_801AC8A8_unk298* arg1, UnkStruct_801AC8A8_unk298* arg2) {
+void func_80097DDC(Scheduler* arg0, Scheduler_unk298* arg1, Scheduler_unk298* arg2) {
     s32 sp1C;
     void* temp_t9;
 
@@ -370,20 +357,20 @@ void func_80097DDC(UnkStruct_801AC8A8* arg0, UnkStruct_801AC8A8_unk298* arg1, Un
         arg1->unk4 &= ~0x30;
         osSpTaskLoad(&arg1->unk10);
         osSpTaskStartGo(&arg1->unk10);
-        arg0->unk294 = (void*)arg1; // TODO: UnkStruct_801AC8A8_unk298 and UnkStruct_801AC8A8_unk294 are probably the same thing
+        arg0->unk294 = (void*)arg1; // TODO: Scheduler_unk298 and Scheduler_unk294 are probably the same thing
         if (arg1 == arg2) {
-            arg0->unk298 = (UnkStruct_801AC8A8_unk298*) arg2;
+            arg0->unk298 = (Scheduler_unk298*) arg2;
         }
     }
     if ((arg2 != NULL) && (arg2 != arg1)) {
         sp1C = osDpSetNextBuffer(arg2->unk10.t.output_buff, *arg2->unk10.t.output_buff_size);
         D_800E8CB4 = 1;
         D_800E8CB8 = 0;
-        arg0->unk298 = (UnkStruct_801AC8A8_unk298*) arg2;
+        arg0->unk298 = (Scheduler_unk298*) arg2;
     }
 }
 
-void func_80097F04(UnkStruct_801AC8A8* arg0) {
+void func_80097F04(Scheduler* arg0) {
     if (arg0->unk294->unk10.t.type == 1) {
         arg0->unk294->unk4 |= 0x10;
         osSpTaskYield();
@@ -391,10 +378,10 @@ void func_80097F04(UnkStruct_801AC8A8* arg0) {
     }
 }
 
-s32 func_80097F78(UnkStruct_801AC8A8* arg0, s32* arg1, s32* arg2, s32 arg3) {
+s32 func_80097F78(Scheduler* arg0, s32* arg1, s32* arg2, s32 arg3) {
     s32 sp24;
-    UnkStruct_801AC8A8_unk284* sp20;
-    UnkStruct_801AC8A8_unk284* sp1C;
+    Scheduler_unk284* sp20;
+    Scheduler_unk284* sp1C;
     s32 temp_t5;
 
     sp24 = arg3;

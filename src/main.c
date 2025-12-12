@@ -65,7 +65,7 @@ void func_800BD8D4(s32 arg0, UNUSED s32 arg1) {
 void func_800BD9D0(s32 arg0, s32 arg1) {
     if (arg0 != -1) {
         D_80181680 = arg0;
-        osViSetMode(&D_800EBED0[arg0]);
+        osViSetMode(&osViModeTable[arg0]);
     }
     if (arg1 != -1) {
         D_8018168C = arg1;
