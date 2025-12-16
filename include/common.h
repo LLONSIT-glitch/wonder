@@ -8,6 +8,7 @@
 #include "sys_matrix.h"
 #include "temp_heap.h"
 #include "obj.h"
+#include "scheduler.h"
 #include "structs.h"
 #include "functions.h"
 #include "variables.h"

@@ -219,7 +219,7 @@ s32 func_8001A210(UnkStruct_8000DDE0* arg0) {
                 sp20->unkE8 = 255.0f;
             } else {
                 func_800C1754();
-                func_8009A14C(arg0);
+                func_8009A14C(&arg0->unk0);
                 func_800997D8(arg0);
                 func_800C1A28();
                 D_801A7238 |= 0x8000;
@@ -364,7 +364,7 @@ s32 func_8001ADBC(UnkStruct_8000DDE0* arg0) {
     sp1C = arg0;
     if ((*D_801A8D88 & 8) || !(arg0->unk1A8 & 1)) {
         func_800C1754();
-        func_8009A14C(sp1C);
+        func_8009A14C(&sp1C->unk0);
         func_800C2780(sp1C->unk0.unkF0);
         func_800C25B8(sp1C->unk0.unkEC);
         func_800C23E8(sp1C->unk0.unkE8);

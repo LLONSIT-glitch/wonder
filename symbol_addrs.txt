@@ -135,8 +135,15 @@ AudioMgr_InitThread = 0x800B8A2C;
 AudioMgr_AudioThread = 0x800B8A7C;
 AudioMgr_HandleFrameMsg = 0x800B8CA0;
 AudioMgr_ClearAudioDMA = 0x800B93E0;
-
 gAudioHeap = 0x801ACF88;
+
+// Scheduler symbols
+Scheduler_RspTaskYield = 0x80097F04;
+Scheduler_ScheduleTask = 0x80097F78;
+Scheduler_CreateScheduler = 0x80096EE0;
+Scheduler_CreateSchedulerThread = 0x80097068;
+Scheduler_IsTaskReady = 0x80097BDC;
+
 
 D_807991C0 = 0x807991C0; 
 D_8079A730 = 0x8079A730; 
@@ -711,3 +718,4 @@ D_80A3CFB0 = 0x80A3CFB0;
 
 D_8015C748 = 0x8015C748; //size:0x1000
 D_80182558 = 0x80182558; //size:0x18
+D_800E4CB0 = 0x800E4CB0; //type:s32 size:0x3ffc

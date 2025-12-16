@@ -17,7 +17,7 @@ s32 func_800CB410(s32, s32 *, s32 *, s32);                    /* extern */
 void func_800CB680(s32);
 void Sys_SwapFrameBuffer(void*);                          /* extern */
 s32 func_8008E630(void);                                  /* extern */
-s32 func_80099660(s32);                               /* extern */
+void func_80099660(s32);                               /* extern */
 s32 func_800A6440(void);                                  /* extern */
 s32 func_800ABAC8(void);                                  /* extern */
 s32 func_800AC890(void);                                  /* extern */
@@ -79,19 +79,18 @@ void func_800C1A28(void);                                  /* extern */
 void func_800C23E8(f32);                               /* extern */
 void func_800C25B8(f32);                               /* extern */
 void func_800C2780(f32);                               /* extern */
-
 void func_8008EAA8(s32, s32);
 void func_8008ECE4(char* fmt, ...);
 s32 func_800AE7FC(void);
 void* func_8001F60C(u8**);
-void func_80099E2C(void*);
+void func_80099E2C(UnkStruct_80099E2C*);
 void func_800B1B3C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
 void func_800B1C10(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
 s32 func_8001F390(UnkStruct_80020720* arg0);
 void func_8001F6B8(void);
 void func_8001F800(void);
 void func_80022124(void);                                  /* extern */
-void func_8009A14C(void*);                               /* extern */
+void func_8009A14C(UnkStruct_80099E2C*);                               /* extern */
 s32 func_800B202C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u32 arg2, u16 arg3, f32 arg4, f32 arg5, u8 arg6);
 s32 func_800B2748(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1);
 s32 func_800B2CBC(UnkStruct_80099E2C**, UnkStruct_800B23C4**, s32);                   /* extern */
@@ -154,24 +153,5 @@ void func_800C1D44(MtxF*);                                /* extern */
 void func_800C2948(f32, f32, f32);                     /* extern */
 void func_800C2AE8(MtxF*);                             /* extern */
 f32 func_8002BB04(s16 arg0);
-void func_80097068(Scheduler* arg0, void* arg1, s32 arg2);
-
-void func_800970CC(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* arg2);
-void func_80097150(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* arg2);
-void func_800972DC(SchedulerClient* arg0);
-void func_8009731C(Scheduler* arg0, SchedulerClient* arg1);
-void func_80097420(Scheduler* arg0);
-void func_800974C0(Scheduler* arg0);
-void func_8009756C(Scheduler* arg0);
-void func_8009769C(Scheduler*);                            /* extern */
-void func_80097988(Scheduler*);                            /* extern */
-void func_80097B0C(Scheduler*);                            /* extern */
-void func_80097F04(Scheduler*);                            /* extern */
-s32 func_80097F78(Scheduler*, s32*, s32*, s32);            /* extern */
-s32 func_80097C5C(Scheduler*, Scheduler_unk298*); /* extern */
-void func_80097DDC(Scheduler* arg0, Scheduler_unk298* arg1, Scheduler_unk298* arg2);
-void func_80097258(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* mq);
-void func_800971D4(Scheduler* arg0, SchedulerClient* arg1, OSMesgQueue* mq);
-void func_800972FC(SchedulerClient* arg0);
 s32 Thread_GetPriority(u8 arg0);
 #endif /* FUNCTIONS_H */

@@ -2,12 +2,7 @@
 
 
 void func_800ADC50(ThreadEntry* arg0);
-void ContPak_UpdateFilesState(void); /* extern */
-void ContPak_DeleteFile(void); /* extern */
-void ContPak_OpenFile(void); /* extern */
 void func_800AEB14(void); /* extern */
-void ContPak_WriteFile(void);     /* extern */
-void ContPak_ReadFile(void);      /* extern */
 
 extern s32 D_80180DAC;
 extern s32 D_80180DAE;
