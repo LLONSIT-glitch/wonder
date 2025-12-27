@@ -7,21 +7,21 @@
 #define VARIABLES_H
 extern s32 gDebugger;
 extern s32 D_801816C4;
-extern OSThread D_80182650;
-extern u8 D_801849C8[];
+extern OSThread sIdleThread;
+extern u8 sIdleThreadStack[];
 extern u8 D_800F1918;
 extern s32 D_800F191C;
 extern s32 D_800F1930;
 extern s32 D_8015F808;
 extern s32 D_80182584;
-extern s32 D_80187A18;
-extern s32 D_80187B30;
+extern OSMesg D_80187A18;
+extern OSMesgQueue D_80187B30;
 extern OSMesg D_80187B78;
 extern OSMesgQueue D_80187BC0;
 extern struct UnkStruct_801887E8 D_801887E8[];
 extern OSMesg D_801893F0[];
 extern s32 D_801895F4;
-extern u8 D_801A8E3C;
+extern u8 sThreadIdMain;
 extern s32 D_80156BA4;
 extern s32 D_80181680;
 extern s32 D_8018168C;

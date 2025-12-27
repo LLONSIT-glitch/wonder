@@ -1,4 +1,4 @@
-#include "common.h"
+    #include "common.h"
 
 // UNK_TYPE func_80000C90(void*);
 
@@ -81,7 +81,7 @@ void* SysMain(ThreadEntry* entry) {
     s32 pad2[4];
 
     threadEntry = entry;
-    gSysThreadIds[THREAD_SYS_MAIN] = threadEntry->threadId;
+    gSysThreadIds[THREAD_ID_SYS_MAIN] = threadEntry->threadId;
     sp50 = threadEntry->unk18;
     func_800983B0(0, 1);
     func_800AD800();
@@ -712,8 +712,7 @@ exit:
 void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
     s32 sp24;
     UnkStruct_80099E2C* sp20;
-    s32 temp_t3;
-    s32 temp_t8;
+    UNUSED char pad[8];
 
     if (arg0 != NULL) {
         D_801A8C18 = arg0;

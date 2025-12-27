@@ -2,7 +2,7 @@
 #include "macro.h"
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
-void idleFunc(void*);         
+void Main_IdleThreadEntry(void*);         
 void func_800CB170(void);   
 s32 func_800ABE54(void);                                  /* extern */
 void SysMem_HeapInit(void);                                  /* extern */
@@ -13,8 +13,6 @@ s32 Thread_SendMesgNoBlock(u8 arg0, void* arg1, /* unused */ s32 arg2);
 s32 Thread_SetPriority(u8 threadId, OSPri pri);
 s32 Thread_Start(u8);                                /* extern */
 UnkStruct_800F9C38* Thread_GetPtr(u8);                              /* extern */
-s32 func_800CB410(s32, s32 *, s32 *, s32);                    /* extern */
-void func_800CB680(s32);
 void Sys_SwapFrameBuffer(void*);                          /* extern */
 s32 func_8008E630(void);                                  /* extern */
 void func_80099660(s32);                               /* extern */

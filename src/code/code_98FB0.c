@@ -243,7 +243,7 @@ s32 func_80098D24(s32 arg0) {
     UNUSED s32 pad[2];
 
     if (D_801824D4) {
-        Thread_SendMesgNoBlock(gSysThreadIds[THREAD_4], &D_801816C8, OS_MESG_BLOCK);
+        Thread_SendMesgNoBlock(gSysThreadIds[THREAD_ID_IDLE], &D_801816C8, OS_MESG_BLOCK);
     }
 
     for (i = 0; i < 4; i++) {

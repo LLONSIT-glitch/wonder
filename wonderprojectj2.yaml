@@ -200,13 +200,14 @@ segments:
       - [0xCBC80, c, libultra/io/pigetstat]
       - [0xCBC90, c, libultra/io/pirawdma]
       - [0xCBD70, asm]
-      - [0xCC1A0, asm]
+      - [0xCC1A0, c, libultra/os/setthreadpri]
+      - [0xCC280, c, libultra/io/visetspecial]
       - [0xCC440, c, libultra/os/destroythread]
       - [0xCC540, c, libultra/os/stopthread]
       - [0xCC600, c, libultra/os/getthreadpri]
-      - [0xCC620, asm]
-      - [0xCC660, asm]
-      - [0xCC7B0, asm]
+      - [0xCC620, hasm, interrupt]
+      - [0xCC660, c, libultra/io/vi]
+      - [0xCC7B0, hasm, getcount]
       - [0xCC7C0, asm]
       - [0xCCC10, asm]
       - [0xCCF70, asm]
@@ -282,6 +283,8 @@ segments:
       - [0xED820, .data, libultra/audio/sl]
       - [0xED830, .data, libultra/io/aisetnextbuf]
       - [0xED840, data]
+      - [0xED880, .data, libultra/io/vi]
+      - [0xED8F0, data]
       - [0xEDD40, .rodata, sys/sys_main]
       - [0xEDD60, rodata]
       - [0xEDD80, rodata]
@@ -412,6 +415,11 @@ segments:
     start: 0x69A970
     vram: 0x809A8190
            
+  - name: Seg_6A69E0
+    type: bin
+    start: 0x6A69E0
+    vram: 0x809B4200
+
   - name: Seg_6E3A40
     type: code 
     vram: 0x809F1260

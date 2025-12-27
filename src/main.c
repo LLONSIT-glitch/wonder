@@ -9,17 +9,17 @@ extern f32 D_801825C8;
 
 #define MAX_CONTROLERS 4
 
-void bootproc(void* arg0) {
+void Main_BootProc(void* arg) {
     char pad[0x50];
 
     func_800CB170();
-    gDebugger = 0;
+    gDebugger = FALSE;
     D_801816C4 = 0;
-    osCreateThread(&D_80182650, 3, idleFunc, arg0, D_801849C8 + 0x2000, 0xA);
-    osStartThread(&D_80182650);
+    osCreateThread(&sIdleThread, THREAD_ID_IDLE, Main_IdleThreadEntry, arg, sIdleThreadStack + 0x2000, 0xA);
+    osStartThread(&sIdleThread);
 }
 
-void idleFunc(void* entry) {
+void Main_IdleThreadEntry(void* entry) {
     s32 sp1C;
 
     SysMem_HeapInit();
@@ -27,19 +27,19 @@ void idleFunc(void* entry) {
     func_800ABE54();
     D_80182584 = -1;
     D_8015F808 = 0;
-    func_800CB410(0x96, &D_80187B30, &D_80187A18, 0x32);
+    osCreatePiManager(OS_PRIORITY_PIMGR, &D_80187B30, &D_80187A18, 0x32);
     osCreateMesgQueue((OSMesgQueue*) &D_80187BC0, &D_80187B78, 0x10);
 
     for (sp1C = 0; sp1C < 128; sp1C++) {
         osCreateMesgQueue((OSMesgQueue*) &D_801887E8[sp1C], &D_801893F0[sp1C], 1);
     }
     D_801895F4 = 0;
-    D_800F1918 = D_801A8E3C = Thread_CreateSimple((void (*)(void*)) SysMain, &D_800F1918, 10);
-    D_800F1930 = Thread_GetPtr(D_801A8E3C);
+    D_800F1918 = sThreadIdMain = Thread_CreateSimple((void (*)(void*)) SysMain, &D_800F1918, 10);
+    D_800F1930 = Thread_GetPtr(sThreadIdMain);
     D_800F191C = 10;
 
     if (!gDebugger) {
-        Thread_Start(D_801A8E3C);
+        Thread_Start(sThreadIdMain);
     }
     osSetThreadPri(NULL, OS_PRIORITY_IDLE);
 
@@ -62,14 +62,14 @@ void func_800BD8D4(s32 arg0, UNUSED s32 arg1) {
     D_801A1B14 = 0;
 }
 
-void func_800BD9D0(s32 arg0, s32 arg1) {
-    if (arg0 != -1) {
-        D_80181680 = arg0;
-        osViSetMode(&osViModeTable[arg0]);
+void func_800BD9D0(s32 mode, s32 arg1) {
+    if (mode != -1) {
+        D_80181680 = mode;
+        osViSetMode(&osViModeTable[mode]);
     }
     if (arg1 != -1) {
         D_8018168C = arg1;
-        func_800CB680(0x4A);
+        osViSetSpecialFeatures(OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_DITHER_OFF | OS_VI_GAMMA_OFF);
     }
 }
 
