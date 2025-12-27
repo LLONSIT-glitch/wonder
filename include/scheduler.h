@@ -4,12 +4,15 @@
 /* types */
 
 // A linked list of thread message queues?
+
+// Modified version of OScClient
 typedef struct SchedulerClient {
     /* 0x0 */ struct SchedulerClient* next; /* inferred */
     /* 0x4 */ OSMesgQueue* mq;              /* inferred */
     /* 0x8 */ s32 unk8;                     /* inferred */
 } SchedulerClient;                          /* size = 0xC */
 
+// Modified version of OScTask
 typedef struct SchedulerTask_s {
     struct SchedulerTask_s* next; /* note: this must be first */
     u32 state;
@@ -24,11 +27,13 @@ typedef struct SchedulerTask_s {
 #endif                /* FINALROM library used with */
 } SchedulerTask;      /* non FINALROM code          */
 
+// Modified version of OScMesg
 typedef struct {
     short type;
     char  misc[30];
 } SchedulerMesg;
 
+// Modified version of OScSched
 typedef struct Scheduler_s {
     /* 0x000 */ SchedulerMesg unk0;
     /* 0x020 */ SchedulerMesg unk20;

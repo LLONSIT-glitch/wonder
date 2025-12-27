@@ -214,19 +214,19 @@ void func_800BE0FC(void) {
     gDisplayListHead = D_801A1B4C;
 }
 
-void func_800BE18C(Gfx** arg0) {
-    Gfx* gdl;
+void func_800BE18C(Gfx** gdl) {
+    Gfx* gdlh;
 
-    gdl = *arg0;
-    gSPSegment(gdl++, 0x00, 0x00000000);
-    gSPSegment(gdl++, 0x01, OS_PHYSICAL_TO_K0(D_801895FC));
-    gSPSegment(gdl++, 0x02, OS_PHYSICAL_TO_K0(D_80189AF8));
-    gSPSegment(gdl++, 0x03, OS_PHYSICAL_TO_K0(D_801824DC));
-    gSPDisplayList(gdl++, &D_1000058);
-    gSPDisplayList(gdl++, &D_1000080);
-    gDPPipeSync(gdl++);
+    gdlh = *gdl;
+    gSPSegment(gdlh++, 0x00, 0x00000000);
+    gSPSegment(gdlh++, 0x01, OS_PHYSICAL_TO_K0(D_801895FC));
+    gSPSegment(gdlh++, 0x02, OS_PHYSICAL_TO_K0(D_80189AF8));
+    gSPSegment(gdlh++, 0x03, OS_PHYSICAL_TO_K0(D_801824DC));
+    gSPDisplayList(gdlh++, &D_1000058);
+    gSPDisplayList(gdlh++, &D_1000080);
+    gDPPipeSync(gdlh++);
 
-    *arg0 = gdl;
+    *gdl = gdlh;
 }
 
 void func_800BE328(Gfx** arg0) {
@@ -265,7 +265,7 @@ void func_800BE510(f32 arg0, f32 arg1, f32 arg2) {
     func_80099FB0(arg0);
 }
 
-void func_800BE610(void) {
+void Main_GfxFullSync(void) {
     gDPFullSync(gDisplayListHead++);
     gSPEndDisplayList(gDisplayListHead++);
 }
@@ -275,7 +275,7 @@ void func_800BE684(void) {
     gSPDisplayList(gDisplayListHead++, D_1000058);
     gDPPipeSync(gDisplayListHead++);
     func_800BE328((Gfx**) &gDisplayListHead);
-    gDPSetColorImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, VIRTUAL_TO_PHYSICAL2(D_801824DC));
+    gDPSetColorImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320,  VIRTUAL_TO_PHYSICAL2(D_801824DC));
 }
 
 void alSynFreeFX(ALSynth* s, void** fx) {

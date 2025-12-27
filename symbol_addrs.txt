@@ -1,4 +1,5 @@
 D_Unknown800CB13C = 0x800CB13C;
+Main_GfxFullSync = 0x800BE610;
 bootproc = 0x800BD6F0;
 idleFunc = 0x800BD76C;
 Thread_Start = 0x800C0C8C;

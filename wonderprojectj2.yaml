@@ -363,7 +363,7 @@ segments:
 
   - type: bin
     start: 0xF24E0
-    vram: 0x800F18E0
+    vram: 0x01000000
     follows_vram: main
 
     # Vram start: 0x80400000 

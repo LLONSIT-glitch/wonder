@@ -21,7 +21,7 @@ s32 sDpCount = 0;
 
 void Scheduler_AppendTask(Scheduler* arg0, SchedulerTask* arg1);
 
-void Scheduler_CreateScheduler(Scheduler* scheduler, u8 arg1, s32 arg2) {
+void Scheduler_CreateScheduler(Scheduler* scheduler, u8 viMode, s32 arg2) {
     scheduler->curRSPTask = 0;
     scheduler->curRDPTask = 0;
     scheduler->clientList = 0;
@@ -41,7 +41,7 @@ void Scheduler_CreateScheduler(Scheduler* scheduler, u8 arg1, s32 arg2) {
     osCreateMesgQueue(&scheduler->interruptQ, &scheduler->unk78, 8);
     osCreateMesgQueue(&scheduler->cmdQ, &scheduler->unkB0, 8);
     osCreateViManager(OS_PRIORITY_VIMGR);
-    osViSetMode(&osViModeTable[arg1]);
+    osViSetMode(&osViModeTable[viMode]);
     osViBlack(TRUE);
     osSetEventMesg(OS_EVENT_SP, &scheduler->interruptQ, (void*) RSP_DONE_MSG);
     osSetEventMesg(OS_EVENT_DP, &scheduler->interruptQ, (void*) RDP_DONE_MSG);

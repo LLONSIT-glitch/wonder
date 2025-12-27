@@ -39,7 +39,7 @@ void func_8002C2F8(void);
 void func_8001635C(void);
 void func_800BE684(void);
 s32 func_80031AC8(void);
-void func_800BE610(void);
+void Main_GfxFullSync(void);
 void CreateGfxTask(void*, u32);
 void func_80098D24(u8 threadId);
 void func_80099450(void);
@@ -447,7 +447,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                         func_800C1A28();
                     }
                     func_8009A664(&gDisplayListHead);
-                    func_800BE610();
+                    Main_GfxFullSync();
                     CreateGfxTask(D_801A1B4C, (u32) gDisplayListHead - (u32) D_801A1B4C);
                     func_80098D24(threadEntry->threadId);
                     func_80099450();

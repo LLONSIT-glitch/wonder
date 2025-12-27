@@ -44,7 +44,7 @@ void func_8009A664(Gfx**);               /* extern */
 void func_800A6670(s32, s32*);           /* extern */
 void func_800AFB28(void);                /* extern */
 void func_800BE510(f32, f32, f32);       /* extern */
-void func_800BE610(void);                /* extern */
+void Main_GfxFullSync(void);                /* extern */
 
 extern DebugMenuInfo D_800DB1A0[];
 extern s16 D_801A7228;
@@ -648,7 +648,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                     func_800997D8(sp5C);
                     func_800C1A28();
                     func_8009A664(&gDisplayListHead);
-                    func_800BE610();
+                    Main_GfxFullSync();
                     func_8009908C(D_801A1B4C, (uintptr_t) gDisplayListHead - (uintptr_t) D_801A1B4C);
                     func_80098D24(sp6C->unk0.unk0);
                     func_80099450();
