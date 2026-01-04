@@ -9,17 +9,17 @@ extern f32 D_801825C8;
 
 #define MAX_CONTROLERS 4
 
-void bootproc(void* arg0) {
+void Main_BootProc(void* arg) {
     char pad[0x50];
 
     func_800CB170();
-    gDebugger = 0;
+    gDebugger = FALSE;
     D_801816C4 = 0;
-    osCreateThread(&D_80182650, 3, idleFunc, arg0, D_801849C8 + 0x2000, 0xA);
-    osStartThread(&D_80182650);
+    osCreateThread(&sIdleThread, THREAD_ID_IDLE, Main_IdleThreadEntry, arg, sIdleThreadStack + 0x2000, 0xA);
+    osStartThread(&sIdleThread);
 }
 
-void idleFunc(void* entry) {
+void Main_IdleThreadEntry(void* entry) {
     s32 sp1C;
 
     SysMem_HeapInit();
@@ -27,19 +27,19 @@ void idleFunc(void* entry) {
     func_800ABE54();
     D_80182584 = -1;
     D_8015F808 = 0;
-    func_800CB410(0x96, &D_80187B30, &D_80187A18, 0x32);
+    osCreatePiManager(OS_PRIORITY_PIMGR, &D_80187B30, &D_80187A18, 0x32);
     osCreateMesgQueue((OSMesgQueue*) &D_80187BC0, &D_80187B78, 0x10);
 
     for (sp1C = 0; sp1C < 128; sp1C++) {
         osCreateMesgQueue((OSMesgQueue*) &D_801887E8[sp1C], &D_801893F0[sp1C], 1);
     }
     D_801895F4 = 0;
-    D_800F1918 = D_801A8E3C = Thread_CreateSimple((void (*)(void*)) SysMain, &D_800F1918, 10);
-    D_800F1930 = Thread_GetPtr(D_801A8E3C);
+    D_800F1918 = sThreadIdMain = Thread_CreateSimple((void (*)(void*)) SysMain, &D_800F1918, 10);
+    D_800F1930 = Thread_GetPtr(sThreadIdMain);
     D_800F191C = 10;
 
     if (!gDebugger) {
-        Thread_Start(D_801A8E3C);
+        Thread_Start(sThreadIdMain);
     }
     osSetThreadPri(NULL, OS_PRIORITY_IDLE);
 
@@ -62,14 +62,14 @@ void func_800BD8D4(s32 arg0, UNUSED s32 arg1) {
     D_801A1B14 = 0;
 }
 
-void func_800BD9D0(s32 arg0, s32 arg1) {
-    if (arg0 != -1) {
-        D_80181680 = arg0;
-        osViSetMode(&D_800EBED0[arg0]);
+void func_800BD9D0(s32 mode, s32 arg1) {
+    if (mode != -1) {
+        D_80181680 = mode;
+        osViSetMode(&osViModeTable[mode]);
     }
     if (arg1 != -1) {
         D_8018168C = arg1;
-        func_800CB680(0x4A);
+        osViSetSpecialFeatures(OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_DITHER_OFF | OS_VI_GAMMA_OFF);
     }
 }
 
@@ -214,19 +214,19 @@ void func_800BE0FC(void) {
     gDisplayListHead = D_801A1B4C;
 }
 
-void func_800BE18C(Gfx** arg0) {
-    Gfx* gdl;
+void func_800BE18C(Gfx** gdl) {
+    Gfx* gdlh;
 
-    gdl = *arg0;
-    gSPSegment(gdl++, 0x00, 0x00000000);
-    gSPSegment(gdl++, 0x01, OS_PHYSICAL_TO_K0(D_801895FC));
-    gSPSegment(gdl++, 0x02, OS_PHYSICAL_TO_K0(D_80189AF8));
-    gSPSegment(gdl++, 0x03, OS_PHYSICAL_TO_K0(D_801824DC));
-    gSPDisplayList(gdl++, &D_1000058);
-    gSPDisplayList(gdl++, &D_1000080);
-    gDPPipeSync(gdl++);
+    gdlh = *gdl;
+    gSPSegment(gdlh++, 0x00, 0x00000000);
+    gSPSegment(gdlh++, 0x01, OS_PHYSICAL_TO_K0(D_801895FC));
+    gSPSegment(gdlh++, 0x02, OS_PHYSICAL_TO_K0(D_80189AF8));
+    gSPSegment(gdlh++, 0x03, OS_PHYSICAL_TO_K0(D_801824DC));
+    gSPDisplayList(gdlh++, &D_1000058);
+    gSPDisplayList(gdlh++, &D_1000080);
+    gDPPipeSync(gdlh++);
 
-    *arg0 = gdl;
+    *gdl = gdlh;
 }
 
 void func_800BE328(Gfx** arg0) {
@@ -265,7 +265,7 @@ void func_800BE510(f32 arg0, f32 arg1, f32 arg2) {
     func_80099FB0(arg0);
 }
 
-void func_800BE610(void) {
+void Main_GfxFullSync(void) {
     gDPFullSync(gDisplayListHead++);
     gSPEndDisplayList(gDisplayListHead++);
 }
@@ -275,7 +275,7 @@ void func_800BE684(void) {
     gSPDisplayList(gDisplayListHead++, D_1000058);
     gDPPipeSync(gDisplayListHead++);
     func_800BE328((Gfx**) &gDisplayListHead);
-    gDPSetColorImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, VIRTUAL_TO_PHYSICAL2(D_801824DC));
+    gDPSetColorImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320,  VIRTUAL_TO_PHYSICAL2(D_801824DC));
 }
 
 void alSynFreeFX(ALSynth* s, void** fx) {
@@ -302,7 +302,7 @@ s32 func_800BE7A0(s32 arg0) {
     D_80180E5C = 70.0f;
     osCreateMesgQueue((OSMesgQueue*) &D_80182500, &D_8018252C, 1);
     osSetEventMesg(OS_EVENT_SI, (OSMesgQueue*) &D_80182500, (void*) 1);
-    sp1C = osContInit((OSMesgQueue*) &D_80182500, &D_8018127C, D_80182540);
+    sp1C = osContInit((OSMesgQueue*) &D_80182500, &gContPakBitPattern, gContStatus);
 
     for (sp1C = 0; sp1C < 4; sp1C++) {
         D_80180DA8[sp1C].state = STATE_CONNECTED;
@@ -323,20 +323,20 @@ void func_800BE960(s32 contInitialized) {
         osRecvMesg(&D_801824E0, NULL, 1);
     }
 
-    osContGetReadData(D_80182558);
+    osContGetReadData(gContPad);
 
     for (i = 0; i < MAX_CONTROLERS; i++) {
-        if (!D_80182558[i].errno) {
+        if (!gContPad[i].errno) {
             sp24 = &D_80180DA8[i];
             if (sp24->state != STATE_CONNECTED) {
                 sp24->unk18 = D_80180E50;
                 sp24->unk1C = D_80180E5C;
             }
             sp24->state = STATE_CONNECTED;
-            sp24->stickX = (f32) D_80182558[i].stick_x * (sp24->unk18 / 80.0f);
-            sp24->stickY = (f32) D_80182558[i].stick_y * (sp24->unk1C / 80.0f);
+            sp24->stickX = (f32) gContPad[i].stick_x * (sp24->unk18 / 80.0f);
+            sp24->stickY = (f32) gContPad[i].stick_y * (sp24->unk1C / 80.0f);
             prevButton = sp24->button;
-            sp24->button = D_80182558[i].button;
+            sp24->button = gContPad[i].button;
             sp24->unk6 = (sp24->button ^ prevButton) & sp24->button; // Always 1
             sp24->unkC -= D_8018257C;
             if (sp24->button != sp24->unkA) {

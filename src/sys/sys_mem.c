@@ -305,7 +305,7 @@ void SysMem_Copy64(void* dest, void* src, s32 size) {
     }
 }
 
-s32 SysMem_Compare(u8* s1, u8* s2, s32 size) {
+s32 SysMem_Bcmp(void* s1, void* s2, s32 size) {
     u8* p2;
     u8* p1;
 

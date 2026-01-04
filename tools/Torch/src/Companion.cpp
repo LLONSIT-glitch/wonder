@@ -1621,7 +1621,7 @@ std::string Companion::CalculateHash(const std::vector<uint8_t>& data) {
 }
 
 std::optional<YAML::Node> Companion::AddAsset(YAML::Node asset) {
-    if(!asset["offset"] || !asset["type"]) {
+    if(!asset["offset"] || !asset["type"] || !asset["lights_type"]) {
         return std::nullopt;
     }
     asset["offset"] = PatchVirtualAddr(GetSafeNode<uint32_t>(asset, "offset"));

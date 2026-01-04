@@ -44,7 +44,7 @@ void func_8009A664(Gfx**);               /* extern */
 void func_800A6670(s32, s32*);           /* extern */
 void func_800AFB28(void);                /* extern */
 void func_800BE510(f32, f32, f32);       /* extern */
-void func_800BE610(void);                /* extern */
+void Main_GfxFullSync(void);                /* extern */
 
 extern DebugMenuInfo D_800DB1A0[];
 extern s16 D_801A7228;
@@ -219,7 +219,7 @@ s32 func_8001A210(UnkStruct_8000DDE0* arg0) {
                 sp20->unkE8 = 255.0f;
             } else {
                 func_800C1754();
-                func_8009A14C(arg0);
+                func_8009A14C(&arg0->unk0);
                 func_800997D8(arg0);
                 func_800C1A28();
                 D_801A7238 |= 0x8000;
@@ -364,7 +364,7 @@ s32 func_8001ADBC(UnkStruct_8000DDE0* arg0) {
     sp1C = arg0;
     if ((*D_801A8D88 & 8) || !(arg0->unk1A8 & 1)) {
         func_800C1754();
-        func_8009A14C(sp1C);
+        func_8009A14C(&sp1C->unk0);
         func_800C2780(sp1C->unk0.unkF0);
         func_800C25B8(sp1C->unk0.unkEC);
         func_800C23E8(sp1C->unk0.unkE8);
@@ -489,7 +489,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
         func_80098868();
     }
     while (sp78 == 0) {
-        func_800C143C(sp6C->unk0.unk0, &sp64, 1);
+        Thread_ReceiveMsgInThread(sp6C->unk0.unk0, &sp64, 1);
         switch (*sp64) { /* irregular */
             case 1:
                 if (sp68->unk82EC < 2) {
@@ -648,7 +648,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                     func_800997D8(sp5C);
                     func_800C1A28();
                     func_8009A664(&gDisplayListHead);
-                    func_800BE610();
+                    Main_GfxFullSync();
                     func_8009908C(D_801A1B4C, (uintptr_t) gDisplayListHead - (uintptr_t) D_801A1B4C);
                     func_80098D24(sp6C->unk0.unk0);
                     func_80099450();
@@ -674,7 +674,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                 break;
             case 33:
                 while (sp68->unk82EC > 0) {
-                    func_800C143C(sp6C->unk0.unk0, &sp64, 1);
+                    Thread_ReceiveMsgInThread(sp6C->unk0.unk0, &sp64, 1);
                     if (*sp64 == 2) {
                         if (FALSE)
                             ;
@@ -702,7 +702,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
     }
     if (!(*D_801A8D88 & 4)) {
         while (sp68->unk82EC > 0) {
-            func_800C143C(sp6C->unk0.unk0, &sp64, 1);
+            Thread_ReceiveMsgInThread(sp6C->unk0.unk0, &sp64, 1);
             if (*sp64 == 2) {
                 if (FALSE)
                     ;
@@ -1162,7 +1162,6 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
     return 0;
 }
 
-void Thread_SendMesgNoBlock(u8, s16*, s32); /* extern */
 
 extern s32 D_80156B98;
 extern s32 D_801AB248;

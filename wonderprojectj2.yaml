@@ -115,10 +115,10 @@ segments:
       - [0x82DA0, c, code/code_82DA0]
       - [0x8DA90, c, code/code_8DA90]
       - [0x8F1A0, c, code/code_8F1A0]
-      - [0x97AE0, c, code/code_97AE0]
+      - [0x97AE0, c, code/scheduler]
       - [0x98FB0, c, code/code_98FB0]
       - [0xAE400, c, code/code_AE400]
-      - [0xAEAD0, c, code/code_AEAD0]
+      - [0xAEAD0, c, code/cont_pak]
       - [0xAFC60, c, code/code_AFC60]
       - [0xB2650, c, code/code_B2650]
       - [0xB90F0, c, audio/audio_mgr]
@@ -200,16 +200,17 @@ segments:
       - [0xCBC80, c, libultra/io/pigetstat]
       - [0xCBC90, c, libultra/io/pirawdma]
       - [0xCBD70, asm]
-      - [0xCC1A0, asm]
+      - [0xCC1A0, c, libultra/os/setthreadpri]
+      - [0xCC280, c, libultra/io/visetspecial]
       - [0xCC440, c, libultra/os/destroythread]
       - [0xCC540, c, libultra/os/stopthread]
       - [0xCC600, c, libultra/os/getthreadpri]
-      - [0xCC620, asm]
-      - [0xCC660, asm]
-      - [0xCC7B0, asm]
+      - [0xCC620, hasm, interrupt]
+      - [0xCC660, c, libultra/io/vi]
+      - [0xCC7B0, hasm, getcount]
       - [0xCC7C0, asm]
       - [0xCCC10, asm]
-      - [0xCCF70, asm]
+      - [0xCCF70, hasm, exceptasm]
       - [0xCD870, asm]
       - [0xCD880, asm]
       - [0xCDB90, asm]
@@ -247,12 +248,13 @@ segments:
       - [0xD4F50, asm]
       - [0xD5020, asm]
       - [0xD5040, asm]
-      - [0xD50F0, asm]
-      - [0xD5170, asm]
+      - [0xD50F0, hasm, invalicache]
+      - [0xD5170, hasm, maptlbrdb]
       - [0xD51D0, c, libultra/io/pirawread]
       - [0xD5230, hasm, bzero]
       - [0xD52D0, asm]
       - [0xD5BA0, asm]
+      - [0xD60F0, hasm, setcompare]
       - [0xD6100, asm]
       - [0xD6130, asm]
       - [0xD62D0, asm]
@@ -265,10 +267,14 @@ segments:
 
       # Data starts!
       - [0xD7BB0, data]
+      - [0xDAB00, .data, sys/sys_main]
+      - [0xDAB80, data]
       - [0xDC200, .data, code/code_1FF90]
       - [0xDC210, data]
       - [0xDC3E0, .data, code/code_2CE70]
       - [0xDC470, data]
+      - [0xE98B0, .data, code/scheduler]
+      - [0xE98D0, data]
       - [0xE98F0, .data, audio/audio_driver]
       - [0xE9900, data]
       - [0xECAC0, .data, libultra/gu/random]
@@ -278,7 +284,9 @@ segments:
       - [0xED820, .data, libultra/audio/sl]
       - [0xED830, .data, libultra/io/aisetnextbuf]
       - [0xED840, data]
-      - [0xEDD40, rodata]
+      - [0xED880, .data, libultra/io/vi]
+      - [0xED8F0, data]
+      - [0xEDD40, .rodata, sys/sys_main]
       - [0xEDD60, rodata]
       - [0xEDD80, rodata]
       - [0xEDDE0, rodata]
@@ -301,7 +309,7 @@ segments:
       - [0xF0130, rodata]
       - [0xF01E0, rodata]
       - [0xF0210, rodata]
-      - [0xF0390, .rodata, code/code_97AE0]
+      - [0xF0390, .rodata, code/scheduler]
       - [0xF03B0, rodata]
       - [0xF04B0, rodata]
       - [0xF0500, rodata]
@@ -359,7 +367,7 @@ segments:
 
   - type: bin
     start: 0xF24E0
-    vram: 0x800F18E0
+    vram: 0x01000000
     follows_vram: main
 
     # Vram start: 0x80400000 
@@ -407,9 +415,16 @@ segments:
     type: bin
     start: 0x69A970
     vram: 0x809A8190
-           
+
+  - name: Seg_6A69E0
+    type: code
+    start: 0x6A69E0
+    vram: 0x809B4200
+    subsegments:
+    - [0x6A69E0, bin]
+
   - name: Seg_6E3A40
-    type: code 
+    type: code
     vram: 0x809F1260
     start: 0x6E3A40
     subsegments:
@@ -420,7 +435,7 @@ segments:
   - name: audioSequences
     type: bin
     start: 0x730E80
-  
+
   - name: audioTblStart
     type: bin
     start: 0x756140

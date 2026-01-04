@@ -16,7 +16,7 @@ typedef struct HeapBlock_s {
 
 s32 SysMem_GetFreeSpace(void);
 void* SysMem_HeapAlloc(s32 size);
-s32 SysMem_Compare(u8* s1, u8* s2, s32 size);
+s32 SysMem_Bcmp(void* s1, void* s2, s32 size);
 s32 SysMem_DmaCopy(u32 src, void* dest, s32 size);
 void SysMem_Copy64(void* dest, void* src, s32 size);
 void SysMem_Copy8(void* dest, void* src, s32 size);

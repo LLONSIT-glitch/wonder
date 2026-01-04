@@ -28,55 +28,25 @@ typedef struct UnkStruct_8018255A_s {
     char pad[3];
 } UnkStruct_8018255A;
 
-typedef struct UnkStruct_800F9C38 {
-    /* 0x0000 */ u8 flags;
-    /* 0x0001 */ u8 unk1;
-    /* 0x0002 */ char pad2[0x7FFE]; /* maybe part of unk1[0x7FFF]? */
-    /* 0x8000 */ void* threadSp;
-    /* 0x8004 */ char pad8004[0xB0]; /* maybe part of threadSp[0x2F]? */
-    s32 unk80B0;
-    char pad80B4[0x4];
-    /* 0x80BC */ s16 unk80BC;        /* inferred */
-    /* 0x80BE */ char pad80BE[0x1E]; /* maybe part of unk80BC[0x10]? */
-    /* 0x80DC */ s16 unk80DC;        /* inferred */
-    /* 0x80DE */ char pad80DE[0x22]; /* maybe part of unk80DC[0x12]? */
-    /* 0x8100 */ OSThread thread;
-    /* 0x82B0 */ OSMesg mesg;
-    /* 0x82B4 */ char pad82B4[0x1C]; /* maybe part of unk82B0[8]? */
-    /* 0x82D0 */ OSMesgQueue mq;
-    /* 0x82E8 */ u8 unk82E8;
-    /* 0x82E9 */ u8 unk82E9;
-    /* 0x82EA */ char pad82EA[2];    /* maybe part of unk82E9[3]? */
-    /* 0x82EC */ s32 unk82EC;        /* inferred */
-    /* 0x82F0 */ char pad82F0[0x18]; /* maybe part of unk82EC[7]? */
-} UnkStruct_800F9C38;                /* size = 0x8308 */
-
-typedef struct ThreadEntry {
-    u8 threadId;
-    OSPri threadPri;
-    char pad4[0x10];
-    UnkStruct_800F9C38* unk18;
-    char pad[0x8];
-} ThreadEntry;
-
 typedef struct UnkStruct_801A7340_unk144_s {
-    /* 0x00 */ u16 unk0;                            /* inferred */
-    /* 0x02 */ u16 unk2;                            /* inferred */
-    /* 0x04 */ char pad4[4];                        /* maybe part of unk2[3]? */
-    /* 0x08 */ u16 unk8;                            /* inferred */
+    /* 0x00 */ u16 unk0;     /* inferred */
+    /* 0x02 */ u16 unk2;     /* inferred */
+    /* 0x04 */ char pad4[4]; /* maybe part of unk2[3]? */
+    /* 0x08 */ u16 unk8;     /* inferred */
     /* 0x0A */ char padA[2];
-    /* 0x0C */ s16 unkC;                            /* inferred */
-    /* 0x0E */ s16 unkE;                            /* inferred */
-} UnkStruct_801A7340_unk144;                        /* size = 0x10 */
-
+    /* 0x0C */ s16 unkC;     /* inferred */
+    /* 0x0E */ s16 unkE;     /* inferred */
+} UnkStruct_801A7340_unk144; /* size = 0x10 */
 
 typedef struct UnkStruct_80099E2C_s {
     /* 0x000 */ s32 unk0;
-    /* 0x001 */ char pad1[0x4]; /* maybe part of unk0[8]? */
+    /* 0x004 */ char pad4[4];
     /* 0x008 */ s32 unk8;
     /* 0x00C */ char padC[0xC]; /* maybe part of unk8[4]? */
     /* 0x018 */ void* unk18;
-    /* 0x01C */ char pad1C[0xA4]; /* maybe part of unk18[0x2A]? */
+    /* 0x01C */ char pad1C[0x64]; /* maybe part of unk18[0x1A]? */
+    /* 0x080 */ s32 unk80[2][4];  /* inferred */
+    /* 0x0A0 */ f32 unkA0[2][4];  /* inferred */
     /* 0x0C0 */ s32 unkC0;
     /* 0x0C4 */ s16 unkC4;
     /* 0x0C6 */ char padC6[2];
@@ -87,7 +57,7 @@ typedef struct UnkStruct_80099E2C_s {
     /* 0x0D8 */ f32 unkD8;
     /* 0x0DC */ s32 unkDC;
     /* 0x0E0 */ s32 unkE0;
-    /* 0x0E4 */ f32 unkE4; /* inferred */
+    /* 0x0E4 */ f32 unkE4;
     /* 0x0E8 */ f32 unkE8;
     /* 0x0EC */ f32 unkEC;
     /* 0x0F0 */ f32 unkF0;
@@ -137,7 +107,9 @@ typedef struct UnkStruct_801560F0_s {
     /* 0x10 */ f32 unk10;     /* inferred */
     /* 0x14 */ f32 unk14;     /* inferred */
     /* 0x18 */ char pad18[8]; /* maybe part of unk14[3]? */
-} UnkStruct_801560F0;         /* size = 0x20 */
+    char pad[0xC];
+    u16 unk2C;
+} UnkStruct_801560F0; /* size = 0x20 */
 
 typedef struct UnkStruct_80182618_s {
     u8* ptrs[4];
@@ -223,27 +195,27 @@ typedef struct UnkStruct_8000DDE0_s {
 } UnkStruct_8000DDE0;              /* size = 0x238 */
 
 typedef struct UnkStruct_801A3068_s {
-    /* 0x00 */ s32 unk0;                            /* inferred */
+    /* 0x00 */ s32 unk0; /* inferred */
     /* 0x04 */ u16 unk4;
-    /* 0x06 */ u16 unk6;                            /* inferred */
-    /* 0x08 */ u16 unk8;                            /* inferred */
-    /* 0x0A */ s16 unkA;                            /* inferred */
-    /* 0x0C */ f32 unkC;                            /* inferred */
-} UnkStruct_801A3068;                               /* size = 0x10 */
+    /* 0x06 */ u16 unk6; /* inferred */
+    /* 0x08 */ u16 unk8; /* inferred */
+    /* 0x0A */ s16 unkA; /* inferred */
+    /* 0x0C */ f32 unkC; /* inferred */
+} UnkStruct_801A3068;    /* size = 0x10 */
 
 typedef struct UnkStruct_8008250C_s {
     /* 0x00 */ s16 unk0;
-    /* 0x02 */ s16 unk2;                            /* inferred */
-    /* 0x04 */ s16 unk4;                            /* inferred */
+    /* 0x02 */ s16 unk2; /* inferred */
+    /* 0x04 */ s16 unk4; /* inferred */
     /* 0x06 */ char pad6[2];
-    /* 0x08 */ UnkStruct_80099E2C* unk8;            /* inferred */
-    /* 0x0C */ UnkStruct_800B23C4* unkC;            /* inferred */
-    /* 0x10 */ u16 unk10;                           /* inferred */
+    /* 0x08 */ UnkStruct_80099E2C* unk8; /* inferred */
+    /* 0x0C */ UnkStruct_800B23C4* unkC; /* inferred */
+    /* 0x10 */ u16 unk10;                /* inferred */
     /* 0x12 */ char pad12[2];
-    /* 0x14 */ s32 unk14;                           /* inferred */
-    /* 0x18 */ s32 unk18;                           /* inferred */    
-               s32 unk1C;
-} UnkStruct_8008250C;                               /* size = 0x1C */
+    /* 0x14 */ s32 unk14; /* inferred */
+    /* 0x18 */ s32 unk18; /* inferred */
+    s32 unk1C;
+} UnkStruct_8008250C; /* size = 0x1C */
 
 typedef struct UnkStruct_8018165C_s {
     /* 0x00 */ u8 unk0;
@@ -254,7 +226,7 @@ typedef struct UnkStruct_8018165C_s {
     /* 0x08 */ s16 unk8;
     /* 0x0A */ s16 unkA;
     /* 0x0C */ s16 unkC;
-    /* 0x0E */ s16 unkE;                            /* inferred */
+    /* 0x0E */ s16 unkE; /* inferred */
     /* 0x10 */ f32 unk10;
     /* 0x14 */ f32 unk14;
     /* 0x18 */ f32 unk18;
@@ -270,75 +242,46 @@ typedef struct UnkStruct_8018165C_s {
     /* 0x3C */ s32 unk3C;
     /* 0x40 */ s32 unk40;
     /* 0x44 */ s32 unk44;
-} UnkStruct_8018165C;                               /* size = 0x48 */
+} UnkStruct_8018165C; /* size = 0x48 */
 
 typedef struct UnkStruct_801AE5A0_s {
     /* 0x00 */ char pad0[0xC];
-    /* 0x0C */ s32 unkC;                            /* inferred */
-    /* 0x10 */ char pad10[0xA];                     /* maybe part of unkC[3]? */
-    /* 0x1A */ u8 unk1A;                            /* inferred */
+    /* 0x0C */ s32 unkC;        /* inferred */
+    /* 0x10 */ char pad10[0xA]; /* maybe part of unkC[3]? */
+    /* 0x1A */ u8 unk1A;        /* inferred */
     /* 0x1B */ char pad1B[1];
-} UnkStruct_801AE5A0;                               /* size = 0x1C */
+} UnkStruct_801AE5A0; /* size = 0x1C */
 
-typedef struct UnkStruct_800970CC_arg1_s {
-    /* 0x0 */ struct UnkStruct_800970CC_arg1_s* unk0;                             /* inferred */
-    /* 0x4 */ OSMesgQueue* unk4;                             /* inferred */
-    /* 0x8 */ s32 unk8;                             /* inferred */
-} UnkStruct_800970CC;                               /* size = 0xC */
+typedef struct UnkStruct_800F9C38 {
+    /* 0x0000 */ u8 flags;
+    /* 0x0001 */ u8 unk1;
+    /* 0x0002 */ char pad2[0x7FFE]; /* maybe part of unk1[0x7FFF]? */
+    /* 0x8000 */ OSTask* threadSp;
+    /* 0x8004 */ char pad8004[0xAC];      /* maybe part of threadSp[0x2C]? */
+    /* 0x80B0 */ SchedulerClient unk80B0; /* inferred */
+    /* 0x80BC */ s16 unk80BC;
+    /* 0x80BE */ char pad80BE[0x1E]; /* maybe part of unk80BC[0x10]? */
+    /* 0x80DC */ s16 unk80DC;
+    /* 0x80DE */ char pad80DE[0x22]; /* maybe part of unk80DC[0x12]? */
+    /* 0x8100 */ OSThread thread;
+    /* 0x82B0 */ void* mesg;
+    /* 0x82B4 */ char pad82B4[0x1C]; /* maybe part of mesg[8]? */
+    /* 0x82D0 */ OSMesgQueue mq;
+    /* 0x82E8 */ u8 unk82E8;
+    /* 0x82E9 */ u8 unk82E9;
+    /* 0x82EA */ char pad82EA[2]; /* maybe part of unk82E9[3]? */
+    /* 0x82EC */ s32 unk82EC;
+    /* 0x82F0 */ char pad82F0[0x18]; /* maybe part of unk82EC[7]? */
+} UnkStruct_800F9C38;                /* size = 0x8308 */
 
-typedef struct UnkStruct_801AC8A8_unk294_s {
-    /* 0x00 */ s32 unk0;                            /* inferred */
-    /* 0x04 */ s32 unk4;                            /* inferred */
-    /* 0x08 */ s32 unk8;                            /* inferred */
-    /* 0x0C */ char padC[4];
-    /* 0x10 */ OSTask unk10;
-} UnkStruct_801AC8A8_unk294;                        /* size = 0x50 */
-
-typedef struct UnkStruct_801AC8A8_unk298_s {
-    /* 0x00 */ char pad0[4];
-    /* 0x04 */ s32 unk4;
-    /* 0x08 */ s32 unk8;
-    /* 0x0C */ void *unkC;
-    /* 0x10 */ OSTask unk10;
-    /* 0x50 */ OSMesgQueue *unk50;
-    /* 0x54 */ void *unk54;
-} UnkStruct_801AC8A8_unk298;                        /* size = 0x58 */
-
-typedef struct UnkStruct_801AC8A8_unk284_s {
-    /* 0x0 */ struct UnkStruct_801AC8A8_unk284_s *unk0;      /* inferred */
-    /* 0x4 */ s32 unk4;                             /* inferred */
-    /* 0x8 */ s32 unk8;                             /* inferred */
-             s32 padC;
-            s32 unk10;
-} UnkStruct_801AC8A8_unk284;                        /* size = 0xC */
-
-typedef struct UnkStruct_801AC8A8_s {
-    /* 0x000 */ s16 unk0;
-    /* 0x002 */ char pad2[0x1E];                    /* maybe part of unk0[0x10]? */
-    /* 0x020 */ s16 unk20;
-    /* 0x022 */ char pad22[0x1E];                   /* maybe part of unk20[0x10]? */
-    /* 0x040 */ s16 unk40;
-    /* 0x042 */ char pad42[0x1E];                   /* maybe part of unk40[0x10]? */
-    /* 0x060 */ OSMesgQueue unk60;
-    /* 0x078 */ void* unk78;
-    /* 0x07C */ char pad7C[0x1C];                   /* maybe part of unk78[8]? */
-    /* 0x098 */ OSMesgQueue unk98;
-    /* 0x0B0 */ void* unkB0;
-    /* 0x0B4 */ char padB4[0x1C];                   /* maybe part of unkB0[8]? */
-    /* 0x0D0 */ OSThread unkD0;
-    /* 0x280 */ UnkStruct_800970CC* unk280;
-    /* 0x284 */ UnkStruct_801AC8A8_unk284* unk284;
-    /* 0x288 */ UnkStruct_801AC8A8_unk284* unk288;
-    /* 0x28C */ UnkStruct_801AC8A8_unk284* unk28C;
-    /* 0x290 */ UnkStruct_801AC8A8_unk284* unk290;
-    
-    /* 0x294 */ UnkStruct_801AC8A8_unk294* unk294;
-    /* 0x298 */ UnkStruct_801AC8A8_unk298* unk298;
-    /* 0x29C */ s32 unk29C;
-    /* 0x2A0 */ s32 unk2A0;
-    /* 0x2A4 */ s32 unk2A4;                         /* inferred */
-} UnkStruct_801AC8A8;                               /* size = 0x2A8 */
-
+typedef struct ThreadEntry {
+    /* 0x00 */ u8 threadId;
+    /* 0x01 */ char pad1[3]; /* maybe part of threadId[4]? */
+    /* 0x04 */ s32 threadPri;
+    /* 0x08 */ s32 unk8;       /* inferred */
+    /* 0x0C */ char padC[0xC]; /* maybe part of unk8[4]? */
+    /* 0x18 */ UnkStruct_800F9C38* unk18;
+    /* 0x1C */ char pad1C[8]; /* maybe part of unk18[3]? */
+} ThreadEntry;                /* size = 0x24 */
 
 #endif /* STRUCTS_H */
-

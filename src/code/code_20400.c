@@ -202,7 +202,7 @@ void func_8001F800(void) {
         }
 
         func_800C1754();
-        func_8009A14C((u8*) sp50);
+        func_8009A14C(sp50);
         func_800997D8(sp50);
         func_800C1A28();
     }
