@@ -82,7 +82,7 @@ extern OSContStatus gContStatus[];
 extern s32 gCurrentPakOperationFlags;
 
 extern OSMesgQueue D_801824E0;
-extern OSContPad D_80182558[];
+extern OSContPad gContPad[];
 extern struct UnkStruct_800F9C38 D_800F1950[];
 extern struct UnkStruct_800F9C38  D_800F9C38[];
 extern ThreadEntry* D_80153DC0[];

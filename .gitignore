@@ -1,0 +1,35 @@
+# Ignore some tools
+tools/n64crc
+tools/ido5.3_recomp/
+
+# Ignore OS and IDE folders
+.vscode/
+__pycache__/
+.venv/
+
+# Ignore the baserom so it doesn't get accidentally added
+*.z64
+*.n64
+*.rom
+*.eeprom
+*.pak
+
+# Automatically generated folders should be ignored
+build/
+expected/
+asm/
+src/assets/*
+include/assets/*
+bin/
+
+# Automatically generated files, so they should be ignored
+waverace64.ld
+waverace64.d
+undefined_funcs_auto.txt
+undefined_syms_auto.txt
+torch.hash.yml
+
+# CTX files for m2c should be ignored as we generate those
+ctx.c
+ctx_includes.c
+ctx.c.m2c

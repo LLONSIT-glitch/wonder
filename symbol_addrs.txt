@@ -47,7 +47,6 @@ gSysThreadIds = 0x80153DF8;
 gCurrentFrameBuffer = 0x8015BB44;
 Sys_SwapFrameBuffer = 0x8008ECCC;
 vsprintf = 0x8008EDA4;
-rspbootTextEnd = 0x800D6C40;
 SysMem_GetPhysicalAddressFromVirtual = 0x800BD1FC;
 D_800DB600 = 0x800DB600; // size:0x10
 gSpriteSeg1VramStart = 0x80153E28;
@@ -142,6 +141,8 @@ AudioMgr_AudioThread = 0x800B8A7C;
 AudioMgr_HandleFrameMsg = 0x800B8CA0;
 AudioMgr_ClearAudioDMA = 0x800B93E0;
 gAudioHeap = 0x801ACF88;
+aspMainTextStart = 0x800D8FB0;
+aspMainDataStart = 0x800F1620;
 
 // Scheduler symbols
 Scheduler_RspTaskYield = 0x80097F04;
@@ -723,5 +724,5 @@ D_80A34878 = 0x80A34878;
 D_80A3CFB0 = 0x80A3CFB0;
 
 D_8015C748 = 0x8015C748; //size:0x1000
-D_80182558 = 0x80182558; //size:0x18
+gContPad = 0x80182558; //size:0x18
 D_800E4CB0 = 0x800E4CB0; //type:s32 size:0x3ffc

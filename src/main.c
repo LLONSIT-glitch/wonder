@@ -323,20 +323,20 @@ void func_800BE960(s32 contInitialized) {
         osRecvMesg(&D_801824E0, NULL, 1);
     }
 
-    osContGetReadData(D_80182558);
+    osContGetReadData(gContPad);
 
     for (i = 0; i < MAX_CONTROLERS; i++) {
-        if (!D_80182558[i].errno) {
+        if (!gContPad[i].errno) {
             sp24 = &D_80180DA8[i];
             if (sp24->state != STATE_CONNECTED) {
                 sp24->unk18 = D_80180E50;
                 sp24->unk1C = D_80180E5C;
             }
             sp24->state = STATE_CONNECTED;
-            sp24->stickX = (f32) D_80182558[i].stick_x * (sp24->unk18 / 80.0f);
-            sp24->stickY = (f32) D_80182558[i].stick_y * (sp24->unk1C / 80.0f);
+            sp24->stickX = (f32) gContPad[i].stick_x * (sp24->unk18 / 80.0f);
+            sp24->stickY = (f32) gContPad[i].stick_y * (sp24->unk1C / 80.0f);
             prevButton = sp24->button;
-            sp24->button = D_80182558[i].button;
+            sp24->button = gContPad[i].button;
             sp24->unk6 = (sp24->button ^ prevButton) & sp24->button; // Always 1
             sp24->unkC -= D_8018257C;
             if (sp24->button != sp24->unkA) {

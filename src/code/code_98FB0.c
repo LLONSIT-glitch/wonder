@@ -2,13 +2,17 @@
 
 extern Scheduler D_801AC8A8;
 
-extern void Scheduler_CreateScheduler(Scheduler* arg0, u8 arg1, s32 arg2);
+void Scheduler_CreateScheduler(Scheduler* arg0, u8 arg1, s32 arg2);
 s32 func_8009A084(Gfx**, f32); /* extern */
 void func_800C1680(void);      /* extern */
 void func_800C1A84(MtxF*);     /* extern */
 void func_800C1AF4(MtxF*);     /* extern */
 void func_800C1B64(s32);       /* extern */
 void func_80099E2C(UnkStruct_80099E2C *arg0);
+void func_80090A38(s16* palette, int size);
+s32 func_800A39C4(UnkStruct_80099E2C *arg0, s32 arg1, s32 arg2, s16 arg3, s32 arg4);
+void func_800A3FC0(UnkStruct_80099E2C *arg0);
+f32 func_800C3650(f32);                             /* extern */
 
 extern f32 D_800EF84C;
 extern f32 D_800EF850;
@@ -26,6 +30,30 @@ extern Scheduler D_80153E30;
 extern void* D_801AC850;
 extern OSMesgQueue D_801AC870;
 extern s16 D_801AC888;
+extern s32 D_801540E0;
+extern s32 D_801A72BC;
+extern s32 D_801A72CC;
+extern u32 D_801540CC;
+extern s32 D_801540D0;
+extern f32 D_800F18E0;
+extern void* D_801A30B0;
+extern void* D_801A30B8[];
+extern s32 D_801A7188;
+extern s32 D_801A7204;
+extern s32 D_801A8D7C;
+extern s32 D_801A8D84;
+extern s32 D_801A8E30;
+extern OSMesg D_801816C8;
+extern s32 D_801824D4;
+extern Scheduler D_80153E30;
+extern f32 D_801A7224;
+extern f32 D_801A7230;
+extern f32 D_800EF7C0;
+extern f32 D_800F18E8;
+extern f32 D_800F18F0;
+extern f64 D_800EF7B0;
+extern f64 D_800EF7B8;
+
 
 void func_800983B0(Scheduler* arg0, s32 arg1) {
     Scheduler* sp1C;
@@ -49,13 +77,9 @@ void func_800983B0(Scheduler* arg0, s32 arg1) {
     D_801560E4 = 0;
 }
 
-extern s32 D_801540E0;
-
 void func_800984B4(void) {
     Scheduler_CreateSchedulerThread(&D_80153E30, &D_801540E0 + 0x800, 0x40);
 }
-
-extern Scheduler D_80153E30;
 
 s32 func_800984F0(u8 arg0) {
     UnkStruct_800F9C38* sp1C;
@@ -70,8 +94,6 @@ s32 func_800984F0(u8 arg0) {
     return 0;
 }
 
-extern Scheduler D_80153E30;
-
 s32 func_800985BC(u8 arg0) {
     UnkStruct_800F9C38* sp1C;
 
@@ -84,8 +106,6 @@ s32 func_800985BC(u8 arg0) {
     sp1C->unk82E8 |= 2;
     return 0;
 }
-
-extern Scheduler D_80153E30;
 
 s32 func_80098688(u8 arg0) {
     UnkStruct_800F9C38* sp1C;
@@ -100,8 +120,6 @@ s32 func_80098688(u8 arg0) {
     return 0;
 }
 
-extern Scheduler D_80153E30;
-
 s32 func_80098754(u8 arg0) {
     UnkStruct_800F9C38* sp1C;
 
@@ -115,11 +133,6 @@ s32 func_80098754(u8 arg0) {
     return 0;
 }
 
-extern s32 D_801A72BC;
-extern s32 D_801A72CC;
-extern u32 D_801540CC;
-extern s32 D_801540D0;
-
 void func_80098820(void) {
     D_801A72CC = 0;
     D_801A72BC = 0;
@@ -127,8 +140,6 @@ void func_80098820(void) {
     D_801540D0 = 0;
     D_801A72DC &= ~0x18;
 }
-
-extern Scheduler D_80153E30;
 
 void func_80098868(void) {
     func_80097420(&D_80153E30);
@@ -156,8 +167,6 @@ s32 func_80098928(u8 arg0) {
     return 0;
 }
 
-extern Scheduler D_80153E30;
-
 s32 func_800989BC(s32 arg0) {
     UnkStruct_800F9C38* sp1C;
     SchedulerClient* sp18;
@@ -178,8 +187,6 @@ s32 func_800989BC(s32 arg0) {
     sp1C->unk82E8 &= 0xFD;
     return 0;
 }
-
-extern Scheduler D_80153E30;
 
 s32 func_80098AD8(u8 arg0) {
     UnkStruct_800F9C38* sp1C;
@@ -233,9 +240,6 @@ void func_80098CFC(void) {
     D_801A72DC &= ~4;
 }
 
-extern OSMesg D_801816C8;
-extern s32 D_801824D4;
-
 s32 func_80098D24(s32 arg0) {
     s32 i;
     s32 prevButton;
@@ -247,17 +251,17 @@ s32 func_80098D24(s32 arg0) {
     }
 
     for (i = 0; i < 4; i++) {
-        if (!D_80182558[i].errno) {
+        if (!gContPad[i].errno) {
             sp24 = &D_80180DA8[i];
             if (sp24->state != STATE_CONNECTED) {
                 sp24->unk18 = D_80180E50;
                 sp24->unk1C = D_80180E5C;
             }
             sp24->state = STATE_CONNECTED;
-            sp24->stickX = (f32) D_80182558[i].stick_x * (sp24->unk18 / 80.0f);
-            sp24->stickY = (f32) D_80182558[i].stick_y * (sp24->unk1C / 80.0f);
+            sp24->stickX = (f32) gContPad[i].stick_x * (sp24->unk18 / 80.0f);
+            sp24->stickY = (f32) gContPad[i].stick_y * (sp24->unk1C / 80.0f);
             prevButton = sp24->button;
-            sp24->button = D_80182558[i].button;
+            sp24->button = gContPad[i].button;
             sp24->unk6 = (sp24->button ^ prevButton) & sp24->button;
             sp24->unkC -= D_8018257C;
             if (sp24->button != sp24->unkA) {
@@ -345,15 +349,6 @@ s32 func_80099520(void) {
     wtf:;
 }
 
-extern f32 D_800F18E0;
-extern void* D_801A30B0;
-extern void* D_801A30B8[];
-extern s32 D_801A7188;
-extern s32 D_801A7204;
-extern s32 D_801A8D7C;
-extern s32 D_801A8D84;
-extern s32 D_801A8E30;
-
 void func_80099660(s32 arg0) {
     s32 sp1C;
 
@@ -428,17 +423,10 @@ void func_80099E2C(UnkStruct_80099E2C* arg0) {
     arg0->unk150 = 0;
 }
 
-extern f32 D_801A7224;
-extern f32 D_801A7230;
-
 void func_80099F90(f32 arg0, f32 arg1) {
     D_801A7224 = arg0;
     D_801A7230 = arg1;
 }
-
-f32 func_800C3650(f32);                             /* extern */
-extern f64 D_800EF7B0;
-extern f64 D_800EF7B8;
 
 void func_80099FB0(f32 arg0) {
     f32 sp1C;
@@ -447,9 +435,6 @@ void func_80099FB0(f32 arg0) {
     D_801A7218 = sp1C / 100.0f;
 }
 
-extern f32 D_800EF7C0;
-extern f32 D_800F18E8;
-extern f32 D_800F18F0;
 
 void func_8009A04C(f32 arg0, f32 arg1) {
     D_800F18E0 = D_800EF7C0 / (arg1 + arg0);
@@ -801,11 +786,38 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800A3918.s")
+UnkStruct_80099E2C *func_800A3918(void) {
+    UnkStruct_80099E2C *sp24;
+
+    sp24 = SysMem_HeapAlloc(0x160);
+    if (sp24 == NULL) {
+        return NULL;
+    }
+    func_80099E2C(sp24);
+    if ((sp24->currentPaletteColors = SysMem_HeapAlloc(sizeof(SpritePalette))) == NULL) {
+        SysMem_Free(sp24);
+        return NULL;
+    }
+    func_80090A38(sp24->currentPaletteColors, 0x100);
+    sp24->unkC0 = 0x108;
+    return sp24;
+}
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800A39C4.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800A3FC0.s")
+void func_800A3FC0(UnkStruct_80099E2C *arg0) {
+    if (arg0->currentPaletteColors != NULL) {
+        SysMem_Free(arg0->currentPaletteColors);
+    }
+    if (arg0->ptrs[1] != NULL) {
+        SysMem_Free(arg0->ptrs[1]);
+    }
+    if (arg0->ptrs[2] != NULL) {
+        SysMem_Free(arg0->ptrs[2]);
+    }
+    SysMem_Free(arg0);
+}
+
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800A4074.s")
 

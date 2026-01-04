@@ -1,6 +1,5 @@
 osRomBase = 0x80000308;
 __dummy = 0x80009F94;
-osBbUsbDevGetHandle = 0x80031B54;
 //MusPtrBankGetCurrent = 0x800AEA78;
 n_alSynFreeFX = 0x800B9044;
 alSynFreeFX = 0x800BE788;
@@ -222,3 +221,11 @@ osViModePalLan1 = 0x800ED030;
 osViModeMpalLan1 = 0x800ED080;
 osViModeNtscLan1 = 0x800ED0D0;
 vi = 0x800ECC80;
+__osExceptionPreamble = 0x800CC370;
+__osException = 0x800CC380;
+send_mesg = 0x800CC8A4;
+osInvalICache = 0x800D44F0;
+__osSetCompare = 0x800D54F0;
+osMapTLBRdb = 0x800D4570;
+gspFast3DTextStart = 0x800D6C40;//name_end:gspFast3DTextEnd
+

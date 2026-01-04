@@ -75,7 +75,7 @@ void func_800AD800(void) {
 
         // Wait for completion message from osContStartReadData
         Thread_ReceiveMsgInThread(sp3C->threadId, &sp34, OS_MESG_BLOCK);
-        osContGetReadData(D_80182558);
+        osContGetReadData(gContPad);
         ContPak_InitializePak(&sp38->mq);
         ContPak_UpdateFilesState();
         D_801824D4 = 1;
@@ -117,7 +117,7 @@ void func_800ADC50(ThreadEntry* arg0) {
         Thread_ReceiveMsgInThread(sp60->threadId, (void**) &sp54, 1);
         switch (*sp54) { /* irregular */
             case 2:
-                osContGetReadData(D_80182558);
+                osContGetReadData(gContPad);
                 D_801824D4 = 1;
                 continue;
             case 1:

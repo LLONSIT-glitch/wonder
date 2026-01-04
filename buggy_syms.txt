@@ -1,4 +1,3 @@
-D_800CC380 = 0x800CC380; //defined:true
 D_800DA411 = 0x800DA411; //defined:true
 D_800DB602 = 0x800DB602; //defined:true
 D_800DB79F = 0x800DB79F; //defined:true

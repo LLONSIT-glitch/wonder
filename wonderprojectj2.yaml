@@ -210,7 +210,7 @@ segments:
       - [0xCC7B0, hasm, getcount]
       - [0xCC7C0, asm]
       - [0xCCC10, asm]
-      - [0xCCF70, asm]
+      - [0xCCF70, hasm, exceptasm]
       - [0xCD870, asm]
       - [0xCD880, asm]
       - [0xCDB90, asm]
@@ -248,12 +248,13 @@ segments:
       - [0xD4F50, asm]
       - [0xD5020, asm]
       - [0xD5040, asm]
-      - [0xD50F0, asm]
-      - [0xD5170, asm]
+      - [0xD50F0, hasm, invalicache]
+      - [0xD5170, hasm, maptlbrdb]
       - [0xD51D0, c, libultra/io/pirawread]
       - [0xD5230, hasm, bzero]
       - [0xD52D0, asm]
       - [0xD5BA0, asm]
+      - [0xD60F0, hasm, setcompare]
       - [0xD6100, asm]
       - [0xD6130, asm]
       - [0xD62D0, asm]
@@ -414,14 +415,16 @@ segments:
     type: bin
     start: 0x69A970
     vram: 0x809A8190
-           
+
   - name: Seg_6A69E0
-    type: bin
+    type: code
     start: 0x6A69E0
     vram: 0x809B4200
+    subsegments:
+    - [0x6A69E0, bin]
 
   - name: Seg_6E3A40
-    type: code 
+    type: code
     vram: 0x809F1260
     start: 0x6E3A40
     subsegments:
@@ -432,7 +435,7 @@ segments:
   - name: audioSequences
     type: bin
     start: 0x730E80
-  
+
   - name: audioTblStart
     type: bin
     start: 0x756140

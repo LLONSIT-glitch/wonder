@@ -1,0 +1,78 @@
+:config:
+  segments:
+    - [0x1, 0xF24E0]
+  header:
+    code:
+      - '#include "assets/ast_common.h"'
+    header:
+      - '#include "gfx.h"'
+      - '#include "sf64object.h"'
+
+Viewpoint_0:
+  offset: 0x0
+  type: VP
+  size: 0x10
+  symbol: viewpoint1
+
+Lights_10:
+  offset: 0x10
+  type: LIGHTS
+  size: 0x48
+  lights_type: "Lights4"
+  symbol: lights0
+
+Gfx_58:
+  offset: 0x58
+  type: GFX
+  ctype: Gfx
+  size: 0x28
+  symbol: D_1000058
+
+Gfx_80:
+  offset: 0x80
+  type: GFX
+  ctype: gfx
+  size: 0xB0
+  symbol: D_1000080
+
+Gfx_unused:
+  offset: 0x130
+  type: GFX
+  size: 0x28
+  symbol: Gfx_unused
+
+Gfx_158:
+  offset: 0x158
+  type: GFX
+  ctype: gfx
+  size: 0x40
+  symbol: D_1000158
+
+Vtx_198:
+  offset: 0x198
+  type: VTX
+  symbol: D_1000198
+  size: 0xC0
+  count: 12
+
+Gfx_258:
+  offset: 0x258
+  type: GFX
+  ctype: gfx
+  symbol: D_1000258
+  size: 0x40
+
+Vtx_298:
+  offset: 0x298
+  type: VTX
+  symbol: D_1000298
+  size: 0x40
+  count: 4
+
+Gfx_2D8:
+  offset: 0x2D8
+  type: GFX
+  ctype: gfx
+  size: 0x28
+  symbol: D_10002D8
+  
