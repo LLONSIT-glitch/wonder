@@ -5,8 +5,7 @@ extern f32 D_80160430;
 extern f32 D_80160438;
 extern f32 D_80160440;
 
-f32 func_800C3650(f32);                             /* extern */
-
+f32 func_800C3650(f32); /* extern */
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_AFC60/func_800AF060.s")
 
@@ -18,7 +17,6 @@ void func_800AF184(f32 arg0, f32 arg1, f32 arg2) {
     D_80160438 = arg1;
     D_80160440 = func_800C3650((f32) ((f64) arg2 * D_800EF920));
 }
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_AFC60/func_800AF1F0.s")
 
@@ -62,7 +60,7 @@ void func_800B1250(Gfx** arg0, LookAtParams* arg1, u16 arg2) {
     f32 sp6C;
     f32 sp68;
     MtxF sp28;
-    Vec3f* sp24;                                    /* compiler-managed */
+    Vec3f* sp24; /* compiler-managed */
     Vec3f* sp20;
     Gfx* sp1C;
 
@@ -76,15 +74,15 @@ void func_800B1250(Gfx** arg0, LookAtParams* arg1, u16 arg2) {
     sp80 = sp24->z;
     sp24 = &arg1->unk0;
     sp20 = &arg1->unkC;
-    
+
     spA0 = (sp24->x * sp70) - (sp7C = sp20->x * sp70);
-    sp9C = (sp24->y * sp6C) - (sp78 =  sp20->y * sp6C);
+    sp9C = (sp24->y * sp6C) - (sp78 = sp20->y * sp6C);
     sp98 = (sp24->z * sp68) - (sp74 = sp20->z * sp68);
     spA4 = -1.0 / sqrtf((spA0 * spA0) + (sp9C * sp9C) + (sp98 * sp98));
     spA0 *= spA4;
     sp9C = sp9C * spA4;
 
-    sp98 =  sp98 * spA4;
+    sp98 = sp98 * spA4;
     sp94 = (sp84 * sp98) - (sp80 * sp9C);
     sp90 = (sp80 * spA0) - (sp88 * sp98);
     sp8C = (sp88 * sp9C) - (sp84 * spA0);

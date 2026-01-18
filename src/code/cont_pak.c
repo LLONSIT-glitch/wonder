@@ -387,7 +387,7 @@ s32 ContPak_OpenFile(void) {
  * If the operation completed successfully, this returns the file slot index.
  * Otherwise it either reports that the operation is still busy or propagates
  * the libultra error code stored in `sPfsResult`.
- * 
+ *
  * @return 0 on success, -1 if the PFS subsystem is busy or in an error state.
  */
 s32 ContPak_GetOpenFileResult(void) {
@@ -449,7 +449,7 @@ s32 ContPak_FindFile(void) {
 
 /**
  * Returns the result of the last "find existing file" operation.
- * 
+ *
  * @return If a matching file was found, returns a slot index otherwise -1 if the PFS subsystem is busy or in an error
  * state.
  */

@@ -11,9 +11,8 @@ typedef struct UnkStruct_8015C748_s {
 extern u16 D_8015BB38;
 extern UnkStruct_8015C748 D_8015C748[];
 
-int vsprintf( char* buffer, const char* format, va_list vlist);
+int vsprintf(char* buffer, const char* format, va_list vlist);
 void func_80090E58(char** buf);
-
 
 void func_8008E5A0(void) {
     s32 sp4;
@@ -23,11 +22,10 @@ void func_8008E5A0(void) {
         D_8015C748[sp4].unk4 = 0;
         D_8015C748[sp4].unk8 = 1;
         D_8015C748[sp4].unkC = 0;
-    } 
+    }
 
     D_8015BB38 = 4;
 }
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_8008E630.s")
 

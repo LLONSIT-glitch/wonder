@@ -1,6 +1,5 @@
 #include "common.h"
 
-
 void func_800ADC50(ThreadEntry* arg0);
 void func_800AEB14(void); /* extern */
 
@@ -51,8 +50,8 @@ void func_800AD800(void) {
         gControllerRaw[sp30].stickScaleX = gControllerStickXScale;
         gControllerRaw[sp30].stickScaleY = gControllerStickYScale;
 
-        gControllerRaw[sp30].button = gControllerRaw[sp30].unk6 = gControllerRaw[sp30].unk8 = gControllerRaw[sp30].unkA =
-            gControllerRaw[sp30].unkC = 0;
+        gControllerRaw[sp30].button = gControllerRaw[sp30].unk6 = gControllerRaw[sp30].unk8 =
+            gControllerRaw[sp30].unkA = gControllerRaw[sp30].unkC = 0;
 
         gControllerRaw[sp30].stickX = gControllerRaw[sp30].stickY = 0.0f;
     }

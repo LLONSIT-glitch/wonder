@@ -69,7 +69,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     if (contPakResult >= PFS_ERROR_MAGIC + 1) {
                         contPakResult -= PFS_ERROR_MAGIC;
                         switch (contPakResult) { /* switch 2 */
-                            case 4:     /* switch 2 */
+                            case 4:              /* switch 2 */
                                 func_8008ECE4("PFS ERR CONTRFAIL   \n");
                                 break;
                             case 5: /* switch 2 */
@@ -116,7 +116,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     if (contPakResult >= PFS_ERROR_MAGIC + 1) {
                         contPakResult -= PFS_ERROR_MAGIC;
                         switch (contPakResult) { /* switch 3 */
-                            case 4:     /* switch 3 */
+                            case 4:              /* switch 3 */
                                 func_8008ECE4("PFS ERR CONTRFAIL   \n");
                                 break;
                             case 5: /* switch 3 */
@@ -155,7 +155,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     if (contPakResult >= PFS_ERROR_MAGIC + 1) {
                         contPakResult -= PFS_ERROR_MAGIC;
                         switch (contPakResult) { /* switch 4 */
-                            case 4:     /* switch 4 */
+                            case 4:              /* switch 4 */
                                 func_8008ECE4("PFS ERR CONTRFAIL   \n");
                                 break;
                             case 5: /* switch 4 */
@@ -190,7 +190,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     if (contPakResult >= PFS_ERROR_MAGIC + 1) {
                         contPakResult -= PFS_ERROR_MAGIC;
                         switch (contPakResult) { /* switch 5 */
-                            case 4:     /* switch 5 */
+                            case 4:              /* switch 5 */
                                 func_8008ECE4("PFS ERR CONTRFAIL   \n");
                                 break;
                             case 5: /* switch 5 */
@@ -235,7 +235,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     if (contPakResult >= PFS_ERROR_MAGIC + 1) {
                         contPakResult -= PFS_ERROR_MAGIC;
                         switch (contPakResult) { /* switch 6 */
-                            case 4:     /* switch 6 */
+                            case 4:              /* switch 6 */
                                 func_8008ECE4("PFS ERR CONTRFAIL   \n");
                                 break;
                             case 5: /* switch 6 */
@@ -276,10 +276,12 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     if (gControllers->unk6 & (u16) gInputMask_Z) {
                         ContPak_SetPakInitializationAttempts(1);
                     }
-                    if ((gControllers->unk6 & gInputMask_A) && (ContPak_SetOpenFileParams(gameName, extName, 0x1600) == 0)) {
+                    if ((gControllers->unk6 & gInputMask_A) &&
+                        (ContPak_SetOpenFileParams(gameName, extName, 0x1600) == 0)) {
                         D_801825F0[0] = 1;
                     }
-                    if ((gControllers->unk6 & (u16) gInputMask_B) && (ContPak_SetFileFindParams(gameName, extName) == 0)) {
+                    if ((gControllers->unk6 & (u16) gInputMask_B) &&
+                        (ContPak_SetFileFindParams(gameName, extName) == 0)) {
                         D_801825F0[0] = 2;
                     }
                     if ((gControllers->unk6 & (u16) gInputMask_CDown)) {

@@ -79,7 +79,6 @@ void func_8002C2F8(void) {
     }
     spAE = 1;
 
-
     // SysMatrix_BuildModel?
     func_800B0E88(&gDisplayListHead, 45.0f, 5.0f, 800.0f, 1.0f, 320.0f, 240.0f);
     sp70->unk18.x = sp70->unk18.y = sp70->unk18.z = 1.0f;

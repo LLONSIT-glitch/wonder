@@ -44,7 +44,7 @@ void func_8009A664(Gfx**);               /* extern */
 void func_800A6670(s32, s32*);           /* extern */
 void func_800AFB28(void);                /* extern */
 void func_800BE510(f32, f32, f32);       /* extern */
-void Main_GfxFullSync(void);                /* extern */
+void Main_GfxFullSync(void);             /* extern */
 
 extern DebugMenuInfo D_800DB1A0[];
 extern s16 D_801A7228;
@@ -1161,7 +1161,6 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
     }
     return 0;
 }
-
 
 extern s32 D_80156B98;
 extern s32 D_801AB248;

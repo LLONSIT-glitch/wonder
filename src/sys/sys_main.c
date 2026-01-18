@@ -76,7 +76,6 @@ u16 D_800D9F00[0x40] = {
     0x282, 0x283, 0x284, 0x285, 0x3C5, 0x505, 0x645, 0x644, 0x643, 0x642, 0x502, 0x3C2, 0x3C3, 0x3C4, 0x504, 0x503,
 };
 
-
 void* SysMain(ThreadEntry* entry) {
     s32 sp1DC;
     char pad[0x184];
@@ -100,13 +99,13 @@ void* SysMain(ThreadEntry* entry) {
     SysMem_Copy64(&gFrameBuffer1, &gFrameBuffer2, 0x4B00);
     func_8008E5A0();
     AudioMgr_InitThread();
-    #ifdef ISPRINT
+#ifdef ISPRINT
     ISViewer_Init();
-    #endif
+#endif
 
-    #ifdef CRASH_SCREEn
+#ifdef CRASH_SCREEn
     Fault_Init();
-    #endif
+#endif
 
     gSpriteObjHeaderSegment = SpriteSeg1_ROM_START;
     gSpriteSeg1VramStart = SpriteSeg1_VRAM;

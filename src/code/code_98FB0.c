@@ -259,7 +259,7 @@ s32 func_80098D24(UNUSED s32 threadId) {
             controller->state = STATE_CONNECTED;
             controller->stickX = (f32) gContPad[i].stick_x * (controller->stickScaleX / 80.0f);
             controller->stickY = (f32) gContPad[i].stick_y * (controller->stickScaleY / 80.0f);
- 
+
             prevButton = controller->button;
             controller->button = gContPad[i].button;
             controller->unk6 = (controller->button ^ prevButton) & controller->button;
