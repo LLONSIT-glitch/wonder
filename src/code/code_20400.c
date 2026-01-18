@@ -14,7 +14,7 @@ void func_8001F800(void) {
     u8 sp4B;
     u16 sp48;
 
-    if (D_801560F0->unk8 & D_80180E68) {
+    if (gControllers->unk8 & gInputMask_DPadUp) {
         switch (D_801825F0[5]) { /* irregular */
             case 0:
                 sp54 = (Sp54*) D_80182618->ptrs[0];
@@ -46,7 +46,7 @@ void func_8001F800(void) {
                 D_801825F0[0] ^= 4;
         }
     }
-    if (D_801560F0->unk8 & D_80180E74) {
+    if (gControllers->unk8 & gInputMask_DPadDown) {
         switch (D_801825F0[5]) { /* switch 1; irregular */
             case 0:              /* switch 1 */
                 sp54 = (Sp54*) D_80182618->ptrs[0];
@@ -78,17 +78,17 @@ void func_8001F800(void) {
                 D_801825F0[0] ^= 4;
         }
     }
-    if (D_801560F0->unk6 & D_80180EEC) {
+    if (gControllers->unk6 & gInputMask_DPadRight) {
         if (++D_801825F0[5] > 3) {
             D_801825F0[5] = 3;
         }
     }
-    if (D_801560F0->unk6 & D_80180EC0) {
+    if (gControllers->unk6 & gInputMask_DPadLeft) {
         if (--D_801825F0[5] < 0) {
             D_801825F0[5] = 0;
         }
     }
-    if (D_801560F0->unk6 & D_80180FF4) {
+    if (gControllers->unk6 & gInputMask_A) {
         sp54 = (Sp54*) D_80182618->ptrs[0];
         sp54 += D_801825F0[1];
         sp5A = sp54[0][0] >> 0x10;
@@ -114,7 +114,7 @@ void func_8001F800(void) {
             D_801825F0[7] = sp6C;
         }
     }
-    if (D_801560F0->unk6 & D_8018101C) {
+    if (gControllers->unk6 & gInputMask_B) {
         D_801825F0[0] &= ~2;
         if (!(D_801825F0[0] & 1)) {
             sp54 = (Sp54*) D_80182618->ptrs[0];
@@ -142,7 +142,7 @@ void func_8001F800(void) {
             }
         }
     }
-    if ((D_801560F0->unk6 & D_80180FF4) && (D_801560F0->unk6 & D_8018101C)) {
+    if ((gControllers->unk6 & gInputMask_A) && (gControllers->unk6 & gInputMask_B)) {
         for (sp68 = 0, sp50 = (UnkStruct_80099E2C*) D_80182618->ptrs[2]; sp68 < 8; sp68++, sp50++) {
             sp50->unkD0 = 0.0f;
             sp50->unkCC = (f32) sp50->unkD0;
@@ -150,7 +150,7 @@ void func_8001F800(void) {
             sp50->unkF4 = (f32) sp50->unkF8;
         }
     }
-    if (D_801560F0->unk6 & D_801810F2) {
+    if (gControllers->unk6 & gInputMask_Z) {
         sp4C = (UnkStruct_800B23C4*) D_80182618->ptrs[1];
         sp50 = (UnkStruct_80099E2C*) D_80182618->ptrs[2];
         sp6C = func_800B2CBC(&sp50, &sp4C, 2);
@@ -170,7 +170,7 @@ void func_8001F800(void) {
         if (sp48 & 0x8000) {
             func_800B9000(func_800B32E4(&sp4C, 1));
         }
-        if (D_801560F0->unk4 & (D_801811AC | D_80181258 | D_8018126C | D_80181260)) {
+        if (gControllers->button & (gInputMask_CUp | gInputMask_CDown | gInputMask_CRight | gInputMask_CLeft)) {
             func_800B2CBC(&sp50, &sp4C, 6);
         } else {
             func_800B2CBC(&sp50, &sp4C, 5);
@@ -178,23 +178,23 @@ void func_8001F800(void) {
     }
 
     for (sp68 = 0, sp50 = (UnkStruct_80099E2C*) D_80182618->ptrs[2]; sp68 < 8; sp68++, sp50++) {
-        if (FABS(D_801560F0->unk10) >= 10.0) {
-            sp50->unkCC += D_801560F0->unk10 * 0.1;
+        if (FABS(gControllers->stickX) >= 10.0) {
+            sp50->unkCC += gControllers->stickX * 0.1;
         }
 
-        if (FABS(D_801560F0->unk14) >= 10.0) {
-            sp50->unkD0 += D_801560F0->unk14 * 0.1;
+        if (FABS(gControllers->stickY) >= 10.0) {
+            sp50->unkD0 += gControllers->stickY * 0.1;
         }
-        if (D_801560F0->unk8 & D_80181042) {
+        if (gControllers->unk8 & gInputMask_R) {
             sp50->unkF8 = (sp50->unkF4 += 0.2);
         }
-        if (D_801560F0->unk8 & D_80181038) {
+        if (gControllers->unk8 & gInputMask_L) {
             sp50->unkF8 = (sp50->unkF4 -= 0.2);
             if (sp50->unkF8 <= 0.0) {
                 sp50->unkF8 = sp50->unkF4 = 0.009999999776f;
             }
         }
-        if ((D_801560F0->unk6 & D_80181042) && (D_801560F0->unk6 & D_80181038)) {
+        if ((gControllers->unk6 & gInputMask_R) && (gControllers->unk6 & gInputMask_L)) {
             sp50->unkF8 = sp50->unkF4 = 1.0f;
         }
         if (sp68 >= D_801825F0[7]) {

@@ -3,7 +3,6 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 void Main_IdleThreadEntry(void*);         
-void func_800CB170(void);   
 s32 func_800ABE54(void);                                  /* extern */
 void SysMem_HeapInit(void);                                  /* extern */
 void Thread_Init(void);                                  /* extern */
@@ -21,7 +20,7 @@ s32 func_800ABAC8(void);                                  /* extern */
 s32 func_800AC890(void);                                  /* extern */
 s32 func_800ACE50(void);                                  /* extern */
 s32 func_800AF060(s32);                               /* extern */
-s32 func_800C15C0(void);                                  /* extern */
+void func_800C15C0(void);                                  /* extern */
 void func_80099FB0(f32);                               /* extern */
 void func_800ABC30(Gfx**);                            /* extern */
 void func_800AC524(Gfx**);                            /* extern */
@@ -72,8 +71,8 @@ UnkStruct_8000DDE0 *func_80016074(s32);                           /* extern */
 void func_80021ED0(s32);                               /* extern */
 void func_800997D8(void*);                             /* extern */
 void func_800A7230(void*);                             /* extern */
-void func_800C1754(void);                                  /* extern */
-void func_800C1A28(void);                                  /* extern */
+s32 func_800C1754(void);                                  /* extern */
+s32 func_800C1A28(void);                                  /* extern */
 void func_800C23E8(f32);                               /* extern */
 void func_800C25B8(f32);                               /* extern */
 void func_800C2780(f32);                               /* extern */
@@ -130,8 +129,8 @@ void func_800140D8(UnkStruct_8000DDE0*);               /* extern */
 void func_80014228(UnkStruct_8000DDE0*);               /* extern */
 void func_800145D4(UnkStruct_8000DDE0*);               /* extern */
 void func_80014A80(UnkStruct_8000DDE0*);               /* extern */
-void func_80015C30(UnkStruct_8000DDE0*);               /* extern */
-void func_80015D74(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80015C30(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80015D74(UnkStruct_8000DDE0*);               /* extern */
 void func_800298A4(s16, s16, s16, f32, f32);           /* extern */
 void func_800299C4(s32);                               /* extern */
 void func_80029C8C(s16);                               /* extern */
@@ -146,10 +145,12 @@ void func_800B0E08(void);                                  /* extern */
 void func_800C2304(f32 arg0, f32 arg1, f32 arg2) ;
 void func_800C3D70(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, void *arg6);
 s32 func_800C3F2C(f32 *arg0, f32 *arg1, f32 *arg2, f32 *arg3, f32 arg4) ;
-void func_800C1850(s32);                                 /* extern */
+void func_800C1850(UnkStruct_80180CE4*);                                 /* extern */
 void func_800C1D44(MtxF*);                                /* extern */
 void func_800C2948(f32, f32, f32);                     /* extern */
 void func_800C2AE8(MtxF*);                             /* extern */
 f32 func_8002BB04(s16 arg0);
 s32 Thread_GetPriority(u8 arg0);
+void func_80014C70(UnkStruct_8000DDE0 *arg0);
+s32 func_8000DA44(UnkStruct_8000DDE0* arg0, s32 arg1, s16* arg2);
 #endif /* FUNCTIONS_H */

@@ -1,5 +1,7 @@
 #include "common.h"
 
+#define DECOMPRESS_SIZE_MAX 0x10001U
+
 typedef enum { SPI_1, SPI_0, SPI_N } SPI_TYPE;
 
 typedef struct SpiHeader {
@@ -59,30 +61,31 @@ s32 Sys_GetSPIHeaderInfoFromVaddr(s32 vAddr) {
     }
 }
 
-s32 func_800BEE48(u32 arg0, s32 arg1) {
-    u32 sp24;
-    u8* sp20; /* compiler-managed */
-    u8* sp1C;
+s32 Spi_LimitedDecompress(u32 fileAddr, s32 fileSize) {
+    u32 i;
+    u8* header;
+    u8* compressedInput;
     u32 temp_t2;
 
-    sp1C = SysMem_HeapAlloc(arg1 + 0x10);
-    if (sp1C == NULL) {
+
+    compressedInput = SysMem_HeapAlloc(fileSize + 0x10);
+    if (compressedInput == NULL) {
         return -1;
     }
-    SysMem_DmaCopy(arg0, sp1C, ((s32) (arg1 + 7) / 8) * 8);
-    sSpiCompSrcPtr = sp1C;
+    SysMem_DmaCopy(fileAddr, compressedInput, ((s32) (fileSize + 7) / 8) * 8);
+    sSpiCompSrcPtr = compressedInput;
     sSpiCompSrcBase = sSpiCompSrcPtr;
-    sp20 = (u8*) &sSpiHeader;
+    header = (u8*) &sSpiHeader;
     D_80160454 = (u8*) &D_801604A8;
 
     // Why just not use Mem_Copy8 for this?
-    for (sp24 = 0; sp24 < 8; sp24++) {
-        *sp20++ = *sSpiCompSrcPtr++;
+    for (i = 0; i < 8; i++) {
+        *header++ = *sSpiCompSrcPtr++;
     }
 
     if (sSpiHeader.header[3] != 'N') {
-        for (sp24 = 0; sp24 < 12; sp24++) {
-            *sp20++ = *sSpiCompSrcPtr++;
+        for (i = 0; i < 12; i++) {
+            *header++ = *sSpiCompSrcPtr++;
         }
         D_8016044C = sSpiCompSrcPtr;
         sSpiCompSrcPtr = &sSpiCompSrcPtr[sSpiHeader.unk8];
@@ -94,12 +97,13 @@ s32 func_800BEE48(u32 arg0, s32 arg1) {
         D_80160460 = sSpiCompDataPtr;
         D_80160464 = D_8016044C;
     }
-    if ((u32) sSpiHeader.decompressedSize < 0x10001U) {
+    /* Decompress the file only if it less than the decompress size max  */
+    if ((u32) sSpiHeader.decompressedSize < DECOMPRESS_SIZE_MAX) {
         Spi_Decompress();
-        SysMem_Free(sp1C);
+        SysMem_Free(compressedInput);
         return 0;
     } else {
-        SysMem_Free(sp1C);
+        SysMem_Free(compressedInput);
         return -1;
     }
 }
@@ -108,6 +112,10 @@ s32 Spi_DecompressAsset(u32 fileAddr, s32 size, u8* filePtr) {
     u32 i;
     u8* spiHeader; /* compiler-managed */
     void* spiFile;
+
+    #ifdef ISPRINT
+    osSyncPrintf("DecompressAsset (addr: %x, size: %x, ptr: %x)\n", fileAddr, size, filePtr);
+    #endif
 
     spiFile = SysMem_HeapAlloc(size + 0x10);
     if (spiFile == NULL) {
@@ -119,14 +127,14 @@ s32 Spi_DecompressAsset(u32 fileAddr, s32 size, u8* filePtr) {
     spiHeader = (u8*) &sSpiHeader;
     D_80160454 = filePtr;
 
-    // Start copying the SPI header
+    // Copy the first 8 bytes of the header
     for (i = 0; i < 8; i++) {
         *spiHeader++ = *sSpiCompSrcPtr++;
     }
 
     if (sSpiHeader.header[3] != 'N') {
 
-        // Finish doing it
+        // For the compressed variants copy the remaining 12 bytes
         for (i = 0; i < 12; i++) {
             *spiHeader++ = *sSpiCompSrcPtr++;
         }
@@ -146,25 +154,24 @@ s32 Spi_DecompressAsset(u32 fileAddr, s32 size, u8* filePtr) {
     return 0;
 }
 
-// Compress_SPI
-UNUSED u8* Spi_TestSpi_Compression(u8* arg0, s32 arg1, SPI_TYPE spiType) {
+UNUSED u8* Spi_CompressionTest(u8* data, s32 size, SPI_TYPE spiType) {
     u8* compressedPtr;
     u8* compressedOutput;
     s32 compressedSize;
 
-    sSpiCompSrcPtr = arg0;
+    sSpiCompSrcPtr = data;
     compressedPtr = NULL;
-    D_8016043C = SysMem_HeapAlloc(arg1);
+    D_8016043C = SysMem_HeapAlloc(size);
     if (D_8016043C == NULL) {
         return NULL;
     }
 
-    sSpiCompDataPtr = SysMem_HeapAlloc(arg1);
+    sSpiCompDataPtr = SysMem_HeapAlloc(size);
     if (sSpiCompDataPtr == NULL) {
         SysMem_Free(D_8016043C);
         return NULL;
     }
-    D_8016044C = SysMem_HeapAlloc(arg1);
+    D_8016044C = SysMem_HeapAlloc(size);
     if (D_8016044C == NULL) {
         SysMem_Free(D_8016043C);
         SysMem_Free(sSpiCompDataPtr);
@@ -175,7 +182,7 @@ UNUSED u8* Spi_TestSpi_Compression(u8* arg0, s32 arg1, SPI_TYPE spiType) {
     D_80160460 = sSpiCompDataPtr;
     D_80160464 = D_8016044C;
 
-    Spi_Compress(spiType, arg1);
+    Spi_Compress(spiType, size);
     sSpiHeader.header[0] = 'S';
     sSpiHeader.header[1] = 'P';
     sSpiHeader.header[2] = 'I';
@@ -187,7 +194,7 @@ UNUSED u8* Spi_TestSpi_Compression(u8* arg0, s32 arg1, SPI_TYPE spiType) {
     sSpiHeader.unk8 = D_8016044C - D_80160464;
     sSpiHeader.unkC = D_8016043C - D_8016045C;
     sSpiHeader.unk10 = sSpiCompDataPtr - D_80160460;
-    sSpiHeader.decompressedSize = arg1;
+    sSpiHeader.decompressedSize = size;
 
     compressedSize = sSpiHeader.unk8 + sSpiHeader.unkC + sSpiHeader.unk10 + 0x14;
     compressedPtr = SysMem_HeapAlloc(compressedSize);
@@ -228,7 +235,6 @@ UNUSED u8* Spi_TestSpi_Compression(u8* arg0, s32 arg1, SPI_TYPE spiType) {
     return compressedPtr;
 }
 
-// SPI_Compress?
 void Spi_Compress(SPI_TYPE spiType, s32 size) {
     UNUSED s32 pad;
     s32 sp28;
@@ -397,8 +403,7 @@ void Spi_Decompress(void) {
     }
 }
 
-// Another Spi_Memcmp func..
-static s32 Spi_Memcmp(u8* s1, u8* s2, s32 size) {
+s32 Spi_Memcmp(u8* s1, u8* s2, s32 size) {
     s32 i;
 
     for (i = 0; i < size; i++) {

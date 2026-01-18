@@ -1,4 +1,4 @@
-    #include "common.h"
+#include "common.h"
 
 // UNK_TYPE func_80000C90(void*);
 
@@ -55,6 +55,10 @@ void func_80005124(s32, s32);
 void func_800029BC(void);
 s32 func_80083F28(void);
 
+#ifdef ISPRINT
+extern void ISViewer_Init(void);
+#endif
+
 extern s16 D_801A7248;
 extern s16 D_801A7274;
 extern s16 D_801A7280;
@@ -96,24 +100,31 @@ void* SysMain(ThreadEntry* entry) {
     SysMem_Copy64(&gFrameBuffer1, &gFrameBuffer2, 0x4B00);
     func_8008E5A0();
     AudioMgr_InitThread();
+    #ifdef ISPRINT
+    ISViewer_Init();
+    #endif
+
+    #ifdef CRASH_SCREEn
+    Fault_Init();
+    #endif
 
     gSpriteObjHeaderSegment = SpriteSeg1_ROM_START;
     gSpriteSeg1VramStart = SpriteSeg1_VRAM;
 
-    D_80153E2C = SpriteSeg2_ROM_START;
-    D_801540D8 = SpriteSeg2_VRAM;
+    gSpriteSeg2RomStart = SpriteSeg2_ROM_START;
+    gSpriteSegVramStart = SpriteSeg2_VRAM;
 
-    D_801560E0 = Seg_69A970_ROM_START;
-    D_801560E8 = Seg_69A970_VRAM;
+    gSeg_69A970_ROM_START = Seg_69A970_ROM_START;
+    gSeg_69A970_VRAM = Seg_69A970_VRAM;
 
-    D_801849C0 = Seg_639B20_VRAM;
-    D_801829B8 = Seg_639B20_ROM_START;
+    gSeg_639B20_VRAM = Seg_639B20_VRAM;
+    gSeg_639B20_ROM_START = Seg_639B20_ROM_START;
 
-    D_8015FB78 = Seg_6E3A40_ROM_START;
-    D_8015FB80 = Seg_6E3A40_VRAM;
+    gSeg_6E3A40_ROM_START = Seg_6E3A40_ROM_START;
+    gSeg_6E3A40_VRAM = Seg_6E3A40_VRAM;
 
-    D_800F193C = SysMem_GetPhysicalAddressFromVirtual(D_80153E2C, D_801540D8, &D_807A1A20);
-    D_80153DB0 = SysMem_GetPhysicalAddressFromVirtual(D_801560E0, D_801560E8, &D_809A8230);
+    D_800F193C = SysMem_GetPhysicalAddressFromVirtual(gSpriteSeg2RomStart, gSpriteSegVramStart, &D_807A1A20);
+    D_80153DB0 = SysMem_GetPhysicalAddressFromVirtual(gSeg_69A970_ROM_START, gSeg_69A970_VRAM, &D_809A8230);
     func_800B1A50(SpriteSeg1_VRAM, D_80409B40, gSpriteObjDefs, gSpriteFramesStart, gMainSpritesSpiOffsets, gMainSprites,
                   gSpritePalettes, D_807991C0, D_8079A730, 3);
     D_8015B334 = 5;
@@ -153,7 +164,7 @@ void* SysMain(ThreadEntry* entry) {
     D_800F18E4 = 8;
     D_801A3068 = 0;
     D_801A8D88[0] |= 1;
-    D_8015F880 = SysMem_GetPhysicalAddressFromVirtual(D_801829B8, D_801849C0, &D_80999AA0);
+    D_8015F880 = SysMem_GetPhysicalAddressFromVirtual(gSeg_639B20_ROM_START, gSeg_639B20_VRAM, &D_80999AA0);
     sp1DC = Sys_GetSPIHeaderInfoFromVaddr(D_8015F880);
     D_8015F874 = SysMem_HeapAllocMark(D_80160494);
     Spi_DecompressAsset(D_8015F880, sp1DC, D_8015F874);
@@ -166,7 +177,7 @@ void* SysMain(ThreadEntry* entry) {
     func_8005F01C();
     func_8002856C(0);
     D_801A8D88[0] |= 0x20;
-    D_801A70E8 = 0x1388;
+    gMoney = 5000;
     D_801A718C = 0;
     D_8015F86C = 0;
     D_801A72E4 = 0;
@@ -195,7 +206,6 @@ void* SysMain(ThreadEntry* entry) {
     D_8015BB1C = 0x3E8;
     D_8015F7E0 = 0x21;
     ContPak_SetPfsCodes(0x4234U, 0x4E4A324AU);
-
     while (TRUE) {
         sp50->unk82EC = 0;
         func_8000A2C0(threadEntry);
@@ -401,7 +411,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                     }
                     sp41C = 0;
                     if (!(D_801A8D88[3] & 0x4000) && !(D_801A72DC & 1) && !(D_801A8D88[0] & 0x1000) &&
-                        !(D_801A8D88[0] & 0x400) && (D_801560F0->unk6 & (u16) D_801811A4)) {
+                        !(D_801A8D88[0] & 0x400) && (gControllers->unk6 & (u16) gInputMask_Start)) {
                         if (D_801A8C40 < 0) {
                             sp41C += 1;
                         } else if (D_801A8D88[0] & 0x4000) {
@@ -479,7 +489,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                 continue;
             case 5:
                 func_80032604();
-                if ((sp410->unk82EC <= 0) && (D_801560F0->unk6 & (u16) D_801811A4)) {
+                if ((sp410->unk82EC <= 0) && (gControllers->unk6 & (u16) gInputMask_Start)) {
                     func_80021FF8(-1, 0x20, 0x7FFF);
                     func_80098BF4();
                     sp410->unk82EC = 0;
@@ -505,7 +515,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                 }
 
                 if (D_801A8D88[0] & 0x4000) {
-                    if (D_801560F0->unk6 & (u16) D_80181038) {
+                    if (gControllers->unk6 & (u16) gInputMask_L) {
                         func_80098868();
                         func_80098C1C();
                         func_80098820();
@@ -513,7 +523,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                         sp424 = 0;
                         continue; // m2c got a little bit confused here..
                     }
-                    if (D_801560F0->unk2C & (u16) D_80181038) {
+                    if (gControllers[1].button & (u16) gInputMask_L) {
                         sp424 ^= 1;
                         if (sp424 != 0) {
                             func_80098868();
@@ -523,7 +533,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                         continue;
                     }
 
-                    if (D_801560F0->unk6 & (u16) D_80181042) {
+                    if (gControllers->unk6 & (u16) gInputMask_R) {
                         D_801A8D88[0] |= 0x8004;
                         func_80098CD8();
                         func_80098BF4();

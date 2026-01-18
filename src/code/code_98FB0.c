@@ -8,11 +8,11 @@ void func_800C1680(void);      /* extern */
 void func_800C1A84(MtxF*);     /* extern */
 void func_800C1AF4(MtxF*);     /* extern */
 void func_800C1B64(s32);       /* extern */
-void func_80099E2C(UnkStruct_80099E2C *arg0);
+void func_80099E2C(UnkStruct_80099E2C* arg0);
 void func_80090A38(s16* palette, int size);
-s32 func_800A39C4(UnkStruct_80099E2C *arg0, s32 arg1, s32 arg2, s16 arg3, s32 arg4);
-void func_800A3FC0(UnkStruct_80099E2C *arg0);
-f32 func_800C3650(f32);                             /* extern */
+s32 func_800A39C4(UnkStruct_80099E2C* arg0, s32 arg1, s32 arg2, s16 arg3, s32 arg4);
+void func_800A3FC0(UnkStruct_80099E2C* arg0);
+f32 func_800C3650(f32); /* extern */
 
 extern f32 D_800EF84C;
 extern f32 D_800EF850;
@@ -53,7 +53,6 @@ extern f32 D_800F18E8;
 extern f32 D_800F18F0;
 extern f64 D_800EF7B0;
 extern f64 D_800EF7B8;
-
 
 void func_800983B0(Scheduler* arg0, s32 arg1) {
     Scheduler* sp1C;
@@ -240,10 +239,10 @@ void func_80098CFC(void) {
     D_801A72DC &= ~4;
 }
 
-s32 func_80098D24(s32 arg0) {
+s32 func_80098D24(UNUSED s32 threadId) {
     s32 i;
     s32 prevButton;
-    ControllerStruct_80180DA8* sp24;
+    Controller* controller;
     UNUSED s32 pad[2];
 
     if (D_801824D4) {
@@ -252,34 +251,35 @@ s32 func_80098D24(s32 arg0) {
 
     for (i = 0; i < 4; i++) {
         if (!gContPad[i].errno) {
-            sp24 = &D_80180DA8[i];
-            if (sp24->state != STATE_CONNECTED) {
-                sp24->unk18 = D_80180E50;
-                sp24->unk1C = D_80180E5C;
+            controller = &gControllerRaw[i];
+            if (controller->state != STATE_CONNECTED) {
+                controller->stickScaleX = gControllerStickXScale;
+                controller->stickScaleY = gControllerStickYScale;
             }
-            sp24->state = STATE_CONNECTED;
-            sp24->stickX = (f32) gContPad[i].stick_x * (sp24->unk18 / 80.0f);
-            sp24->stickY = (f32) gContPad[i].stick_y * (sp24->unk1C / 80.0f);
-            prevButton = sp24->button;
-            sp24->button = gContPad[i].button;
-            sp24->unk6 = (sp24->button ^ prevButton) & sp24->button;
-            sp24->unkC -= D_8018257C;
-            if (sp24->button != sp24->unkA) {
-                sp24->unkA = sp24->button;
-                sp24->unk8 = sp24->button;
-                sp24->unkC = 10.0f;
-            } else if (sp24->unkC < 0.0f) {
-                sp24->unk8 = sp24->unkA;
-                sp24->unkC = 5.0f;
+            controller->state = STATE_CONNECTED;
+            controller->stickX = (f32) gContPad[i].stick_x * (controller->stickScaleX / 80.0f);
+            controller->stickY = (f32) gContPad[i].stick_y * (controller->stickScaleY / 80.0f);
+ 
+            prevButton = controller->button;
+            controller->button = gContPad[i].button;
+            controller->unk6 = (controller->button ^ prevButton) & controller->button;
+            controller->unkC -= D_8018257C;
+            if (controller->button != controller->unkA) {
+                controller->unkA = controller->button;
+                controller->unk8 = controller->button;
+                controller->unkC = 10.0f;
+            } else if (controller->unkC < 0.0f) {
+                controller->unk8 = controller->unkA;
+                controller->unkC = 5.0f;
             } else {
-                sp24->unk8 = 0;
+                controller->unk8 = 0;
             }
         } else {
-            sp24 = &D_80180DA8[i];
-            sp24->state = STATE_NOT_CONNECTED;
-            sp24->button = sp24->unk6 = sp24->unk8 = sp24->unkA = 0;
-            sp24->stickX = sp24->stickY = 0.0f;
-            sp24->unkC = 0.0f;
+            controller = &gControllerRaw[i];
+            controller->state = STATE_NOT_CONNECTED;
+            controller->button = controller->unk6 = controller->unk8 = controller->unkA = 0;
+            controller->stickX = controller->stickY = 0.0f;
+            controller->unkC = 0.0f;
         }
     }
     return 0;
@@ -297,7 +297,7 @@ void func_800993AC(SchedulerClient* arg0) {
             break;
         }
     }
-        
+
     Thread_GetPriority((u8) sp18);
     return;
 }
@@ -328,12 +328,12 @@ s32 func_80099520(void) {
     f32 sp0;
 
     if (D_801540CC != 0) {
-        D_80182538[D_80182554] =  D_801540CC;
+        D_80182538[D_80182554] = D_801540CC;
         D_80182554 = D_80182554 + 1 < 2 ? D_80182554 + 1 : 0;
-        
+
         for (sp4 = 0, sp0 = 0.0f; sp4 < 2; sp4++) {
             sp0 += D_80182538[sp4];
-        } 
+        }
         D_8018257C = sp0 / 2.0f;
         D_801540CC = 0;
     }
@@ -343,10 +343,10 @@ s32 func_80099520(void) {
         return 0;
         goto wtf;
     }
-        
+
     D_801540D0 = 0;
     return -1;
-    wtf:;
+wtf:;
 }
 
 void func_80099660(s32 arg0) {
@@ -378,7 +378,6 @@ void func_80099768(void) {
     D_801A8D7C = 0;
     D_801A30B0 = D_801A30B8[D_801A70E4];
 }
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800997D8.s")
 
@@ -413,7 +412,7 @@ void func_80099E2C(UnkStruct_80099E2C* arg0) {
     arg0->ptrs[0] = NULL;
     for (i = 0; i < 3; i++) {
         arg0->ptrs[i + 1] = NULL;
-    } 
+    }
     arg0->currentPaletteColors = NULL;
     arg0->unk13C = NULL;
     arg0->unk140 = NULL;
@@ -435,7 +434,6 @@ void func_80099FB0(f32 arg0) {
     D_801A7218 = sp1C / 100.0f;
 }
 
-
 void func_8009A04C(f32 arg0, f32 arg1) {
     D_800F18E0 = D_800EF7C0 / (arg1 + arg0);
     D_800F18E8 = arg0;
@@ -448,7 +446,7 @@ s32 func_8009A084(Gfx** gdl, f32 arg1) {
 
     gdlh = *gdl;
     z = arg1;
-   
+
     gDPSetDepthSource(gdlh++, G_ZS_PRIM);
     gDPSetPrimDepth(gdlh++, z, 0);
 
@@ -460,7 +458,8 @@ void func_8009A14C(UnkStruct_80099E2C* arg0) {
     if (arg0->unkC0 & 8) {
         func_800C2304(arg0->unkCC + D_801A7224, arg0->unkD0 + D_801A7230, arg0->unkD4 + D_801A7218);
     } else {
-        func_800C2304(arg0->unkCC + D_801A7224 + (f32) arg0->unkDC, arg0->unkD0 + D_801A7230 + (f32) arg0->unkE0, arg0->unkD4 + D_801A7218);
+        func_800C2304(arg0->unkCC + D_801A7224 + (f32) arg0->unkDC, arg0->unkD0 + D_801A7230 + (f32) arg0->unkE0,
+                      arg0->unkD4 + D_801A7218);
     }
 }
 
@@ -468,28 +467,28 @@ void func_8009A22C(void) {
     func_800C2304(0.0f, 0.0f, D_801A7218);
 }
 
-void func_8009A264(UnkStruct_80099E2C *arg0) {
+void func_8009A264(UnkStruct_80099E2C* arg0) {
     if (!(arg0->unkC0 & 8) && (arg0->unkC0 & 0x10)) {
         func_800C2780(arg0->unkF0);
     }
 }
 
-void func_8009A2C4(UnkStruct_80099E2C *arg0) {
+void func_8009A2C4(UnkStruct_80099E2C* arg0) {
     arg0->unkC0 |= 0x10;
     arg0->unkC0 &= ~8;
 }
 
-void func_8009A2F4(UnkStruct_80099E2C *arg0) {
+void func_8009A2F4(UnkStruct_80099E2C* arg0) {
     arg0->unkC0 |= 8;
     arg0->unkC0 &= ~0x10;
 }
 
-void func_800C2D08(MtxF*, MtxF*);                          /* extern */
+void func_800C2D08(MtxF*, MtxF*); /* extern */
 
-s32 func_8009A324(MtxF *arg0, f32 *arg1, f32 *arg2) {
+s32 func_8009A324(MtxF* arg0, f32* arg1, f32* arg2) {
     MtxF sp18;
 
-    func_800C2D08((MtxF*)arg0 + D_801A70E4, &sp18);
+    func_800C2D08((MtxF*) arg0 + D_801A70E4, &sp18);
     if ((f64) sp18.mf[3][2] == 0.0) {
         return -1;
     }
@@ -498,7 +497,7 @@ s32 func_8009A324(MtxF *arg0, f32 *arg1, f32 *arg2) {
     return 0;
 }
 
-s32 func_8009A3E8(UnkStruct_80099E2C *arg0, f32 *arg1, f32 *arg2) {
+s32 func_8009A3E8(UnkStruct_80099E2C* arg0, f32* arg1, f32* arg2) {
     MtxF sp20;
     s32 sp1C;
 
@@ -506,7 +505,7 @@ s32 func_8009A3E8(UnkStruct_80099E2C *arg0, f32 *arg1, f32 *arg2) {
     if (sp1C < 0) {
         sp1C = 1;
     }
-    func_800C2D08((MtxF*)arg0 + sp1C, &sp20);
+    func_800C2D08((MtxF*) arg0 + sp1C, &sp20);
     if ((f64) sp20.mf[3][2] == 0.0) {
         return -1;
     }
@@ -786,8 +785,8 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
     return 0;
 }
 
-UnkStruct_80099E2C *func_800A3918(void) {
-    UnkStruct_80099E2C *sp24;
+UnkStruct_80099E2C* func_800A3918(void) {
+    UnkStruct_80099E2C* sp24;
 
     sp24 = SysMem_HeapAlloc(0x160);
     if (sp24 == NULL) {
@@ -805,7 +804,7 @@ UnkStruct_80099E2C *func_800A3918(void) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800A39C4.s")
 
-void func_800A3FC0(UnkStruct_80099E2C *arg0) {
+void func_800A3FC0(UnkStruct_80099E2C* arg0) {
     if (arg0->currentPaletteColors != NULL) {
         SysMem_Free(arg0->currentPaletteColors);
     }
@@ -817,7 +816,6 @@ void func_800A3FC0(UnkStruct_80099E2C *arg0) {
     }
     SysMem_Free(arg0);
 }
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800A4074.s")
 
@@ -918,7 +916,6 @@ s32 func_800AD70C(s32 arg0) {
     }
     return 3;
 }
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800AD774.s")
 

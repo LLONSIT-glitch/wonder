@@ -551,10 +551,10 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                             }
                         }
 
-                        if (D_801560F0->unk8 & D_80180E68) {
+                        if (gControllers->unk8 & gInputMask_DPadUp) {
                             sp8C -= 1;
                         }
-                        if (D_801560F0->unk8 & D_80180E74) {
+                        if (gControllers->unk8 & gInputMask_DPadDown) {
                             sp8C += 1;
                         }
                         if (sp8C < 0) {
@@ -658,7 +658,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
             case 2:
                 func_80099520();
                 sp68->unk82EC = (s32) (sp68->unk82EC - 1);
-                if ((D_801560F0->unk6 & D_80181038) && (sp48 == NULL) && (sp74 == 0) && (sp44 == 180.0f)) {
+                if ((gControllers->unk6 & gInputMask_L) && (sp48 == NULL) && (sp74 == 0) && (sp44 == 180.0f)) {
                     sp74 += 1;
                     sp44 = (f32) ((f64) sp44 + 10.0);
                 }
@@ -745,35 +745,35 @@ void func_8001C1F4(UnkStruct_8000DDE0* arg0) {
 
 s32 func_8001C2AC(s32 arg0, s32 arg1) {
     if (arg1 >= 0) {
-        if (D_801560F0->unk8 & D_80180FF4) {
+        if (gControllers->unk8 & gInputMask_A) {
             D_801A7320 += 1;
         }
-        if (D_801560F0->unk8 & D_8018101C) {
+        if (gControllers->unk8 & gInputMask_B) {
             D_801A7320 -= 1;
         }
-        if (D_801560F0->unk8 & D_80181258) {
+        if (gControllers->unk8 & gInputMask_CDown) {
             D_801A7338 += 1;
         }
-        if (D_801560F0->unk8 & D_80181260) {
+        if (gControllers->unk8 & gInputMask_CLeft) {
             D_801A7338 -= 1;
         }
-        if (D_801560F0->unk8 & D_8018126C) {
+        if (gControllers->unk8 & gInputMask_CRight) {
             D_801A7338 += 0xA;
         }
-        if (D_801560F0->unk8 & D_801811AC) {
+        if (gControllers->unk8 & gInputMask_CUp) {
             D_801A7338 -= 0xA;
         }
-        if (D_801560F0->unk6 & D_801810F2) {
+        if (gControllers->unk6 & gInputMask_Z) {
             D_801A7248 = 0;
             D_801A7268 = 0;
         }
-        if (D_801560F0->unk6 & D_80180EC0) {
+        if (gControllers->unk6 & gInputMask_DPadLeft) {
             D_801A72DC &= ~0x40;
         }
-        if (D_801560F0->unk6 & D_80180EEC) {
+        if (gControllers->unk6 & gInputMask_DPadRight) {
             D_801A72DC |= 0x40;
         }
-        if (D_801560F0->unk6 & D_80181042) {
+        if (gControllers->unk6 & gInputMask_R) {
             D_801A7320 = 0xC;
             D_801A7338 = 1;
         }
@@ -799,35 +799,35 @@ s32 func_8001C2AC(s32 arg0, s32 arg1) {
 
 s32 func_8001C5E0(s32 arg0, s32 arg1) {
     if (arg1 >= 0) {
-        if (D_801560F0->unk8 & D_80180FF4) {
+        if (gControllers->unk8 & gInputMask_A) {
             D_801A8C40 += 1;
         }
-        if (D_801560F0->unk8 & D_8018101C) {
+        if (gControllers->unk8 & gInputMask_B) {
             D_801A8C40 -= 1;
         }
-        if (D_801560F0->unk8 & D_80181258) {
+        if (gControllers->unk8 & gInputMask_CDown) {
             D_801A8C40 += 0xA;
         }
-        if (D_801560F0->unk8 & D_80181260) {
+        if (gControllers->unk8 & gInputMask_CLeft) {
             D_801A8C40 -= 0xA;
         }
-        if (D_801560F0->unk8 & D_8018126C) {
+        if (gControllers->unk8 & gInputMask_CRight) {
             D_801A8C40 += 0x64;
         }
-        if (D_801560F0->unk8 & D_801811AC) {
+        if (gControllers->unk8 & gInputMask_CUp) {
             D_801A8C40 -= 0x64;
         }
-        if (D_801560F0->unk8 & D_80181042) {
+        if (gControllers->unk8 & gInputMask_R) {
             if (D_801A8C40 != 0x1F4) {
                 D_801A8C40 = 0x1F4;
             } else {
                 D_801A8C40 = -2;
             }
         }
-        if (D_801560F0->unk6 & D_801810F2) {
+        if (gControllers->unk6 & gInputMask_Z) {
             D_801A8D88[3] = (u16) (D_801A8D88[3] ^ 0x1000);
         }
-        if (D_801560F0->unk6 & D_80180EEC) {
+        if (gControllers->unk6 & gInputMask_DPadRight) {
             D_801A8D88[3] = (u16) (D_801A8D88[3] ^ 0x2000);
         }
     }
@@ -853,25 +853,25 @@ s32 func_8001C5E0(s32 arg0, s32 arg1) {
 
 s32 func_8001C94C(s32 arg0, s32 arg1) {
     if (arg1 >= 0) {
-        if (D_801560F0->unk8 & D_80180FF4) {
+        if (gControllers->unk8 & gInputMask_A) {
             D_801A8D70 += 1;
         }
-        if (D_801560F0->unk8 & D_8018101C) {
+        if (gControllers->unk8 & gInputMask_B) {
             D_801A8D70 -= 1;
         }
-        if (D_801560F0->unk8 & D_80181258) {
+        if (gControllers->unk8 & gInputMask_CDown) {
             D_801A8D78 += 1;
         }
-        if (D_801560F0->unk8 & D_80181260) {
+        if (gControllers->unk8 & gInputMask_CLeft) {
             D_801A8D78 -= 1;
         }
-        if (D_801560F0->unk8 & D_8018126C) {
+        if (gControllers->unk8 & gInputMask_CRight) {
             D_801A8D80 += 1;
         }
-        if (D_801560F0->unk8 & D_801811AC) {
+        if (gControllers->unk8 & gInputMask_CUp) {
             D_801A8D80 -= 1;
         }
-        if (D_801560F0->unk6 & D_80181042) {
+        if (gControllers->unk6 & gInputMask_R) {
             if (D_801A8D70 < 0x1F4) {
                 D_801A8D70 = 0x1F4;
             } else {
@@ -893,7 +893,7 @@ s32 func_8001C94C(s32 arg0, s32 arg1) {
 }
 
 s32 func_8001CBAC(s32 arg0, s32 arg1) {
-    if ((arg1 >= 0) && ((D_801560F0->unk8 & D_80180FF4) || (D_801560F0->unk8 & D_8018101C))) {
+    if ((arg1 >= 0) && ((gControllers->unk8 & gInputMask_A) || (gControllers->unk8 & gInputMask_B))) {
         *D_801A8D88 ^= 8;
     }
     if (*D_801A8D88 & 8) {
@@ -905,7 +905,7 @@ s32 func_8001CBAC(s32 arg0, s32 arg1) {
 }
 
 s32 func_8001CC7C(s32 arg0, s32 arg1) {
-    if ((arg1 >= 0) && ((D_801560F0->unk8 & D_80180FF4) || (D_801560F0->unk8 & D_8018101C))) {
+    if ((arg1 >= 0) && ((gControllers->unk8 & gInputMask_A) || (gControllers->unk8 & gInputMask_B))) {
         *D_801A8D88 ^= 0x4000;
     }
     if (*D_801A8D88 & 0x4000) {
@@ -917,7 +917,7 @@ s32 func_8001CC7C(s32 arg0, s32 arg1) {
 }
 
 s32 func_8001CD4C(s32 arg0, s32 arg1) {
-    if ((arg1 >= 0) && (D_801560F0->unk6 & D_80180FF4)) {
+    if ((arg1 >= 0) && (gControllers->unk6 & gInputMask_A)) {
         return 1;
     }
     return 0;
@@ -925,7 +925,7 @@ s32 func_8001CD4C(s32 arg0, s32 arg1) {
 
 s32 func_8001CD9C(s32 arg0, s32 arg1) {
     s32 pad;
-    if ((arg1 >= 0) && (D_801560F0->unk8 & D_80180FF4)) {
+    if ((arg1 >= 0) && (gControllers->unk8 & gInputMask_A)) {
         *D_801A8D88 ^= 0x10;
     }
     if (*D_801A8D88 & 0x10) {
@@ -938,7 +938,7 @@ s32 func_8001CD9C(s32 arg0, s32 arg1) {
 
 s32 func_8001CE54(s32 arg0, s32 arg1) {
     s32 pad;
-    if ((arg1 >= 0) && (D_801560F0->unk8 & D_80180FF4)) {
+    if ((arg1 >= 0) && (gControllers->unk8 & gInputMask_A)) {
         *D_801A8D88 ^= 0x20;
     }
     if (*D_801A8D88 & 0x20) {
@@ -950,7 +950,7 @@ s32 func_8001CE54(s32 arg0, s32 arg1) {
 }
 
 s32 func_8001CF0C(s32 arg0, s32 arg1) {
-    if ((D_801560F0->unk6 & (u16) D_801811A4) || (D_801560F0->unk6 & D_80180FF4)) {
+    if ((gControllers->unk6 & (u16) gInputMask_Start) || (gControllers->unk6 & gInputMask_A)) {
         return 1;
     }
     return 0;
@@ -1014,7 +1014,7 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
             func_8008EAA8(2, 2);
             func_8008ECE4(&D_800ED968, D_801825F0[4]);
             func_8008ECE4(&D_800ED97C, D_801825F0[3], D_801825F0[2]);
-            if (D_801560F0->unk6 & D_80181042) {
+            if (gControllers->unk6 & gInputMask_R) {
                 for (sp44 = 0; sp44 < 8; sp44++) {
                     sp38 = (UnkStruct_80099E2C*) (D_80182618->ptrs[0] + (sp44 * 0x160));
                     sp24 = sp38->ptrs[1];
@@ -1057,19 +1057,19 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
                 D_801825F0[2] = 0xF;
                 D_801825F0[3] = 1;
             }
-            if (D_801560F0->unk6 & D_80180FF4) {
+            if (gControllers->unk6 & gInputMask_A) {
                 D_801825F0[1] ^= 1;
             }
-            if (D_801560F0->unk6 & D_8018126C) {
+            if (gControllers->unk6 & gInputMask_CRight) {
                 D_801825F0[2] += 1;
             }
-            if (D_801560F0->unk6 & D_801811AC) {
+            if (gControllers->unk6 & gInputMask_CUp) {
                 D_801825F0[2] -= 1;
             }
-            if (D_801560F0->unk6 & D_80181258) {
+            if (gControllers->unk6 & gInputMask_CDown) {
                 D_801825F0[3] += 1;
             }
-            if (D_801560F0->unk6 & D_80181260) {
+            if (gControllers->unk6 & gInputMask_CLeft) {
                 D_801825F0[3] -= 1;
             }
             if (D_801825F0[2] < 0) {
@@ -1084,19 +1084,19 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
             if (D_801825F0[3] >= 9) {
                 D_801825F0[3] = 8;
             }
-            if (D_801560F0->unk6 & D_8018101C) {
+            if (gControllers->unk6 & gInputMask_B) {
                 D_801825F0[4] ^= 1;
             }
             func_800C1680();
             func_8009A22C();
-            if (!(D_801560F0->unk4 & D_801810F2)) {
+            if (!(gControllers->button & gInputMask_Z)) {
                 if (D_801825F0[1] != 0) {
                     func_800C25B8(90.0f);
                     func_800C23E8(90.0f);
                 }
             } else {
-                func_800C25B8(D_801560F0->unk14);
-                func_800C23E8(D_801560F0->unk10);
+                func_800C25B8(gControllers->stickY);
+                func_800C23E8(gControllers->stickX);
             }
             for (sp44 = 0; sp44 < 8; sp44++) {
                 sp38 = (UnkStruct_80099E2C*) (D_80182618->ptrs[0] + (sp44 * 0x160));
@@ -1151,7 +1151,7 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
         default:
             break;
     }
-    if (D_801560F0->unk6 & (u16) D_801811A4) {
+    if (gControllers->unk6 & (u16) gInputMask_Start) {
         for (sp44 = 0; sp44 < 8; sp44++) {
             sp38 = (UnkStruct_80099E2C*) (D_80182618->ptrs[0] + (sp44 * 0x160));
             SysMem_Free(sp38->ptrs[1]);
@@ -1187,25 +1187,25 @@ s32 func_8001DC00(UnkStruct_80020720* arg0) {
             func_8008EAA8(2, 0x10);
             D_80156B98 = D_801825F0[5];
             func_8008ECE4(&D_800ED9AC, D_801825F0[0], D_801825F0[1], D_801825F0[2]);
-            if (D_801560F0->unk8 & D_8018101C) {
+            if (gControllers->unk8 & gInputMask_B) {
                 D_801825F0[3] ^= 1;
             }
             func_8008EAA8(2, 0x11);
             D_80156B98 = D_801825F0[5];
             if (D_801825F0[3] == 0) {
                 func_8008ECE4(&D_800ED9C0);
-                if (D_801560F0->unk8 & D_80181260) {
+                if (gControllers->unk8 & gInputMask_CLeft) {
                     D_801825F0[0] -= 1;
                 }
-                if (D_801560F0->unk8 & D_80181258) {
+                if (gControllers->unk8 & gInputMask_CDown) {
                     D_801825F0[0] += 1;
                 }
             } else {
                 func_8008ECE4(&D_800ED9CC);
-                if (D_801560F0->unk8 & D_80181260) {
+                if (gControllers->unk8 & gInputMask_CLeft) {
                     D_801825F0[1] -= 1;
                 }
-                if (D_801560F0->unk8 & D_80181258) {
+                if (gControllers->unk8 & gInputMask_CDown) {
                     D_801825F0[1] += 1;
                 }
             }
@@ -1215,10 +1215,10 @@ s32 func_8001DC00(UnkStruct_80020720* arg0) {
             if (D_801825F0[1] <= 0) {
                 D_801825F0[1] = 1;
             }
-            if (D_801560F0->unk8 & D_80180FF4) {
+            if (gControllers->unk8 & gInputMask_A) {
                 Thread_SendMesgNoBlock(D_800F1918, &D_8015F7E0, 1);
             }
-            if (D_801560F0->unk6 & D_801810F2) {
+            if (gControllers->unk6 & gInputMask_Z) {
                 D_801825F0[2] += 1;
             }
             D_801825F0[2] = (s32) D_801825F0[2] % 4;
@@ -1227,25 +1227,25 @@ s32 func_8001DC00(UnkStruct_80020720* arg0) {
                 if (sp28->unkC0 & 0x10000000) {
                     func_800C1754();
                     if (D_801825F0[2] == sp2C) {
-                        if (D_801560F0->unk6 & D_8018126C) {
+                        if (gControllers->unk6 & gInputMask_CRight) {
                             sp28->unkC0 ^= 8;
                         }
-                        if (D_801560F0->unk4 & D_80180EC0) {
+                        if (gControllers->button & gInputMask_DPadLeft) {
                             sp28->unkCC = (f32) ((f64) sp28->unkCC - (1.0 * (f64) D_8018257C));
                         }
-                        if (D_801560F0->unk4 & D_80180EEC) {
+                        if (gControllers->button & gInputMask_DPadRight) {
                             sp28->unkCC = (f32) ((f64) sp28->unkCC + (1.0 * (f64) D_8018257C));
                         }
-                        if (D_801560F0->unk4 & D_80180E68) {
+                        if (gControllers->button & gInputMask_DPadUp) {
                             sp28->unkD0 = (f32) ((f64) sp28->unkD0 + (1.0 * (f64) D_8018257C));
                         }
-                        if (D_801560F0->unk4 & D_80180E74) {
+                        if (gControllers->button & gInputMask_DPadDown) {
                             sp28->unkD0 = (f32) ((f64) sp28->unkD0 - (1.0 * (f64) D_8018257C));
                         }
-                        if (D_801560F0->unk4 & D_80181038) {
+                        if (gControllers->button & gInputMask_L) {
                             sp28->unkD4 = (f32) ((f64) sp28->unkD4 - (1.0 * (f64) D_8018257C));
                         }
-                        if (D_801560F0->unk4 & D_80181042) {
+                        if (gControllers->button & gInputMask_R) {
                             sp28->unkD4 = (f32) ((f64) sp28->unkD4 + (1.0 * (f64) D_8018257C));
                         }
                         if (sp28->unk11E < 0) {
@@ -1263,7 +1263,7 @@ s32 func_8001DC00(UnkStruct_80020720* arg0) {
             }
             break;
     }
-    if (D_801560F0->unk6 & (u16) D_801811A4) {
+    if (gControllers->unk6 & (u16) gInputMask_Start) {
         D_801AB248 = D_801825F0[4];
         return -1;
     }
@@ -1297,16 +1297,16 @@ s32 func_8001E348(UnkStruct_80020720* arg0) {
                 func_8008EAA8(8, 7);
                 func_8008ECE4(&D_800EDA28);
             }
-            if ((D_801560F0->unk8 & D_80180E68) || (D_801560F0->unk8 & D_80180E74)) {
+            if ((gControllers->unk8 & gInputMask_DPadUp) || (gControllers->unk8 & gInputMask_DPadDown)) {
                 D_801825F0[0] ^= 1;
             }
-            if ((D_801560F0->unk6 & D_80180FF4) && (D_801825F0[0] == 0)) {
+            if ((gControllers->unk6 & gInputMask_A) && (D_801825F0[0] == 0)) {
                 func_800BCB10(D_80180648);
                 D_80180648 = func_8005D2B0();
                 D_801825F0[1] = 0;
                 D_801825E4 += 1;
             }
-            if ((D_801560F0->unk6 & D_80180FF4) && (D_801825F0[0] != 0)) {
+            if ((gControllers->unk6 & gInputMask_A) && (D_801825F0[0] != 0)) {
                 return -1;
             }
             goto skip_dead_code;
@@ -1325,7 +1325,7 @@ s32 func_8001E348(UnkStruct_80020720* arg0) {
         default:
             if (FALSE) {}
         skip_dead_code:
-            if (D_801560F0->unk6 & (u16) D_801811A4) {
+            if (gControllers->unk6 & (u16) gInputMask_Start) {
                 return -1;
             }
             return 0;
@@ -1379,10 +1379,10 @@ s32 func_8001E654(UnkStruct_80020720* arg0) {
                     func_8008ECE4(&D_800EDA80, sp34->optionName);
                 }
             }
-            if (D_801560F0->unk8 & D_80180E68) {
+            if (gControllers->unk8 & gInputMask_DPadUp) {
                 sp24 -= 1;
             }
-            if (D_801560F0->unk8 & D_80180E74) {
+            if (gControllers->unk8 & gInputMask_DPadDown) {
                 sp24 += 1;
             }
             if (sp24 < 0) {
@@ -1394,7 +1394,7 @@ s32 func_8001E654(UnkStruct_80020720* arg0) {
             *D_801825F0 = sp24;
             break;
     }
-    if (D_801560F0->unk6 & (u16) D_801811A4) {
+    if (gControllers->unk6 & (u16) gInputMask_Start) {
         return -1;
     }
     return 0;
@@ -1404,10 +1404,10 @@ void func_800BD9D0(s32, s32); /* extern */
 
 s32 func_8001E980(s32 arg0, s32 arg1) {
     if (arg1 >= 0) {
-        if (D_801560F0->unk8 & D_80180EC0) {
+        if (gControllers->unk8 & gInputMask_DPadLeft) {
             D_80181680 -= 1;
         }
-        if (D_801560F0->unk8 & D_80180EEC) {
+        if (gControllers->unk8 & gInputMask_DPadRight) {
             D_80181680 += 1;
         }
         if (D_80181680 < 0) {
@@ -1438,7 +1438,7 @@ s32 func_8001E980(s32 arg0, s32 arg1) {
 void func_800BDA58(s32); /* extern */
 
 s32 func_8001EB14(s32 arg0, s32 arg1) {
-    if ((arg1 >= 0) && ((D_801560F0->unk8 & D_80180FF4) || (D_801560F0->unk8 & D_8018101C))) {
+    if ((arg1 >= 0) && ((gControllers->unk8 & gInputMask_A) || (gControllers->unk8 & gInputMask_B))) {
         if (D_8018168C & 1) {
             func_800BDA58(2);
         } else {
@@ -1456,7 +1456,7 @@ s32 func_8001EB14(s32 arg0, s32 arg1) {
 void func_800BDA58(s32); /* extern */
 
 s32 func_8001EBF8(s32 arg0, s32 arg1) {
-    if ((arg1 >= 0) && ((D_801560F0->unk8 & D_80180FF4) || (D_801560F0->unk8 & D_8018101C))) {
+    if ((arg1 >= 0) && ((gControllers->unk8 & gInputMask_A) || (gControllers->unk8 & gInputMask_B))) {
         if (D_8018168C & 4) {
             func_800BDA58(8);
         } else {
@@ -1474,7 +1474,7 @@ s32 func_8001EBF8(s32 arg0, s32 arg1) {
 void func_800BDA58(s32); /* extern */
 
 s32 func_8001ECDC(s32 arg0, s32 arg1) {
-    if ((arg1 >= 0) && ((D_801560F0->unk8 & D_80180FF4) || (D_801560F0->unk8 & D_8018101C))) {
+    if ((arg1 >= 0) && ((gControllers->unk8 & gInputMask_A) || (gControllers->unk8 & gInputMask_B))) {
         if (D_8018168C & 0x10) {
             func_800BDA58(0x20);
         } else {
@@ -1511,22 +1511,22 @@ s32 func_8001EE30(s32 arg0, s32 arg1) {
     s32 temp_t7;
 
     if (arg1 >= 0) {
-        if (D_801560F0->unk8 & D_80180FF4) {
+        if (gControllers->unk8 & gInputMask_A) {
             D_800DB5F4 += 1;
         }
-        if (D_801560F0->unk8 & D_8018101C) {
+        if (gControllers->unk8 & gInputMask_B) {
             D_800DB5F4 -= 1;
         }
-        if (D_801560F0->unk8 & D_80181258) {
+        if (gControllers->unk8 & gInputMask_CDown) {
             D_800DB5F4 += 0xA;
         }
-        if (D_801560F0->unk8 & D_80181260) {
+        if (gControllers->unk8 & gInputMask_CLeft) {
             D_800DB5F4 -= 0xA;
         }
-        if (D_801560F0->unk8 & D_8018126C) {
+        if (gControllers->unk8 & gInputMask_CRight) {
             D_800DB5F4 += 0x64;
         }
-        if (D_801560F0->unk8 & D_801811AC) {
+        if (gControllers->unk8 & gInputMask_CUp) {
             D_800DB5F4 -= 0x64;
         }
         if (D_800DB5F4 <= 0) {
@@ -1535,14 +1535,14 @@ s32 func_8001EE30(s32 arg0, s32 arg1) {
         if (D_800DB5F4 >= 0x201) {
             D_800DB5F4 = 0x200;
         }
-        if (D_801560F0->unk6 & D_801810F2) {
+        if (gControllers->unk6 & gInputMask_Z) {
             if (func_8005F064(D_800DB5F4) != 0) {
                 func_8005F268(D_800DB5F4);
             } else {
                 func_8005F0DC(D_800DB5F4);
             }
         }
-        if (D_801560F0->unk8 & D_80181042) {
+        if (gControllers->unk8 & gInputMask_R) {
             for (sp1C = 1; sp1C < 0x201; sp1C++) {
                 func_8005F268(sp1C);
             }
@@ -1563,29 +1563,29 @@ extern s32 D_801815D4;
 s32 func_8001F104(s32 arg0, s32 arg1) {
     s32 pad[2];
     if (arg1 >= 0) {
-        if (D_801560F0->unk8 & D_80180FF4) {
+        if (gControllers->unk8 & gInputMask_A) {
             D_801815D4 += 1;
         }
-        if (D_801560F0->unk8 & D_8018101C) {
+        if (gControllers->unk8 & gInputMask_B) {
             D_801815D4 -= 1;
         }
-        if (D_801560F0->unk8 & D_80181258) {
+        if (gControllers->unk8 & gInputMask_CDown) {
             D_801815D4 += 0xA;
         }
-        if (D_801560F0->unk8 & D_80181260) {
+        if (gControllers->unk8 & gInputMask_CLeft) {
             D_801815D4 -= 0xA;
         }
-        if (D_801560F0->unk8 & D_8018126C) {
+        if (gControllers->unk8 & gInputMask_CRight) {
             D_801815D4 += 0x64;
         }
-        if (D_801560F0->unk8 & D_801811AC) {
+        if (gControllers->unk8 & gInputMask_CUp) {
             D_801815D4 -= 0x64;
         }
-        if (D_801560F0->unk8 & D_80180EC0) {
-            D_801A70E8 += 0x1388;
+        if (gControllers->unk8 & gInputMask_DPadLeft) {
+            gMoney += 0x1388;
         }
-        if (D_801560F0->unk8 & D_80180EEC) {
-            D_801A70E8 += 0x1388;
+        if (gControllers->unk8 & gInputMask_DPadRight) {
+            gMoney += 0x1388;
         }
         if (D_801815D4 < 0) {
             D_801815D4 = 0;
@@ -1597,6 +1597,6 @@ s32 func_8001F104(s32 arg0, s32 arg1) {
             *D_80160480 = (s16) D_801815D4;
         }
     }
-    func_8008ECE4(&D_800EDB58, D_801815D4, D_801A70E8);
+    func_8008ECE4(&D_800EDB58, D_801815D4, gMoney);
     return 0;
 }

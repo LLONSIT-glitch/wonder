@@ -13,12 +13,12 @@ BLUE    := \033[0;34m
 PINK    := \033[0;35m
 CYAN    := \033[0;36m
 
+
 # Directories
-
-
 find-command = $(shell which $(1) 2>/dev/null)
 
-
+# Enable isprint
+ISPRINT ?= 0
 
 BUILD_DIR = build
 
@@ -54,14 +54,10 @@ O_FILES := $(addprefix $(BUILD_DIR)/,$(S_FILES:.s=.o)) \
 
 # Tools
 
-#Soon, weird qemu-irix environment, sgi support soon ;)
 QEMU_IRIX32 = qemu-irixn32
 QEMU_IRIX   = /usr/bin/qemu-irix
 
 CROSS	 = mips-linux-gnu-
-
-#ROOT	 = $(QEMU_IRIX32) ~/root/gcc463/opt/gcc-4.6.3/bin
-#AS       = $(ROOT)/as
 
 CPP      = cpp
 LD       = $(CROSS)ld
@@ -96,8 +92,6 @@ ifeq ($(USE_QEMU_IRIX),1)
   endif
 endif
 
-
-
 ifeq ($(USE_QEMU_IRIX),1)
 	CC       := $(QEMU_IRIX) -silent -L $(TOOLS_DIR)/ido5.3_compiler $(TOOLS_DIR)/ido5.3_compiler/usr/bin/cc
 	else
@@ -121,7 +115,7 @@ LOOP_UNROLL    =
 
 MIPSISET       = -mips1  -32
 
-INCLUDE_CFLAGS = -I . -I include -I include/os -I include/os/PR -I include/os/PRinternal -I assets
+INCLUDE_CFLAGS = -I . -I include -I include/os -I include/os/PR -I include/os/PRinternal -I include/os/compiler/ido -I assets
 
 ASFLAGS        = -EB -mtune=vr4300 -march=vr4300 -mabi=32 -I include
 OBJCOPYFLAGS   = -O binary
@@ -131,7 +125,12 @@ GLOBAL_ASM_C_FILES := $(shell $(GREP) GLOBAL_ASM $(SRC_DIR) </dev/null 2>/dev/nu
 GLOBAL_ASM_O_FILES := $(addprefix $(BUILD_DIR)/,$(GLOBAL_ASM_C_FILES:.c=.o))
 
 
-DEFINES := -D_LANGUAGE_C -D_FINALROM -DF3DEX_GBI -DAVOID_RODATA_USE -DBUILD_VERSION=3
+DEFINES := -D_LANGUAGE_C -D_FINALROM -DF3DEX_GBI -DBUILD_VERSION=3
+
+ifeq ($(ISPRINT),1)
+  DEFINES += -DISPRINT
+  DEFINES += -DNON_MATCHING
+endif
 
 ifeq ($(VERSION),us)
 DEFINES += -DVERSION_US
@@ -313,7 +312,7 @@ $(SPLAT):
 	git submodule update --init --recursive
 
 baserom.$(VERSION).z64:
-	$(error Place the AeroGauge ROM, named '$@', in the root of this repo and try again.)
+	$(error Place the Wonder Project J2 ROM, named '$@', in the root of this repo and try again.)
 
 ### Settings
 .SECONDARY:
