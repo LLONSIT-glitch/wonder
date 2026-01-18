@@ -277,7 +277,7 @@ void func_800BE684(void) {
     gSPDisplayList(gDisplayListHead++, D_1000058);
     gDPPipeSync(gDisplayListHead++);
     func_800BE328((Gfx**) &gDisplayListHead);
-    gDPSetColorImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320,  VIRTUAL_TO_PHYSICAL2(D_801824DC));
+    gDPSetColorImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, VIRTUAL_TO_PHYSICAL2(D_801824DC));
 }
 
 void alSynFreeFX(ALSynth* s, void** fx) {

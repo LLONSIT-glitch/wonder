@@ -12,8 +12,6 @@ extern s32 D_801879D0[];
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_2DFB0/func_8002D798.s")
 
-
-
 void func_8002DA1C(void) {
     s16 sp6;
     u64* sp0;
@@ -70,7 +68,6 @@ void func_8002DA1C(void) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_2DFB0/func_80031AB8.s")
 
-
 s32 func_80031AC8(void) {
     if (D_80182518 < 0x1F) {
         return -2;
@@ -81,10 +78,9 @@ s32 func_80031AC8(void) {
     if (D_80182530 != 0.0) {
         return 1;
     }
-    
+
     return -1;
 }
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_2DFB0/func_80031B6C.s")
 

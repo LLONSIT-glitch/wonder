@@ -18,16 +18,15 @@ typedef struct UnkStruct_80014C70_sp24_s {
 } UnkStruct_80014C70_sp24;
 
 /* Custom RSP macro? */
-#define gSPCustomClipRatio(pkt, r)                                               \
-{                                                                       \
-        gMoveWd(pkt, G_MW_CLIP, G_MWO_CLIP_RNX, FR_NEG_##r);           \
-        gMoveWd(pkt, G_MW_CLIP, G_MWO_CLIP_RNY, FR_NEG_##r);           \
-        gMoveWd(pkt, G_MW_CLIP, G_MWO_CLIP_RPX, FR_POS_##r);           \
-        gMoveWd(pkt, G_MW_CLIP, G_MWO_CLIP_RPY, FR_POS_##r);           \
-}
+#define gSPCustomClipRatio(pkt, r)                           \
+    {                                                        \
+        gMoveWd(pkt, G_MW_CLIP, G_MWO_CLIP_RNX, FR_NEG_##r); \
+        gMoveWd(pkt, G_MW_CLIP, G_MWO_CLIP_RNY, FR_NEG_##r); \
+        gMoveWd(pkt, G_MW_CLIP, G_MWO_CLIP_RPX, FR_POS_##r); \
+        gMoveWd(pkt, G_MW_CLIP, G_MWO_CLIP_RPY, FR_POS_##r); \
+    }
 
 s32 func_800AFB70(s32, s32, s32);
-
 
 extern s32 D_800DA940[];
 UnkStruct_80099E2C* func_8000D688(s32); /* extern */
@@ -102,8 +101,7 @@ void func_80014F38(UnkStruct_8000DDE0* arg0) {
     UnkStruct_80099E2C* sp6C;
     UnkStruct_80099E2C* sp68;
 
-
-    //osSyncPrintf("Calling fog function?\n");
+    // osSyncPrintf("Calling fog function?\n");
     sp74 = arg0->unk20C;
     sp70 = sp74->unk10;
     sp6C = sp74->unkC;
@@ -210,33 +208,33 @@ void func_80014F38(UnkStruct_8000DDE0* arg0) {
 }
 
 // TODO: maybe UnkStruct_80014C70_sp24 is UnkStruct_8000DDE0?
-void func_80015B6C(UnkStruct_8000DDE0 *arg0) {
+void func_80015B6C(UnkStruct_8000DDE0* arg0) {
     UNUSED s32 padC;
-    UnkStruct_80014C70_sp24 *sp8;
+    UnkStruct_80014C70_sp24* sp8;
     UNUSED s32 pad4;
-    UnkStruct_80099E2C *sp0;
+    UnkStruct_80099E2C* sp0;
 
-    sp8 = (void*)arg0->unk20C;
-    sp0 = (void*)sp8->unkC;
+    sp8 = (void*) arg0->unk20C;
+    sp0 = (void*) sp8->unkC;
     sp8->unk24 = 255.0f;
     sp8->unk28 = 0.0f;
     sp0->unk11E = 0xFF;
 }
 
-void func_80015BD0(UnkStruct_8000DDE0 *arg0) {
+void func_80015BD0(UnkStruct_8000DDE0* arg0) {
     UNUSED s32 padC;
-    UnkStruct_80014C70_sp24 *sp8;
+    UnkStruct_80014C70_sp24* sp8;
     UNUSED s32 pad4;
-    UnkStruct_80099E2C *sp0;
+    UnkStruct_80099E2C* sp0;
 
-    sp8 = (void*)arg0->unk20C;
-    sp0 = (void*)sp8->unkC;
+    sp8 = (void*) arg0->unk20C;
+    sp0 = (void*) sp8->unkC;
     sp8->unk24 = 0.0f;
     sp8->unk28 = 0.0f;
     sp0->unk11E = 0;
 }
 
-s32 func_80015C30(UnkStruct_8000DDE0 *arg0) {
+s32 func_80015C30(UnkStruct_8000DDE0* arg0) {
     UNUSED s32 pad;
     s16 sp1C[7];
 
@@ -258,15 +256,14 @@ s32 func_80015C30(UnkStruct_8000DDE0 *arg0) {
     return 0;
 }
 
-s32 func_80015D74(UnkStruct_8000DDE0 *arg0) {
+s32 func_80015D74(UnkStruct_8000DDE0* arg0) {
     UNUSED s32 pad;
     s16 sp1C[3];
-
 
     if (func_8000DA44(arg0, 3, sp1C) < 0) {
         return -1;
     }
-    D_8015B334 = (s32) (f32)sp1C[1];
-    D_8015B33C = (s32) (f32)sp1C[2];
+    D_8015B334 = (s32) (f32) sp1C[1];
+    D_8015B33C = (s32) (f32) sp1C[2];
     return 0;
 }

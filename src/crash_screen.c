@@ -5,8 +5,8 @@
 #ifdef CRASH_SCREEN
 #define MQ_WAIT_FOR_MESG(mq, mesg) osRecvMesg((mq), (OSMesg*) (mesg), OS_MESG_BLOCK)
 #define MQ_GET_MESG(mq, mesg) (osRecvMesg((mq), (OSMesg*) (mesg), OS_MESG_NOBLOCK) != -1)
-#define OS_MSEC_TO_CYCLES(n)    OS_USEC_TO_CYCLES((n) * 1000LL)
-#define OS_SEC_TO_CYCLES(n)     OS_MSEC_TO_CYCLES((n) * 1000LL)
+#define OS_MSEC_TO_CYCLES(n) OS_USEC_TO_CYCLES((n) * 1000LL)
+#define OS_SEC_TO_CYCLES(n) OS_MSEC_TO_CYCLES((n) * 1000LL)
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
@@ -27,7 +27,7 @@ typedef struct {
     /* 0x9D2 */ u16 height;
 } FaultMgr; // size = 0x9D8, 0x8 aligned
 
-FaultMgr gFaultMgr = {0}; // Don't put this in .bss instead make it .data
+FaultMgr gFaultMgr = { 0 }; // Don't put this in .bss instead make it .data
 
 u8 sFaultCharIndex[0x80] = {
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -80,10 +80,9 @@ void SetTime(OSTime time) {
     __osCurrentTime = time;
 }
 
-OSThread *GetCurrFaultedThread() {
+OSThread* GetCurrFaultedThread() {
     return __osActiveQueue;
 }
-
 
 void Fault_FillRectangle(s32 xPos, s32 yPos, s32 width, s32 height) {
     u16* pixel;
@@ -187,8 +186,8 @@ void Fault_DisplayFloatException(u32 exceptFlags) {
 }
 
 extern OSMesgQueue gSerialEventQueue;
-u16 sCrashDebuggerInputs[] = { A_BUTTON, U_CBUTTONS,    U_CBUTTONS, B_BUTTON,      R_CBUTTONS, R_CBUTTONS,
-                                     A_BUTTON, R_CBUTTONS, B_BUTTON,   R_CBUTTONS, START_BUTTON };
+u16 sCrashDebuggerInputs[] = { A_BUTTON, U_CBUTTONS, U_CBUTTONS, B_BUTTON,   R_CBUTTONS,  R_CBUTTONS,
+                               A_BUTTON, R_CBUTTONS, B_BUTTON,   R_CBUTTONS, START_BUTTON };
 
 #define CAUSE_INDEX(cause) ((cause >> CAUSE_EXCSHIFT) & (CAUSE_EXCMASK >> CAUSE_EXCSHIFT))
 
@@ -296,7 +295,7 @@ void Fault_ThreadEntry(void* arg) {
     while (faultedThread == NULL) {
         MQ_WAIT_FOR_MESG(&gFaultMgr.mesgQueue, &dummy);
         faultedThread = Fault_GetCrashedThread();
-    Fault_DisplayDebugInfo(faultedThread);
+        Fault_DisplayDebugInfo(faultedThread);
     }
     while (TRUE) {}
 }
@@ -308,12 +307,11 @@ void Fault_SetFrameBuffer(void* buffer, u16 width, u16 height) {
 }
 
 void Fault_Init(void) {
-    gFaultMgr.fb = (FrameBuffer*)gFrameBuffer2;
+    gFaultMgr.fb = (FrameBuffer*) gFrameBuffer2;
     gFaultMgr.width = SCREEN_WIDTH;
-    gFaultMgr.height = 16; 
+    gFaultMgr.height = 16;
     osCreateMesgQueue(&gFaultMgr.mesgQueue, &gFaultMgr.msg, 1);
-    osCreateThread(&gFaultMgr.thread, 20, Fault_ThreadEntry, NULL,
-                   gFaultMgr.stack + sizeof(gFaultMgr.stack), 250);
+    osCreateThread(&gFaultMgr.thread, 20, Fault_ThreadEntry, NULL, gFaultMgr.stack + sizeof(gFaultMgr.stack), 250);
     osStartThread(&gFaultMgr.thread);
 }
 #endif

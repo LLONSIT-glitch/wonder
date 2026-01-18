@@ -67,7 +67,6 @@ s32 Spi_LimitedDecompress(u32 fileAddr, s32 fileSize) {
     u8* compressedInput;
     u32 temp_t2;
 
-
     compressedInput = SysMem_HeapAlloc(fileSize + 0x10);
     if (compressedInput == NULL) {
         return -1;
@@ -113,9 +112,9 @@ s32 Spi_DecompressAsset(u32 fileAddr, s32 size, u8* filePtr) {
     u8* spiHeader; /* compiler-managed */
     void* spiFile;
 
-    #ifdef ISPRINT
+#ifdef ISPRINT
     osSyncPrintf("DecompressAsset (addr: %x, size: %x, ptr: %x)\n", fileAddr, size, filePtr);
-    #endif
+#endif
 
     spiFile = SysMem_HeapAlloc(size + 0x10);
     if (spiFile == NULL) {
