@@ -228,4 +228,14 @@ osInvalICache = 0x800D44F0;
 __osSetCompare = 0x800D54F0;
 osMapTLBRdb = 0x800D4570;
 gspFast3DTextStart = 0x800D6C40;//name_end:gspFast3DTextEnd
+__osCheckPackId = 0x800CDB3C;
+__osIdCheckSum = 0x800CD6BC;
+__osRepairPackId = 0x800CD724;
+osInitialize = 0x800CB170;
 
+// LEO functions?
+__osSetTimerIntr = 0x800CBDC4;
+__osInsertTimer = 0x800CBE38;
+__osLeoInterrupt = 0x800D4720;
+__osLeoAbnormalResume = 0x800D4DC0;
+__osLeoResume = 0x800D4EA8;

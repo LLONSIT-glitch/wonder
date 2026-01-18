@@ -12,7 +12,7 @@ extern f32 D_801825C8;
 void Main_BootProc(void* arg) {
     char pad[0x50];
 
-    func_800CB170();
+    osInitialize();
     gDebugger = FALSE;
     D_801816C4 = 0;
     osCreateThread(&sIdleThread, THREAD_ID_IDLE, Main_IdleThreadEntry, arg, sIdleThreadStack + 0x2000, 0xA);
@@ -171,12 +171,14 @@ void func_800BDE6C(s32 arg0) {
     D_8018251C = osGetTime() - D_801819A8;
     D_801824FC ^= 1;
 
-    // !< Why don't just use a single global?
     if (D_801824FC != 0) {
         D_801824D0 = gFrameBuffer1;
     } else {
         D_801824D0 = gFrameBuffer2;
     }
+
+    /* Why don't just do? */
+    // D_801824DC = D_801824D0;
 
     if (D_801824FC != 0) {
         D_801824DC = gFrameBuffer2;
@@ -284,39 +286,39 @@ void alSynFreeFX(ALSynth* s, void** fx) {
 s32 func_800BE7A0(s32 arg0) {
     s32 sp1C;
 
-    D_80180E68 = 0x800;
-    D_80180E74 = 0x400;
-    D_80180EC0 = 0x200;
-    D_80180EEC = 0x100;
-    D_80180FF4 = 0x8000;
-    D_8018101C = 0x4000;
-    D_80181038 = 0x20;
-    D_80181042 = 0x10;
-    D_801810F2 = 0x2000;
-    D_801811A4 = 0x1000;
-    D_801811AC = 8;
-    D_80181258 = 4;
-    D_80181260 = 2;
-    D_8018126C = 1;
-    D_80180E50 = 70.0f;
-    D_80180E5C = 70.0f;
+    gInputMask_DPadUp = U_JPAD;
+    gInputMask_DPadDown = D_JPAD;
+    gInputMask_DPadLeft = L_JPAD;
+    gInputMask_DPadRight = R_JPAD;
+    gInputMask_A = A_BUTTON;
+    gInputMask_B = B_BUTTON;
+    gInputMask_L = L_TRIG;
+    gInputMask_R = R_TRIG;
+    gInputMask_Z = Z_TRIG;
+    gInputMask_Start = START_BUTTON;
+    gInputMask_CUp = U_CBUTTONS;
+    gInputMask_CDown = D_CBUTTONS;
+    gInputMask_CLeft = L_CBUTTONS;
+    gInputMask_CRight = R_CBUTTONS;
+    gControllerStickXScale = 70.0f;
+    gControllerStickYScale = 70.0f;
     osCreateMesgQueue((OSMesgQueue*) &D_80182500, &D_8018252C, 1);
     osSetEventMesg(OS_EVENT_SI, (OSMesgQueue*) &D_80182500, (void*) 1);
     sp1C = osContInit((OSMesgQueue*) &D_80182500, &gContPakBitPattern, gContStatus);
 
     for (sp1C = 0; sp1C < 4; sp1C++) {
-        D_80180DA8[sp1C].state = STATE_CONNECTED;
-        D_80180DA8[sp1C].unk18 = D_80180E50;
-        D_80180DA8[sp1C].unk1C = D_80180E5C;
+        gControllerRaw[sp1C].state = STATE_CONNECTED;
+        gControllerRaw[sp1C].stickScaleX = gControllerStickXScale;
+        gControllerRaw[sp1C].stickScaleY = gControllerStickYScale;
     }
 
     return 0;
 }
 
-void func_800BE960(s32 contInitialized) {
+UNUSED void Main_UpdateControllers(s32 contInitialized) {
     s32 i;
     s32 prevButton;
-    ControllerStruct_80180DA8* sp24;
+    Controller* controller;
 
     if (!contInitialized) {
         osContStartReadData(&D_801824E0);
@@ -327,47 +329,47 @@ void func_800BE960(s32 contInitialized) {
 
     for (i = 0; i < MAX_CONTROLERS; i++) {
         if (!gContPad[i].errno) {
-            sp24 = &D_80180DA8[i];
-            if (sp24->state != STATE_CONNECTED) {
-                sp24->unk18 = D_80180E50;
-                sp24->unk1C = D_80180E5C;
+            controller = &gControllerRaw[i];
+            if (controller->state != STATE_CONNECTED) {
+                controller->stickScaleX = gControllerStickXScale; // 70.0f
+                controller->stickScaleY = gControllerStickYScale; // 70.0f
             }
-            sp24->state = STATE_CONNECTED;
-            sp24->stickX = (f32) gContPad[i].stick_x * (sp24->unk18 / 80.0f);
-            sp24->stickY = (f32) gContPad[i].stick_y * (sp24->unk1C / 80.0f);
-            prevButton = sp24->button;
-            sp24->button = gContPad[i].button;
-            sp24->unk6 = (sp24->button ^ prevButton) & sp24->button; // Always 1
-            sp24->unkC -= D_8018257C;
-            if (sp24->button != sp24->unkA) {
-                sp24->unkA = sp24->button;
-                sp24->unk8 = sp24->button;
-                sp24->unkC = 10.0f;
-            } else if (sp24->unkC < 0.0f) {
-                sp24->unk8 = sp24->unkA;
-                sp24->unkC = 5.0f;
+            controller->state = STATE_CONNECTED;
+            controller->stickX = gContPad[i].stick_x * (controller->stickScaleX / 80.0f);
+            controller->stickY = gContPad[i].stick_y * (controller->stickScaleY / 80.0f);
+            prevButton = controller->button;
+            controller->button = gContPad[i].button;
+            controller->unk6 = (controller->button ^ prevButton) & controller->button; // Always 1
+            controller->unkC -= D_8018257C;
+            if (controller->button != controller->unkA) {
+                controller->unkA = controller->button;
+                controller->unk8 = controller->button;
+                controller->unkC = 10.0f;
+            } else if (controller->unkC < 0.0f) {
+                controller->unk8 = controller->unkA;
+                controller->unkC = 5.0f;
             } else {
-                sp24->unk8 = 0;
+                controller->unk8 = 0;
             }
         } else {
-            sp24 = &D_80180DA8[i];
-            sp24->state = STATE_NOT_CONNECTED;
-            sp24->button = sp24->unk6 = sp24->unk8 = sp24->unkA = 0;
-            sp24->stickX = sp24->stickY = 0.0f;
-            sp24->unkC = 0.0f;
+            controller = &gControllerRaw[i];
+            controller->state = STATE_NOT_CONNECTED;
+            controller->button = controller->unk6 = controller->unk8 = controller->unkA = 0;
+            controller->stickX = controller->stickY = 0.0f;
+            controller->unkC = 0.0f;
         }
     }
 }
 
 int func_800BECCC(s32 arg0, f32 arg1, f32 arg2) {
-    if (D_80180DA8[arg0].state != STATE_CONNECTED) {
+    if (gControllerRaw[arg0].state != STATE_CONNECTED) {
         return -1;
     }
-    D_80180DA8[arg0].unk18 = arg1;
-    D_80180DA8[arg0].unk1C = arg2;
+    gControllerRaw[arg0].stickScaleX = arg1;
+    gControllerRaw[arg0].stickScaleY = arg2;
 }
 
 void func_800BED48(f32 arg0, f32 arg1) {
-    D_80180E50 = arg0;
-    D_80180E5C = arg1;
+    gControllerStickXScale = arg0;
+    gControllerStickYScale = arg1;
 }

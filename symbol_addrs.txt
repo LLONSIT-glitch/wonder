@@ -65,6 +65,7 @@ sSpiCompSrcBase = 0x80160458;
 sSpiCompDataPtr = 0x80160444;
 gSpritePalettes = 0x8078D1C0;
 Spi_DecompressAsset = 0x800BF0B4;
+Spi_LimitedDecompress = 0x800BEE48;
 gDisplayListHead = 0x801A1B44;
 MtxFToMtx = 0x800C2DD0;
 CreateGfxTask = 0x8009908C;
@@ -79,6 +80,39 @@ sIdleThread = 0x80182650;
 sIdleThreadStack = 0x801849C8;
 sThreadIdMain = 0x801A8E3C;
 
+gInputMask_DPadUp = 0x80180E68;
+gInputMask_DPadDown = 0x80180E74;
+gInputMask_DPadLeft = 0x80180EC0;
+gInputMask_DPadRight = 0x80180EEC;
+gInputMask_A = 0x80180FF4;
+gInputMask_B = 0x8018101C;
+gInputMask_L = 0x80181038;
+gInputMask_R = 0x80181042;
+gInputMask_Z = 0x801810F2;
+gInputMask_Start = 0x801811A4;
+gInputMask_CUp = 0x801811AC;
+gInputMask_CDown = 0x80181258;
+gInputMask_CLeft = 0x80181260;
+gInputMask_CRight = 0x8018126C;
+gControllerStickXScale = 0x80180E50;
+gControllerStickYScale = 0x80180E5C;
+
+gControllerRaw = 0x80180DA8;
+gControllers = 0x801560F0;
+
+gMoney = 0x801A70E8;
+gInteractionWaitTimer = 0x801806C0;
+gSpriteSeg2RomStart = 0x80153E2C;
+gSpriteSegVramStart = 0x801540D8;
+
+gSeg_69A970_ROM_START = 0x801560E0;
+gSeg_69A970_VRAM = 0x801560E8;
+
+gSeg_639B20_VRAM = 0x801849C0;
+gSeg_639B20_ROM_START = 0x801829B8;
+
+gSeg_6E3A40_ROM_START = 0x8015FB78;
+gSeg_6E3A40_VRAM = 0x8015FB80;
 // cont_pak
 gPfsState = 0x801813D0;
 gContPakFilesState = 0x801815D8;
@@ -151,6 +185,7 @@ Scheduler_CreateScheduler = 0x80096EE0;
 Scheduler_CreateSchedulerThread = 0x80097068;
 Scheduler_IsTaskReady = 0x80097BDC;
 
+D_801ADA38 = 0x801ADA38; //size:0x14
 
 D_807991C0 = 0x807991C0; 
 D_8079A730 = 0x8079A730; 

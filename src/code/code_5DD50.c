@@ -30,16 +30,22 @@ void* func_8005D6BC(void) {
     void* sp30;
     UnkStruct_8005D6BC* sp2C;
     UnkStruct_8005D6BC_sp28* sp28;
+
     sp30 = SysMem_HeapAllocMark(D_80180658 * 6);
     SysMem_DmaCopy((u32) SysMem_GetPhysicalAddressFromVirtual((u32) Seg_6A69E0_ROM_START, (s32) Seg_6A69E0_VRAM, (s32) &D_809DF1C4), 
     sp28 = SysMem_HeapAlloc(D_80180660), D_80180660);
+
+    #ifndef NON_MATCHING
     for (sp34 = 0, sp2C = sp30; sp34 < (u32) D_80180658; sp34++, sp2C++) {
         sp2C->unk0 = (sp28 + sp34)->unk0;
         sp2C->unk2 = 3;
         sp2C->unk3 = 0;
         sp2C->unk4 = sp28->unkA;
     }
+
     SysMem_Free(sp28);
+    #endif
+
     return sp30;
 }
 

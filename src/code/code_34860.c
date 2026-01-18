@@ -41,7 +41,28 @@ f32 func_80033CF0(f32 arg0) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_34860/func_800345E0.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_34860/func_800346E4.s")
+u16 func_800346E4(u8* arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, u16 arg5) {
+    u16 sp6;
+    u16 sp4;
+    u16 sp2;
+    u16 sp0;
+
+    sp2 = 0;
+    if ((sp6 = (arg3 / arg1)) % 2) {
+        sp2 += 1;
+        sp6 -= 1;
+    }
+    sp6 *= 0.5;
+    sp4 = (u16) (u32) (arg4 / arg2);
+    sp0 = *(arg0 + sp6 + (sp4 * arg5));
+    if (sp2 != 0) {
+        sp0 &= 0xF;
+    } else {
+        sp0 = (u16) ((s32) (sp0 & 0xF0) >> 4);
+    }
+    return sp0;
+}
+
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_34860/func_800349C0.s")
 

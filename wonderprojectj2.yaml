@@ -8,6 +8,7 @@ options:
   platform: n64
   compiler: IDO
 
+
   # asm_path: asm
   # src_path: src
   # build_path: build
@@ -75,6 +76,8 @@ segments:
     bss_size: 0xE82F0 # Previous size: C0C7C0
     subsegments:
       - [0x1050, c, sys/sys_main]
+      - [0x1050, c, isprint]
+      - [0x1050, c, crash_screen]
       - [0x3B20, c, code/code_3B20]
       - [0x6480, c, code/code_6480]
       - [0x6EC0, c, code/code_6EC0]
@@ -208,29 +211,33 @@ segments:
       - [0xCC620, hasm, interrupt]
       - [0xCC660, c, libultra/io/vi]
       - [0xCC7B0, hasm, getcount]
-      - [0xCC7C0, asm]
-      - [0xCCC10, asm]
+      # Remaining libultra files to match
+      - [0xCC7C0, c, libultra/timerintr]
+      - [0xCCBC0, c, libultra/tthread]
+      - [0xCCC00, c, libultra/getactivequeue]
+      - [0xCCC10, c, libultra/tviswapcontext]
       - [0xCCF70, hasm, exceptasm]
-      - [0xCD870, asm]
-      - [0xCD880, asm]
-      - [0xCDB90, asm]
-      - [0xCDC10, asm]
-      - [0xCDC20, asm]
-      - [0xCDC60, asm]
-      - [0xCDCF0, asm]
-      - [0xCDD20, asm]
+      - [0xCD870, c, libultra/spgetstat]
+      - [0xCD880, hasm, bcopy]
+      - [0xCDB90, hasm, writebackdcache]
+      - [0xCDC10, c, libultra/spsetstat]
+      - [0xCDC20, c, libultra/spsetpc]
+      - [0xCDC60, c, libultra/sprawdma]
+      - [0xCDCF0, c, libultra/sp]
+      - [0xCDD20, c, libultra/dp]
       - [0xCDD50, c, libultra/libc/ll]
-      - [0xCE010, asm]
-      - [0xCE0F0, asm]
-      - [0xCE1A0, asm]
+      - [0xCE010, c, libultra/settimer]
+      - [0xCE0F0, c, libultra/sirawdma]
+      - [0xCE1A0, c, libultra/siacs]
+      - [0xCE260, c, libultra/contpfs]
       - [0xCEFC0, c, libultra/io/pfsearchfile]
-      - [0xCF180, asm]
+      - [0xCF180, c, libultra/contramwrite]
       - [0xCF530, c, libultra/io/pfschecker]
-      - [0xCFF90, asm]
-      - [0xD0340, asm]
-      - [0xD0350, asm]
+      - [0xCFF90, c, libultra/contramread]
+      - [0xD0340, c, libultra/syndelete]
+      - [0xD0350, hasm, probetlb]
       - [0xD0410, c, libultra/io/ai]
-      - [0xD0440, asm] # drvrNew
+      - [0xD0440, c, libultra/drvrNew] # drvrNew
       - [0xD0BE0, asm]
       - [0xD0C80, asm]
       - [0xD1920, asm]
@@ -267,7 +274,9 @@ segments:
 
       # Data starts!
       - [0xD7BB0, data]
+      - [0xD87B0, data, aspmain]
       - [0xDAB00, .data, sys/sys_main]
+      - [0xDAB00, .data, isprint]
       - [0xDAB80, data]
       - [0xDC200, .data, code/code_1FF90]
       - [0xDC210, data]
@@ -292,13 +301,17 @@ segments:
       - [0xEDDE0, rodata]
       - [0xEDF40, rodata]
       - [0xEDF60, rodata]
-      - [0xEE190, rodata]
+      - [0xEE190, .rodata, code/code_15870]
+      - [0xEE1C0, rodata]
       - [0xEE210, rodata]
       - [0xEE780, .rodata, code/code_1FF90]
       - [0xEE840, .rodata, code/code_20400]
       - [0xEE870, .rodata, code/code_21320]
+      - [0xEE870, .rodata, code/spi]
       - [0xEEE30, rodata]
+
       - [0xEF320, .rodata, code/code_2CE70]
+      - [0xEF320, .rodata, code/code_5DD50]
       - [0xEF3A0, rodata]
       - [0xEF490, rodata]
       - [0xEFA80, rodata]

@@ -32,7 +32,7 @@ s32 func_8001F390(UnkStruct_80020720* arg0) {
             func_8001F800();
             func_8001F6B8();
     }
-    if (D_801560F0->unk6 & (u16) D_801811A4) {
+    if (gControllers->unk6 & (u16) gInputMask_Start) {
         SysMem_Free(D_80182618->ptrs[0]);
         sp28 = (UnkStruct_800B23C4*) D_80182618->ptrs[1];
         sp24 = (UnkStruct_80099E2C*) D_80182618->ptrs[2];

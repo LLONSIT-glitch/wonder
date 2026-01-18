@@ -572,7 +572,7 @@ u8 func_800B35D4(f32* arg0, UnkStruct_80099E2C* arg1, UnkStruct_800B23C4* arg2, 
 
 s32 func_800B3A24(f32* arg0, UnkStruct_80099E2C** arg1, UnkStruct_800B23C4** arg2);
 
-#ifdef NON_MATCHING
+#if 0
 extern f32 D_800EF978;
 
 s32 func_800B3A24(f32* arg0, UnkStruct_80099E2C** arg1, UnkStruct_800B23C4** arg2) {
@@ -913,7 +913,7 @@ void func_800B4AB4(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
 }
 
 // Stack differences
-#ifdef NON_MATCHING
+#if 0
 void func_800B4F68(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2) {
     ObjFrame* sp3C;
     u8 sp38;
@@ -1130,7 +1130,7 @@ void func_800B57B0(void) {
 
 void func_800B5AA0(void) {
     if (D_801A3068->unk4 & 0x200) {
-        D_801560F0->unk6 &= ~D_801810F2;
+        gControllers->unk6 &= ~gInputMask_Z;
     }
 }
 
@@ -1149,7 +1149,7 @@ s32 func_800B5AF0(void) {
             if (D_801A3068->unk4 & 0x400) {
                 if (func_80031AC8() == 1) {
                     D_80182530 = 0.0f;
-                    D_801560F0->unk6 &= ~D_801810F2;
+                    gControllers->unk6 &= ~gInputMask_Z;
                 }
                 break;
             }
@@ -1164,11 +1164,11 @@ s32 func_800B5AF0(void) {
             if (D_801A3068->unk4 & 0x400) {
                 if (func_80031AC8() == 1) {
                     D_80182530 = 0.0f;
-                    D_801560F0->unk6 &= ~D_801810F2;
+                    gControllers->unk6 &= ~gInputMask_Z;
                 }
                 break;
             }
-            if (D_801560F0->unk6 & D_801810F2) {
+            if (gControllers->unk6 & gInputMask_Z) {
                 D_801A3068->unk6 = 0;
                 D_801A3068->unk4 &= ~0x100;
                 break;
@@ -1225,7 +1225,7 @@ s32 func_800B5E90(u16 arg0) {
 }
 
 // Stack issues
-#ifdef NON_MATCHING
+#if 0
 s32 func_800B69C4(u16*);           /* extern */
 s32 func_800B6B18(u16*);           /* extern */
 s32 func_800B7510(u16*);           /* extern */

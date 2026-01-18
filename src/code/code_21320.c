@@ -2,7 +2,7 @@
 
 s32 func_80020720(UnkStruct_80020720* arg0) {
     s32 pad;
-    s32 sp40;
+    s32 contPakResult;
     s32 sp3C;
     s32 sp38;
     s32 sp34;
@@ -25,8 +25,8 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
             gameName = D_80182618->ptrs[0];
             extName = D_80182618->ptrs[1];
 
-            for (sp40 = 0; sp40 < 0x11; sp40++) {
-                gameName[sp40] = 0;
+            for (contPakResult = 0; contPakResult < 0x11; contPakResult++) {
+                gameName[contPakResult] = 0;
             }
             gameName[0] = '-';
             gameName[1] = 0x1E;
@@ -37,12 +37,12 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
             gameName[6] = '%';
             gameName[7] = 0x1E;
 
-            for (sp40 = 0; sp40 < 5; sp40++) {
-                extName[sp40] = 0;
+            for (contPakResult = 0; contPakResult < 5; contPakResult++) {
+                extName[contPakResult] = 0;
             }
 
-            for (sp40 = 0; sp40 < 0x1600; sp40++) {
-                D_80182618->ptrs[2][sp40] = sp40 & 0xFF;
+            for (contPakResult = 0; contPakResult < 0x1600; contPakResult++) {
+                D_80182618->ptrs[2][contPakResult] = contPakResult & 0xFF;
             }
             break;
         case 1: /* switch 7 */
@@ -65,10 +65,10 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
             }
             switch (D_801825F0[0]) { /* switch 1 */
                 case 1:              /* switch 1 */
-                    sp40 = ContPak_GetOpenFileResult();
-                    if (sp40 >= 0x1001) {
-                        sp40 -= 0x1000;
-                        switch (sp40) { /* switch 2 */
+                    contPakResult = ContPak_GetOpenFileResult();
+                    if (contPakResult >= PFS_ERROR_MAGIC + 1) {
+                        contPakResult -= PFS_ERROR_MAGIC;
+                        switch (contPakResult) { /* switch 2 */
                             case 4:     /* switch 2 */
                                 func_8008ECE4("PFS ERR CONTRFAIL   \n");
                                 break;
@@ -99,23 +99,23 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                                 func_8008ECE4("Data full           \n");
                                 break;
                             default: /* switch 2 */
-                                func_8008ECE4("Unknown error [%04x]\n", sp40);
+                                func_8008ECE4("Unknown error [%04x]\n", contPakResult);
                                 break;
                         }
                         D_801825F0[1] = 0x3C;
                         D_801825F0[0] = 0;
-                    } else if (sp40 != -1) {
-                        func_8008ECE4("Allocate OK [%2d]     \n", sp40);
+                    } else if (contPakResult != -1) {
+                        func_8008ECE4("Allocate OK [%2d]     \n", contPakResult);
                         D_801825F0[1] = 0x3C;
                         D_801825F0[0] = 0;
-                        D_801825F0[2] = sp40;
+                        D_801825F0[2] = contPakResult;
                     }
                     break;
                 case 2: /* switch 1 */
-                    sp40 = ContPak_GetFindFileResult();
-                    if (sp40 >= 0x1001) {
-                        sp40 -= 0x1000;
-                        switch (sp40) { /* switch 3 */
+                    contPakResult = ContPak_GetFindFileResult();
+                    if (contPakResult >= PFS_ERROR_MAGIC + 1) {
+                        contPakResult -= PFS_ERROR_MAGIC;
+                        switch (contPakResult) { /* switch 3 */
                             case 4:     /* switch 3 */
                                 func_8008ECE4("PFS ERR CONTRFAIL   \n");
                                 break;
@@ -138,23 +138,23 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                                 func_8008ECE4("Pfs is full         \n");
                                 break;
                             default: /* switch 3 */
-                                func_8008ECE4("Unknown error [%04x]\n", sp40);
+                                func_8008ECE4("Unknown error [%04x]\n", contPakResult);
                                 break;
                         }
                         D_801825F0[1] = 0x3C;
                         D_801825F0[0] = 0;
-                    } else if (sp40 != -1) {
-                        func_8008ECE4("File find   [%2d]     \n", sp40);
+                    } else if (contPakResult != -1) {
+                        func_8008ECE4("File find   [%2d]     \n", contPakResult);
                         D_801825F0[1] = 0x3C;
                         D_801825F0[0] = 0;
-                        D_801825F0[2] = sp40;
+                        D_801825F0[2] = contPakResult;
                     }
                     break;
                 case 3: /* switch 1 */
-                    sp40 = ContPak_GetWriteFileResult();
-                    if (sp40 >= 0x1001) {
-                        sp40 -= 0x1000;
-                        switch (sp40) { /* switch 4 */
+                    contPakResult = ContPak_GetWriteFileResult();
+                    if (contPakResult >= PFS_ERROR_MAGIC + 1) {
+                        contPakResult -= PFS_ERROR_MAGIC;
+                        switch (contPakResult) { /* switch 4 */
                             case 4:     /* switch 4 */
                                 func_8008ECE4("PFS ERR CONTRFAIL   \n");
                                 break;
@@ -174,22 +174,22 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                                 func_8008ECE4("PFS ERR BAD DATA    \n");
                                 break;
                             default: /* switch 4 */
-                                func_8008ECE4("Unknown error [%04x]\n", sp40);
+                                func_8008ECE4("Unknown error [%04x]\n", contPakResult);
                                 break;
                         }
                         D_801825F0[1] = 0x3C;
                         D_801825F0[0] = 0;
-                    } else if (sp40 != -1) {
+                    } else if (contPakResult != -1) {
                         func_8008ECE4("Write success [%2d]     \n", D_801825F0[2]);
                         D_801825F0[1] = 0x3C;
                         D_801825F0[0] = 0;
                     }
                     break;
                 case 4: /* switch 1 */
-                    sp40 = ContPak_GetReadFileResult();
-                    if (sp40 >= 0x1001) {
-                        sp40 -= 0x1000;
-                        switch (sp40) { /* switch 5 */
+                    contPakResult = ContPak_GetReadFileResult();
+                    if (contPakResult >= PFS_ERROR_MAGIC + 1) {
+                        contPakResult -= PFS_ERROR_MAGIC;
+                        switch (contPakResult) { /* switch 5 */
                             case 4:     /* switch 5 */
                                 func_8008ECE4("PFS ERR CONTRFAIL   \n");
                                 break;
@@ -209,19 +209,19 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                                 func_8008ECE4("PFS ERR BAD DATA    \n");
                                 break;
                             default: /* switch 5 */
-                                func_8008ECE4("Unknown error [%04x]\n", sp40);
+                                func_8008ECE4("Unknown error [%04x]\n", contPakResult);
                                 break;
                         }
                         D_801825F0[1] = 0x3C;
                         D_801825F0[0] = 0;
-                    } else if (sp40 != -1) {
-                        for (sp40 = 0; sp40 < 0x1600; sp40++) {
-                            if (D_80182618->ptrs[2][sp40] != D_80182618->ptrs[3][sp40]) {
+                    } else if (contPakResult != -1) {
+                        for (contPakResult = 0; contPakResult < 0x1600; contPakResult++) {
+                            if (D_80182618->ptrs[2][contPakResult] != D_80182618->ptrs[3][contPakResult]) {
                                 break;
                             }
                         }
 
-                        if (sp40 == 0x1600) {
+                        if (contPakResult == 0x1600) {
                             func_8008ECE4("Load success [%2d]      \n", D_801825F0[2]);
                         } else {
                             func_8008ECE4("Load data error [%2d]   \n", D_801825F0[2]);
@@ -231,10 +231,10 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                     }
                     break;
                 case 5: /* switch 1 */
-                    sp40 = ContPak_GetDeleteFileResult();
-                    if (sp40 >= 0x1001) {
-                        sp40 -= 0x1000;
-                        switch (sp40) { /* switch 6 */
+                    contPakResult = ContPak_GetDeleteFileResult();
+                    if (contPakResult >= PFS_ERROR_MAGIC + 1) {
+                        contPakResult -= PFS_ERROR_MAGIC;
+                        switch (contPakResult) { /* switch 6 */
                             case 4:     /* switch 6 */
                                 func_8008ECE4("PFS ERR CONTRFAIL   \n");
                                 break;
@@ -260,44 +260,44 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
                                 func_8008ECE4("Data full           \n");
                                 break;
                             default: /* switch 6 */
-                                func_8008ECE4("Unknown error [%04x]\n", sp40);
+                                func_8008ECE4("Unknown error [%04x]\n", contPakResult);
                                 break;
                         }
                         D_801825F0[1] = 0x3C;
                         D_801825F0[0] = 0;
-                    } else if (sp40 != -1) {
-                        func_8008ECE4("Delete success [%2d]     \n", sp40);
+                    } else if (contPakResult != -1) {
+                        func_8008ECE4("Delete success [%2d]     \n", contPakResult);
                         D_801825F0[1] = 0x3C;
                         D_801825F0[0] = 0;
                         D_801825F0[2] = -1;
                     }
                     break;
                 default: /* switch 1 */
-                    if (D_801560F0->unk6 & (u16) D_801810F2) {
+                    if (gControllers->unk6 & (u16) gInputMask_Z) {
                         ContPak_SetPakInitializationAttempts(1);
                     }
-                    if ((D_801560F0->unk6 & D_80180FF4) && (ContPak_SetOpenFileParams(gameName, extName, 0x1600) == 0)) {
+                    if ((gControllers->unk6 & gInputMask_A) && (ContPak_SetOpenFileParams(gameName, extName, 0x1600) == 0)) {
                         D_801825F0[0] = 1;
                     }
-                    if ((D_801560F0->unk6 & (u16) D_8018101C) && (ContPak_SetFileFindParams(gameName, extName) == 0)) {
+                    if ((gControllers->unk6 & (u16) gInputMask_B) && (ContPak_SetFileFindParams(gameName, extName) == 0)) {
                         D_801825F0[0] = 2;
                     }
-                    if ((D_801560F0->unk6 & (u16) D_80181258)) {
+                    if ((gControllers->unk6 & (u16) gInputMask_CDown)) {
                         if ((D_801825F0[2] != -1)) {
                             if ((ContPak_SetFileWriteParams(D_801825F0[2], 0, 0x1600, D_80182618->ptrs[2]) == 0)) {
                                 D_801825F0[0] = 3;
                             }
                         }
                     }
-                    if ((D_801560F0->unk6 & (u16) D_80181260) && (D_801825F0[2] != -1)) {
-                        for (sp40 = 0; sp40 < 0x1600; sp40++) {
-                            D_80182618->ptrs[3][sp40] = D_80182618->ptrs[2][sp40] ^ 0xFF;
+                    if ((gControllers->unk6 & (u16) gInputMask_CLeft) && (D_801825F0[2] != -1)) {
+                        for (contPakResult = 0; contPakResult < 0x1600; contPakResult++) {
+                            D_80182618->ptrs[3][contPakResult] = D_80182618->ptrs[2][contPakResult] ^ 0xFF;
                         }
                         if (ContPak_SetFileReadParams(D_801825F0[2], 0, 0x1600, D_80182618->ptrs[3]) == 0) {
                             D_801825F0[0] = 4;
                         }
                     }
-                    if ((D_801560F0->unk6 & (u16) D_8018126C)) {
+                    if ((gControllers->unk6 & (u16) gInputMask_CRight)) {
                         if ((D_801825F0[2] != -1)) {
                             if ((ContPak_SetFileDeleteParams(D_801825F0[2]) == 0)) {
                                 D_801825F0[0] = 5;
@@ -313,9 +313,9 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
             }
             break;
     }
-    if (D_801560F0->unk6 & (u16) D_801811A4) {
-        for (sp40 = 0; sp40 < 4; sp40++) {
-            SysMem_Free(D_80182618->ptrs[sp40]);
+    if (gControllers->unk6 & (u16) gInputMask_Start) {
+        for (contPakResult = 0; contPakResult < 4; contPakResult++) {
+            SysMem_Free(D_80182618->ptrs[contPakResult]);
         }
         return -1;
     }

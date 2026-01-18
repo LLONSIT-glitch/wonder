@@ -30,31 +30,31 @@ void func_800AD800(void) {
     s32 sp30;
 
     gCurrentPakOperationFlags = 0;
-    D_80180E68 = 0x800;
-    D_80180E74 = 0x400;
-    D_80180EC0 = 0x200;
-    D_80180EEC = 0x100;
-    D_80180FF4 = 0x8000;
-    D_8018101C = 0x4000;
-    D_80181038 = 0x20;
-    D_80181042 = 0x10;
-    D_801810F2 = 0x2000;
-    D_801811A4 = 0x1000;
-    D_801811AC = 8;
-    D_80181258 = 4;
-    D_80181260 = 2;
-    D_8018126C = 1;
-    D_80180E50 = 70.0f;
-    D_80180E5C = 70.0f;
+    gInputMask_DPadUp = U_JPAD;
+    gInputMask_DPadDown = D_JPAD;
+    gInputMask_DPadLeft = L_JPAD;
+    gInputMask_DPadRight = R_JPAD;
+    gInputMask_A = A_BUTTON;
+    gInputMask_B = B_BUTTON;
+    gInputMask_L = L_TRIG;
+    gInputMask_R = R_TRIG;
+    gInputMask_Z = Z_TRIG;
+    gInputMask_Start = START_BUTTON;
+    gInputMask_CUp = U_CBUTTONS;
+    gInputMask_CDown = D_CBUTTONS;
+    gInputMask_CLeft = L_CBUTTONS;
+    gInputMask_CRight = R_CBUTTONS;
+    gControllerStickXScale = 70.0f;
+    gControllerStickYScale = 70.0f;
     for (sp30 = 0; sp30 < 4; sp30++) {
-        D_80180DA8[sp30].state = 0;
-        D_80180DA8[sp30].unk18 = D_80180E50;
-        D_80180DA8[sp30].unk1C = D_80180E5C;
+        gControllerRaw[sp30].state = 0;
+        gControllerRaw[sp30].stickScaleX = gControllerStickXScale;
+        gControllerRaw[sp30].stickScaleY = gControllerStickYScale;
 
-        D_80180DA8[sp30].button = D_80180DA8[sp30].unk6 = D_80180DA8[sp30].unk8 = D_80180DA8[sp30].unkA =
-            D_80180DA8[sp30].unkC = 0;
+        gControllerRaw[sp30].button = gControllerRaw[sp30].unk6 = gControllerRaw[sp30].unk8 = gControllerRaw[sp30].unkA =
+            gControllerRaw[sp30].unkC = 0;
 
-        D_80180DA8[sp30].stickX = D_80180DA8[sp30].stickY = 0.0f;
+        gControllerRaw[sp30].stickX = gControllerRaw[sp30].stickY = 0.0f;
     }
     D_801824D4 = 1;
     D_8018128C = 0;
@@ -83,17 +83,17 @@ void func_800AD800(void) {
     Thread_Start(sp3C->threadId);
 }
 
-void func_800ADC50(ThreadEntry* arg0) {
-    ThreadEntry* sp60;
+void func_800ADC50(ThreadEntry* entry) {
+    ThreadEntry* threadEntry;
     UnkStruct_800F9C38* sp58;
-    s16* sp54;
+    s16* mesg;
     s32 pad[3];
     UnkStruct_800EF900 sp28;
 
     sp28 = D_800EF900;
 
-    sp60 = arg0;
-    sp58 = sp60->unk18;
+    threadEntry = entry;
+    sp58 = threadEntry->unk18;
 
     while (TRUE) {
         if (D_801824D4 != 0) {
@@ -101,21 +101,21 @@ void func_800ADC50(ThreadEntry* arg0) {
             if (gCurrentPakOperationFlags & 2) {
                 ContPak_InitializePak(&sp58->mq);
                 ContPak_UpdateFilesState();
-            } else if (gCurrentPakOperationFlags & 0x10) {
+            } else if (gCurrentPakOperationFlags & FLAGS_PAK_DELETE_FILE) {
                 ContPak_DeleteFile();
-            } else if (gCurrentPakOperationFlags & 0x20) {
+            } else if (gCurrentPakOperationFlags & FLAGS_PAK_OPEN_FILE) {
                 ContPak_OpenFile();
-            } else if (gCurrentPakOperationFlags & 0x100) {
+            } else if (gCurrentPakOperationFlags & FLAGS_PAK_FIND_FILE) {
                 ContPak_FindFile();
-            } else if (gCurrentPakOperationFlags & 0x80) {
+            } else if (gCurrentPakOperationFlags & FLAGS_PAK_WRITE_FILE) {
                 ContPak_WriteFile();
-            } else if (gCurrentPakOperationFlags & 0x40) {
+            } else if (gCurrentPakOperationFlags & FLAGS_PAK_READ_FILE) {
                 ContPak_ReadFile();
             }
             D_801824D4 = 1;
         }
-        Thread_ReceiveMsgInThread(sp60->threadId, (void**) &sp54, 1);
-        switch (*sp54) { /* irregular */
+        Thread_ReceiveMsgInThread(threadEntry->threadId, (void**) &mesg, OS_MESG_BLOCK);
+        switch (*mesg) { /* irregular */
             case 2:
                 osContGetReadData(gContPad);
                 D_801824D4 = 1;
@@ -126,7 +126,7 @@ void func_800ADC50(ThreadEntry* arg0) {
                 continue;
             case 4:
                 while (TRUE) {
-                    Thread_ReceiveMsgInThread(sp60->threadId, (void**) &sp54, 1);
+                    Thread_ReceiveMsgInThread(threadEntry->threadId, (void**) &mesg, OS_MESG_BLOCK);
                 }
                 continue;
         }

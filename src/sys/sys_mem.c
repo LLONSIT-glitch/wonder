@@ -130,8 +130,9 @@ void func_800BCB54(void) {
 
     for (sp1C = sHeapHead; sp1C != sHeapTail; sp1C = sp1C->next) {
         if (!(sp1C->flags & 1)) {
-
-        } else if (!(sp1C->flags & 2)) {
+            continue;
+        }
+        if (!(sp1C->flags & 2)) {
             SysMem_Free(sp1C + 1);
         }
     }

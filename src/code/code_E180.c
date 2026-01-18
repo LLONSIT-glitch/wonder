@@ -160,7 +160,7 @@ s32 func_8000DB14(UnkStruct_8000DDE0* arg0) {
         }
 
         do {
-            SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) D_801829B8, (s32) D_801849C0, (s32) sp28), &sp2C,
+            SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) gSeg_639B20_ROM_START, (s32) gSeg_639B20_VRAM, (s32) sp28), &sp2C,
                            0xC);
             if ((sp2C == D_801A8D70) && (sp2E == D_801A8D78) && (sp30.s == D_801A8D80)) {
                 arg0->unk1A8 = (s32) (arg0->unk1A8 | 1);
@@ -172,7 +172,7 @@ s32 func_8000DB14(UnkStruct_8000DDE0* arg0) {
             return -1;
         }
         if (func_800B55B0(
-                SysMem_GetPhysicalAddressFromVirtual((u32) D_801829B8, (s32) D_801849C0, (s32) &sp24[sp34])) != 0) {
+                SysMem_GetPhysicalAddressFromVirtual((u32) gSeg_639B20_ROM_START, (s32) gSeg_639B20_VRAM, (s32) &sp24[sp34])) != 0) {
             arg0->unk1A8 = 0;
         }
         return 0;

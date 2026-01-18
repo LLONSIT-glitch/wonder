@@ -38,7 +38,7 @@ f32 MathUtil_MultiplyVec3fComponents(Vec3f* vec1, Vec3f* vec2) {
     return (vec2->z * vec1->z) + ((vec1->x * vec2->x) + (vec1->y * vec2->y));
 }
 
-#ifdef NON_MATCHING
+#if 0
 float MathUtil_GetDistance2D(float x1, float y1, float x2, float y2) {
     register float dx = x1 - x2;
     register float dy = y1 - y2;
