@@ -31,7 +31,7 @@ jobs:
       with:
         repository: ${{ secrets.WONDER_REPO }}
         token: ${{ secrets.WONDER_TOKEN }}
-        path: wr64-secret
+        path: wonder-secret
 
     - name: Get the dependency
       run: cp -r wonder-secret/baserom.jp.z64 ./
