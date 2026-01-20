@@ -458,8 +458,8 @@ void func_8009A14C(UnkStruct_80099E2C* arg0) {
     if (arg0->unkC0 & 8) {
         MtxUtil_TranslateLocal(arg0->unkCC + D_801A7224, arg0->unkD0 + D_801A7230, arg0->unkD4 + D_801A7218);
     } else {
-        MtxUtil_TranslateLocal(arg0->unkCC + D_801A7224 + (f32) arg0->unkDC, arg0->unkD0 + D_801A7230 + (f32) arg0->unkE0,
-                      arg0->unkD4 + D_801A7218);
+        MtxUtil_TranslateLocal(arg0->unkCC + D_801A7224 + (f32) arg0->unkDC,
+                               arg0->unkD0 + D_801A7230 + (f32) arg0->unkE0, arg0->unkD4 + D_801A7218);
     }
 }
 
@@ -895,13 +895,11 @@ void func_800AC524(Gfx** gdl) {
     if (D_8015619C > 240.0f) {
         D_8015619C = 240.0f;
     }
-    gDPSetScissor(gdlh++, G_SC_NON_INTERLACE, (s32)D_80156190,
-                  (s32)D_80156194, (s32)D_80156198, (s32)D_8015619C);
+    gDPSetScissor(gdlh++, G_SC_NON_INTERLACE, (s32) D_80156190, (s32) D_80156194, (s32) D_80156198, (s32) D_8015619C);
     gDPPipeSync(gdlh++);
 
     *gdl = gdlh;
 }
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800AC7F8.s")
 

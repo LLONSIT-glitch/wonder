@@ -146,8 +146,8 @@ void func_800C3D70(f32 x1, f32 y1, f32 z1, f32 x2, f32 y2, f32 z2, f32* arg6) {
     if ((x1 == x2) && (y1 == y2) && (z1 == z2)) {
         arg6[6] = 0.0f;
     } else {
-        distance = arg6[6] = sqrtf(((sp50[0] = x1 - x2) * sp50[0]) + ((sp50[1] = y1 - y2) * sp50[1]) +
-                               ((sp50[2] = z1 - z2) * sp50[2]));
+        distance = arg6[6] =
+            sqrtf(((sp50[0] = x1 - x2) * sp50[0]) + ((sp50[1] = y1 - y2) * sp50[1]) + ((sp50[2] = z1 - z2) * sp50[2]));
         for (i = 0; i < 3; i++) {
             arg6[i] = sp50[i] / distance;
         }

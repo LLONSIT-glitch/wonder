@@ -5,7 +5,6 @@
 #pragma GCC diagnostic ignored "-Wsequence-point"
 #endif
 
-
 extern MtxF sMatrixStack[];          // Matrix stack
 extern s32 sCurrentMatrixStackDepth; // Stack size
 extern MtxF D_80180CF0[1];
@@ -124,7 +123,7 @@ void MtxUtil_Identity(MtxF* mtxF) {
  * @brief Zeros translation row of a given matrix
  *
  * @param mtxF Matrix to zero the translation row
- * 
+ *
  * @note If mtxF is null the function will zero the matrix from gCurrentMatrixStackPtr
  */
 void MtxUtil_ClearTranslation(MtxF* mtxF) {
@@ -164,10 +163,10 @@ void MtxUtil_ClearRotation(MtxF* mtxF) {
 }
 
 /*
-* @brief Pop's the matrix stack by restoring the previous matrix
-*
-* @return -1 if already at base otherwise 0
-*/
+ * @brief Pop's the matrix stack by restoring the previous matrix
+ *
+ * @return -1 if already at base otherwise 0
+ */
 s32 MtxUtil_Pop(void) {
     if (sCurrentMatrixStackDepth == 20) {
         return -1;
@@ -178,11 +177,11 @@ s32 MtxUtil_Pop(void) {
 }
 
 /*
-* @brief Copies the matrix from gCurrentMatrixStackPtr (current matrix stack pointer)
-*
-* @param mtxF Dest matrix to copy from gCurrentMatrixStackPtr
-*
-*/
+ * @brief Copies the matrix from gCurrentMatrixStackPtr (current matrix stack pointer)
+ *
+ * @param mtxF Dest matrix to copy from gCurrentMatrixStackPtr
+ *
+ */
 void MtxUtil_CopyCurrent(MtxF* mtxF) {
     s32 size;
     f32* sourceMatrix;
@@ -197,11 +196,11 @@ void MtxUtil_CopyCurrent(MtxF* mtxF) {
 }
 
 /*
-* @brief Updates the matrix of gCurrentMatrixStackPtr
-*
-* @param mtxF Matrix to copy to gCurrentMatrixStackPtr
-*
-*/
+ * @brief Updates the matrix of gCurrentMatrixStackPtr
+ *
+ * @param mtxF Matrix to copy to gCurrentMatrixStackPtr
+ *
+ */
 void MtxUtil_SetCurrent(MtxF* mtxF) {
     s32 size;
     f32* sourceMatrix;
@@ -356,14 +355,14 @@ void func_800C2070(MtxF* arg0) {
 }
 
 /*
-* @brief Translates the axes from gCurrentMatrixStackPtr translation row
-* 
-* @param x X axis
-*
-* @param y Y axis
-*
-* @param z Z axis
-*/
+ * @brief Translates the axes from gCurrentMatrixStackPtr translation row
+ *
+ * @param x X axis
+ *
+ * @param y Y axis
+ *
+ * @param z Z axis
+ */
 void MtxUtil_TranslateLocal(f32 x, f32 y, f32 z) {
     f32* row;
     MtxF* matrixStackPtr;
@@ -375,10 +374,10 @@ void MtxUtil_TranslateLocal(f32 x, f32 y, f32 z) {
 }
 
 /*
-* @brief Rotates the current stack matrix around X axis
-*
-* @param deg Degrees to rotate the matrix around the X axis
-*/
+ * @brief Rotates the current stack matrix around X axis
+ *
+ * @param deg Degrees to rotate the matrix around the X axis
+ */
 void MtxUtil_RotateX(f32 deg) {
     f32 mf00;
     f32 col;
@@ -405,10 +404,10 @@ void MtxUtil_RotateX(f32 deg) {
 }
 
 /*
-* @brief Rotates the current stack matrix around Y axis
-*
-* @param deg Degrees to rotate the matrix around the Y axis
-*/
+ * @brief Rotates the current stack matrix around Y axis
+ *
+ * @param deg Degrees to rotate the matrix around the Y axis
+ */
 void MtxUtil_RotateY(f32 deg) {
     f32 mf00;
     f32 col;
@@ -436,10 +435,10 @@ void MtxUtil_RotateY(f32 deg) {
 }
 
 /*
-* @brief Rotates the current stack matrix around Z axis
-*
-* @param deg Degrees to rotate the matrix around the Z axis
-*/
+ * @brief Rotates the current stack matrix around Z axis
+ *
+ * @param deg Degrees to rotate the matrix around the Z axis
+ */
 void MtxUtil_RotateZ(f32 deg) {
     f32 mf00;
     f32 col;
@@ -466,15 +465,15 @@ void MtxUtil_RotateZ(f32 deg) {
 }
 
 /*
-* @brief Scale current stack matrix axes independently
-*
-* @param sx X axis to scale
-*
-* @param sy Y axis to scale
-*
-* @param sz Z axis to scale
-*
-*/
+ * @brief Scale current stack matrix axes independently
+ *
+ * @param sx X axis to scale
+ *
+ * @param sy Y axis to scale
+ *
+ * @param sz Z axis to scale
+ *
+ */
 void MtxUtil_ScaleAxes(f32 sx, f32 sy, f32 sz) {
     f32* col1;
     f32* col2;
@@ -493,33 +492,33 @@ void MtxUtil_ScaleAxes(f32 sx, f32 sy, f32 sz) {
 }
 
 /*
-* @brief Gets the current matrix stack ptr in Mtx (fixed format)
-*
-* @param mtxF Matrix in fixed format get the current stack matrix
-*
-*/
+ * @brief Gets the current matrix stack ptr in Mtx (fixed format)
+ *
+ * @param mtxF Matrix in fixed format get the current stack matrix
+ *
+ */
 void MtxUtil_GetCurrentFromMtxF(Mtx* mtx) {
     MtxUtil__MtxFToMtx(gCurrentMatrixStackPtr, mtx);
 }
 
 /*
-* @brief Sets the current stack matrix 
-*
-* @param mtxF Matrix in fixed format to update the current stack matrix
-*
-*/
+ * @brief Sets the current stack matrix
+ *
+ * @param mtxF Matrix in fixed format to update the current stack matrix
+ *
+ */
 void MtxUtil_SetCurrentFromMtx(Mtx* mtx) {
     MtxUtil__MtxToMtxF(gCurrentMatrixStackPtr, mtx);
 }
 
 /*
-* @brief Copies a matrix
-*
-* @param dst Destiny matrix
-*
-* @param src Source matrix
-*
-*/
+ * @brief Copies a matrix
+ *
+ * @param dst Destiny matrix
+ *
+ * @param src Source matrix
+ *
+ */
 void MtxUtil_Copy(MtxF* dst, MtxF* src) {
     s32 i;
     f32* sourceMatrix;
@@ -551,15 +550,14 @@ UNUSED void MtxUtil_CopyMtxFTranslationRow(MtxF* dst, MtxF* src) {
     }
 }
 
-
 /*
-* @brief Copies the orientation rows of a matrix
-*
-* @param dst Destiny matrix
-*
-* @param src Source matrix
-*
-*/
+ * @brief Copies the orientation rows of a matrix
+ *
+ * @param dst Destiny matrix
+ *
+ * @param src Source matrix
+ *
+ */
 void MtxUtil_CopyOrientation(MtxF* dst, MtxF* src) {
     s32 size;
     f32* sourceMatrix;
@@ -578,13 +576,13 @@ void MtxUtil_CopyOrientation(MtxF* dst, MtxF* src) {
 }
 
 /*
-* @brief Converts a mtx to mtxF
-*
-* @param src Matrix to convert
-*
-* @param dst Matrix to store the result of the conversion
-*
-*/
+ * @brief Converts a mtx to mtxF
+ *
+ * @param src Matrix to convert
+ *
+ * @param dst Matrix to store the result of the conversion
+ *
+ */
 void MtxUtil_MtxToMtxF(Mtx* src, MtxF* dst) {
     if (dst == NULL) {
         MtxUtil__MtxToMtxF(gCurrentMatrixStackPtr, src);
@@ -594,13 +592,13 @@ void MtxUtil_MtxToMtxF(Mtx* src, MtxF* dst) {
 }
 
 /*
-* @brief Converts a mtxF to mtx
-*
-* @param src Matrix to convert
-*
-* @param dst Matrix to store the result of the conversion
-*
-*/
+ * @brief Converts a mtxF to mtx
+ *
+ * @param src Matrix to convert
+ *
+ * @param dst Matrix to store the result of the conversion
+ *
+ */
 void MtxUtil_MtxFToMtx(MtxF* src, Mtx* dest) {
     if (src == NULL) {
         MtxUtil__MtxFToMtx(gCurrentMatrixStackPtr, dest);

@@ -30,7 +30,6 @@ typedef struct UnkStruct_800B0A3C_s {
     u8 unkF;
 } UnkStruct_800B0A3C;
 
-
 typedef struct UnkStruct_800E8CD0_s {
     s16 unk0;
     s32 unk0_1;
@@ -71,8 +70,7 @@ extern f32 D_80160428;
 f32 func_800C3650(f32);           /* extern */
 s32 func_800AFB70(u16, s32, s32); /* extern */
 void func_800AF330(Gfx** gdl, void* arg1, f32 arg2, f32 arg3, f32 arg4);
-void func_800B18C4(Gfx **gdl, Gfx* arg1, s16 arg2);
-
+void func_800B18C4(Gfx** gdl, Gfx* arg1, s16 arg2);
 
 #ifdef __GNUC__
 // Because of some ugly assignments we will have to use this to avoid gcc always complaining about them..
@@ -221,15 +219,16 @@ void* func_800B0A3C(s16 arg0, s16 arg1) {
 
     D_8015FBA8 = D_80A225B0;
     sp34 = &D_801705B0;
-    sp30 = SysMem_GetPhysicalAddressFromVirtual((u32) gSeg_6E3A40_ROM_START, (s32) gSeg_6E3A40_VRAM, (s32) ((arg0 * 4) + D_8015FBA8));
+    sp30 = SysMem_GetPhysicalAddressFromVirtual((u32) gSeg_6E3A40_ROM_START, (s32) gSeg_6E3A40_VRAM,
+                                                (s32) ((arg0 * 4) + D_8015FBA8));
     SysMem_DmaCopy((u32) sp30, sp34, 4);
     sp30 = SysMem_GetPhysicalAddressFromVirtual((u32) gSeg_6E3A40_ROM_START, (s32) gSeg_6E3A40_VRAM, *sp34);
     sp4C = Sys_GetSPIHeaderInfoFromVaddr(sp30);
     ;
-    sp3C = SysMem_HeapAlloc((sp48 = (u32)(D_80160494) * D_800EF930) * 0x10);
+    sp3C = SysMem_HeapAlloc((sp48 = (u32) (D_80160494) *D_800EF930) * 0x10);
     sp40 = sp3C;
     Spi_LimitedDecompress((u32) sp30, sp4C);
-    sp38 = (s16*)&D_801604A8;
+    sp38 = (s16*) &D_801604A8;
     for (sp44 = 0; sp44 < sp48; sp44++) {
         sp3C->unk0 = (s16) *sp38++;
         sp3C->unk2 = (s16) *sp38++;
@@ -237,7 +236,7 @@ void* func_800B0A3C(s16 arg0, s16 arg1) {
         sp3C->unk6 = 1;
         sp3C->unk8 = (s16) *sp38++;
         sp3C->unkA = (s16) *sp38++;
-        sp3C->unkC =  sp3C->unkD = sp3C->unkE = sp3C->unkF = 0xFF;
+        sp3C->unkC = sp3C->unkD = sp3C->unkE = sp3C->unkF = 0xFF;
         sp3C++;
     }
     if (arg1 != 0) {
@@ -247,7 +246,6 @@ void* func_800B0A3C(s16 arg0, s16 arg1) {
     }
     return sp40;
 }
-
 
 void* func_800B0D30(UnkStruct_800B0D30* arg0) {
     void* sp24;
@@ -268,15 +266,15 @@ void* func_800B0D30(UnkStruct_800B0D30* arg0) {
             }
         }
         arg0->unk4 = NULL;
-        arg0->unk0 = (void* ) arg0->unk4;
+        arg0->unk0 = (void*) arg0->unk4;
     }
     return arg0;
 }
 
 void func_800B0E08(void) {
     D_80160448 = ((u8) D_80160448 + 1) & 1;
-    D_8015FBA4 = func_800B0D30((UnkStruct_800B0D30 *) &D_8015FB90[(u8) D_80160448]);
-    D_8015FBC0 = func_800B0D30((UnkStruct_800B0D30 *) &D_8015FBB0[(u8) D_80160448]);
+    D_8015FBA4 = func_800B0D30((UnkStruct_800B0D30*) &D_8015FB90[(u8) D_80160448]);
+    D_8015FBC0 = func_800B0D30((UnkStruct_800B0D30*) &D_8015FBB0[(u8) D_80160448]);
 }
 
 void func_800B0E88(Gfx** gdl, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
@@ -297,9 +295,8 @@ void func_800B0E88(Gfx** gdl, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, 
     sp38 = &D_8015FAA8[D_801A1B14];
     for (sp56 = 0; sp56 < 16; sp56++) {
         sp4C->mf[0][sp56] = 0.0f;
-    } 
-    ;
-    sp4C->mf[0][0] = (sp48 =  MathUtil_Cosf((arg1 *= D_800EF938)) / MathUtil_Sinf(arg1)) * arg4 / (arg5 / arg6);
+    };
+    sp4C->mf[0][0] = (sp48 = MathUtil_Cosf((arg1 *= D_800EF938)) / MathUtil_Sinf(arg1)) * arg4 / (arg5 / arg6);
     sp4C->mf[1][1] = sp48 * arg4;
     sp4C->mf[2][2] = ((sp44 = arg2 + arg3) * arg4) / (sp40 = arg2 - arg3);
     sp4C->mf[2][3] = -arg4;
@@ -308,7 +305,7 @@ void func_800B0E88(Gfx** gdl, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, 
         *sp3C = -1;
     } else {
         ;
-        if ((*sp3C = (u32) (131072.0f / sp44) ) <= 0) {
+        if ((*sp3C = (u32) (131072.0f / sp44)) <= 0) {
             *sp3C = 1;
         }
     }
@@ -318,7 +315,6 @@ void func_800B0E88(Gfx** gdl, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, 
     gSPMatrix(gdlh++, VIRTUAL_TO_PHYSICAL(&D_8015F884[D_8015F888++]), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     *gdl = gdlh;
 }
-
 
 void func_800B1250(Gfx** arg0, LookAtParams* arg1, u16 arg2) {
     f32 spA4;
@@ -404,8 +400,8 @@ void func_800B1250(Gfx** arg0, LookAtParams* arg1, u16 arg2) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_AFC60/func_800B1844.s")
 
-void func_800B18C4(Gfx **gdl, Gfx* arg1, s16 arg2) {
-    Gfx *gdlh;
+void func_800B18C4(Gfx** gdl, Gfx* arg1, s16 arg2) {
+    Gfx* gdlh;
     UnkStruct_800E8CD0 sp24[1];
 
     sp24[0] = D_800E8CD0[0];
@@ -413,8 +409,8 @@ void func_800B18C4(Gfx **gdl, Gfx* arg1, s16 arg2) {
     gdlh = *gdl;
     MtxUtil_GetCurrentFromMtxF(&D_8015F884[D_8015F888]);
     MtxUtil_Identity(NULL);
-    gSPMatrix(gdlh++, VIRTUAL_TO_PHYSICAL(&D_8015F884[D_8015F888++]),*(s16*)((s16*)sp24 + arg2))
-    gSPDisplayList(gdlh++, VIRTUAL_TO_PHYSICAL(arg1));
+    gSPMatrix(gdlh++, VIRTUAL_TO_PHYSICAL(&D_8015F884[D_8015F888++]), *(s16*) ((s16*) sp24 + arg2))
+        gSPDisplayList(gdlh++, VIRTUAL_TO_PHYSICAL(arg1));
     if (arg2 < 2) {
         gSPPopMatrix(gdlh++, G_MTX_MODELVIEW);
     }
