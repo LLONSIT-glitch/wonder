@@ -279,7 +279,7 @@ s32 func_80000C90(ThreadEntry* entry) {
     func_80098820();
     func_80098868();
     D_801A8D88[0] |= 2;
-    Thread_SendMesgNoBlock(threadEntry->threadId, &sp3EC, 1);
+    Thread_SendMesgNoBlock(threadEntry->threadId, &sp3EC, /* unused */ 1);
 
     while (sp428 == 0) {
         Thread_ReceiveMsgInThread(threadEntry->threadId, (OSMesg*) &threadMesg, OS_MESG_BLOCK);
@@ -402,10 +402,10 @@ s32 func_80000C90(ThreadEntry* entry) {
                     func_80082958();
 
                     for (sp284 = (void*) D_801A8C54; sp284 != NULL;) {
-                        func_800C1754();
+                        MtxUtil_PushIdentity();
                         func_8009A14C(sp284);
                         func_800997D8(sp284);
-                        func_800C1A28();
+                        MtxUtil_Pop();
                         sp284 = sp284->unk14C;
                     }
                     sp41C = 0;
@@ -445,7 +445,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                     func_800BE684();
                     if (D_801A72DC & 1) {
                         sp280 = &sp38;
-                        func_800C1754();
+                        MtxUtil_PushIdentity();
                         sp280->unkCC = -88.0f;
                         sp280->unkD0 = -42.0f;
                         if (func_80031AC8() != -2) {
@@ -453,7 +453,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                         }
                         func_8009A14C(sp280);
                         func_800997D8(sp280);
-                        func_800C1A28();
+                        MtxUtil_Pop();
                     }
                     func_8009A664(&gDisplayListHead);
                     Main_GfxFullSync();
@@ -732,25 +732,25 @@ void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
 
     for (sp24 = 0, sp20 = D_801A8C18; sp24 < 4; sp24++, sp20++) {
         if (sp20->unkC0 & 0x10000000) {
-            func_800C1754();
+            MtxUtil_PushIdentity();
             func_800A7230(sp20);
-            func_800C2780(sp20->unkF0);
-            func_800C25B8(sp20->unkEC);
-            func_800C23E8(sp20->unkE8);
+            MtxUtil_RotateZ(sp20->unkF0);
+            MtxUtil_RotateY(sp20->unkEC);
+            MtxUtil_RotateX(sp20->unkE8);
             func_800997D8(sp20);
-            func_800C1A28();
+            MtxUtil_Pop();
         }
     }
     if ((func_80016074(0xD) != NULL) && ((*D_8015BAC8)->unk1A8 & 1)) {
         for (sp24 = 0, sp20 = D_801A8C24; sp24 < 4; sp24++, sp20++) {
             if (sp20->unkC0 & 0x10000000) {
-                func_800C1754();
+                MtxUtil_PushIdentity();
                 func_800A7230(sp20);
-                func_800C2780(sp20->unkF0);
-                func_800C25B8(sp20->unkEC);
-                func_800C23E8(sp20->unkE8);
+                MtxUtil_RotateZ(sp20->unkF0);
+                MtxUtil_RotateY(sp20->unkEC);
+                MtxUtil_RotateX(sp20->unkE8);
                 func_800997D8(sp20);
-                func_800C1A28();
+                MtxUtil_Pop();
             }
         }
     }

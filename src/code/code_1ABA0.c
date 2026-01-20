@@ -218,10 +218,10 @@ s32 func_8001A210(UnkStruct_8000DDE0* arg0) {
                 sp24->unkE8 = 0.0f;
                 sp20->unkE8 = 255.0f;
             } else {
-                func_800C1754();
+                MtxUtil_PushIdentity();
                 func_8009A14C(&arg0->unk0);
                 func_800997D8(arg0);
-                func_800C1A28();
+                MtxUtil_Pop();
                 D_801A7238 |= 0x8000;
             }
         }
@@ -363,13 +363,13 @@ s32 func_8001ADBC(UnkStruct_8000DDE0* arg0) {
 
     sp1C = arg0;
     if ((*D_801A8D88 & 8) || !(arg0->unk1A8 & 1)) {
-        func_800C1754();
+        MtxUtil_PushIdentity();
         func_8009A14C(&sp1C->unk0);
-        func_800C2780(sp1C->unk0.unkF0);
-        func_800C25B8(sp1C->unk0.unkEC);
-        func_800C23E8(sp1C->unk0.unkE8);
+        MtxUtil_RotateZ(sp1C->unk0.unkF0);
+        MtxUtil_RotateY(sp1C->unk0.unkEC);
+        MtxUtil_RotateX(sp1C->unk0.unkE8);
         func_800997D8(sp1C);
-        func_800C1A28();
+        MtxUtil_Pop();
     }
     return 0;
 }
@@ -632,21 +632,21 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                     }
                     if (*D_801A8D88 & 4) {
                         sp60->unk0.unkE8 = sp44;
-                        func_800C1754();
+                        MtxUtil_PushIdentity();
                         func_8009A14C(sp60);
-                        func_800C2780(sp60->unk0.unkF0);
-                        func_800C25B8(sp60->unk0.unkEC);
-                        func_800C23E8(sp60->unk0.unkE8);
+                        MtxUtil_RotateZ(sp60->unk0.unkF0);
+                        MtxUtil_RotateY(sp60->unk0.unkEC);
+                        MtxUtil_RotateX(sp60->unk0.unkE8);
                         func_800997D8(sp60);
                     }
                     sp5C->unkE8 = sp44 - 180.0f;
-                    func_800C1850(0);
+                    MtxUtil_Identity(0);
                     func_8009A14C(sp5C);
-                    func_800C2780(sp5C->unkF0);
-                    func_800C25B8(sp5C->unkEC);
-                    func_800C23E8(sp5C->unkE8);
+                    MtxUtil_RotateZ(sp5C->unkF0);
+                    MtxUtil_RotateY(sp5C->unkEC);
+                    MtxUtil_RotateX(sp5C->unkE8);
                     func_800997D8(sp5C);
-                    func_800C1A28();
+                    MtxUtil_Pop();
                     func_8009A664(&gDisplayListHead);
                     Main_GfxFullSync();
                     func_8009908C(D_801A1B4C, (uintptr_t) gDisplayListHead - (uintptr_t) D_801A1B4C);
@@ -957,7 +957,6 @@ s32 func_8001CF0C(s32 arg0, s32 arg1) {
 }
 
 void func_8009A22C(void); /* extern */
-void func_800C1680(void); /* extern */
 extern u8 D_800DB4E8;
 
 extern f64 D_800EDB70;
@@ -1087,16 +1086,16 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
             if (gControllers->unk6 & gInputMask_B) {
                 D_801825F0[4] ^= 1;
             }
-            func_800C1680();
+            MtxUtil_PushCopy();
             func_8009A22C();
             if (!(gControllers->button & gInputMask_Z)) {
                 if (D_801825F0[1] != 0) {
-                    func_800C25B8(90.0f);
-                    func_800C23E8(90.0f);
+                    MtxUtil_RotateY(90.0f);
+                    MtxUtil_RotateX(90.0f);
                 }
             } else {
-                func_800C25B8(gControllers->stickY);
-                func_800C23E8(gControllers->stickX);
+                MtxUtil_RotateY(gControllers->stickY);
+                MtxUtil_RotateX(gControllers->stickX);
             }
             for (sp44 = 0; sp44 < 8; sp44++) {
                 sp38 = (UnkStruct_80099E2C*) (D_80182618->ptrs[0] + (sp44 * 0x160));
@@ -1133,19 +1132,19 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
                 if ((f64) sp38->unkE4 > 8.0) {
                     sp38->unkE4 = 8.0f;
                 }
-                func_800C1680();
-                func_800C2780(sp38->unkF0);
-                func_800C2304(0.0f, sp38->unkD0, 0.0f);
+                MtxUtil_PushCopy();
+                MtxUtil_RotateZ(sp38->unkF0);
+                MtxUtil_TranslateLocal(0.0f, sp38->unkD0, 0.0f);
                 func_800997D8(sp38);
-                func_800C2780(sp38->unkE8);
-                func_800C2304(0.0f, sp38->unkE4, 0.0f);
+                MtxUtil_RotateZ(sp38->unkE8);
+                MtxUtil_TranslateLocal(0.0f, sp38->unkE4, 0.0f);
                 sp34 = sp38;
             }
 
             for (; sp44 > 0; sp44--) {
-                func_800C1A28();
+                MtxUtil_Pop();
             }
-            func_800C1A28();
+            MtxUtil_Pop();
             break;
 
         default:
@@ -1224,7 +1223,7 @@ s32 func_8001DC00(UnkStruct_80020720* arg0) {
             sp28 = D_801A8C18;
             for (sp2C = 0; sp2C < 4; sp2C++) {
                 if (sp28->unkC0 & 0x10000000) {
-                    func_800C1754();
+                    MtxUtil_PushIdentity();
                     if (D_801825F0[2] == sp2C) {
                         if (gControllers->unk6 & gInputMask_CRight) {
                             sp28->unkC0 ^= 8;
@@ -1256,7 +1255,7 @@ s32 func_8001DC00(UnkStruct_80020720* arg0) {
                     }
                     func_800A7230(sp28);
                     func_800997D8(sp28);
-                    func_800C1A28();
+                    MtxUtil_Pop();
                     sp28++;
                 }
             }

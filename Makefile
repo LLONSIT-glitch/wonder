@@ -222,7 +222,7 @@ splat: $(SPLAT)
 
 extract: splat
 	$(PYTHON) $(SPLAT) $(YAML)
-	$(TORCH) modding export baserom.jp.z64
+#	$(TORCH) modding export baserom.jp.z64
 
 dependencies: tools
 	make -C tools

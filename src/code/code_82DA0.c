@@ -146,12 +146,12 @@ void func_80082DD4(UnkStruct_8018165C* arg0) {
         arg0->unk24[sp1C].unkF8 = 1.0f;
         arg0->unk24[sp1C].unk11E = (s16) arg0->unk3C;
         arg0->unk24[sp1C].unkC8 = arg0->unk38;
-        func_800C1754();
+        MtxUtil_PushIdentity();
         func_8009A14C(&arg0->unk24[sp1C]);
         if (!(*D_801A8D88 & 0x200)) {
             func_800997D8(&arg0->unk24[sp1C]);
         }
-        func_800C1A28();
+        MtxUtil_Pop();
     }
 }
 

@@ -30,4 +30,6 @@
 
 #define FABS(x) ((x) > 0.0f ? (x) : -(x))
 
+#define SQ(x) ((x) * (x))
+
 #endif /* MACRO_H */

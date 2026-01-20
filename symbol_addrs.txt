@@ -185,6 +185,36 @@ Scheduler_CreateScheduler = 0x80096EE0;
 Scheduler_CreateSchedulerThread = 0x80097068;
 Scheduler_IsTaskReady = 0x80097BDC;
 
+// code_C2C10
+_MtxToMtxF = 0x800C2F1C;
+MtxUtil_MtxToMtxF = 0x800C2D08;
+MtxUtil_MtxFToMtx = 0x800C2D6C;
+MtxUtil_CopyMtxFTranslationRow = 0x800C2BDC;
+MtxUtil_ScaleAxes = 0x800C2948;
+MtxUtil_RotateX = 0x800C23E8;
+MtxUtil_RotateY = 0x800C25B8;
+MtxUtil_RotateZ = 0X800C2780;
+MtxUtil_InitStack = 0x800C15C0;
+MtxUtil_PushCopy = 0x800C1680;
+MtxUtil_PushIdentity = 0x800C1754;
+MtxUtil_Identity = 0x800C1850;
+MtxUtil_ClearTranslation = 0x800C1908;
+MtxUtil_ClearRotation = 0x800C197C;
+MtxUtil_Pop = 0x800C1A28;
+MtxUtil_CopyCurrent = 0x800C1A84;
+MtxUtil_SetCurrent = 0x800C1AF4;
+MtxUtil_SetCurrentFromMtx = 0x800C2B20;
+MtxUtil_GetCurrentFromMtxF = 0x800C2AE8;
+MtxUtil_TranslateLocal = 0x800C2304;
+MtxUtil_CopyOrientation = 0x800C2C84;
+MtxUtil_Copy = 0x800C2B58;
+
+sMatrixStack = 0x801806D0;
+gCurrentMatrixStackPtr = 0x80180CE4;
+sCurrentMatrixStackDepth = 0x80180CD8;
+// code_C3C70
+MathUtil_GetDistanceIfWithinRadius = 0x800C3C80;
+
 D_801ADA38 = 0x801ADA38; //size:0x14
 
 D_807991C0 = 0x807991C0; 

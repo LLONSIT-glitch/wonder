@@ -134,7 +134,7 @@ void func_800BDC70(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
     func_8008E630();
     Sys_SwapFrameBuffer(D_801824D0);
-    func_800C15C0();
+    MtxUtil_InitStack();
     for (sp1C = 0; sp1C < 2; sp1C++) {
         D_80182538[sp1C] = 1.0f;
     }

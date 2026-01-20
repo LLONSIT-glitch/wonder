@@ -13,10 +13,11 @@
 #include "functions.h"
 #include "variables.h"
 #include "thread.h"
+#include "mtx_util.h"
 #include "buffers.h"
 #include "simple.h" // For the PRINTF macro
 
-// Why this is not Ultratypes?
+// Why this is not in Ultratypes?
 typedef u32 uintptr_t;
 typedef void (*FuncPtr)(void *) ;
 

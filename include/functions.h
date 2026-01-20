@@ -19,9 +19,9 @@ s32 func_800A6440(void);                                  /* extern */
 s32 func_800ABAC8(void);                                  /* extern */
 s32 func_800AC890(void);                                  /* extern */
 s32 func_800ACE50(void);                                  /* extern */
-s32 func_800AF060(s32);                               /* extern */
-void func_800C15C0(void);                                  /* extern */
+s32 func_800AF060(s16);                               /* extern */
 void func_80099FB0(f32);                               /* extern */
+s32 Spi_LimitedDecompress(u32 fileAddr, s32 fileSize);
 void func_800ABC30(Gfx**);                            /* extern */
 void func_800AC524(Gfx**);                            /* extern */
 void func_800B0E88(Gfx**, f32, f32, f32, f32, f32, f32); /* extern */
@@ -71,11 +71,6 @@ UnkStruct_8000DDE0 *func_80016074(s32);                           /* extern */
 void func_80021ED0(s32);                               /* extern */
 void func_800997D8(void*);                             /* extern */
 void func_800A7230(void*);                             /* extern */
-s32 func_800C1754(void);                                  /* extern */
-s32 func_800C1A28(void);                                  /* extern */
-void func_800C23E8(f32);                               /* extern */
-void func_800C25B8(f32);                               /* extern */
-void func_800C2780(f32);                               /* extern */
 void func_8008EAA8(s32, s32);
 void func_8008ECE4(char* fmt, ...);
 s32 func_800AE7FC(void);
@@ -142,13 +137,9 @@ void func_80099F90(f32, f32);                              /* extern */
 void func_800AC0A4(s32, s32, s32, s32);                /* extern */
 void func_800AD1E4(Gfx**, s32);                          /* extern */
 void func_800B0E08(void);                                  /* extern */
-void func_800C2304(f32 arg0, f32 arg1, f32 arg2) ;
-void func_800C3D70(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, void *arg6);
+void func_800C3D70(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 *arg6);
 s32 func_800C3F2C(f32 *arg0, f32 *arg1, f32 *arg2, f32 *arg3, f32 arg4) ;
-void func_800C1850(UnkStruct_80180CE4*);                                 /* extern */
 void func_800C1D44(MtxF*);                                /* extern */
-void func_800C2948(f32, f32, f32);                     /* extern */
-void func_800C2AE8(MtxF*);                             /* extern */
 f32 func_8002BB04(s16 arg0);
 s32 Thread_GetPriority(u8 arg0);
 void func_80014C70(UnkStruct_8000DDE0 *arg0);

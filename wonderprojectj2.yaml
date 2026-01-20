@@ -131,8 +131,8 @@ segments:
       - [0xBE2F0, c, main]
       - [0xBF970, c, code/spi]
       - [0xC11A0, c, sys/sys_C11A0]
-      - [0xC21C0, c, code/code_C21C0]
-      - [0xC3C70, c, code/code_C3C70]
+      - [0xC21C0, c, code/mtx_util]
+      - [0xC3C70, c, code/math_util]
 
       # Libultra start?
       - [0xC4C80, c, libultra/io/viswapbuf]
@@ -331,7 +331,8 @@ segments:
       - [0xF06E0, rodata]
       - [0xF0790, .rodata, audio/audio_driver]
       - [0xF09E0, .rodata, main]
-      - [0xF0A60, rodata]
+      - [0xF0A60, .rodata, code/mtx_util]
+      - [0xF0A90, rodata]
       - [0xF0AE0, rodata]
       - [0xF0B60, .rodata, libultra/audio/synthesizer]
       - [0xF0B70, rodata]
