@@ -31,10 +31,6 @@ s32 func_800AFB70(s32, s32, s32);
 extern s32 D_800DA940[];
 UnkStruct_80099E2C* func_8000D688(s32); /* extern */
 void func_800B18C4(Gfx**, s32, s32);    /* extern */
-void func_800C1680(void);               /* extern */
-void func_800C1908(s32);                /* extern */
-void func_800C1A84(MtxF_t*);            /* extern */
-void func_800C1AF4(MtxF_t*);            /* extern */
 extern Lights2 D_800DA8D0;
 extern Gfx D_800DB808[];
 extern f32 D_800ED590;
@@ -42,8 +38,8 @@ extern f64 D_800ED598;
 extern f64 D_800ED5A0;
 extern f64 D_800ED5A8;
 extern LookAtParams D_801AA500[];
-extern MtxF_t D_801AA530;
-extern MtxF_t D_801AA570;
+extern MtxF D_801AA530;
+extern MtxF D_801AA570;
 
 void func_80014F38(UnkStruct_8000DDE0* arg0);
 
@@ -111,50 +107,50 @@ void func_80014F38(UnkStruct_8000DDE0* arg0) {
     } else if (arg0->unk1AC == 0x4001) {
         sp7C = func_8000D688(0x4000);
         sp68 = sp7C;
-        func_800C1754();
-        func_800C2304(sp68->unkCC, sp68->unkD0, sp68->unkD4);
-        func_800C2780(sp68->unkF0);
-        func_800C25B8(sp68->unkEC);
-        func_800C23E8(sp68->unkE8);
-        func_800C2304(sp6C->unkCC, sp6C->unkD0, sp6C->unkD4);
-        func_800C2780(sp6C->unkF0);
-        func_800C25B8(sp6C->unkEC);
-        func_800C23E8(sp6C->unkE8);
-        func_800C1A84((f32(*)[4][4]) D_801AA530);
-        func_800C2304(-sp6C->unkCC, -sp6C->unkD0, -sp6C->unkD4);
-        func_800C1A84((f32(*)[4][4]) D_801AA570);
-        func_800C1A28();
-        if (D_801AA530[3][0] == D_801AA570[3][0]) {
+        MtxUtil_PushIdentity();
+        MtxUtil_TranslateLocal(sp68->unkCC, sp68->unkD0, sp68->unkD4);
+        MtxUtil_RotateZ(sp68->unkF0);
+        MtxUtil_RotateY(sp68->unkEC);
+        MtxUtil_RotateX(sp68->unkE8);
+        MtxUtil_TranslateLocal(sp6C->unkCC, sp6C->unkD0, sp6C->unkD4);
+        MtxUtil_RotateZ(sp6C->unkF0);
+        MtxUtil_RotateY(sp6C->unkEC);
+        MtxUtil_RotateX(sp6C->unkE8);
+        MtxUtil_CopyCurrent(&D_801AA530);
+        MtxUtil_TranslateLocal(-sp6C->unkCC, -sp6C->unkD0, -sp6C->unkD4);
+        MtxUtil_CopyCurrent(&D_801AA570);
+        MtxUtil_Pop();
+        if (D_801AA530.mf[3][0] == D_801AA570.mf[3][0]) {
             sp6C->unkA0[1][0] = (f32) ((f64) sp6C->unkA0[1][0] + 0.100000000000000006);
         }
-        if (D_801AA530[3][1] == D_801AA570[3][1]) {
+        if (D_801AA530.mf[3][1] == D_801AA570.mf[3][1]) {
             sp6C->unkA0[1][1] = (f32) ((f64) sp6C->unkA0[1][1] + 0.100000000000000006);
         }
-        if (D_801AA530[3][2] == D_801AA570[3][2]) {
+        if (D_801AA530.mf[3][2] == D_801AA570.mf[3][2]) {
             sp6C->unkA0[1][2] = (f32) ((f64) sp6C->unkA0[1][2] + 0.100000000000000006);
         }
-        D_801AA500->unkC.x = D_801AA530[3][0];
-        D_801AA500->unkC.y = D_801AA530[3][1];
-        D_801AA500->unkC.z = D_801AA530[3][2];
-        D_801AA500->unk0.x = D_801AA570[3][0];
-        D_801AA500->unk0.y = D_801AA570[3][1];
-        D_801AA500->unk0.z = D_801AA570[3][2];
-        func_800C1754();
-        func_800C1AF4((f32(*)[4][4]) D_801AA530);
-        func_800C1908(0);
-        func_800C2304(0.0f, 1.0f, 0.0f);
-        func_800C1A84((f32(*)[4][4]) D_801AA530);
-        func_800C1A28();
-        D_801AA500->unk24.x = D_801AA530[3][0];
-        D_801AA500->unk24.y = D_801AA530[3][1];
-        D_801AA500->unk24.z = D_801AA530[3][2];
+        D_801AA500->unkC.x = D_801AA530.mf[3][0];
+        D_801AA500->unkC.y = D_801AA530.mf[3][1];
+        D_801AA500->unkC.z = D_801AA530.mf[3][2];
+        D_801AA500->unk0.x = D_801AA570.mf[3][0];
+        D_801AA500->unk0.y = D_801AA570.mf[3][1];
+        D_801AA500->unk0.z = D_801AA570.mf[3][2];
+        MtxUtil_PushIdentity();
+        MtxUtil_SetCurrent(&D_801AA530);
+        MtxUtil_ClearTranslation(0);
+        MtxUtil_TranslateLocal(0.0f, 1.0f, 0.0f);
+        MtxUtil_CopyCurrent(&D_801AA530);
+        MtxUtil_Pop();
+        D_801AA500->unk24.x = D_801AA530.mf[3][0];
+        D_801AA500->unk24.y = D_801AA530.mf[3][1];
+        D_801AA500->unk24.z = D_801AA530.mf[3][2];
         D_801AA500->unk18.x = sp6C->unkF4;
         D_801AA500->unk18.y = sp6C->unkF4;
         D_801AA500->unk18.z = sp6C->unkF4;
-        func_800C1680();
+        MtxUtil_PushCopy();
         func_800B1250(&gDisplayListHead, D_801AA500, 0U);
-        func_800C1A84((f32(*)[4][4]) D_801AA530);
-        func_800C1A28();
+        MtxUtil_CopyCurrent(&D_801AA530);
+        MtxUtil_Pop();
         gSPDisplayList(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(D_800DB808));
         gSPSetLights2(gDisplayListHead++, D_800DA8D0);
         gSPCustomClipRatio(gDisplayListHead++, FRUSTRATIO_2);
@@ -176,34 +172,34 @@ void func_80014F38(UnkStruct_8000DDE0* arg0) {
         }
         func_800AD1E4(&gDisplayListHead, 5);
     } else if ((arg0->unk1AC < 0x6000) && (sp6C->unk11E != 0)) {
-        func_800C1754();
-        func_800C2948(D_801AA500->unk18.x, D_801AA500->unk18.y, D_801AA500->unk18.z);
-        func_800C2304(sp6C->unkCC, sp6C->unkD0, sp6C->unkD4);
-        func_800C2780(sp6C->unkF0);
-        func_800C25B8(sp6C->unkEC);
-        func_800C23E8(sp6C->unkE8);
+        MtxUtil_PushIdentity();
+        MtxUtil_ScaleAxes(D_801AA500->unk18.x, D_801AA500->unk18.y, D_801AA500->unk18.z);
+        MtxUtil_TranslateLocal(sp6C->unkCC, sp6C->unkD0, sp6C->unkD4);
+        MtxUtil_RotateZ(sp6C->unkF0);
+        MtxUtil_RotateY(sp6C->unkEC);
+        MtxUtil_RotateX(sp6C->unkE8);
         do {
-            func_800C1680();
-            func_800C2948(sp6C->unkF4, sp6C->unkF4, sp6C->unkF4);
-            func_800C2304(sp70->unk4->unk8, sp70->unk4->unkC, sp70->unk4->unk10);
-            func_800C2780(sp70->unk4->unk1C);
-            func_800C25B8(sp70->unk4->unk18);
-            func_800C23E8(sp70->unk4->unk14);
+            MtxUtil_PushCopy();
+            MtxUtil_ScaleAxes(sp6C->unkF4, sp6C->unkF4, sp6C->unkF4);
+            MtxUtil_TranslateLocal(sp70->unk4->unk8, sp70->unk4->unkC, sp70->unk4->unk10);
+            MtxUtil_RotateZ(sp70->unk4->unk1C);
+            MtxUtil_RotateY(sp70->unk4->unk18);
+            MtxUtil_RotateX(sp70->unk4->unk14);
             if (sp70->unk4->unk4 != -1) {
                 sp7C = func_8000D688(sp70->unk4->unk4);
                 if (sp7C != NULL) {
-                    func_800C2304(sp7C->unkCC, sp7C->unkD0, sp7C->unkD4);
-                    func_800C2780(sp7C->unkF0);
-                    func_800C25B8(sp7C->unkEC);
-                    func_800C23E8(sp7C->unkE8);
+                    MtxUtil_TranslateLocal(sp7C->unkCC, sp7C->unkD0, sp7C->unkD4);
+                    MtxUtil_RotateZ(sp7C->unkF0);
+                    MtxUtil_RotateY(sp7C->unkEC);
+                    MtxUtil_RotateX(sp7C->unkE8);
                 }
             }
-            func_800C2948(sp70->unk4->unk20, sp70->unk4->unk20, sp70->unk4->unk20);
+            MtxUtil_ScaleAxes(sp70->unk4->unk20, sp70->unk4->unk20, sp70->unk4->unk20);
             func_800B18C4(&gDisplayListHead, sp70->unk8, 0);
             sp70 = sp70->unkC;
-            func_800C1A28();
+            MtxUtil_Pop();
         } while (sp70 != NULL);
-        func_800C1A28();
+        MtxUtil_Pop();
     }
 }
 

@@ -4,10 +4,6 @@ extern Scheduler D_801AC8A8;
 
 void Scheduler_CreateScheduler(Scheduler* arg0, u8 arg1, s32 arg2);
 s32 func_8009A084(Gfx**, f32); /* extern */
-void func_800C1680(void);      /* extern */
-void func_800C1A84(MtxF*);     /* extern */
-void func_800C1AF4(MtxF*);     /* extern */
-void func_800C1B64(s32);       /* extern */
 void func_80099E2C(UnkStruct_80099E2C* arg0);
 void func_80090A38(s16* palette, int size);
 s32 func_800A39C4(UnkStruct_80099E2C* arg0, s32 arg1, s32 arg2, s16 arg3, s32 arg4);
@@ -53,6 +49,10 @@ extern f32 D_800F18E8;
 extern f32 D_800F18F0;
 extern f64 D_800EF7B0;
 extern f64 D_800EF7B8;
+extern f32 D_80156190;
+extern f32 D_80156194;
+extern f32 D_80156198;
+extern f32 D_8015619C;
 
 void func_800983B0(Scheduler* arg0, s32 arg1) {
     Scheduler* sp1C;
@@ -456,20 +456,20 @@ s32 func_8009A084(Gfx** gdl, f32 arg1) {
 
 void func_8009A14C(UnkStruct_80099E2C* arg0) {
     if (arg0->unkC0 & 8) {
-        func_800C2304(arg0->unkCC + D_801A7224, arg0->unkD0 + D_801A7230, arg0->unkD4 + D_801A7218);
+        MtxUtil_TranslateLocal(arg0->unkCC + D_801A7224, arg0->unkD0 + D_801A7230, arg0->unkD4 + D_801A7218);
     } else {
-        func_800C2304(arg0->unkCC + D_801A7224 + (f32) arg0->unkDC, arg0->unkD0 + D_801A7230 + (f32) arg0->unkE0,
+        MtxUtil_TranslateLocal(arg0->unkCC + D_801A7224 + (f32) arg0->unkDC, arg0->unkD0 + D_801A7230 + (f32) arg0->unkE0,
                       arg0->unkD4 + D_801A7218);
     }
 }
 
 void func_8009A22C(void) {
-    func_800C2304(0.0f, 0.0f, D_801A7218);
+    MtxUtil_TranslateLocal(0.0f, 0.0f, D_801A7218);
 }
 
 void func_8009A264(UnkStruct_80099E2C* arg0) {
     if (!(arg0->unkC0 & 8) && (arg0->unkC0 & 0x10)) {
-        func_800C2780(arg0->unkF0);
+        MtxUtil_RotateZ(arg0->unkF0);
     }
 }
 
@@ -483,12 +483,10 @@ void func_8009A2F4(UnkStruct_80099E2C* arg0) {
     arg0->unkC0 &= ~0x10;
 }
 
-void func_800C2D08(MtxF*, MtxF*); /* extern */
-
 s32 func_8009A324(MtxF* arg0, f32* arg1, f32* arg2) {
     MtxF sp18;
 
-    func_800C2D08((MtxF*) arg0 + D_801A70E4, &sp18);
+    MtxUtil_MtxToMtxF((Mtx*) arg0 + D_801A70E4, &sp18);
     if ((f64) sp18.mf[3][2] == 0.0) {
         return -1;
     }
@@ -505,7 +503,7 @@ s32 func_8009A3E8(UnkStruct_80099E2C* arg0, f32* arg1, f32* arg2) {
     if (sp1C < 0) {
         sp1C = 1;
     }
-    func_800C2D08((MtxF*) arg0 + sp1C, &sp20);
+    MtxUtil_MtxToMtxF((Mtx*) arg0 + sp1C, &sp20);
     if ((f64) sp20.mf[3][2] == 0.0) {
         return -1;
     }
@@ -563,13 +561,13 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
     f32 sp124;
     s16* imgPtr;
 
-    func_800C1680();
-    func_800C1AF4((MtxF*) &D_801601E0);
+    MtxUtil_PushCopy();
+    MtxUtil_SetCurrent((MtxF*) &D_801601E0);
     func_800C1B64(0);
     func_800C1D44((MtxF*) (&arg6->unkA0));
     func_800C1D44((MtxF*) &arg1->unk80);
-    func_800C1A84((MtxF*) &D_80156BC8);
-    func_800C1A28();
+    MtxUtil_CopyCurrent((MtxF*) &D_80156BC8);
+    MtxUtil_Pop();
     sp180 = (arg1->unkC0 | D_801A7250) & D_801A7258;
     if (!(sp180 & 0x20200)) {
         if (func_8009A084(gdlh, -D_80156BC8[14]) < 0) {
@@ -584,11 +582,11 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
     }
 
     D_8015B324 = (s16) (s32) (((f32) arg1->unk11E * arg6->unkE8) / 255.0f);
-    func_800C1680();
-    func_800C1AF4((MtxF*) &arg6->unkA0);
+    MtxUtil_PushCopy();
+    MtxUtil_SetCurrent((MtxF*) &arg6->unkA0);
     func_800C1D44((MtxF*) &arg1->unk80);
-    func_800C1A84((MtxF*) &D_80156BC8);
-    func_800C1A28();
+    MtxUtil_CopyCurrent((MtxF*) &D_80156BC8);
+    MtxUtil_Pop();
     gdl = *gdlh;
     if (arg4 == 0.0f) {
         arg4 = D_800EF84C;
@@ -881,7 +879,29 @@ void func_800A3FC0(UnkStruct_80099E2C* arg0) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800AC254.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800AC524.s")
+void func_800AC524(Gfx** gdl) {
+    Gfx* gdlh;
+
+    gdlh = *gdl;
+    if (D_80156190 < 0.0f) {
+        D_80156190 = 0.0f;
+    }
+    if (D_80156198 > 320.0f) {
+        D_80156198 = 320.0f;
+    }
+    if (D_80156194 < 0.0f) {
+        D_80156194 = 0.0f;
+    }
+    if (D_8015619C > 240.0f) {
+        D_8015619C = 240.0f;
+    }
+    gDPSetScissor(gdlh++, G_SC_NON_INTERLACE, (s32)D_80156190,
+                  (s32)D_80156194, (s32)D_80156198, (s32)D_8015619C);
+    gDPPipeSync(gdlh++);
+
+    *gdl = gdlh;
+}
+
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800AC7F8.s")
 
