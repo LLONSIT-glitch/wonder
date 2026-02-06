@@ -97,7 +97,7 @@ void func_80014F38(UnkStruct_8000DDE0* arg0) {
     UnkStruct_80099E2C* sp6C;
     UnkStruct_80099E2C* sp68;
 
-    // osSyncPrintf("Calling fog function?\n");
+    //osSyncPrintf("Calling fog function?\n");
     sp74 = arg0->unk20C;
     sp70 = sp74->unk10;
     sp6C = sp74->unkC;

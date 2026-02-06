@@ -130,7 +130,7 @@ segments:
       - [0xBD220, c, sys/sys_mem]
       - [0xBE2F0, c, main]
       - [0xBF970, c, code/spi]
-      - [0xC11A0, c, sys/sys_C11A0]
+      - [0xC11A0, c, sys/sys_thread]
       - [0xC21C0, c, code/mtx_util]
       - [0xC3C70, c, code/math_util]
 
@@ -296,6 +296,7 @@ segments:
       - [0xED880, .data, libultra/io/vi]
       - [0xED8F0, data]
       - [0xEDD40, .rodata, sys/sys_main]
+      #- [0xEDD40, .rodata, code/code_AB70]
       - [0xEDD60, rodata]
       - [0xEDD80, rodata]
       - [0xEDDE0, rodata]

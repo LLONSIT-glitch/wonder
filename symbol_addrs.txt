@@ -2,6 +2,7 @@ D_Unknown800CB13C = 0x800CB13C;
 Main_GfxFullSync = 0x800BE610;
 Main_BootProc = 0x800BD6F0;
 Main_IdleThreadEntry = 0x800BD76C;
+Thread_DestroyThread = 0x800C0B70;
 Thread_Start = 0x800C0C8C;
 gDebugger = 0x80181698;
 Thread_CreateSimple = 0x800C0640;
@@ -208,6 +209,8 @@ MtxUtil_GetCurrentFromMtxF = 0x800C2AE8;
 MtxUtil_TranslateLocal = 0x800C2304;
 MtxUtil_CopyOrientation = 0x800C2C84;
 MtxUtil_Copy = 0x800C2B58;
+
+Update_ControllerRaw = 0x80098D24;
 
 sMatrixStack = 0x801806D0;
 gCurrentMatrixStackPtr = 0x80180CE4;

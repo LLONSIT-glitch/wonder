@@ -41,7 +41,7 @@ void func_800BE684(void);
 s32 func_80031AC8(void);
 void Main_GfxFullSync(void);
 void CreateGfxTask(void*, u32);
-void func_80098D24(u8 threadId);
+void Update_ControllerRaw(u8 threadId);
 void func_80099450(void);
 s32 func_800065BC(ThreadEntry*);
 void func_80096474(void);
@@ -103,7 +103,7 @@ void* SysMain(ThreadEntry* entry) {
     ISViewer_Init();
 #endif
 
-#ifdef CRASH_SCREEn
+#ifdef CRASH_SCREEN
     Fault_Init();
 #endif
 
@@ -430,7 +430,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                         func_800B1B04(sp280, &sp38.unk160 + 1);
                         func_800B1F0C(sp280, &sp38.unk160 + 1, 0x690221, 0x5F, 0.0f, 0.0f, 0);
                         sp280->unkC0 = (s32) (sp280->unkC0 | 0x208);
-                        sp280->unkC8 = 0x7FFFFFFF;
+                        sp280->unkC8 = 0x7FFFFFFF; 
                         sp280->unkC4 = func_800AD774(2);
                         sp420 = 1;
                     }
@@ -449,7 +449,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                         sp280->unkCC = -88.0f;
                         sp280->unkD0 = -42.0f;
                         if (func_80031AC8() != -2) {
-                            sp280->unkD0 = (f32) (sp280->unkD0 + 6.0f);
+                            sp280->unkD0 += 6.0f;
                         }
                         func_8009A14C(sp280);
                         func_800997D8(sp280);
@@ -458,7 +458,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                     func_8009A664(&gDisplayListHead);
                     Main_GfxFullSync();
                     CreateGfxTask(D_801A1B4C, (u32) gDisplayListHead - (u32) D_801A1B4C);
-                    func_80098D24(threadEntry->threadId);
+                    Update_ControllerRaw(threadEntry->threadId);
                     func_80099450();
                     func_80001F54();
                     if (func_800020A8(0) == 1) {
@@ -494,7 +494,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                     sp410->unk82EC = 0;
                     Thread_ResetMqValidCount(threadEntry->threadId);
                     func_80098820();
-                    func_80098D24(threadEntry->threadId);
+                    Update_ControllerRaw(threadEntry->threadId);
                     continue;
                 }
 
@@ -518,16 +518,16 @@ s32 func_80000C90(ThreadEntry* entry) {
                         func_80098868();
                         func_80098C1C();
                         func_80098820();
-                        func_80098D24(threadEntry->threadId);
+                        Update_ControllerRaw(threadEntry->threadId);
                         sp424 = 0;
-                        continue; // m2c got a little bit confused here..
+                        continue;
                     }
                     if (gControllers[1].button & (u16) gInputMask_L) {
                         sp424 ^= 1;
                         if (sp424 != 0) {
                             func_80098868();
                             func_80098C1C();
-                            func_80098D24(threadEntry->threadId);
+                            Update_ControllerRaw(threadEntry->threadId);
                         }
                         continue;
                     }
@@ -557,11 +557,11 @@ s32 func_80000C90(ThreadEntry* entry) {
                             func_80098BF4();
                             func_80098820();
                         }
-                        func_80098D24(threadEntry->threadId);
+                        Update_ControllerRaw(threadEntry->threadId);
                         continue;
                     }
                 }
-                func_80098D24(threadEntry->threadId);
+                Update_ControllerRaw(threadEntry->threadId);
                 continue;
 
             case 33:
@@ -718,6 +718,7 @@ exit:
 #undef FABS
 }
 
+extern int D_8015B324;
 void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
     s32 sp24;
     UnkStruct_80099E2C* sp20;

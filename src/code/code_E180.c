@@ -114,7 +114,7 @@ s32 func_8000D934(s32 arg0, s32 arg1, u16* arg2) {
     return 0;
 }
 
-s32 func_8000DA44(UnkStruct_8000DDE0* arg0, s32 arg1, s16* arg2) {
+s32 func_8000DA44(UnkStruct_8000DDE0* arg0, s32 arg1, u16* arg2) {
     s32 sp4;
     s32 sp0;
 

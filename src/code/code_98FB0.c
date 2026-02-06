@@ -239,7 +239,7 @@ void func_80098CFC(void) {
     D_801A72DC &= ~4;
 }
 
-s32 func_80098D24(UNUSED s32 threadId) {
+s32 Update_ControllerRaw(UNUSED s32 threadId) {
     s32 i;
     s32 prevButton;
     Controller* controller;

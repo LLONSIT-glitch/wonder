@@ -97,36 +97,36 @@ s32 func_8000E524(UnkStruct_8000DDE0*);             /* extern */
 s32 func_8000E678(UnkStruct_8000DDE0*);             /* extern */
 s32 func_8000E7E4(UnkStruct_8000DDE0*);               /* extern */
 s32 func_8000E9F8(UnkStruct_8000DDE0*);             /* extern */
-void func_800111E8(UnkStruct_8000DDE0*);               /* extern */
-void func_8001173C(UnkStruct_8000DDE0*);               /* extern */
-void func_80011A0C(UnkStruct_8000DDE0*);               /* extern */
-void func_80011B88(UnkStruct_8000DDE0*);               /* extern */
-void func_80011F7C(UnkStruct_8000DDE0*);               /* extern */
-void func_80012068(UnkStruct_8000DDE0*);               /* extern */
-void func_80012164(UnkStruct_8000DDE0*);               /* extern */
-void func_800123AC(UnkStruct_8000DDE0*);               /* extern */
-void func_800124B8(UnkStruct_8000DDE0*);               /* extern */
-void func_80012634(UnkStruct_8000DDE0*);               /* extern */
-void func_80012798(UnkStruct_8000DDE0*);               /* extern */
-void func_8001292C(UnkStruct_8000DDE0*);               /* extern */
-void func_800129FC(UnkStruct_8000DDE0*);               /* extern */
-void func_80012E7C(UnkStruct_8000DDE0*);               /* extern */
-void func_800131F4(UnkStruct_8000DDE0*);               /* extern */
-void func_80013398(UnkStruct_8000DDE0*);               /* extern */
-void func_80013474(UnkStruct_8000DDE0*);               /* extern */
-void func_80013624(UnkStruct_8000DDE0*);               /* extern */
-void func_800139B8(UnkStruct_8000DDE0*);               /* extern */
-void func_80013AFC(UnkStruct_8000DDE0*);               /* extern */
-void func_80013C90(UnkStruct_8000DDE0*);               /* extern */
-void func_80013F04(UnkStruct_8000DDE0*);               /* extern */
-void func_80013FEC(UnkStruct_8000DDE0*);               /* extern */
-void func_800140D8(UnkStruct_8000DDE0*);               /* extern */
-void func_80014228(UnkStruct_8000DDE0*);               /* extern */
-void func_800145D4(UnkStruct_8000DDE0*);               /* extern */
-void func_80014A80(UnkStruct_8000DDE0*);               /* extern */
+s32 func_800111E8(UnkStruct_8000DDE0*);               /* extern */
+s32 func_8001173C(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80011A0C(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80011B88(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80011F7C(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80012068(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80012164(UnkStruct_8000DDE0*);               /* extern */
+s32 func_800123AC(UnkStruct_8000DDE0*);               /* extern */
+s32 func_800124B8(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80012634(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80012798(UnkStruct_8000DDE0*);               /* extern */
+s32 func_8001292C(UnkStruct_8000DDE0*);               /* extern */
+s32 func_800129FC(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80012E7C(UnkStruct_8000DDE0*);               /* extern */
+s32 func_800131F4(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80013398(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80013474(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80013624(UnkStruct_8000DDE0*);               /* extern */
+s32 func_800139B8(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80013AFC(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80013C90(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80013F04(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80013FEC(UnkStruct_8000DDE0*);               /* extern */
+s32 func_800140D8(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80014228(UnkStruct_8000DDE0*);               /* extern */
+s32 func_800145D4(UnkStruct_8000DDE0*);               /* extern */
+s32 func_80014A80(UnkStruct_8000DDE0*);               /* extern */
 s32 func_80015C30(UnkStruct_8000DDE0*);               /* extern */
 s32 func_80015D74(UnkStruct_8000DDE0*);               /* extern */
-void func_800298A4(s16, s16, s16, f32, f32);           /* extern */
+s32 func_800298A4(s16, s16, s16, f32, f32);           /* extern */
 void func_800299C4(s32);                               /* extern */
 void func_80029C8C(s16);                               /* extern */
 void func_80029ED8(void);                                  /* extern */
@@ -143,5 +143,5 @@ void func_800C1D44(MtxF*);                                /* extern */
 f32 func_8002BB04(s16 arg0);
 s32 Thread_GetPriority(u8 arg0);
 void func_80014C70(UnkStruct_8000DDE0 *arg0);
-s32 func_8000DA44(UnkStruct_8000DDE0* arg0, s32 arg1, s16* arg2);
+s32 func_8000DA44(UnkStruct_8000DDE0* arg0, s32 arg1, u16* arg2);
 #endif /* FUNCTIONS_H */
