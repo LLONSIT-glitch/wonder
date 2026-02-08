@@ -18,7 +18,7 @@ CYAN    := \033[0;36m
 find-command = $(shell which $(1) 2>/dev/null)
 
 # Enable isprint
-ISPRINT ?= 0
+ISPRINT ?= 1
 
 BUILD_DIR = build
 

@@ -27,6 +27,10 @@ options:
   asm_function_macro: glabel
   asm_jtbl_label_macro: jlabel
   asm_data_macro: dlabel
+  ld_sections_allowlist:
+    - .shstrtab
+    - .mdebug
+    - .mdebug.abi32
 
   # section_order: [".text", ".data", ".rodata", ".bss"]
   # auto_link_sections: [".data", ".rodata", ".bss"]
@@ -126,7 +130,7 @@ segments:
       - [0xB2650, c, code/code_B2650]
       - [0xB90F0, c, audio/audio_mgr]
       - [0xBA180, c, audio/audio_driver]
-      - [0xBD190, c, sys/dma_copy]
+      - [0xBD190, c, audio/audio_dma_copy]
       - [0xBD220, c, sys/sys_mem]
       - [0xBE2F0, c, main]
       - [0xBF970, c, code/spi]

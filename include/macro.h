@@ -32,4 +32,5 @@
 
 #define SQ(x) ((x) * (x))
 
+
 #endif /* MACRO_H */

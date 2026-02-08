@@ -25,5 +25,5 @@ void SysMem_Copy32(void* dest, void* src, s32 size);
 s32 SysMem_Free(void* ptr);
 s32 SysMem_GetPhysicalAddressFromVirtual(u32 segBase, s32 vStart, s32 vEnd);
 /* From dma_copy.c */
-void DmaCopy(u32 devAddr, void *vAddr, u32 nBytes);
+void AudioDmaCopy(u32 devAddr, void *vAddr, u32 nBytes);
 #endif /* MEMORY_H */

@@ -87,7 +87,178 @@ s32 func_8000DDE0(UnkStruct_8000DDE0* arg0) {
     return 0;
 }
 
+#ifdef NEEDS_RODATA
+
+s32 func_8000DE84(UnkStruct_8000DDE0* arg0) {
+    s32 sp24;
+    s32 sp20;
+    UnkStruct_8000E3D4* sp1C;
+    s32 sp18;
+
+    sp18 = 1;
+    sp20 = 0;
+    sp24 = 0;
+
+    if ((arg0->unk20C != NULL)) {
+        sp1C = arg0->unk20C;
+        if (((((sp1C->unk2 < 3) )) || (sp1C->unk2 >= 0x2A) || (sp1C->unk7C == 0))) {
+            if (((u16) sp1C->unk0 & 1) && (func_8000E524(arg0) < 0)) {
+                return 0;
+            }
+            if (func_8000E678(arg0) < 0) {
+                return 0;
+            }
+            sp18 = func_8000E9F8(arg0);
+        }
+    }
+
+    while ((sp24 == 0) && (sp18 != 0)) {
+        if (arg0->unk1EC == arg0->unk1E8) {
+            break;
+        }
+        switch ((u16)arg0->unk210[(s32)arg0->unk1E8 % 128]) {
+
+    case 0xC002:
+        if (arg0->unk1A8 & 1) {
+            sp24++;
+            sp20 = -1;
+            break;
+        }
+        func_800111E8(arg0);
+        sp1C = arg0->unk20C;
+        break;
+
+    case 0xC003:
+        func_8001173C(arg0);
+        break;
+
+    case 0xC004:
+        func_80011A0C(arg0);
+        break;
+
+    case 0xC005:
+        func_800131F4(arg0);
+        break;
+
+    case 0xC00A:
+        func_80011B88(arg0);
+        sp24++;
+        break;
+
+    case 0xC015:
+        func_80011F7C(arg0);
+        break;
+
+    case 0xC016:
+        func_80012068(arg0);
+        break;
+
+    case 0xC012:
+        func_800123AC(arg0);
+        sp24++;
+        break;
+
+    case 0xC010:
+        func_80012164(arg0);
+        sp24++;
+        break;
+
+    case 0xC018:
+        func_800124B8(arg0);
+        break;
+
+    case 0xC019:
+        func_80012634(arg0);
+        break;
+
+    case 0xC01A:
+        func_8001292C(arg0);
+        break;
+
+    case 0xC01B:
+        func_80013474(arg0);
+        break;
+
+    case 0xC01C:
+        func_80012798(arg0);
+        break;
+
+    case 0xC01D:
+        func_800129FC(arg0);
+        break;
+
+    case 0xC01E:
+        func_80012E7C(arg0);
+        break;
+
+    case 0xC01F:
+        func_80013398(arg0);
+        break;
+
+    case 0xC020:
+        func_80013624(arg0);
+        break;
+
+    case 0xC021:
+        func_800139B8(arg0);
+        sp24++;
+        break;
+
+    case 0xC022:
+        func_80013AFC(arg0);
+        break;
+
+    case 0xC025:
+        func_80013F04(arg0);
+        break;
+
+    case 0xC026:
+        func_800140D8(arg0);
+        break;
+
+    case 0xC027:
+        func_80014228(arg0);
+        sp24++;
+        break;
+
+    case 0xC028:
+        func_80015C30(arg0);
+        break;
+
+    case 0xC029:
+        func_800145D4(arg0);
+        break;
+
+    case 0xC02C:
+        func_80015D74(arg0);
+        break;
+
+    case 0xC02D:
+        func_80014A80(arg0);
+        break;
+
+    case 0xC030:
+        func_80013C90(arg0);
+        break;
+
+    case 0xC031:
+        func_80013FEC(arg0);
+        break;
+
+    default:
+        D_80153DF4++;
+        break;
+}
+
+    }
+    if ((arg0->unk20C != NULL) && ((((sp1C->unk2 < 3))) || (sp1C->unk2 >= 0x2A) || (sp1C->unk7C == 0))) {
+        func_8000E7E4(arg0);
+    }
+    return sp20;
+}
+#else
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_E9E0/func_8000DE84.s")
+#endif
 
 void func_8000E3D4(UnkStruct_8000E3D4* arg0) {
     arg0->unk0 = 0;
