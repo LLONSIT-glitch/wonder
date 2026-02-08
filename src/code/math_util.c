@@ -73,11 +73,14 @@ f32 MathUtil_Cosf(f32 arg0) {
     f32 sp1C;
     s32 number;
 
-    if (((*(s32*)&arg0 >> 0x16) & 0x1FF) < 0x136) {
+    if (((*(s32*) &arg0 >> 0x16) & 0x1FF) < 0x136) {
         number = ROUND((((sp30 = FABS(arg0)) * 0.318309886183790691) + 0.5));
-       
-        sp28 = (sp30 = (sp30 - ((poly = number - 0.5) * 3.14159262180328369)) - (poly * 3.17865095470563921e-08)) * sp30;
-        sp1C = (f32)sp30 + (sp30 * sp28 * ((((((D_800EAA98->d * sp28) + D_800EAA98->c) * sp28) + D_800EAA98->b) * sp28) + D_800EAA98->a));
+
+        sp28 =
+            (sp30 = (sp30 - ((poly = number - 0.5) * 3.14159262180328369)) - (poly * 3.17865095470563921e-08)) * sp30;
+        sp1C = (f32) sp30 +
+               (sp30 * sp28 *
+                ((((((D_800EAA98->d * sp28) + D_800EAA98->c) * sp28) + D_800EAA98->b) * sp28) + D_800EAA98->a));
 
         return number & 1 ? -sp1C : sp1C;
     }

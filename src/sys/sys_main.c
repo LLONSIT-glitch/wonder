@@ -430,7 +430,7 @@ s32 func_80000C90(ThreadEntry* entry) {
                         func_800B1B04(sp280, &sp38.unk160 + 1);
                         func_800B1F0C(sp280, &sp38.unk160 + 1, 0x690221, 0x5F, 0.0f, 0.0f, 0);
                         sp280->unkC0 = (s32) (sp280->unkC0 | 0x208);
-                        sp280->unkC8 = 0x7FFFFFFF; 
+                        sp280->unkC8 = 0x7FFFFFFF;
                         sp280->unkC4 = func_800AD774(2);
                         sp420 = 1;
                     }

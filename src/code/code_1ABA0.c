@@ -28,7 +28,7 @@ void func_80005124(s32, s32);            /* extern */
 void func_80005460(void);                /* extern */
 void func_8001C1F4(UnkStruct_8000DDE0*); /* extern */
 void func_80032604(void);                /* extern */
-void Update_ControllerRaw(u8);                  /* extern */
+void Update_ControllerRaw(u8);           /* extern */
 void func_8009908C(void*, s32);          /* extern */
 void func_80099450(void);                /* extern */
 void func_80099520(void);                /* extern */

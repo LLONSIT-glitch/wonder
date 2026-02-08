@@ -4,8 +4,9 @@
 
 #define COMPRESSED_SEQ_MAX_SIZE 0x3000
 
-// Because we can't use the original alHeapAlloc macro because of the filename and line numbers we will stick to this macros
-#define AUDIO_HEAP_ALLOC(line, size)  alHeapDBAlloc("sound/sndprg.c", line, &gAudioHeap, 1, size); 
+// Because we can't use the original alHeapAlloc macro because of the filename and line numbers we will stick to this
+// macros
+#define AUDIO_HEAP_ALLOC(line, size) alHeapDBAlloc("sound/sndprg.c", line, &gAudioHeap, 1, size);
 
 extern SoundDealloc gSoundDeallocRequests[32];
 extern oscData* gFreeOscStateList;
@@ -18,7 +19,7 @@ extern ALBank* gAudioTblBank;
 extern ALBank* gAudioBankBank;
 extern ALSeqFile* gSequenceFile; // Sequences file?
 extern ALCSPlayer* gCompressedSeqPlayer;
-extern void* gCompressedSequence; // Lib audio representation of the compressed sequence
+extern void* gCompressedSequence;    // Lib audio representation of the compressed sequence
 extern void* gCompressedSequencePtr; // Raw pointer to the compressed sequence in seq file
 extern s32 gSequenceCount;
 extern s32 D_801AE834;
@@ -108,7 +109,7 @@ void AudioDriver_LoadBanks(void) {
  * @brief Copy a compressed sequence from an offset from the seqArray into gCompressedSequencePtr
  *
  * @param seqIdx Sequence index to get copy the sequence from the seqArray
- * 
+ *
  */
 s32 AudioDriver_GetSequence(s32 seqIdx) {
     s32 seqLen;
@@ -181,7 +182,6 @@ void AudioDriver_ProcessSoundDeallocRequests(void) {
                 }
                 break;
                 PRINTF("sndp Dealloc error!!\n");
-
         }
     }
     if (sp28 != 0) {
@@ -413,7 +413,8 @@ void func_800BA748(UnkStruct_801AE598* arg0) {
     sp1C = arg0->unk0;
     if (sp1C->unk1C & 0x10) {
         instrument = (s32) sp1C->unk20 >> 8;
-        sp1C->sndId = alSndpAllocate(gSoundPlayer, gAudioBankBank->instArray[instrument]->soundArray[sp1C->unk20 & 0xFF]);
+        sp1C->sndId =
+            alSndpAllocate(gSoundPlayer, gAudioBankBank->instArray[instrument]->soundArray[sp1C->unk20 & 0xFF]);
     }
     if (sp1C->sndId != -1) {
         alSndpSetSound(gSoundPlayer, sp1C->sndId);
@@ -459,7 +460,8 @@ void AudioDriver_UpdateSequence(void) {
         if (gSequencePlayerState == AUDIO_SEQ_STATE_PLAYING) {
             AudioDriver_StopSeqplayer();
         }
-        if ((D_800EA5BC[gCurrentSequenceID].seqIdx < gSequenceCount) && (gSequencePlayerState == AUDIO_SEQ_STATE_MUTED)) {
+        if ((D_800EA5BC[gCurrentSequenceID].seqIdx < gSequenceCount) &&
+            (gSequencePlayerState == AUDIO_SEQ_STATE_MUTED)) {
             gSavedSequenceID = gCurrentSequenceID;
             gCurrentSequenceID = -1;
             seqSize = AudioDriver_GetSequence(D_800EA5BC[gSavedSequenceID].seqIdx);

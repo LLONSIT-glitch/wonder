@@ -6,7 +6,7 @@
 
 extern UnkStruct_801AE5A0* func_800BB448(s32 arg0);
 extern void func_800BB4B4(UnkStruct_801AE5A0* arg0, s32 arg1);
-extern void AudioDriver_UpdateSeqID(s32);                /* extern */
+extern void AudioDriver_UpdateSeqID(s32);      /* extern */
 extern void func_800BB52C(s32, s32, s32, s32); /* extern */
 extern void func_800BB4DC(s32);                /* extern */
 
