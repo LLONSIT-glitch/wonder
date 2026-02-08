@@ -72,7 +72,6 @@ void AudioDriver_Init(void) {
     AudioDriver_InitSeqPlayer();
     AudioDriver_InitSoundPlayer();
     func_800B9CEC();
-    PRINTF("Done\n");
 }
 
 void AudioDriver_LoadSequences(void) {
@@ -86,6 +85,7 @@ void AudioDriver_LoadSequences(void) {
     AudioDmaCopy((u32) audioSequences_ROM_START, gSequenceFile, size);
     alSeqFileNew(gSequenceFile, audioSequences_ROM_START);
     gSequenceCount = gSequenceFile->seqCount;
+    PRINTF("Done\n");
 }
 
 void AudioDriver_LoadBanks(void) {
@@ -467,7 +467,6 @@ void AudioDriver_UpdateSequence(void) {
             alSeqpSetSeq((ALSeqPlayer*) gCompressedSeqPlayer, gCompressedSequence);
             alSeqpSetBank((ALSeqPlayer*) gCompressedSeqPlayer, gAudioTblBank);
 
-            osSyncPrintf("Playing sequence!\n");
             alSeqpPlay((ALSeqPlayer*) gCompressedSeqPlayer);
             gSequencePlayerState = AUDIO_SEQ_STATE_PLAYING;
         }
@@ -588,7 +587,6 @@ s32 func_800BB24C(s32 arg0) {
 }
 
 void AudioDriver_UpdateSeqID(s32 seqId) {
-    osSyncPrintf("AudioDriver_UpdateSeqID: Sequence ID: %d\n", seqId);
     gCurrentSequenceID = seqId;
 }
 
