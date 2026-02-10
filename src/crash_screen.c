@@ -206,31 +206,6 @@ void Fault_DisplayDebugInfo(OSThread* thread) {
 
     i = 0;
 
-    while (TRUE) {
-        /*
-        osContStartReadData(&gSerialEventQueue);
-        func_80098D24();
-        func_80032604();
-        if (gSharedController.buttonPressed == 0) {
-            continue;
-        }
-        if (!(gSharedController.buttonCurrent & BTN_Z)) {
-            continue;
-        }
-        if (!(gSharedController.buttonCurrent & BTN_L)) {
-            continue;
-        }
-        i++;
-        if (sCrashDebuggerInputs[i - 1] & gSharedController.buttonPressed) {
-            if (i == 11) {
-                break;
-            }
-        } else {
-            i = 0;
-        }
-        */
-    }
-
     Fault_FillRectangle(25, 20, SCREEN_WIDTH - 50, 25);
     Fault_Printf(30, 25, "THREAD:%d  (%s)", thread->id, sFaultCauses[causeIndex]);
     Fault_Printf(30, 35, "PC:%08XH   SR:%08XH   VA:%08XH", context->pc, context->sr, context->badvaddr);
@@ -307,11 +282,11 @@ void Fault_SetFrameBuffer(void* buffer, u16 width, u16 height) {
 }
 
 void Fault_Init(void) {
-    gFaultMgr.fb = (FrameBuffer*) gFrameBuffer2;
+    gFaultMgr.fb = (FrameBuffer*) gFrameBuffer1;
     gFaultMgr.width = SCREEN_WIDTH;
     gFaultMgr.height = 16;
     osCreateMesgQueue(&gFaultMgr.mesgQueue, &gFaultMgr.msg, 1);
-    osCreateThread(&gFaultMgr.thread, 20, Fault_ThreadEntry, NULL, gFaultMgr.stack + sizeof(gFaultMgr.stack), 250);
+    osCreateThread(&gFaultMgr.thread, 23, Fault_ThreadEntry, NULL, gFaultMgr.stack + sizeof(gFaultMgr.stack), 250);
     osStartThread(&gFaultMgr.thread);
 }
 #endif

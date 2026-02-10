@@ -254,7 +254,7 @@ void Scheduler_HandleRspMesg(Scheduler* scheduler) {
         curRspTask->state &= ~2;
         Scheduler_IsTaskComplete(scheduler, curRspTask);
     }
-    avail = ((scheduler->curRSPTask == NULL) * 2) | (scheduler->curRDPTask == 0);
+    avail = ((scheduler->curRSPTask == NULL) << 1) | (scheduler->curRDPTask == 0);
     if (Scheduler_ScheduleTask(scheduler, &rspTask, &rdpTask, avail) != avail) {
         Scheduler_ExecuteTask(scheduler, rspTask, rdpTask);
     }

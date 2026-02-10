@@ -208,5 +208,7 @@ extern Controller gControllers[];
 extern s32 D_801825F0[10];
 extern UnkStruct_80182618 D_80182618[];
 extern Mtx* D_8015F884;
+extern s16 D_801A1B48;
+extern UnkStruct_801A306C* D_801A306C;
 #endif /* VARIABLES_H */
 

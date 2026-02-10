@@ -13,10 +13,10 @@
 #define OSC_LOW 1
 #define TWO_PI 6.2831853
 
-typedef struct UnkStruct_801AE1F0_s {
+typedef struct SoundDealloc_s {
     s16 sndId;
-    s32 unk4;
-} UnkStruct_801AE1F0;
+    s32 state;
+} SoundDealloc;
 
 typedef struct UnkStruct_801AE678_s {
     /* 0x00 */ s32 unk0;
@@ -25,16 +25,16 @@ typedef struct UnkStruct_801AE678_s {
     /* 0x0C */ s16* unkC;
     /* 0x10 */ s16* unk10; /* inferred */
     /* 0x14 */ s16* unk14; /* inferred */
-    /* 0x18 */ s16 unk18;
+    /* 0x18 */ s16 sndId;
     /* 0x1A */ char pad1A[2];
     /* 0x1C */ s32 unk1C;
     /* 0x20 */ s32 unk20; /* inferred */
-    /* 0x24 */ s32 unk24; /* inferred */
-    /* 0x28 */ s32 unk28;
-    /* 0x2C */ s16 unk2C; /* inferred */
+    /* 0x24 */ s32 pitchMod; /* inferred */
+    /* 0x28 */ s32 basePitch;
+    /* 0x2C */ s16 sndVol; /* inferred */
     /* 0x2E */ s16 unk2E; /* inferred */
-    /* 0x30 */ u8 unk30;  /* inferred */
-    /* 0x31 */ u8 unk31;
+    /* 0x30 */ u8 mix;  /* inferred */
+    /* 0x31 */ u8 pan;
     /* 0x32 */ u8 unk32; /* inferred */
     /* 0x33 */ char pad33[1];
 } UnkStruct_801AE678; /* size = 0x34 */
@@ -42,17 +42,17 @@ typedef struct UnkStruct_801AE678_s {
 typedef struct UnkStruct_801AE598_s {
     /* 0x00 */ UnkStruct_801AE678* unk0;
     /* 0x04 */ s32 unk4;
-    /* 0x08 */ s32 unk8;  /* inferred */
+    /* 0x08 */ s32 basePitch;  /* inferred */
     /* 0x0C */ s32 unkC;  /* inferred */
     /* 0x10 */ s32 unk10; /* inferred */
     /* 0x14 */ s32 unk14; /* inferred */
     /* 0x18 */ u16 unk18; /* inferred */
-    /* 0x1A */ u8 unk1A;  /* inferred */
-    /* 0x1B */ u8 unk1B;
+    /* 0x1A */ u8 pan;  /* inferred */
+    /* 0x1B */ u8 unused_1B;
 } UnkStruct_801AE598; /* size = 0x1C */
 
 typedef struct UnkStruct_800EA5BC_s {
-    /* 0x00 */ s32 unk0;       /* inferred */
+    /* 0x00 */ s32 seqIdx;       /* inferred */
     /* 0x04 */ char pad4[0xC]; /* maybe part of unk0[4]? */
 } UnkStruct_800EA5BC;          /* size = 0x10 */
 
@@ -120,9 +120,9 @@ typedef struct oscData_s {
     } data;
 } oscData;
 
-void func_800B95D0(void);                     /* extern */
-void func_800B96D4(void);                     /* extern */
-void func_800B9890(void);                     /* extern */
+void AudioDriver_LoadSequences(void);                     /* extern */
+void AudioDriver_LoadBanks(void);                     /* extern */
+void AudioDriver_InitSeqPlayer(void);                     /* extern */
 void func_800B9C74(void);                     /* extern */
 void func_800B9CEC(void);                     /* extern */
 void func_800BC4CC(ALSeqpConfig*);            /* extern */

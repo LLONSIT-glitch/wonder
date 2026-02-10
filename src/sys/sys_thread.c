@@ -102,8 +102,8 @@ void func_800C0A40(void) {
     }
 }
 
-s32 func_800C0B70(u8 threadId) {
-    if (!(D_800F9C38[threadId].flags & 0x80)) {
+s32 Thread_DestroyThread(u8 threadId) {
+    if (!(D_800F9C38[threadId].flags & THREAD_CREATED)) {
         return -1;
     }
     if (D_800F9C38[threadId].flags & 2) {
@@ -142,22 +142,22 @@ UnkStruct_800F9C38* Thread_GetPtr(u8 threadId) {
     return &D_800F1950[threadId];
 }
 
-UNUSED s32 Thread_GetAvailableThreadsCount(void) {
+UNUSED s32 Thread_GetCreatedThreadsCount(void) {
     s32 threadId;
-    s32 availableThreads;
+    s32 createdThreads;
 
-    for (threadId = 0, availableThreads = 0; threadId < MAX_THREADS; threadId++) {
-        if (D_800F9C38[threadId].flags & 0x80) {
-            availableThreads++;
+    for (threadId = 0, createdThreads = 0; threadId < MAX_THREADS; threadId++) {
+        if (D_800F9C38[threadId].flags & THREAD_CREATED) {
+            createdThreads++;
         }
     }
 
-    return availableThreads;
+    return createdThreads;
 }
 
 /* Unused function */
-s32 func_800C0F10(u8 threadId, u8 threadId2) {
-    if (!(D_800F9C38[threadId].flags & 0x80)) {
+UNUSED s32 Thread_UnkDbgFunc0(u8 threadId, u8 threadId2) {
+    if (!(D_800F9C38[threadId].flags & THREAD_CREATED)) {
         return THREAD_ERROR;
     }
     if (Thread_SetPriority(threadId, OS_PRIORITY_IDLE) != THREAD_SUCCESS) {
@@ -169,10 +169,10 @@ s32 func_800C0F10(u8 threadId, u8 threadId2) {
     // @bug no return value
 }
 
-void func_800C0FB0(u8 stopThreadId, u8 startThreadId) {
+UNUSED void Thread_UnkDbgFunc1(u8 stopThreadId, u8 startThreadId) {
     Thread_Start(startThreadId);
     Thread_StopThread(stopThreadId);
-    func_800C0B70(startThreadId);
+    Thread_DestroyThread(startThreadId);
 }
 
 s32 Thread_SetPriority(u8 threadId, OSPri pri) {

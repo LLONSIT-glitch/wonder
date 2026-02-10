@@ -1,12 +1,5 @@
 #include "common.h"
 
-typedef struct UnkStruct_801561D8_s {
-    /* 0x000 */ char pad0[0xE8];
-    /* 0x0E8 */ f32 unkE8;        /* inferred */
-    /* 0x0EC */ f32 unkEC;        /* inferred */
-    /* 0x0F0 */ char padF0[0x48]; /* maybe part of unkEC[0x13]? */
-} UnkStruct_801561D8;             /* size = 0x138 */
-
 typedef struct DebugMenuInfo_s {
     /* 0x00 */ s32 unk0;                                   /* inferred */
     /* 0x04 */ char* optionName;                           /* inferred */
@@ -35,7 +28,7 @@ void func_80005124(s32, s32);            /* extern */
 void func_80005460(void);                /* extern */
 void func_8001C1F4(UnkStruct_8000DDE0*); /* extern */
 void func_80032604(void);                /* extern */
-void func_80098D24(u8);                  /* extern */
+void Update_ControllerRaw(u8);           /* extern */
 void func_8009908C(void*, s32);          /* extern */
 void func_80099450(void);                /* extern */
 void func_80099520(void);                /* extern */
@@ -650,7 +643,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                     func_8009A664(&gDisplayListHead);
                     Main_GfxFullSync();
                     func_8009908C(D_801A1B4C, (uintptr_t) gDisplayListHead - (uintptr_t) D_801A1B4C);
-                    func_80098D24(sp6C->unk0.unk0);
+                    Update_ControllerRaw(sp6C->unk0.unk0);
                     func_80099450();
                     sp68->unk82EC++;
                 }

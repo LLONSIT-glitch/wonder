@@ -6,14 +6,14 @@
 
 extern UnkStruct_801AE5A0* func_800BB448(s32 arg0);
 extern void func_800BB4B4(UnkStruct_801AE5A0* arg0, s32 arg1);
-extern void func_800BB3D4(s32);                /* extern */
+extern void AudioDriver_UpdateSeqID(s32);      /* extern */
 extern void func_800BB52C(s32, s32, s32, s32); /* extern */
 extern void func_800BB4DC(s32);                /* extern */
 
 void func_80021ED0(s32 arg0) {
     D_801ACC44 = arg0;
     func_800BB52C(0, 0x7FFF, 0x7FFF, 0);
-    func_800BB3D4(arg0);
+    AudioDriver_UpdateSeqID(arg0);
 }
 
 void func_80021F20(u16 arg0) {

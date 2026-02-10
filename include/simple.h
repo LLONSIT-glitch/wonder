@@ -43,10 +43,12 @@
 
 #ifdef _FINALROM
 /* cc will give warnings about argument mismatch in rom version */
-#if defined(__sgi)
-#define PRINTF
+#if defined(ISPRINT) 
+    #define PRINTF osSyncPrintf
+#elif defined(__sgi)
+    #define PRINTF 
 #else
-#define PRINTF(...)
+    #define PRINTF(...) ((void)0)
 #endif
 
 #else

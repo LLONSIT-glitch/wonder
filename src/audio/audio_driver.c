@@ -2,39 +2,56 @@
 #include "audio_driver.h"
 #include "audio.h"
 
-extern UnkStruct_801AE1F0 D_801AE1F0[32];
-extern oscData* D_801AE270;
+#define COMPRESSED_SEQ_MAX_SIZE 0x3000
+
+// Because we can't use the original alHeapAlloc macro because of the filename and line numbers we will stick to this
+// macros
+#define AUDIO_HEAP_ALLOC(line, size) alHeapDBAlloc("sound/sndprg.c", line, &gAudioHeap, 1, size);
+
+extern SoundDealloc gSoundDeallocRequests[32];
+extern oscData* gFreeOscStateList;
 extern oscData D_801AE278[40];
 
 extern UnkStruct_801AE598 D_801AE598[8];
 extern UnkStruct_801AE678 D_801AE678[8];
 
-extern ALBank* D_801AE818;
-extern ALBank* D_801AE81C;
-extern ALSeqFile* D_801AE820;
-extern ALCSPlayer* D_801AE824;
-extern void* D_801AE828;
-extern void* D_801AE82C;
-extern s32 D_801AE830;
+extern ALBank* gAudioTblBank;
+extern ALBank* gAudioBankBank;
+extern ALSeqFile* gSequenceFile; // Sequences file?
+extern ALCSPlayer* gCompressedSeqPlayer;
+extern void* gCompressedSequence;    // Lib audio representation of the compressed sequence
+extern void* gCompressedSequencePtr; // Raw pointer to the compressed sequence in seq file
+extern s32 gSequenceCount;
 extern s32 D_801AE834;
-extern s32 D_801AE838;
-extern s32 D_801AE83C;
-extern s32 D_801AE840;
-extern s32 D_801AE844;
+extern s32 gCurrentSequenceID;
+extern s32 gSavedSequenceID;
+extern s32 gCurrentSequenceVolume;
+extern s32 gAppliedSequenceVolume;
 extern s32 D_801AE848;
-extern s32 D_801AE84C;
-extern ALSndPlayer* D_801AE850;
-extern s32 D_801AE854;
+extern s32 gMaxSequenceVolume;
+extern ALSndPlayer* gSoundPlayer;
+extern s32 gAudioDriverTick;
 
 // Probably defined in other place..
 extern UnkStruct_800EA144 D_800EA144[];
 extern UnkStruct_800EA5BC D_800EA5BC[];
 
+#define AUDIO_SEQ_STATE_MUTED 1
+#define AUDIO_SEQ_STATE_PLAYING 2
+#define AUDIO_SEQ_STATE_STOPPED 4
+
+#define VOLUME_STATE_NOT_ADJUSTED 0
+#define VOLUME_STATE_ADJUSTED 0x10
+
+#define SOUND_DEALLOC_REQUEST_STATE_FREE_SLOT 0
+#define SOUND_DEALLOC_REQUEST_STATE_STOP 1
+#define SOUND_DEALLOC_REQUEST_STATE_DEALLOCATE 2
+
 // .data
-s32 D_800E8CF0 = 1;
+s32 gSequencePlayerState = AUDIO_SEQ_STATE_MUTED;
 s32 D_800E8CF4 = 0;
 s32 D_800E8CF8 = 0;
-s32 D_800E8CFC = 0;
+s32 gVolumeState = VOLUME_STATE_NOT_ADJUSTED;
 
 // Stubbed strings - .rodata
 static const char sAudioStubbedPrintf[] = { "seqdata  :%08X-%08X(%08X:%10d bytes)\n" };
@@ -44,124 +61,127 @@ static const char sAudioStubbedPrintf3[] = { "midibank :%08X-%08X(%08X:%10d byte
 static const char sAudioStubbedPrintf4[] = { "miditable:%08X-%08X(%08X:%10d bytes)\n" };
 static const char sAudioStubbedPrintf5[] = { "Loading sbk..." };
 
-void func_800B9580(void) {
+void AudioDriver_InitSoundPlayer(void);
+void AudioDriver_StopSeqplayer(void);
+void AudioDriver_SetupOsc(ALSeqpConfig* conf);
+
+void AudioDriver_Init(void) {
     UNUSED s32 pad[10];
-    D_801AE854 = 0;
-    func_800B96D4();
-    func_800B95D0();
-    func_800B9890();
-    func_800B9C74();
+    gAudioDriverTick = 0;
+    AudioDriver_LoadBanks();
+    AudioDriver_LoadSequences();
+    AudioDriver_InitSeqPlayer();
+    AudioDriver_InitSoundPlayer();
     func_800B9CEC();
 }
 
-// NEEDS RODATA
-void func_800B95D0(void) {
-    u32 sp24;
+void AudioDriver_LoadSequences(void) {
+    u32 size;
 
-    D_801AE820 = alHeapDBAlloc("sound/sndprg.c", 154, &gAudioHeap, 1, 4);
-    DmaCopy((u32) &audioSequences_ROM_START, D_801AE820,
-            8U); // Only 8 because of what libaudio.h says "sizeof won't be correct"?
-    sp24 = (D_801AE820->seqCount * 8) + 4;
-    D_801AE820 = alHeapDBAlloc("sound/sndprg.c", 158, &gAudioHeap, 1, (D_801AE820->seqCount * 8) + 4);
-    DmaCopy((u32) &audioSequences_ROM_START, D_801AE820, sp24);
-    alSeqFileNew(D_801AE820, audioSequences_ROM_START);
-    D_801AE830 = D_801AE820->seqCount;
+    gSequenceFile = AUDIO_HEAP_ALLOC(154, sizeof(ALSeqFile*));
+    AudioDmaCopy((u32) audioSequences_ROM_START, gSequenceFile,
+                 8); // Only 8 because of what libaudio.h says: "sizeof won't be correct"?
+    size = (gSequenceFile->seqCount * 8) + 4;
+    gSequenceFile = AUDIO_HEAP_ALLOC(158, (gSequenceFile->seqCount * 8) + 4);
+    AudioDmaCopy((u32) audioSequences_ROM_START, gSequenceFile, size);
+    alSeqFileNew(gSequenceFile, audioSequences_ROM_START);
+    gSequenceCount = gSequenceFile->seqCount;
     PRINTF("Done\n");
 }
 
-// NEEDS RODATA
-void func_800B96D4(void) {
-    s32 sp24;
-    ALBankFile* sp20;
+void AudioDriver_LoadBanks(void) {
+    s32 size;
+    ALBankFile* bankFile;
 
-    sp24 = audioTblStart_ROM_END - audioTblStart_ROM_START;
-    sp20 = alHeapDBAlloc("sound/sndprg.c", 175, &gAudioHeap, 1, sp24);
-    DmaCopy((u32) audioTblStart_ROM_START, sp20, (u32) sp24);
-    alBnkfNew(sp20, audioTblStart_ROM_END);
-    D_801AE818 = sp20->bankArray[0];
-    sp24 = audioBankStart_ROM_END - audioBankStart_ROM_START;
-    sp20 = alHeapDBAlloc("sound/sndprg.c", 181, &gAudioHeap, 1, sp24);
-    DmaCopy((u32) audioBankStart_ROM_START, sp20, (u32) sp24);
-    alBnkfNew(sp20, audioBankStart_ROM_END);
-    D_801AE81C = sp20->bankArray[0];
+    size = audioTblStart_ROM_END - audioTblStart_ROM_START;
+    bankFile = AUDIO_HEAP_ALLOC(175, size);
+    AudioDmaCopy((u32) audioTblStart_ROM_START, bankFile, size);
+    alBnkfNew(bankFile, audioTblStart_ROM_END);
+    gAudioTblBank = *bankFile->bankArray;
+    size = audioBankStart_ROM_END - audioBankStart_ROM_START;
+    bankFile = AUDIO_HEAP_ALLOC(181, size);
+    AudioDmaCopy((u32) audioBankStart_ROM_START, bankFile, size);
+    alBnkfNew(bankFile, audioBankStart_ROM_END);
+    gAudioBankBank = *bankFile->bankArray;
 }
 
 /*
- * Copy a sequence from offset into D_801AE82C
+ * @brief Copy a compressed sequence from an offset from the seqArray into gCompressedSequencePtr
+ *
+ * @param seqIdx Sequence index to get copy the sequence from the seqArray
+ *
  */
-s32 func_800B97E4(s32 seqIdx) {
+s32 AudioDriver_GetSequence(s32 seqIdx) {
     s32 seqLen;
     u8* seqOffset;
 
-    seqOffset = D_801AE820->seqArray[seqIdx].offset;
-    seqLen = D_801AE820->seqArray[seqIdx].len;
+    seqOffset = gSequenceFile->seqArray[seqIdx].offset;
+    seqLen = gSequenceFile->seqArray[seqIdx].len;
     if (seqLen & 1) {
         seqLen++;
     }
     PRINTF("Seq Size = %d\n", seqLen);
-    DmaCopy((u32) seqOffset, D_801AE82C, (u32) seqLen);
+    AudioDmaCopy((u32) seqOffset, gCompressedSequencePtr, (u32) seqLen);
     return seqLen;
 }
 
-// NEEDS RODATA
-void func_800B9890(void) {
+void AudioDriver_InitSeqPlayer(void) {
     ALSeqpConfig config;
 
     config.maxVoices = 20;
     config.maxEvents = 128;
-    config.maxChannels = 16;
+    config.maxChannels = AL_MAX_CHANNELS;
     config.heap = &gAudioHeap;
-    config.initOsc = 0;
-    config.updateOsc = 0;
-    config.stopOsc = 0;
-    func_800BC4CC((ALSeqpConfig*) &config);
-    config.debugFlags = 7;
-    D_801AE824 = alHeapDBAlloc("sound/sndprg.c", 230, &gAudioHeap, 1, 0x7C);
-    alCSPNew(D_801AE824, (ALSeqpConfig*) &config);
-    D_801AE82C = alHeapDBAlloc("sound/sndprg.c", 232, &gAudioHeap, 1, 0x3000);
-    D_801AE828 = alHeapDBAlloc("sound/sndprg.c", 233, &gAudioHeap, 1, 0xF8);
-    D_801AE838 = -1;
-    D_800E8CF0 = 1;
-    D_801AE840 = 0x7FFF;
-    D_801AE844 = 0;
-    D_801AE84C = 0x7FFF;
+    config.initOsc = NULL;
+    config.updateOsc = NULL;
+    config.stopOsc = NULL;
+    AudioDriver_SetupOsc(&config);
+    config.debugFlags = NO_VOICE_ERR_MASK | NOTE_OFF_ERR_MASK | NO_SOUND_ERR_MASK;
+    gCompressedSeqPlayer = AUDIO_HEAP_ALLOC(230, sizeof(ALCSPlayer));
+    alCSPNew(gCompressedSeqPlayer, &config);
+    gCompressedSequencePtr = AUDIO_HEAP_ALLOC(232, COMPRESSED_SEQ_MAX_SIZE);
+    gCompressedSequence = AUDIO_HEAP_ALLOC(233, sizeof(ALCSeq));
+    gCurrentSequenceID = -1;
+    gSequencePlayerState = AUDIO_SEQ_STATE_MUTED;
+    gCurrentSequenceVolume = 0x7FFF;
+    gAppliedSequenceVolume = 0;
+    gMaxSequenceVolume = 0x7FFF;
     D_801AE848 = 0;
     D_800E8CF8 = 0;
-    D_800E8CFC = 0;
+    gVolumeState = VOLUME_STATE_NOT_ADJUSTED;
 }
 
-static const char sAudioStubbedPrintf6[] = { "sndp Dealloc error!!\n" };
-
-void func_800B99D4(void) {
+void AudioDriver_InitSoundDeallocRequests(void) {
     int i;
 
     for (i = 0; i < 16; i++) {
-        D_801AE1F0[i].unk4 = 0;
+        gSoundDeallocRequests[i].state = SOUND_DEALLOC_REQUEST_STATE_FREE_SLOT;
     }
 }
 
-void func_800B9A18(void) {
-    s32 sp2C;
+void AudioDriver_ProcessSoundDeallocRequests(void) {
+    s32 i;
     s32 sp28;
 
-    for (sp28 = 0, sp2C = 0; sp2C < 16; sp2C++) {
-        switch (D_801AE1F0[sp2C].unk4) { /* irregular */
-            case 0:
+    for (sp28 = 0, i = 0; i < 16; i++) {
+        switch (gSoundDeallocRequests[i].state) {
+            case SOUND_DEALLOC_REQUEST_STATE_FREE_SLOT:
                 break;
-            case 1:
-                sp28 += 1;
-                alSndpSetSound(D_801AE850, D_801AE1F0[sp2C].sndId);
-                alSndpStop(D_801AE850);
-                D_801AE1F0[sp2C].unk4 = 2;
+            case SOUND_DEALLOC_REQUEST_STATE_STOP:
+                sp28++;
+                alSndpSetSound(gSoundPlayer, gSoundDeallocRequests[i].sndId);
+                alSndpStop(gSoundPlayer);
+                gSoundDeallocRequests[i].state = SOUND_DEALLOC_REQUEST_STATE_DEALLOCATE;
                 break;
-            case 2:
-                sp28 += 1;
-                alSndpSetSound(D_801AE850, D_801AE1F0[sp2C].sndId);
-                if (alSndpGetState(D_801AE850) == AL_STOPPED) {
-                    alSndpDeallocate(D_801AE850, D_801AE1F0[sp2C].sndId);
-                    D_801AE1F0[sp2C].unk4 = 0;
+            case SOUND_DEALLOC_REQUEST_STATE_DEALLOCATE:
+                sp28++;
+                alSndpSetSound(gSoundPlayer, gSoundDeallocRequests[i].sndId);
+                if (alSndpGetState(gSoundPlayer) == AL_STOPPED) {
+                    alSndpDeallocate(gSoundPlayer, gSoundDeallocRequests[i].sndId);
+                    gSoundDeallocRequests[i].state = SOUND_DEALLOC_REQUEST_STATE_FREE_SLOT;
                 }
                 break;
+                PRINTF("sndp Dealloc error!!\n");
         }
     }
     if (sp28 != 0) {
@@ -171,32 +191,31 @@ void func_800B9A18(void) {
     }
 }
 
-void func_800B9BD4(s16 arg0) {
+void AudioDriver_RequestSoundDealloc(s16 sndId) {
     s32 i;
 
     for (i = 0; i < 16; i++) {
-        if (D_801AE1F0[i].unk4 == 0) { // free slot
+        if (gSoundDeallocRequests[i].state == SOUND_DEALLOC_REQUEST_STATE_FREE_SLOT) { // free slot
             break;
         }
     }
 
-    if (i != 0x10) {
-        D_801AE1F0[i].sndId = arg0;
-        D_801AE1F0[i].unk4 = 1;
+    if (i != 16) {
+        gSoundDeallocRequests[i].sndId = sndId;
+        gSoundDeallocRequests[i].state = SOUND_DEALLOC_REQUEST_STATE_STOP;
     } else {
         /* Maybe this is the place for sAudioStubbedPrintf5? */
     }
 }
 
-// NEEDS RODATA
-void func_800B9C74(void) {
+void AudioDriver_InitSoundPlayer(void) {
     ALSndpConfig sndpConfig;
 
-    sndpConfig.maxSounds = 0x14;
+    sndpConfig.maxSounds = 20;
     sndpConfig.maxEvents = 0x80;
     sndpConfig.heap = &gAudioHeap;
-    D_801AE850 = alHeapDBAlloc("sound/sndprg.c", 345, &gAudioHeap, 1, 0x54);
-    alSndpNew(D_801AE850, (ALSndpConfig*) &sndpConfig);
+    gSoundPlayer = AUDIO_HEAP_ALLOC(345, sizeof(ALSndPlayer));
+    alSndpNew(gSoundPlayer, &sndpConfig);
 }
 
 static const char sAudioStubbedPrintf7[] = { "Wave Done\n" };
@@ -212,19 +231,19 @@ void func_800B9CEC(void) {
         D_801AE598[sp1C].unk4 = 0;
         D_801AE598[sp1C].unk0 = &D_801AE678[sp1C];
         D_801AE678[sp1C].unk0 = sp1C;
-        D_801AE678[sp1C].unk18 = -1;
+        D_801AE678[sp1C].sndId = -1;
     }
-    func_800B99D4();
+    AudioDriver_InitSoundDeallocRequests();
 }
 
 void func_800B9DD4(void) {
-    s32 sp1C;
+    s32 i;
 
     D_800E8CF4 &= ~0x200;
-    for (sp1C = 0; sp1C < 8; sp1C++) {
-        if (D_801AE598[sp1C].unk4 & 2) {
+    for (i = 0; i < 8; i++) {
+        if (D_801AE598[i].unk4 & 2) {
             D_800E8CF4 |= 0x200;
-            func_800B9F48(&D_801AE598[sp1C]);
+            func_800B9F48(&D_801AE598[i]);
         }
     }
 }
@@ -239,21 +258,21 @@ void func_800B9E88(void) {
     }
 }
 
-void func_800B9F10(void) {
+void AudioDriver_UpdateSounds(void) {
     UNUSED s32 pad;
-    func_800B9A18();
+    AudioDriver_ProcessSoundDeallocRequests();
     func_800B9DD4();
     func_800B9E88();
 }
 
 void func_800B9F48(UnkStruct_801AE598* arg0) {
-    s16 sp1E;
+    s16 opcode;
     UnkStruct_801AE678* sp18;
 
-    arg0->unk14 += 1;
+    arg0->unk14++;
     sp18 = arg0->unk0;
-    if (arg0->unk8 != sp18->unk28) {
-        sp18->unk28 = arg0->unk8;
+    if (arg0->basePitch != sp18->basePitch) {
+        sp18->basePitch = arg0->basePitch;
         sp18->unk1C |= 1;
     }
     if (arg0->unkC > arg0->unk10) {
@@ -270,26 +289,26 @@ void func_800B9F48(UnkStruct_801AE598* arg0) {
             arg0->unk10 = arg0->unkC;
         }
     }
-    if (arg0->unk1A != sp18->unk31) {
-        sp18->unk31 = arg0->unk1A;
+    if (arg0->pan != sp18->pan) {
+        sp18->pan = arg0->pan;
         sp18->unk1C |= 4;
     }
     sp18->unk4 -= 1;
     while (sp18->unk4 == 0) {
-        sp1E = *sp18->unkC;
+        opcode = *sp18->unkC;
         sp18->unkC++;
-        if (sp1E < 0x4000) {
-            sp18->unk4 = (s32) sp1E;
+        if (opcode < 0x4000) {
+            sp18->unk4 = (s32) opcode;
         } else {
-            func_800BA244(arg0, sp1E);
+            func_800BA244(arg0, opcode);
         }
     }
 }
 
-void func_800BA1E8(UnkStruct_801AE678* arg0) {
-    if (arg0->unk18 != -1) {
-        func_800B9BD4(arg0->unk18);
-        arg0->unk18 = -1;
+void AudioDriver_DeallocSound(UnkStruct_801AE678* arg0) {
+    if (arg0->sndId != -1) {
+        AudioDriver_RequestSoundDealloc(arg0->sndId);
+        arg0->sndId = -1;
     }
 }
 
@@ -299,39 +318,39 @@ void func_800BA244(UnkStruct_801AE598* arg0, s16 arg1) {
     sp1C = arg0->unk0;
     switch (arg1) {
         case 0x4000:
-            func_800BA1E8(sp1C);
+            AudioDriver_DeallocSound(sp1C);
             sp1C->unk20 = (s32) *sp1C->unkC;
             sp1C->unk1C = 0xF;
             sp1C->unkC++;
             break;
         case 0x4001:
-            sp1C->unk24 = (s32) *sp1C->unkC;
+            sp1C->pitchMod = (s32) *sp1C->unkC;
             sp1C->unk1C |= 1;
             sp1C->unkC++;
             break;
         case 0x400A:
-            sp1C->unk24 += *sp1C->unkC;
+            sp1C->pitchMod += *sp1C->unkC;
             sp1C->unk1C |= 1;
             sp1C->unkC++;
             break;
         case 0x4002:
-            sp1C->unk2C = *sp1C->unkC;
+            sp1C->sndVol = *sp1C->unkC;
             sp1C->unk1C |= 2;
             sp1C->unkC++;
             break;
         case 0x400E:
-            sp1C->unk2C += *sp1C->unkC;
+            sp1C->sndVol += *sp1C->unkC;
             sp1C->unk1C |= 2;
             sp1C->unkC++;
             break;
         case 0x4003:
-            sp1C->unk31 = (u8) *sp1C->unkC;
-            arg0->unk1A = sp1C->unk31;
+            sp1C->pan = (u8) *sp1C->unkC;
+            arg0->pan = sp1C->pan;
             sp1C->unk1C |= 4;
             sp1C->unkC++;
             break;
         case 0x4004:
-            sp1C->unk30 = *sp1C->unkC;
+            sp1C->mix = *sp1C->unkC;
             sp1C->unk1C |= 8;
             sp1C->unkC++;
             break;
@@ -344,10 +363,10 @@ void func_800BA244(UnkStruct_801AE598* arg0, s16 arg1) {
             sp1C->unk32 = *sp1C->unkC;
             break;
         case 0x4006:
-            func_800BA1E8(sp1C);
+            AudioDriver_DeallocSound(sp1C);
             break;
         case 0x4007:
-            func_800BA1E8(sp1C);
+            AudioDriver_DeallocSound(sp1C);
             if (arg0->unk4 & 4) {
                 arg0->unk4 = 0;
             } else {
@@ -373,9 +392,9 @@ void func_800BA244(UnkStruct_801AE598* arg0, s16 arg1) {
             sp1C->unkC = sp1C->unk14;
             break;
         case 0x400B:
-            if (sp1C->unk18 != -1) {
-                alSndpSetSound(D_801AE850, sp1C->unk18);
-                if (alSndpGetState(D_801AE850) != 0) {
+            if (sp1C->sndId != -1) {
+                alSndpSetSound(gSoundPlayer, sp1C->sndId);
+                if (alSndpGetState(gSoundPlayer) != AL_STOPPED) {
                     sp1C->unkC--;
                     sp1C->unk4 = 1;
                 } else {
@@ -387,143 +406,150 @@ void func_800BA244(UnkStruct_801AE598* arg0, s16 arg1) {
 }
 
 void func_800BA748(UnkStruct_801AE598* arg0) {
-    s64 sp24;
+    s64 vol;
     UnkStruct_801AE678* sp1C;
-    s32 sp18;
+    s32 instrument;
 
     sp1C = arg0->unk0;
     if (sp1C->unk1C & 0x10) {
-        sp18 = (s32) sp1C->unk20 >> 8;
-        sp1C->unk18 = alSndpAllocate(D_801AE850, D_801AE81C->instArray[sp18]->soundArray[sp1C->unk20 & 0xFF]);
+        instrument = (s32) sp1C->unk20 >> 8;
+        sp1C->sndId =
+            alSndpAllocate(gSoundPlayer, gAudioBankBank->instArray[instrument]->soundArray[sp1C->unk20 & 0xFF]);
     }
-    if (sp1C->unk18 != -1) {
-        alSndpSetSound(D_801AE850, sp1C->unk18);
+    if (sp1C->sndId != -1) {
+        alSndpSetSound(gSoundPlayer, sp1C->sndId);
         if (sp1C->unk1C & 1) {
-            alSndpSetPitch(D_801AE850, (((u32) sp1C->unk24) / 10000.0f) * (((u32) sp1C->unk28) / 10000.0f));
+            alSndpSetPitch(gSoundPlayer, (((u32) sp1C->pitchMod) / 10000.0f) * (((u32) sp1C->basePitch) / 10000.0f));
         }
         if (sp1C->unk1C & 8) {
-            alSndpSetFXMix(D_801AE850, sp1C->unk30);
+            alSndpSetFXMix(gSoundPlayer, sp1C->mix);
         }
         if (sp1C->unk1C & 4) {
-            alSndpSetPan(D_801AE850, sp1C->unk31);
+            alSndpSetPan(gSoundPlayer, sp1C->pan);
         }
         if (sp1C->unk1C & 2) {
-            sp24 = (s32) (sp1C->unk2C * arg0->unk10) / 32767;
-            alSndpSetVol(D_801AE850, (s16) sp24);
+            vol = (s32) (sp1C->sndVol * arg0->unk10) / 32767;
+            alSndpSetVol(gSoundPlayer, vol);
         }
         if (sp1C->unk1C & 0x10) {
-            alSndpPlay(D_801AE850);
+            alSndpPlay(gSoundPlayer);
         }
     }
     sp1C->unk1C = 0;
 }
 
-void func_800BA9D4(void) {
-    s32 sp24;
+void AudioDriver_UpdateSequence(void) {
+    s32 seqSize;
 
-    switch (D_800E8CF0) { /* irregular */
-        case 4:
-            if (D_801AE824->state == 0) {
+    switch (gSequencePlayerState) { /* irregular */
+        case AUDIO_SEQ_STATE_STOPPED:
+            if (gCompressedSeqPlayer->state == 0) {
                 D_801AE834 -= 1;
                 if (D_801AE834 == 0) {
-                    D_800E8CF0 = 1;
+                    gSequencePlayerState = AUDIO_SEQ_STATE_MUTED;
                 }
             }
             break;
-        case 2:
-            if (D_801AE824->state == 0) {
-                func_800BB3EC();
+        case AUDIO_SEQ_STATE_PLAYING:
+            if (gCompressedSeqPlayer->state == 0) {
+                AudioDriver_StopSeqplayer();
             }
             break;
     }
-    if (D_801AE838 != -1) {
-        if (D_800E8CF0 == 2) {
-            func_800BB3EC();
+    if (gCurrentSequenceID != -1) {
+        if (gSequencePlayerState == AUDIO_SEQ_STATE_PLAYING) {
+            AudioDriver_StopSeqplayer();
         }
-        if ((D_800EA5BC[D_801AE838].unk0 < D_801AE830) && (D_800E8CF0 == 1)) {
-            D_801AE83C = D_801AE838;
-            D_801AE838 = -1;
-            sp24 = func_800B97E4(D_800EA5BC[D_801AE83C].unk0);
-            alCSeqNew((ALCSeq*) D_801AE828, (u8*) D_801AE82C);
-            alSeqpSetSeq((ALSeqPlayer*) D_801AE824, (ALSeq*) D_801AE828);
-            alSeqpSetBank((ALSeqPlayer*) D_801AE824, D_801AE818);
-            alSeqpPlay((ALSeqPlayer*) D_801AE824);
-            D_800E8CF0 = 2;
+        if ((D_800EA5BC[gCurrentSequenceID].seqIdx < gSequenceCount) &&
+            (gSequencePlayerState == AUDIO_SEQ_STATE_MUTED)) {
+            gSavedSequenceID = gCurrentSequenceID;
+            gCurrentSequenceID = -1;
+            seqSize = AudioDriver_GetSequence(D_800EA5BC[gSavedSequenceID].seqIdx);
+            alCSeqNew(gCompressedSequence, gCompressedSequencePtr);
+            alSeqpSetSeq((ALSeqPlayer*) gCompressedSeqPlayer, gCompressedSequence);
+            alSeqpSetBank((ALSeqPlayer*) gCompressedSeqPlayer, gAudioTblBank);
+
+            alSeqpPlay((ALSeqPlayer*) gCompressedSeqPlayer);
+            gSequencePlayerState = AUDIO_SEQ_STATE_PLAYING;
         }
     }
-    D_800E8CFC = 0;
-    if (D_800E8CF0 == 2) {
-        if (D_801AE840 < D_801AE84C) {
-            D_801AE840 += D_801AE848;
-            if (D_801AE840 >= D_801AE84C) {
-                D_801AE840 = D_801AE84C;
+    gVolumeState = VOLUME_STATE_NOT_ADJUSTED;
+
+    // Adjust volume
+    if (gSequencePlayerState == AUDIO_SEQ_STATE_PLAYING) {
+        if (gCurrentSequenceVolume < gMaxSequenceVolume) {
+            gCurrentSequenceVolume += D_801AE848;
+            if (gCurrentSequenceVolume >= gMaxSequenceVolume) {
+                gCurrentSequenceVolume = gMaxSequenceVolume;
             } else {
-                D_800E8CFC = 0x10;
+                gVolumeState = VOLUME_STATE_ADJUSTED;
             }
         }
-        if (D_801AE840 > D_801AE84C) {
-            D_801AE840 -= D_801AE848;
-            if (D_801AE840 <= D_801AE84C) {
-                D_801AE840 = D_801AE84C;
-                if ((D_801AE840 == 0) && (D_800E8CF8 & 1)) {
-                    func_800BB3EC();
+        if (gCurrentSequenceVolume > gMaxSequenceVolume) {
+            gCurrentSequenceVolume -= D_801AE848;
+            if (gCurrentSequenceVolume <= gMaxSequenceVolume) {
+                gCurrentSequenceVolume = gMaxSequenceVolume;
+                if ((gCurrentSequenceVolume == 0) && (D_800E8CF8 & 1)) {
+                    AudioDriver_StopSeqplayer();
                 }
             } else {
-                D_800E8CFC = 0x10;
+                gVolumeState = VOLUME_STATE_ADJUSTED;
             }
         }
-        if (D_801AE840 != D_801AE844) {
-            D_801AE844 = D_801AE840;
-            alSeqpSetVol((ALSeqPlayer*) D_801AE824, (s16) D_801AE840);
+
+        // If the volume is the same as the last sequence update it
+        if (gCurrentSequenceVolume != gAppliedSequenceVolume) {
+            gAppliedSequenceVolume = gCurrentSequenceVolume;
+            alSeqpSetVol((ALSeqPlayer*) gCompressedSeqPlayer, gCurrentSequenceVolume);
         }
     }
 }
 
-void func_800BAD4C(void) {
-    D_801AE854 += 1;
-    if (D_801AE854 & 1) {
-        func_800BA9D4();
-        func_800B9F10();
+void AudioDriver_Update(void) {
+    gAudioDriverTick++;
+    if (gAudioDriverTick & 1) {
+        AudioDriver_UpdateSequence();
+        AudioDriver_UpdateSounds(); // Update Sfx
     }
 }
 
 s32 func_800BADA8(s32 arg0) {
-    s32 sp1C;
+    s32 i;
 
-    for (sp1C = 0; sp1C < 8; sp1C++) {
-        if (D_801AE598[sp1C].unk4 == 0) {
+    for (i = 0; i < 8; i++) {
+        if (D_801AE598[i].unk4 == 0) {
             break;
         }
     }
 
-    if (sp1C == 8) {
+    if (i == 8) {
         return -1;
     }
 
-    D_801AE598[sp1C].unk4 = 1;
-    D_801AE678[sp1C].unk8 = arg0;
-    D_801AE678[sp1C].unk18 = -1;
-    D_801AE678[sp1C].unkC = D_800EA144[arg0].unk0;
-    D_801AE678[sp1C].unk32 = D_800EA144[arg0].unk4;
-    D_801AE678[sp1C].unk14 = D_801AE678[sp1C].unkC;
-    D_801AE678[sp1C].unk4 = 1;
-    D_801AE678[sp1C].unk2C = 0x7FFF;
-    D_801AE678[sp1C].unk24 = 0x2710;
-    D_801AE678[sp1C].unk28 = 0x2710;
-    D_801AE678[sp1C].unk31 = 0x40;
-    D_801AE678[sp1C].unk30 = 0;
-    D_801AE598[sp1C].unk8 = 0x2710;
-    D_801AE598[sp1C].unk1A = 0x40;
-    D_801AE598[sp1C].unk1B = 0;
-    D_801AE598[sp1C].unkC = 0x7FFF;
-    D_801AE598[sp1C].unk18 = 0x7FFF;
-    D_801AE598[sp1C].unk10 = 0x7FFF;
-    D_801AE598[sp1C].unk14 = 0;
+    D_801AE598[i].unk4 = 1;
+    D_801AE678[i].unk8 = arg0;
+    D_801AE678[i].sndId = -1;
+    D_801AE678[i].unkC = D_800EA144[arg0].unk0;
+    D_801AE678[i].unk32 = D_800EA144[arg0].unk4;
+    D_801AE678[i].unk14 = D_801AE678[i].unkC;
+    D_801AE678[i].unk4 = 1;
+    D_801AE678[i].sndVol = 0x7FFF;
+    D_801AE678[i].pitchMod = 0x2710;
+    D_801AE678[i].basePitch = 0x2710;
+    D_801AE678[i].pan = 0x40;
+    D_801AE678[i].mix = 0;
+    D_801AE598[i].basePitch = 0x2710;
+    D_801AE598[i].pan = 0x40;
+    D_801AE598[i].unused_1B = 0;
+    D_801AE598[i].unkC = 0x7FFF;
+    D_801AE598[i].unk18 = 0x7FFF;
+    D_801AE598[i].unk10 = 0x7FFF;
+    D_801AE598[i].unk14 = 0;
 
-    if (D_801AE678[sp1C].unk32 != 0) {
-        func_800BB16C((s16) D_801AE678[sp1C].unk32);
+    if (D_801AE678[i].unk32 != 0) {
+        func_800BB16C((s16) D_801AE678[i].unk32);
     }
-    return sp1C;
+    return i;
 }
 
 void func_800BB16C(s16 arg0) {
@@ -532,7 +558,7 @@ void func_800BB16C(s16 arg0) {
     for (sp1C = 0; sp1C < 8; sp1C++) {
         if ((D_801AE598[sp1C].unk4 != 0)) {
             if ((D_801AE678[sp1C].unk32 == (u8) arg0)) {
-                func_800BA1E8(&D_801AE678[sp1C]);
+                AudioDriver_DeallocSound(&D_801AE678[sp1C]);
                 D_801AE598[sp1C].unk4 = 0;
             }
         }
@@ -545,7 +571,7 @@ s32 func_800BB24C(s32 arg0) {
     if (arg0 == -1) {
         for (sp1C = 0; sp1C < 8; sp1C++) {
             if (D_801AE598[sp1C].unk4 != 0) {
-                func_800BA1E8(&D_801AE678[sp1C]);
+                AudioDriver_DeallocSound(&D_801AE678[sp1C]);
                 D_801AE598[sp1C].unk4 = 0;
             }
         }
@@ -553,7 +579,7 @@ s32 func_800BB24C(s32 arg0) {
         for (sp1C = 0; sp1C < 8; sp1C++) {
             if ((D_801AE598[sp1C].unk4 != 0)) {
                 if ((D_801AE678[sp1C].unk8 == arg0)) {
-                    func_800BA1E8(&D_801AE678[sp1C]);
+                    AudioDriver_DeallocSound(&D_801AE678[sp1C]);
                     D_801AE598[sp1C].unk4 = 0;
                 }
             }
@@ -562,14 +588,14 @@ s32 func_800BB24C(s32 arg0) {
     return 0;
 }
 
-void func_800BB3D4(s32 arg0) {
-    D_801AE838 = arg0;
+void AudioDriver_UpdateSeqID(s32 seqId) {
+    gCurrentSequenceID = seqId;
 }
 
-void func_800BB3EC(void) {
-    if (D_800E8CF0 == 2) {
-        alSeqpStop((ALSeqPlayer*) D_801AE824);
-        D_800E8CF0 = 4;
+void AudioDriver_StopSeqplayer(void) {
+    if (gSequencePlayerState == AUDIO_SEQ_STATE_PLAYING) {
+        alSeqpStop((ALSeqPlayer*) gCompressedSeqPlayer);
+        gSequencePlayerState = AUDIO_SEQ_STATE_STOPPED;
         D_801AE834 = 4;
     }
 }
@@ -586,7 +612,7 @@ UnkStruct_801AE598* func_800BB448(s32 arg0) {
 
 void func_800BB4B4(UnkStruct_801AE598* arg0, s32 arg1) {
     if (arg0 != NULL) {
-        arg0->unk4 = (s32) (arg0->unk4 | (arg1 | 2));
+        arg0->unk4 |= arg1 | 2;
     }
 }
 
@@ -594,40 +620,38 @@ void func_800BB4DC(s32 arg0) {
     func_800BB24C(arg0);
 }
 
-void func_800BB50C(s32 arg0) {
-    D_801AE840 = arg0;
-    D_801AE84C = arg0;
+// Immediately sets sequence volume and max volume
+void AudioDriver_SetSeqVolumeImmediate(s32 vol) {
+    gCurrentSequenceVolume = vol;
+    gMaxSequenceVolume = vol;
 }
 
-void func_800BB52C(s32 arg0, u16 arg1, s16 arg2, u16 arg3) {
-    if (arg0 != -1) {
-        D_801AE840 = arg0;
+void func_800BB52C(s32 seqVol, u16 arg1, s16 maxVol, u16 arg3) {
+    if (seqVol != -1) {
+        gCurrentSequenceVolume = seqVol;
     }
     D_801AE848 = arg1;
-    D_801AE84C = (s32) arg2;
+    gMaxSequenceVolume = maxVol;
     D_800E8CF8 = arg3;
 }
 
 s32 func_800BB578(void) {
-    return D_800E8CF0 | D_800E8CFC | D_800E8CF4;
+    return gSequencePlayerState | gVolumeState | D_800E8CF4;
 }
 
-// NEEDS RODATA
-extern float D_800EFDC4;
-
-// _depth2Cents
-f32 func_800BB5AC(u8 depth) {
+f32 AudioDriver_DepthToCents(u8 depth) {
     f32 x = 1.03099303;
     f32 cents = 1.0;
 
     while (depth) {
-        if (depth & 1)
+        if (depth & 1) {
             cents *= x;
+        }
         x *= x;
         depth >>= 1;
     }
 
-    return (cents);
+    return cents;
 }
 
 // Original name: initOsc
@@ -635,10 +659,10 @@ ALMicroTime AudioDriver_InitOsc(void** oscState, f32* initVal, u8 oscType, u8 os
     oscData* statePtr;
     ALMicroTime deltaTime = 0;
 
-    if (D_801AE270) /* yes there are oscStates available */
+    if (gFreeOscStateList) /* yes there are oscStates available */
     {
-        statePtr = D_801AE270;
-        D_801AE270 = D_801AE270->next;
+        statePtr = gFreeOscStateList;
+        gFreeOscStateList = gFreeOscStateList->next;
         statePtr->type = oscType;
         *oscState = statePtr;
 
@@ -685,7 +709,7 @@ ALMicroTime AudioDriver_InitOsc(void** oscState, f32* initVal, u8 oscType, u8 os
                 break;
 
             case VIBRATO_SIN:
-                statePtr->data.vsin.depthcents = func_800BB5AC(oscDepth);
+                statePtr->data.vsin.depthcents = AudioDriver_DepthToCents(oscDepth);
                 statePtr->curCount = 0;
                 statePtr->maxCount = 259 - oscRate; /* gives values 4-259 */
                 *initVal = 1.0f;                    /* start at unity pitch */
@@ -696,7 +720,7 @@ ALMicroTime AudioDriver_InitOsc(void** oscState, f32* initVal, u8 oscType, u8 os
                 statePtr->maxCount = 256 - oscRate; /* values from 1-256 */
                 statePtr->curCount = statePtr->maxCount;
                 statePtr->stateFlags = OSC_HIGH;
-                cents = func_800BB5AC(oscDepth);
+                cents = AudioDriver_DepthToCents(oscDepth);
                 statePtr->data.vsqr.loRatio = alCents2Ratio(-cents);
                 statePtr->data.vsqr.hiRatio = alCents2Ratio(cents);
                 *initVal = statePtr->data.vsqr.hiRatio;
@@ -706,7 +730,7 @@ ALMicroTime AudioDriver_InitOsc(void** oscState, f32* initVal, u8 oscType, u8 os
                 s32 cents;
                 statePtr->maxCount = 256 - oscRate; /* values from 1-256 */
                 statePtr->curCount = statePtr->maxCount;
-                cents = func_800BB5AC(oscDepth);
+                cents = AudioDriver_DepthToCents(oscDepth);
                 statePtr->data.vdsaw.hicents = cents;
                 statePtr->data.vdsaw.centsrange = 2 * cents;
                 *initVal = alCents2Ratio(statePtr->data.vdsaw.hicents);
@@ -716,7 +740,7 @@ ALMicroTime AudioDriver_InitOsc(void** oscState, f32* initVal, u8 oscType, u8 os
                 s32 cents;
                 statePtr->maxCount = 256 - oscRate; /* values from 1-256 */
                 statePtr->curCount = statePtr->maxCount;
-                cents = func_800BB5AC(oscDepth);
+                cents = AudioDriver_DepthToCents(oscDepth);
                 statePtr->data.vasaw.locents = -cents;
                 statePtr->data.vasaw.centsrange = 2 * cents;
                 *initVal = alCents2Ratio(statePtr->data.vasaw.locents);
@@ -823,21 +847,21 @@ ALMicroTime AudioDriver_UpdateOsc(void* oscState, f32* updateVal) {
 }
 
 void AudioDriver_StopOsc(oscData* osc) {
-    osc->next = D_801AE270;
-    D_801AE270 = osc;
+    osc->next = gFreeOscStateList;
+    gFreeOscStateList = osc;
 }
 
-void func_800BC4CC(ALSeqpConfig* conf) {
+void AudioDriver_SetupOsc(ALSeqpConfig* conf) {
     s32 sp4;
-    oscData* sp0;
+    oscData* data;
 
-    D_801AE270 = D_801AE278;
-    for (sp0 = D_801AE278, sp4 = 0; sp4 < 0x27; sp4++) {
-        sp0->next = &D_801AE278[sp4 + 1];
-        sp0 = sp0->next;
+    gFreeOscStateList = D_801AE278;
+    for (data = D_801AE278, sp4 = 0; sp4 < 39; sp4++) {
+        data->next = &D_801AE278[sp4 + 1];
+        data = data->next;
     }
 
-    sp0->next = NULL;
+    data->next = NULL;
     conf->initOsc = AudioDriver_InitOsc;
     conf->updateOsc = AudioDriver_UpdateOsc;
     conf->stopOsc = AudioDriver_StopOsc;
