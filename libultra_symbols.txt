@@ -232,7 +232,8 @@ __osCheckPackId = 0x800CDB3C;
 __osIdCheckSum = 0x800CD6BC;
 __osRepairPackId = 0x800CD724;
 osInitialize = 0x800CB170;
-
+__osResetGlobalIntMask = 0x800D6AC0;
+__OSGlobalIntMask = 0x800ECC4C;
 // LEO functions?
 __osSetTimerIntr = 0x800CBDC4;
 __osInsertTimer = 0x800CBE38;
