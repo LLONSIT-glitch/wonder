@@ -338,7 +338,7 @@ s32 func_80099520(void) {
         D_801540CC = 0;
     }
     // Maybe a switch?
-    if (D_801540D0 < 2U) {
+    if ((u32)D_801540D0 < 2U) {
         D_801540D0 = 0;
         return 0;
         goto wtf;
