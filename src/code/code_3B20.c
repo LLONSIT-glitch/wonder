@@ -69,31 +69,30 @@ extern UnkStruct_80099E2C* D_801A8C30;
 extern s32 D_801A8E44;
 extern f32 D_801A8E38;
 
-
 void func_800047C8(UnkStruct_801561A0* arg0);
-s32 func_80004654(s32);                                      /* extern */
-void func_80004ADC(void);                                    /* extern */
-s32 func_80004CD4(u16**, s32);                                /* extern */
-void func_8000BB00(void);                                    /* extern */
-void func_8000BC7C(void);                                    /* extern */
-void func_8000BDDC(UnkStruct_8000DDE0*);                     /* extern */
-void func_8000C3B0(UnkStruct_8000DDE0*);                     /* extern */
-void func_80015E50(void);                                    /* extern */
-void func_80015E94(s32);                                     /* extern */
-void func_80015FB4(s32);                                     /* extern */
-void func_800161E0(void);                                    /* extern */
-void func_80016620(f32*);                                    /* extern */
-void func_80017B80(s32, f32);                                /* extern */
-void func_80019F4C(UnkStruct_8000DDE0*);                     /* extern */
-void func_8001A040(s32, s32, f32, f32, f32);                 /* extern */
-void func_8002F5C4(s16);                                     /* extern */
-void func_80043DC0(u16);                                     /* extern */
-void func_8005D800(void);                                    /* extern */
-void func_8005E19C(void);                                    /* extern */
-void func_8005E474(void);                                    /* extern */
-void func_800821A0(void);                                    /* extern */
+s32 func_80004654(s32);                                                /* extern */
+void func_80004ADC(void);                                              /* extern */
+s32 func_80004CD4(u16**, s32);                                         /* extern */
+void func_8000BB00(void);                                              /* extern */
+void func_8000BC7C(void);                                              /* extern */
+void func_8000BDDC(UnkStruct_8000DDE0*);                               /* extern */
+void func_8000C3B0(UnkStruct_8000DDE0*);                               /* extern */
+void func_80015E50(void);                                              /* extern */
+void func_80015E94(s32);                                               /* extern */
+void func_80015FB4(s32);                                               /* extern */
+void func_800161E0(void);                                              /* extern */
+void func_80016620(f32*);                                              /* extern */
+void func_80017B80(s32, f32);                                          /* extern */
+void func_80019F4C(UnkStruct_8000DDE0*);                               /* extern */
+void func_8001A040(s32, s32, f32, f32, f32);                           /* extern */
+void func_8002F5C4(s16);                                               /* extern */
+void func_80043DC0(u16);                                               /* extern */
+void func_8005D800(void);                                              /* extern */
+void func_8005E19C(void);                                              /* extern */
+void func_8005E474(void);                                              /* extern */
+void func_800821A0(void);                                              /* extern */
 s32 func_800A66EC(s32, UnkStruct_sp84*, s32, s32, s32, s32, f32, s32); /* extern */
-s32 func_800BB578(void);                                     /* extern */
+s32 func_800BB578(void);                                               /* extern */
 
 // File funcs
 UnkStruct_800E114C* func_80004410(u16 arg0, u16 arg1);
@@ -624,7 +623,6 @@ void func_80004ADC(void) {
     return;
 }
 
-
 s32 func_80004CD4(u16** arg0, s32 arg1) {
     UnkStruct_sp84* sp8C;
     UnkStruct_sp84* sp88;
@@ -638,12 +636,14 @@ s32 func_80004CD4(u16** arg0, s32 arg1) {
     u16* sp38;
 
     sp38 = *arg0;
-    for (sp44 = arg1; *sp38 != 0xFFFF; ) {
+    for (sp44 = arg1; *sp38 != 0xFFFF;) {
         sp42 = *sp38++;
         sp40 = *sp38++;
-        sp8C = SysMem_HeapAlloc(((u32) (((u8*)&D_807A1A20 - (u8*)&D_807A0080) + 7) >> 3) * 8);
+        sp8C = SysMem_HeapAlloc(((u32) (((u8*) &D_807A1A20 - (u8*) &D_807A0080) + 7) >> 3) * 8);
         sp88 = sp8C;
-        SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) gSpriteSeg2RomStart, (s32) gSpriteSegVramStart, (s32) &D_807A0080), sp8C, ((u32) (((uintptr_t)&D_807A1A20 - (uintptr_t)&D_807A0080) + 7) >> 3) * 8);
+        SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) gSpriteSeg2RomStart, (s32) gSpriteSegVramStart,
+                                                            (s32) &D_807A0080),
+                       sp8C, ((u32) (((uintptr_t) &D_807A1A20 - (uintptr_t) &D_807A0080) + 7) >> 3) * 8);
 
         for (;; sp8C++) {
             if (sp8C->unk4 == 0) {
@@ -654,16 +654,14 @@ s32 func_80004CD4(u16** arg0, s32 arg1) {
                 break;
             }
         }
-            
+
         SysMem_Copy8(&sp68, sp8C, 0x20);
-        SysMem_Copy8(&sp48, (u8*)sp8C + 0x20, 0x20);
+        SysMem_Copy8(&sp48, (u8*) sp8C + 0x20, 0x20);
         SysMem_Free(sp88);
         sp44 += func_800A66EC(sp44, &sp68, sp48.unk10 - sp68.unk10, 1, 0xC, 0xA, 6.0f, 0x20);
     }
     sp38++;
-        
 
-        
     while (*sp38 != 0xFFFF) {
         sp42 = *sp38++;
         sp40 = *sp38++;
@@ -680,18 +678,18 @@ s32 func_80004CD4(u16** arg0, s32 arg1) {
         } else if (arg1 < 4) {
             (D_801A8C18 + sp42)->unkC0 |= 0x80;
         } else {
-            (D_801A8C24 + sp42)->unkC0|= 0x80;
+            (D_801A8C24 + sp42)->unkC0 |= 0x80;
         }
     }
-        
+
     sp38++;
-    
+
     *arg0 = sp38;
     return 0;
 }
 
 s32 func_80005124(u16 arg0, u16 arg1) {
-    UnkStruct_800E114C *sp24;
+    UnkStruct_800E114C* sp24;
     s32 pad20;
     s32 sp1C;
 
@@ -701,7 +699,7 @@ s32 func_80005124(u16 arg0, u16 arg1) {
     sp1C = sp24->unk8;
     sp1C += 0xA;
     osWritebackDCacheAll();
-    if (func_80004CD4((u16 **) &sp1C, 0) == 1) {
+    if (func_80004CD4((u16**) &sp1C, 0) == 1) {
         func_80005460();
         return -1;
     }
@@ -709,7 +707,7 @@ s32 func_80005124(u16 arg0, u16 arg1) {
 }
 
 s32 func_800051D4(u16 arg0, u16 arg1) {
-    UnkStruct_800E114C *sp24;
+    UnkStruct_800E114C* sp24;
     s32 pad20;
     s32 sp1C;
 
@@ -719,13 +717,12 @@ s32 func_800051D4(u16 arg0, u16 arg1) {
     sp1C = sp24->unk8;
     sp1C += 0xA;
     osWritebackDCacheAll();
-    if (func_80004CD4((u16 **) &sp1C, 4) == 1) {
+    if (func_80004CD4((u16**) &sp1C, 4) == 1) {
         func_800055DC();
         return -1;
     }
     return 0;
 }
-
 
 s32 func_80005284(void) {
     s32 sp17C;
@@ -751,14 +748,14 @@ s32 func_80005284(void) {
         osWritebackDCacheAll();
         SysMem_Copy8(&D_801A8C24[sp178], buf, 0x160);
         osWritebackDCacheAll();
-    } 
+    }
     return 0;
 }
 
 s32 func_80005460(void) {
     s32 sp1C;
     UnkStruct_80099E2C* sp18;
-    
+
     sp18 = D_801A8C18;
     for (sp1C = 0; sp1C < 4; sp1C++) {
         if ((sp18->unkC0 & 0x10000000) && (sp18->unkC0 & 0x20000000)) {
