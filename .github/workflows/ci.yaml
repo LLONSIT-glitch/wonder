@@ -40,5 +40,5 @@ jobs:
       run: make extract; make
 
     - name: Generate objdiff report
-      run: python3 -m mapfile_parser objdiff_report report.json --version us
+      run: python3 -m mapfile_parser objdiff_report --version jp
 
