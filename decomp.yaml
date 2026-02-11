@@ -1,0 +1,47 @@
+name: Wonder Project J2
+repo: https://github.com/LLONSIT-glitch/wonder
+platform: n64
+versions:
+- name: jp
+  fullname: JP
+  sha1: 3a311ec0d77d4e0fc425a99cb6b9416f072e268e
+  paths:
+    target: "baserom.jp.z64"
+    build_dir: "build"
+    map: "build/wonderprojectj2.jp.map"
+    compiled_target: "build/wonderprojectj2.jp.z64"
+    elf: "build/wonderprojectj2.jp.elf"
+    expected_dir: "expected"
+    asm: "asm"
+    nonmatchings: "asm/nonmatchings"
+
+tools:
+  decompme:
+    preset: 210
+  permuter:
+    decompme_compilers:
+      tools/ido7.1/cc: ido7.1
+      tools/ido5.3/cc: ido5.3
+  mapfile_parser:
+    progress_report:
+      output: build/progress.json
+      check_asm_paths: True
+      report_data: True
+      prefixes_to_trim:
+        - build/lib/
+        - build/src/
+        - build/asm/data/
+        - build/
+      categories:
+        - id: code
+          name: code
+          paths:
+            - code
+        - id: audio
+          name: audio
+          paths:
+            - audio
+        - id: libultra
+          name: libultra
+          paths:
+            - libultra

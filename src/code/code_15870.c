@@ -234,7 +234,7 @@ s32 func_80015C30(UnkStruct_8000DDE0* arg0) {
     UNUSED s32 pad;
     s16 sp1C[7];
 
-    if (func_8000DA44(arg0, 7, sp1C) < 0) {
+    if (func_8000DA44(arg0, 7, (u16*)sp1C) < 0) {
         return -1;
     }
     arg0->unk1B0 = (f32) sp1C[1];
@@ -256,7 +256,7 @@ s32 func_80015D74(UnkStruct_8000DDE0* arg0) {
     UNUSED s32 pad;
     s16 sp1C[3];
 
-    if (func_8000DA44(arg0, 3, sp1C) < 0) {
+    if (func_8000DA44(arg0, 3, (u16*)sp1C) < 0) {
         return -1;
     }
     D_8015B334 = (s32) (f32) sp1C[1];
