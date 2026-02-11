@@ -178,6 +178,9 @@ ASM_PROCESSOR      = $(PYTHON) $(ASM_PROCESSOR_DIR)/asm_processor.py --asm-prelu
 
 ### Optimisation Overrides
 #$(BUILD_DIR)/$(SRC_DIR)/os/%.c.o: OPT_FLAGS := -O1
+$(BUILD_DIR)/$(SRC_DIR)/libultra/%.o: OPT_FLAGS := -O2
+$(BUILD_DIR)/$(SRC_DIR)/libultra/%.o: MIPSISET := -mips2
+
 $(BUILD_DIR)/$(SRC_DIR)/libultra/io/%.o: OPT_FLAGS := -O1 
 $(BUILD_DIR)/$(SRC_DIR)/libultra/io/%.o: MIPSISET := -mips2
 
@@ -226,7 +229,8 @@ extract: splat
 
 dependencies: tools
 	make -C tools
-	$(PYTHON) -m pip install -r tools/splat/requirements.txt #Installing the splat dependencies
+	$(PYTHON) -m pip install -r tools/splat/requirements.txt
+	$(PYTHON) -m pip install -r requirements.txt
 
 
 clean:

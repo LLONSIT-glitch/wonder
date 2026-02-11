@@ -28,7 +28,6 @@ tools:
       check_asm_paths: True
       report_data: True
       prefixes_to_trim:
-        - build/lib/
         - build/src/
         - build/asm/data/
         - build/
