@@ -30,6 +30,7 @@ tools:
       prefixes_to_trim:
         - build/src/
         - build/asm/data/
+        - build/asm/
         - build/
       categories:
         - id: code

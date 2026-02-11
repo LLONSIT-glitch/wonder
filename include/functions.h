@@ -144,4 +144,6 @@ f32 func_8002BB04(s16 arg0);
 s32 Thread_GetPriority(u8 arg0);
 void func_80014C70(UnkStruct_8000DDE0 *arg0);
 s32 func_8000DA44(UnkStruct_8000DDE0* arg0, s32 arg1, u16* arg2);
+s32 func_80005460(void);                                  /* extern */
+s32 func_800055DC(void);  
 #endif /* FUNCTIONS_H */

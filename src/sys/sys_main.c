@@ -50,7 +50,6 @@ void func_800967D8(void);
 void func_80098C1C(void);
 void func_80098CD8(void);
 void func_80098CFC(void);
-void func_80005460(void);
 void func_80005124(s32, s32);
 void func_800029BC(void);
 s32 func_80083F28(void);

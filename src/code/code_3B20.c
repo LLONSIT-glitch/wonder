@@ -57,7 +57,7 @@ extern f32 D_8015BB2C;
 extern f32 D_8015BB34;
 extern f32 D_8015BB3C;
 extern s16 D_80180664;
-extern s16 D_801806C0;
+extern s16 gInteractionWaitTimer;
 extern f32 D_80180EF0;
 extern s16 D_801A7228;
 extern f32 D_801A7230;
@@ -67,33 +67,38 @@ extern f32 D_801A7270;
 extern f32 D_801A727C;
 extern UnkStruct_80099E2C* D_801A8C30;
 extern s32 D_801A8E44;
+extern f32 D_801A8E38;
 
 void func_800047C8(UnkStruct_801561A0* arg0);
-s32 func_80004654(s32);                                      /* extern */
-void func_80004ADC(void);                                    /* extern */
-s32 func_80004CD4(s32*, s32);                                /* extern */
-void func_8000BB00(void);                                    /* extern */
-void func_8000BC7C(void);                                    /* extern */
-void func_8000BDDC(UnkStruct_8000DDE0*);                     /* extern */
-void func_8000C3B0(UnkStruct_8000DDE0*);                     /* extern */
-void func_80015E50(void);                                    /* extern */
-void func_80015E94(s32);                                     /* extern */
-void func_80015FB4(s32);                                     /* extern */
-void func_800161E0(void);                                    /* extern */
-void func_80016620(f32*);                                    /* extern */
-void func_80017B80(s32, f32);                                /* extern */
-void func_80019F4C(UnkStruct_8000DDE0*);                     /* extern */
-void func_8001A040(s32, s32, f32, f32, f32);                 /* extern */
-void func_8002F5C4(s16);                                     /* extern */
-void func_80043DC0(u16);                                     /* extern */
-void func_8005D800(void);                                    /* extern */
-void func_8005E19C(void);                                    /* extern */
-void func_8005E474(void);                                    /* extern */
-void func_800821A0(void);                                    /* extern */
-void func_800A66EC(s32, s32*, s32, s32, s32, s32, f32, s32); /* extern */
-s32 func_800BB578(void);                                     /* extern */
+s32 func_80004654(s32);                                                /* extern */
+void func_80004ADC(void);                                              /* extern */
+s32 func_80004CD4(u16**, s32);                                         /* extern */
+void func_8000BB00(void);                                              /* extern */
+void func_8000BC7C(void);                                              /* extern */
+void func_8000BDDC(UnkStruct_8000DDE0*);                               /* extern */
+void func_8000C3B0(UnkStruct_8000DDE0*);                               /* extern */
+void func_80015E50(void);                                              /* extern */
+void func_80015E94(s32);                                               /* extern */
+void func_80015FB4(s32);                                               /* extern */
+void func_800161E0(void);                                              /* extern */
+void func_80016620(f32*);                                              /* extern */
+void func_80017B80(s32, f32);                                          /* extern */
+void func_80019F4C(UnkStruct_8000DDE0*);                               /* extern */
+void func_8001A040(s32, s32, f32, f32, f32);                           /* extern */
+void func_8002F5C4(s16);                                               /* extern */
+void func_80043DC0(u16);                                               /* extern */
+void func_8005D800(void);                                              /* extern */
+void func_8005E19C(void);                                              /* extern */
+void func_8005E474(void);                                              /* extern */
+void func_800821A0(void);                                              /* extern */
+s32 func_800A66EC(s32, UnkStruct_sp84*, s32, s32, s32, s32, f32, s32); /* extern */
+s32 func_800BB578(void);                                               /* extern */
 
-#ifdef NEEDS_RODATA
+// File funcs
+UnkStruct_800E114C* func_80004410(u16 arg0, u16 arg1);
+UnkStruct_8000DDE0* func_800045AC(s32 arg0);
+void func_80004510(void);
+
 s32 func_80002F20(void) {
     s32 sp104;
     s32 sp100;
@@ -102,11 +107,9 @@ s32 func_80002F20(void) {
     u16* spF4;
     char pad3[0x6C];
     UnkStruct_sp84* sp84;
-    u8* sp80;
-    char pad4[0x1C];
-    s32 sp60;
-    char pad[0x1C];
-    s32 sp40;
+    void* sp80;
+    UnkStruct_sp84 sp60;
+    UnkStruct_sp84 sp40;
     UnkStruct_8000DDE0* sp3C;
     void* sp38;
 
@@ -187,7 +190,7 @@ s32 func_80002F20(void) {
     if (!(D_801A8D88[0] & 0x80)) {
         func_80004654(3U);
         if (D_801A8D88[0] & 0x200) {
-            func_800C143C((u8) *gSysThreadIds, &sp38, 1);
+            Thread_ReceiveMsgInThread((u8) *gSysThreadIds, &sp38, 1);
             func_80015E50();
             func_80015E94(0xF);
             func_80015E94(0xE);
@@ -198,14 +201,14 @@ s32 func_80002F20(void) {
             if (D_801A8D88[1] & 2) {
                 D_8015BB2C = 30.0f;
             } else if (D_801A8D88[1] & 4) {
-                D_8015BB2C = 60.0f;
-                D_8015BB3C = 15.0f;
                 D_8015BB34 = 60.0f;
+                D_8015BB3C = 15.0f;
+                D_8015BB2C = 60.0f;
             }
-            func_800C143C((u8) *gSysThreadIds, &sp38, 1);
+            Thread_ReceiveMsgInThread((u8) *gSysThreadIds, &sp38, 1);
             sp3C = func_800045AC(3);
             func_8000BDDC(sp3C);
-            func_800C143C((u8) *gSysThreadIds, &sp38, 1);
+            Thread_ReceiveMsgInThread((u8) *gSysThreadIds, &sp38, 1);
             D_801A7234 = D_801A7254 & 0x7FFF;
             D_801A723C = D_801A725C & 0x7FFF;
             if (!(D_801A8D88[3] & 0x4000)) {
@@ -219,7 +222,7 @@ s32 func_80002F20(void) {
             D_801A8D88[3] &= ~0x4000;
             D_801A8D88[0] &= ~0x200;
             D_80180664 = 0;
-            func_800C143C((u8) *gSysThreadIds, &sp38, 1);
+            Thread_ReceiveMsgInThread((u8) gSysThreadIds[0], &sp38, 1);
         }
     }
     if (D_801A8D88[3] & 0x2000) {
@@ -326,7 +329,7 @@ s32 func_80002F20(void) {
                 break;
         }
     }
-    D_80180EF0 = D_801806C0 = 0;
+    D_80180EF0 = gInteractionWaitTimer = 0;
     D_801806C4 = 1;
     func_8005E19C();
     func_8005D800();
@@ -455,9 +458,7 @@ s32 func_80002F20(void) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_3B20/func_80002F20.s")
-#endif
+
 UnkStruct_800E114C* func_80004410(u16 arg0, u16 arg1) {
     s32 sp4;
 
@@ -581,8 +582,6 @@ void func_800047C8(UnkStruct_801561A0* arg0) {
     }
 }
 
-extern f32 D_801A8E38;
-
 void func_80004ADC(void) {
     union {
         UnkStruct_801A7340_unk144* structptr;
@@ -624,17 +623,194 @@ void func_80004ADC(void) {
     return;
 }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_3B20/func_80004CD4.s")
+s32 func_80004CD4(u16** arg0, s32 arg1) {
+    UnkStruct_sp84* sp8C;
+    UnkStruct_sp84* sp88;
+    UnkStruct_sp84 sp68;
+    UnkStruct_sp84 sp48;
+    s32 sp44;
+    u16 sp42;
+    u16 sp40;
+    u16 sp3E;
+    u16 sp3C;
+    u16* sp38;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_3B20/func_80005124.s")
+    sp38 = *arg0;
+    for (sp44 = arg1; *sp38 != 0xFFFF;) {
+        sp42 = *sp38++;
+        sp40 = *sp38++;
+        sp8C = SysMem_HeapAlloc(((u32) (((u8*) &D_807A1A20 - (u8*) &D_807A0080) + 7) >> 3) * 8);
+        sp88 = sp8C;
+        SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) gSpriteSeg2RomStart, (s32) gSpriteSegVramStart,
+                                                            (s32) &D_807A0080),
+                       sp8C, ((u32) (((uintptr_t) &D_807A1A20 - (uintptr_t) &D_807A0080) + 7) >> 3) * 8);
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_3B20/func_800051D4.s")
+        for (;; sp8C++) {
+            if (sp8C->unk4 == 0) {
+                SysMem_Free(sp88);
+                return 1;
+            }
+            if ((sp8C->unk0 == sp42) && (sp8C->unk2 == sp40)) {
+                break;
+            }
+        }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_3B20/func_80005284.s")
+        SysMem_Copy8(&sp68, sp8C, 0x20);
+        SysMem_Copy8(&sp48, (u8*) sp8C + 0x20, 0x20);
+        SysMem_Free(sp88);
+        sp44 += func_800A66EC(sp44, &sp68, sp48.unk10 - sp68.unk10, 1, 0xC, 0xA, 6.0f, 0x20);
+    }
+    sp38++;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_3B20/func_80005460.s")
+    while (*sp38 != 0xFFFF) {
+        sp42 = *sp38++;
+        sp40 = *sp38++;
+        sp3E = *sp38++;
+        sp3C = *sp38++;
+        if (sp3E == 0) {
+            if (arg1 < 4) {
+                D_801A8C18[sp42].unkC8 = (s32) sp40;
+                D_801A8C18[sp42].unk124 = (s16) sp3C;
+            } else {
+                D_801A8C24[sp42].unkC8 = (s32) sp40;
+                D_801A8C24[sp42].unk124 = (s16) sp3C;
+            }
+        } else if (arg1 < 4) {
+            (D_801A8C18 + sp42)->unkC0 |= 0x80;
+        } else {
+            (D_801A8C24 + sp42)->unkC0 |= 0x80;
+        }
+    }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_3B20/func_800055DC.s")
+    sp38++;
+
+    *arg0 = sp38;
+    return 0;
+}
+
+s32 func_80005124(u16 arg0, u16 arg1) {
+    UnkStruct_800E114C* sp24;
+    s32 pad20;
+    s32 sp1C;
+
+    if ((sp24 = func_80004410(arg0, arg1)) == NULL) {
+        return -1;
+    }
+    sp1C = sp24->unk8;
+    sp1C += 0xA;
+    osWritebackDCacheAll();
+    if (func_80004CD4((u16**) &sp1C, 0) == 1) {
+        func_80005460();
+        return -1;
+    }
+    return 0;
+}
+
+s32 func_800051D4(u16 arg0, u16 arg1) {
+    UnkStruct_800E114C* sp24;
+    s32 pad20;
+    s32 sp1C;
+
+    if ((sp24 = func_80004410(arg0, arg1)) == NULL) {
+        return -1;
+    }
+    sp1C = sp24->unk8;
+    sp1C += 0xA;
+    osWritebackDCacheAll();
+    if (func_80004CD4((u16**) &sp1C, 4) == 1) {
+        func_800055DC();
+        return -1;
+    }
+    return 0;
+}
+
+s32 func_80005284(void) {
+    s32 sp17C;
+    s32 sp178;
+    char buf[sizeof(UnkStruct_80099E2C)];
+
+    for (sp17C = 0, sp178 = 0; sp178 < 4; sp178++) {
+        sp17C |= D_801A8C18[sp178].unkC0;
+    }
+    if (!(sp17C & 0x10000000)) {
+        return -1;
+    }
+    for (sp17C = 0, sp178 = 0; sp178 < 4; sp178++) {
+        sp17C |= D_801A8C24[sp178].unkC0;
+    }
+    if (!(sp17C & 0x10000000)) {
+        return -2;
+    }
+    for (sp178 = 0; sp178 < 4; sp178++) {
+        SysMem_Copy8(buf, &D_801A8C18[sp178], 0x160);
+        osWritebackDCacheAll();
+        SysMem_Copy8(&D_801A8C18[sp178], &D_801A8C24[sp178], 0x160);
+        osWritebackDCacheAll();
+        SysMem_Copy8(&D_801A8C24[sp178], buf, 0x160);
+        osWritebackDCacheAll();
+    }
+    return 0;
+}
+
+s32 func_80005460(void) {
+    s32 sp1C;
+    UnkStruct_80099E2C* sp18;
+
+    sp18 = D_801A8C18;
+    for (sp1C = 0; sp1C < 4; sp1C++) {
+        if ((sp18->unkC0 & 0x10000000) && (sp18->unkC0 & 0x20000000)) {
+            if (sp18->currentPaletteColors != NULL) {
+                SysMem_Free(sp18->currentPaletteColors);
+            }
+            if (sp18->ptrs[1] != NULL) {
+                SysMem_Free(sp18->ptrs[1]);
+            }
+            if (sp18->ptrs[2] != NULL) {
+                SysMem_Free(sp18->ptrs[2]);
+            }
+            if (sp18->unk144 != NULL) {
+                SysMem_Free(sp18->unk144);
+            }
+        }
+        sp18->unkC0 = 0;
+        sp18->currentPaletteColors = NULL;
+        sp18->ptrs[1] = NULL;
+        sp18->ptrs[2] = NULL;
+        sp18->unk144 = NULL;
+        sp18++;
+    }
+    return 0;
+}
+
+s32 func_800055DC(void) {
+    s32 sp1C;
+    UnkStruct_80099E2C* sp18;
+
+    sp18 = D_801A8C24;
+    for (sp1C = 0; sp1C < 4; sp1C++) {
+        if ((sp18->unkC0 & 0x10000000) && (sp18->unkC0 & 0x20000000)) {
+            if (sp18->currentPaletteColors != NULL) {
+                SysMem_Free(sp18->currentPaletteColors);
+            }
+            if (sp18->ptrs[1] != NULL) {
+                SysMem_Free(sp18->ptrs[1]);
+            }
+            if (sp18->ptrs[2] != NULL) {
+                SysMem_Free(sp18->ptrs[2]);
+            }
+            if (sp18->unk144 != NULL) {
+                SysMem_Free(sp18->unk144);
+            }
+        }
+        sp18->unkC0 = 0;
+        sp18->currentPaletteColors = NULL;
+        sp18->ptrs[1] = NULL;
+        sp18->ptrs[2] = NULL;
+        sp18->unk144 = NULL;
+        sp18++;
+    }
+    return 0;
+}
 
 s32 func_80005758(void) {
     s32 sp4;
