@@ -42,3 +42,8 @@ jobs:
     - name: Generate objdiff report
       run: python3 -m mapfile_parser objdiff_report --version jp
 
+    - name: Upload Progress Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: jp_report
+        path: build/progress.json
