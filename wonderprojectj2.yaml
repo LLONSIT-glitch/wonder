@@ -7,7 +7,7 @@ options:
   base_path: .
   platform: n64
   compiler: IDO
-
+  migrate_rodata_to_functions: True
 
   # asm_path: asm
   # src_path: src
@@ -32,7 +32,7 @@ options:
     - .mdebug
     - .mdebug.abi32
 
-  # section_order: [".text", ".data", ".rodata", ".bss"]
+  section_order: [".text", ".data", ".rodata", ".bss"]
   # auto_link_sections: [".data", ".rodata", ".bss"]
 
   symbol_addrs_path:
@@ -307,7 +307,7 @@ segments:
       - [0xEDF40, rodata]
       - [0xEDF60, rodata]
       - [0xEE190, .rodata, code/code_15870]
-      - [0xEE1C0, rodata]
+      - [0xEE1C0, .rodata, code/code_18700]
       - [0xEE210, rodata]
       - [0xEE780, .rodata, code/code_1FF90]
       - [0xEE840, .rodata, code/code_20400]
