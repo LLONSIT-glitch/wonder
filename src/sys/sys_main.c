@@ -226,7 +226,7 @@ void* SysMain(ThreadEntry* entry) {
         if (D_801A723C == 0) {
             D_801A723C = 1;
         }
-        D_801ACC44 = -1;
+        gMusicSequenceId = -1;
         func_80098820();
         func_80098868();
         func_800C0A40();
@@ -607,8 +607,8 @@ s32 func_80001F54(void) {
 
     if (!(D_801A8D88[0] & 0x80) && (D_801A8D88[3] & 1)) {
         D_801A8D88[3] = (u16) (D_801A8D88[3] & ~1);
-        if (D_801ACC44 >= 0) {
-            func_80021ED0(D_801ACC44);
+        if (gMusicSequenceId >= 0) {
+            AudioGeneral_PlayBGM(gMusicSequenceId);
         }
     }
     if (!(D_801A8D88[0] & 0x400)) {

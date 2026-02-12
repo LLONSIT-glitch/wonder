@@ -10,7 +10,7 @@
 
 #pragma GLOBAL_ASM("asm/nonmatchings/audio/audio_mgr/func_800B8F6C.s")
 
-#pragma GLOBAL_ASM("asm/nonmatchings/audio/audio_mgr/func_800B8FA8.s")
+#pragma GLOBAL_ASM("asm/nonmatchings/audio/audio_mgr/AudioMgr_StopMusic.s")
 
 #pragma GLOBAL_ASM("asm/nonmatchings/audio/audio_mgr/func_800B9000.s")
 

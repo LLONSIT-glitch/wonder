@@ -1,6 +1,6 @@
 #include "common.h"
 
-s32 func_80020720(UnkStruct_80020720* arg0) {
+s32 func_80020720(DebugMenuInfo* arg0) {
     s32 pad;
     s32 contPakResult;
     s32 sp3C;
@@ -12,7 +12,7 @@ s32 func_80020720(UnkStruct_80020720* arg0) {
     s32 sp24;
 
     func_8008EAA8(2, 1);
-    func_8008ECE4("== %s ==", arg0->unk4);
+    func_8008ECE4("== %s ==", arg0->debugMenuTitle);
     switch (D_801825E4) { /* switch 7; irregular */
         case 0:           /* switch 7 */
             D_801825F0[0] = 0;

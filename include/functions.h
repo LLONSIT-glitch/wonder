@@ -68,7 +68,7 @@ int func_800BECCC(s32, f32, f32);
 s32 Spi_DecompressAsset(u32 arg0, s32 size, u8* arg2);
 void func_800C0A40(void);
 UnkStruct_8000DDE0 *func_80016074(s32);                           /* extern */
-void func_80021ED0(s32);                               /* extern */
+void AudioGeneral_PlayBGM(s32);                               /* extern */
 void func_800997D8(void*);                             /* extern */
 void func_800A7230(void*);                             /* extern */
 void func_8008EAA8(s32, s32);
@@ -78,7 +78,7 @@ void* func_8001F60C(u8**);
 void func_80099E2C(UnkStruct_80099E2C*);
 void func_800B1B3C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
 void func_800B1C10(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
-s32 func_8001F390(UnkStruct_80020720* arg0);
+s32 func_8001F390(DebugMenuInfo* arg0);
 void func_8001F6B8(void);
 void func_8001F800(void);
 void func_80022124(void);                                  /* extern */
@@ -90,7 +90,7 @@ u16 func_800B32E4(UnkStruct_800B23C4**, s32);                         /* extern 
 s32 func_800B3434(UnkStruct_800B23C4 **arg0, u8 arg1);
 void func_800B3DBC(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u16 paletteIndex) ;             /* extern */
 void func_800B9000(u16);                               /* extern */
-s32 func_8001F390(UnkStruct_80020720* arg0);
+s32 func_8001F390(DebugMenuInfo* arg0);
 void func_8001F6B8(void);
 void func_8001F800(void);
 s32 func_8000E524(UnkStruct_8000DDE0*);             /* extern */

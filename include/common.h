@@ -9,6 +9,7 @@
 #include "temp_heap.h"
 #include "obj.h"
 #include "scheduler.h"
+#include "debug.h"
 #include "structs.h"
 #include "functions.h"
 #include "variables.h"

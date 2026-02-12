@@ -1,16 +1,5 @@
 #include "common.h"
 
-typedef struct DebugMenuInfo_s {
-    /* 0x00 */ s32 unk0;                                   /* inferred */
-    /* 0x04 */ char* optionName;                           /* inferred */
-    /* 0x08 */ s32 unk8;                                   /* inferred */
-    /* 0x0C */ s32 unkC;                                   /* inferred */
-    /* 0x10 */ s32 unk10;                                  /* inferred */
-    /* 0x14 */ s32 (*unk14)(struct DebugMenuInfo_s*, s32); /* inferred */
-    /* 0x18 */ s32 (*unk18)(struct DebugMenuInfo_s*);      /* inferred */
-    /* 0x1C */ char pad1C[0xC];                            /* maybe part of unk18[3]? */
-} DebugMenuInfo;                                           /* size = 0x28 */
-
 void func_800198F8(void*, s32);
 void func_80019F4C(UnkStruct_8000DDE0*); /* extern */
 void func_8008EC8C(f32, f32);            /* extern */
@@ -38,7 +27,7 @@ void func_800AFB28(void);                /* extern */
 void func_800BE510(f32, f32, f32);       /* extern */
 void Main_GfxFullSync(void);             /* extern */
 
-extern DebugMenuInfo D_800DB1A0[];
+extern DebugMenuOption D_800DB1A0[];
 extern s16 D_801A7228;
 extern UnkStruct_801561D8 D_801561D8[];
 extern s32 D_800E4CA4;
@@ -410,7 +399,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
     UnkStruct_80099E2C* sp5C; // sp58
     u8* sp58;                 // sp54
     u16 sp56;                 // sp52?
-    DebugMenuInfo* sp50;
+    DebugMenuOption* sp50;
     s32* sp4C;
     s32 (*sp48)(s32*);
     f32 sp44;
@@ -510,7 +499,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                         sp88 = 0;
 
                         for (;; sp94++, sp50++) {
-                            if (sp50->unk0 == -1) {
+                            if (sp50->entry == -1) {
                                 break;
                             }
 
@@ -954,7 +943,7 @@ extern u8 D_800DB4E8;
 extern f64 D_800EDB70;
 extern f64 D_800EDB78;
 
-s32 func_8001CF70(UnkStruct_80020720* arg0) {
+s32 func_8001CF70(DebugMenuInfo* arg0) {
     s32 sp44;
     s32 sp40;
     s32 sp3C;
@@ -966,7 +955,7 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
     u8* sp24;
 
     func_8008EAA8(2, 1);
-    func_8008ECE4(&D_800ED95C, arg0->unk4);
+    func_8008ECE4(&D_800ED95C, arg0->debugMenuTitle);
     switch (D_801825E4) { /* irregular */
         case 0:
             D_80182618->ptrs[0] = SysMem_HeapAlloc(0xB00);
@@ -1156,13 +1145,13 @@ s32 func_8001CF70(UnkStruct_80020720* arg0) {
 extern s32 D_80156B98;
 extern s32 D_801AB248;
 
-s32 func_8001DC00(UnkStruct_80020720* arg0) {
+s32 func_8001DC00(DebugMenuInfo* arg0) {
     s32 sp2C;
     UnkStruct_80099E2C* sp28;
     s32 temp_t7;
 
     func_8008EAA8(2, 0x10);
-    func_8008ECE4(&D_800ED9A0, arg0->unk4);
+    func_8008ECE4(&D_800ED9A0, arg0->debugMenuTitle);
     D_801825F0[5] = D_80156B98;
     switch (D_801825E4) { /* irregular */
         case 0:
@@ -1265,10 +1254,10 @@ void func_800BCB10(s32); /* extern */
 
 extern s32 D_80180648;
 
-s32 func_8001E348(UnkStruct_80020720* arg0) {
+s32 func_8001E348(DebugMenuInfo* arg0) {
     s32 pad[2];
     func_8008EAA8(2, 1);
-    func_8008ECE4(&D_800ED9D8, arg0->unk4);
+    func_8008ECE4(&D_800ED9D8, arg0->debugMenuTitle);
     switch (D_801825E4) { /* irregular */
         case 0:
             D_801825F0[0] = 0;
@@ -1322,17 +1311,17 @@ s32 func_8001E348(UnkStruct_80020720* arg0) {
     }
 }
 
-extern DebugMenuInfo D_800DB3F8[];
+extern DebugMenuOption D_800DB3F8[];
 
-s32 func_8001E654(UnkStruct_80020720* arg0) {
-    DebugMenuInfo* sp34;
+s32 func_8001E654(DebugMenuInfo* arg0) {
+    DebugMenuOption* sp34;
     s32 sp30;
     s32 sp2C;
     s32 sp28;
     s32 sp24;
 
     func_8008EAA8(2, 1);
-    func_8008ECE4(&D_800EDA6C, arg0->unk4);
+    func_8008ECE4(&D_800EDA6C, arg0->debugMenuTitle);
     switch (D_801825E4) { /* irregular */
         case 0:
             *D_801825F0 = 0;
@@ -1342,7 +1331,7 @@ s32 func_8001E654(UnkStruct_80020720* arg0) {
             sp24 = *D_801825F0;
 
             for (sp30 = 0, sp2C = 0, sp34 = D_800DB3F8; /* Empty */; sp30++, sp34++) {
-                if (sp34->unk0 == -1) {
+                if (sp34->entry == -1) {
                     break;
                 }
 
@@ -1355,13 +1344,13 @@ s32 func_8001E654(UnkStruct_80020720* arg0) {
                 if (sp34->unk10 != 0) {
                     if (sp24 == sp2C) {
                         func_8008ECE4(&D_800EDA78, sp34->optionName);
-                        if (sp34->unk14 != NULL) {
-                            sp34->unk14(sp34, 0);
+                        if (sp34->entryRoutine != NULL) {
+                            sp34->entryRoutine(sp34, 0);
                         }
                     } else {
                         func_8008ECE4(&D_800EDA7C, sp34->optionName);
-                        if (sp34->unk14 != NULL) {
-                            sp34->unk14(sp34, -1);
+                        if (sp34->entryRoutine != NULL) {
+                            sp34->entryRoutine(sp34, -1);
                         }
                     }
                     sp2C += 1;

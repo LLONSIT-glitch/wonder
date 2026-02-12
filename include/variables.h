@@ -159,7 +159,7 @@ extern s16 D_801A8D78;
 extern s16 D_801A8D80;
 extern u16 D_801A8D88[];
 extern s32 D_801AA4EC;
-extern s32 D_801ACC44;
+extern s32 gMusicSequenceId;
 extern u8 gSpriteObjDefs[];
 extern u8 gSpriteFramesStart[];
 extern u8 gMainSpritesSpiOffsets[];

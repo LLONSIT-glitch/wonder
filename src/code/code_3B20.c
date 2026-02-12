@@ -243,13 +243,13 @@ s32 func_80002F20(void) {
     if (D_801A8E44 == -1) {
         D_801A8E44 = 0x3C;
     }
-    D_800F18EC = D_801ACC44;
+    D_800F18EC = gMusicSequenceId;
     sp100 = (s16) *spF4++;
     if (sp100 != -1) {
-        D_801ACC44 = sp100;
+        gMusicSequenceId = sp100;
         sp104 = func_800BB578() & 7;
         if (sp104 != 2) {
-            D_800F18EC = ~D_801ACC44;
+            D_800F18EC = ~gMusicSequenceId;
         }
     }
     D_801A8D88[3] &= ~2;
