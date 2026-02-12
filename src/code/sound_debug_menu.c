@@ -14,7 +14,7 @@ typedef enum SoundDebugMenuEntry_e {
 void func_8002206C(s32, s16, s16); /* extern */
 void func_800220F4(s32);           /* extern */
 void func_80021F20(s16);           /* extern */
-void AudioMgr_StopMusic(void);          /* extern */
+void AudioMgr_StopMusic(void);     /* extern */
 extern DebugMenuOption D_800DB610[];
 extern s16 D_800DB750;
 extern s16 D_800DB754;
@@ -37,7 +37,7 @@ DebugMenuOption D_800DB610[8] = {
     },
     {
         ENTRY_SE_1_SHOT_TEST,
-       "S.E.  TEST(1SHOT)",
+        "S.E.  TEST(1SHOT)",
         2,
         -1,
         1,
