@@ -116,11 +116,6 @@ typedef struct UnkStruct_80099E2C_s {
     /* 0x15C */ s32 unk160;
 } UnkStruct_80099E2C;                               /* size = 0x160 */
 
-typedef struct UnkStruct_80020720_s {
-    s32 unk0;
-    char* unk4;
-} UnkStruct_80020720;
-
 typedef struct UnkStruct_801560F0_s {
     /* 0x00 */ char pad0[4];
     /* 0x04 */ u16 unk4;      /* inferred */
@@ -356,5 +351,6 @@ typedef struct UnkStruct_801561D8_s {
 typedef struct UnkStruct_801A306C_s {
     char pad[0x28];
 } UnkStruct_801A306C;
+
 
 #endif /* STRUCTS_H */

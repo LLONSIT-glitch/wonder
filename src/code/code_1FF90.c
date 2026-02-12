@@ -3,13 +3,13 @@
 
 s16 D_800DB600[4][2] = { { 7, 13 }, { 16, 22 }, { 27, 32 }, { 37, 40 } };
 
-s32 func_8001F390(UnkStruct_80020720* arg0) {
+s32 func_8001F390(DebugMenuInfo* arg0) {
     s32 sp2C;
     UnkStruct_800B23C4* sp28;
     UnkStruct_80099E2C* sp24;
 
     func_8008EAA8(2, 1);
-    func_8008ECE4("== %s ==", arg0->unk4);
+    func_8008ECE4("== %s ==", arg0->debugMenuTitle);
     switch (D_801825E4) { /* irregular */
         case 0:
             for (sp2C = 0; sp2C < 8; sp2C++) {

@@ -10,8 +10,8 @@ extern void AudioDriver_UpdateSeqID(s32);      /* extern */
 extern void func_800BB52C(s32, s32, s32, s32); /* extern */
 extern void func_800BB4DC(s32);                /* extern */
 
-void func_80021ED0(s32 arg0) {
-    D_801ACC44 = arg0;
+void AudioGeneral_PlayBGM(s32 arg0) {
+    gMusicSequenceId = arg0;
     func_800BB52C(0, 0x7FFF, 0x7FFF, 0);
     AudioDriver_UpdateSeqID(arg0);
 }

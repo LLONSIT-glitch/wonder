@@ -102,7 +102,7 @@ segments:
       - [0x20400, c, code/code_20400]
       - [0x21320, c, code/code_21320]
 
-      - [0x221A0, c, code/code_221A0]
+      - [0x221A0, c, code/sound_debug_menu]
       - [0x22AD0, c, code/code_22AD0]
       - [0x22D50, c, code/code_22D50]
       - [0x2CE70, c, code/code_2CE70]
@@ -284,7 +284,8 @@ segments:
       - [0xDAB00, .data, isprint]
       - [0xDAB80, data]
       - [0xDC200, .data, code/code_1FF90]
-      - [0xDC210, data]
+      - [0xDC210, .data, code/sound_debug_menu]
+      - [0xDC350, data]
       - [0xDC3E0, .data, code/code_2CE70]
       - [0xDC470, data]
       - [0xE98B0, .data, code/scheduler]
@@ -315,7 +316,8 @@ segments:
       - [0xEE840, .rodata, code/code_20400]
       - [0xEE870, .rodata, code/code_21320]
       - [0xEE870, .rodata, code/spi]
-      - [0xEEE30, rodata]
+      - [0xEEE30, .rodata, code/sound_debug_menu]
+      - [0xEEF20, rodata]
 
       - [0xEF320, .rodata, code/code_2CE70]
       - [0xEF320, .rodata, code/code_5DD50]

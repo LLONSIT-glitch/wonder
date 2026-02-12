@@ -239,11 +239,17 @@ gSequenceFile = 0x801AE820;
 gSequenceCount = 0x801AE830;
 Update_ControllerRaw = 0x80098D24;
 
+AudioMgr_StopMusic = 0x800B8FA8;
+AudioGeneral_PlayBGM = 0x80021ED0;
+gMusicSequenceId = 0x801ACC44;
 sMatrixStack = 0x801806D0;
 gCurrentMatrixStackPtr = 0x80180CE4;
 sCurrentMatrixStackDepth = 0x80180CD8;
 // code_C3C70
 MathUtil_GetDistanceIfWithinRadius = 0x800C3C80;
+
+// sound_debug_menu
+SoundDebugMenu = 0x800215A0;
 
 D_801ADA38 = 0x801ADA38; //size:0x14
 
