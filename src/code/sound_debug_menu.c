@@ -16,7 +16,7 @@ void func_800220F4(s32);           /* extern */
 <<<<<<< HEAD
 void AudioGeneral_BGMFadeOut(s16); /* extern */
 =======
-void func_80021F20(s16);           /* extern */
+void func_80021F20(s16); /* extern */
 >>>>>>> master
 void AudioMgr_StopMusic(void);     /* extern */
 extern DebugMenuOption D_800DB610[];
