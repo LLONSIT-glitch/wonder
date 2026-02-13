@@ -4,7 +4,7 @@ UnkStruct_8000DDE0* func_800045AC(s32);       /* extern */
 void func_8000BB00(void);                     /* extern */
 void func_8000C3B0(UnkStruct_8000DDE0*);      /* extern */
 void func_800198F8(UnkStruct_80099E2C*, s32); /* extern */
-void func_80021F20(s32);                      /* extern */
+void AudioGeneral_BGMFadeOut(s32);            /* extern */
 extern UnkStruct_801561D8 D_801561D8[];
 
 s32 func_80009FA4(UnkStruct_8000DDE0* arg0);
@@ -49,7 +49,7 @@ s32 func_80009FA4(UnkStruct_8000DDE0* arg0) {
                     D_8015BB14 = 10.0f;
                     D_8015BB18 = 0.0f;
                     func_80022124();
-                    func_80021F20(0x40);
+                    AudioGeneral_BGMFadeOut(0x40);
                     arg0->unk0.unkC8 = 0x7FFFFFFF;
                     arg0->unk0.unkC0 |= 0x48;
                     arg0->unk0.unkC4 = 0x10;

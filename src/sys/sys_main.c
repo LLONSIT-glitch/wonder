@@ -5,7 +5,7 @@
 extern s32 D_8015C748[];
 s32 func_80000C90(ThreadEntry* entry);
 void func_80016620(f32*);
-void func_80021F20(s32);
+void AudioGeneral_BGMFadeOut(s32);
 s32 func_80001F54(void);
 s32 func_800020A8(s32 arg0);
 void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1);
@@ -663,17 +663,17 @@ s32 func_800020A8(s32 arg0) {
             D_801A728C = D_801A7248;
             if (D_801A8D88[3] & 2) {
                 D_801A8D88[3] &= ~2;
-                func_80021F20(0x2A);
+                AudioGeneral_BGMFadeOut(0x2A);
             }
             if (((D_801A7234 & 0x7FFF) == 1) && ((D_801A723C & 0x7FFF) == 3) && ((D_801A7254 & 0x7FFF) == 2) &&
                 ((D_801A725C & 0x7FFF) == 1)) {
                 D_801A8D88[3] &= ~2;
-                func_80021F20(0x2A);
+                AudioGeneral_BGMFadeOut(0x2A);
             }
             if (((D_801A7234 & 0x7FFF) == 2) && ((D_801A723C & 0x7FFF) == 1) && ((D_801A7254 & 0x7FFF) == 1) &&
                 ((D_801A725C & 0x7FFF) == 3)) {
                 D_801A8D88[3] &= ~2;
-                func_80021F20(0x2A);
+                AudioGeneral_BGMFadeOut(0x2A);
             }
             if (D_801A8D88[3] & 0x800) {
                 D_801A8D88[3] = (u16) (D_801A8D88[3] & ~0x800);
