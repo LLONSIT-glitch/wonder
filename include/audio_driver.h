@@ -13,6 +13,22 @@
 #define OSC_LOW 1
 #define TWO_PI 6.2831853
 
+#define AUDIO_SEQ_STATE_MUTED 1
+#define AUDIO_SEQ_STATE_PLAYING 2
+#define AUDIO_SEQ_STATE_STOPPED 4
+
+#define VOLUME_STATE_NOT_ADJUSTED 0
+#define VOLUME_STATE_ADJUSTED 0x10
+
+#define SOUND_DEALLOC_REQUEST_STATE_FREE_SLOT 0
+#define SOUND_DEALLOC_REQUEST_STATE_STOP 1
+#define SOUND_DEALLOC_REQUEST_STATE_DEALLOCATE 2
+
+#define SEQ_PLAYER_CONTINUE 0 // Continue even if the current volume is zero
+#define SEQ_PLAYER_STOP 1 // Used to stop the seqplayer if current volume is zero
+
+#define MAX_VOLUME 32767
+
 typedef struct SoundDealloc_s {
     s16 sndId;
     s32 state;
@@ -120,17 +136,40 @@ typedef struct oscData_s {
     } data;
 } oscData;
 
-void AudioDriver_LoadSequences(void);                     /* extern */
-void AudioDriver_LoadBanks(void);                     /* extern */
-void AudioDriver_InitSeqPlayer(void);                     /* extern */
-void func_800B9C74(void);                     /* extern */
-void func_800B9CEC(void);                     /* extern */
-void func_800BC4CC(ALSeqpConfig*);            /* extern */
-void func_800B9F48(UnkStruct_801AE598*);      /* extern */
-void func_800BA748(UnkStruct_801AE598*);      /* extern */
-void func_800BA244(UnkStruct_801AE598*, s16); /* extern */
-void func_800BB16C(s16);                      /* extern */
-void func_800BB3EC(void);                     /* extern */
-
+void AudioDriver_ConfigSeqPlayerVolume(s32 seqVol, u16 volAdj, s16 maxVol, u16 stopFlags);
+void AudioDriver_DeallocSound(UnkStruct_801AE678* arg0);
+f32 AudioDriver_DepthToCents(u8 depth);
+s32 AudioDriver_GetSequence(s32 seqIdx);
+void AudioDriver_Init(void);
+ALMicroTime AudioDriver_InitOsc(void** oscState, f32* initVal, u8 oscType, u8 oscRate, u8 oscDepth, u8 oscDelay);
+void AudioDriver_InitSeqPlayer(void);
+void AudioDriver_InitSoundDeallocRequests(void);
+void AudioDriver_InitSoundPlayer(void);
+void AudioDriver_LoadBanks(void);
+void AudioDriver_LoadSequences(void);
+void AudioDriver_ProcessSoundDeallocRequests(void);
+void AudioDriver_RequestSoundDealloc(s16 sndId);
+void AudioDriver_SetSeqVolume(s32 vol);
+void AudioDriver_SetupOsc(ALSeqpConfig* conf);
+void AudioDriver_StopOsc(oscData* osc);
+void AudioDriver_StopSeqplayer(void);
+void AudioDriver_Update(void);
+ALMicroTime AudioDriver_UpdateOsc(void* oscState, f32* updateVal);
+void AudioDriver_UpdateSeqID(s32 seqId);
+void AudioDriver_UpdateSequence(void);
+void AudioDriver_UpdateSounds(void);
+void func_800B9CEC(void);
+void func_800B9DD4(void);
+void func_800B9E88(void);
+void func_800B9F48(UnkStruct_801AE598* arg0);
+void func_800BA244(UnkStruct_801AE598* arg0, s16 arg1);
+void func_800BA748(UnkStruct_801AE598* arg0);
+s32 func_800BADA8(s32 arg0);
+void func_800BB16C(s16 arg0);
+s32 func_800BB24C(s32 arg0);
+UnkStruct_801AE598* func_800BB448(s32 arg0);
+void func_800BB4B4(UnkStruct_801AE598* arg0, s32 arg1);
+void func_800BB4DC(s32 arg0);
+s32 func_800BB578(void);
 #endif /* AUDIO_DRIVER_H */
 

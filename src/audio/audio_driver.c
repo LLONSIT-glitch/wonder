@@ -24,10 +24,10 @@ extern void* gCompressedSequencePtr; // Raw pointer to the compressed sequence i
 extern s32 gSequenceCount;
 extern s32 D_801AE834;
 extern s32 gCurrentSequenceID;
-extern s32 gSavedSequenceID;
+extern s32 gPlayedSequenceID;
 extern s32 gCurrentSequenceVolume;
 extern s32 gAppliedSequenceVolume;
-extern s32 D_801AE848;
+extern s32 gSequenceVolumeAdjust; // Volume used to adjust the current sequence volume
 extern s32 gMaxSequenceVolume;
 extern ALSndPlayer* gSoundPlayer;
 extern s32 gAudioDriverTick;
@@ -36,21 +36,10 @@ extern s32 gAudioDriverTick;
 extern UnkStruct_800EA144 D_800EA144[];
 extern UnkStruct_800EA5BC D_800EA5BC[];
 
-#define AUDIO_SEQ_STATE_MUTED 1
-#define AUDIO_SEQ_STATE_PLAYING 2
-#define AUDIO_SEQ_STATE_STOPPED 4
-
-#define VOLUME_STATE_NOT_ADJUSTED 0
-#define VOLUME_STATE_ADJUSTED 0x10
-
-#define SOUND_DEALLOC_REQUEST_STATE_FREE_SLOT 0
-#define SOUND_DEALLOC_REQUEST_STATE_STOP 1
-#define SOUND_DEALLOC_REQUEST_STATE_DEALLOCATE 2
-
 // .data
 s32 gSequencePlayerState = AUDIO_SEQ_STATE_MUTED;
 s32 D_800E8CF4 = 0;
-s32 D_800E8CF8 = 0;
+s32 gSequencePlayerStopFlags = 0;
 s32 gVolumeState = VOLUME_STATE_NOT_ADJUSTED;
 
 // Stubbed strings - .rodata
@@ -143,11 +132,11 @@ void AudioDriver_InitSeqPlayer(void) {
     gCompressedSequence = AUDIO_HEAP_ALLOC(233, sizeof(ALCSeq));
     gCurrentSequenceID = -1;
     gSequencePlayerState = AUDIO_SEQ_STATE_MUTED;
-    gCurrentSequenceVolume = 0x7FFF;
+    gCurrentSequenceVolume = MAX_VOLUME;
     gAppliedSequenceVolume = 0;
-    gMaxSequenceVolume = 0x7FFF;
-    D_801AE848 = 0;
-    D_800E8CF8 = 0;
+    gMaxSequenceVolume = MAX_VOLUME;
+    gSequenceVolumeAdjust = 0;
+    gSequencePlayerStopFlags = SEQ_PLAYER_CONTINUE;
     gVolumeState = VOLUME_STATE_NOT_ADJUSTED;
 }
 
@@ -462,9 +451,9 @@ void AudioDriver_UpdateSequence(void) {
         }
         if ((D_800EA5BC[gCurrentSequenceID].seqIdx < gSequenceCount) &&
             (gSequencePlayerState == AUDIO_SEQ_STATE_MUTED)) {
-            gSavedSequenceID = gCurrentSequenceID;
+            gPlayedSequenceID = gCurrentSequenceID;
             gCurrentSequenceID = -1;
-            seqSize = AudioDriver_GetSequence(D_800EA5BC[gSavedSequenceID].seqIdx);
+            seqSize = AudioDriver_GetSequence(D_800EA5BC[gPlayedSequenceID].seqIdx);
             alCSeqNew(gCompressedSequence, gCompressedSequencePtr);
             alSeqpSetSeq((ALSeqPlayer*) gCompressedSeqPlayer, gCompressedSequence);
             alSeqpSetBank((ALSeqPlayer*) gCompressedSeqPlayer, gAudioTblBank);
@@ -478,7 +467,7 @@ void AudioDriver_UpdateSequence(void) {
     // Adjust volume
     if (gSequencePlayerState == AUDIO_SEQ_STATE_PLAYING) {
         if (gCurrentSequenceVolume < gMaxSequenceVolume) {
-            gCurrentSequenceVolume += D_801AE848;
+            gCurrentSequenceVolume += gSequenceVolumeAdjust;
             if (gCurrentSequenceVolume >= gMaxSequenceVolume) {
                 gCurrentSequenceVolume = gMaxSequenceVolume;
             } else {
@@ -486,10 +475,10 @@ void AudioDriver_UpdateSequence(void) {
             }
         }
         if (gCurrentSequenceVolume > gMaxSequenceVolume) {
-            gCurrentSequenceVolume -= D_801AE848;
+            gCurrentSequenceVolume -= gSequenceVolumeAdjust;
             if (gCurrentSequenceVolume <= gMaxSequenceVolume) {
                 gCurrentSequenceVolume = gMaxSequenceVolume;
-                if ((gCurrentSequenceVolume == 0) && (D_800E8CF8 & 1)) {
+                if ((gCurrentSequenceVolume == 0) && (gSequencePlayerStopFlags & SEQ_PLAYER_STOP)) {
                     AudioDriver_StopSeqplayer();
                 }
             } else {
@@ -533,7 +522,7 @@ s32 func_800BADA8(s32 arg0) {
     D_801AE678[i].unk32 = D_800EA144[arg0].unk4;
     D_801AE678[i].unk14 = D_801AE678[i].unkC;
     D_801AE678[i].unk4 = 1;
-    D_801AE678[i].sndVol = 0x7FFF;
+    D_801AE678[i].sndVol = MAX_VOLUME;
     D_801AE678[i].pitchMod = 0x2710;
     D_801AE678[i].basePitch = 0x2710;
     D_801AE678[i].pan = 0x40;
@@ -541,9 +530,9 @@ s32 func_800BADA8(s32 arg0) {
     D_801AE598[i].basePitch = 0x2710;
     D_801AE598[i].pan = 0x40;
     D_801AE598[i].unused_1B = 0;
-    D_801AE598[i].unkC = 0x7FFF;
-    D_801AE598[i].unk18 = 0x7FFF;
-    D_801AE598[i].unk10 = 0x7FFF;
+    D_801AE598[i].unkC = MAX_VOLUME;
+    D_801AE598[i].unk18 = MAX_VOLUME;
+    D_801AE598[i].unk10 = MAX_VOLUME;
     D_801AE598[i].unk14 = 0;
 
     if (D_801AE678[i].unk32 != 0) {
@@ -621,18 +610,18 @@ void func_800BB4DC(s32 arg0) {
 }
 
 // Immediately sets sequence volume and max volume
-void AudioDriver_SetSeqVolumeImmediate(s32 vol) {
+void AudioDriver_SetSeqVolume(s32 vol) {
     gCurrentSequenceVolume = vol;
     gMaxSequenceVolume = vol;
 }
 
-void func_800BB52C(s32 seqVol, u16 arg1, s16 maxVol, u16 arg3) {
+void AudioDriver_ConfigSeqPlayerVolume(s32 seqVol, u16 volAdj, s16 maxVol, u16 stopFlags) {
     if (seqVol != -1) {
         gCurrentSequenceVolume = seqVol;
     }
-    D_801AE848 = arg1;
+    gSequenceVolumeAdjust = volAdj;
     gMaxSequenceVolume = maxVol;
-    D_800E8CF8 = arg3;
+    gSequencePlayerStopFlags = stopFlags;
 }
 
 s32 func_800BB578(void) {

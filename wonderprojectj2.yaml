@@ -103,7 +103,7 @@ segments:
       - [0x21320, c, code/code_21320]
 
       - [0x221A0, c, code/sound_debug_menu]
-      - [0x22AD0, c, code/code_22AD0]
+      - [0x22AD0, c, audio/audio_general]
       - [0x22D50, c, code/code_22D50]
       - [0x2CE70, c, code/code_2CE70]
       - [0x2DFB0, c, code/code_2DFB0]

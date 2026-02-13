@@ -11,7 +11,7 @@ extern f32 D_801561D0;
 extern f32 D_801A7224;
 extern f32 D_801A7230;
 
-s32 func_80016B10(UnkStruct_8000DDE0 *arg0) {
+s32 func_80016B10(UnkStruct_8000DDE0* arg0) {
     UNUSED s32 pad;
 
     arg0->unk1A0 |= 8;
@@ -30,8 +30,8 @@ s32 func_80016B10(UnkStruct_8000DDE0 *arg0) {
 }
 
 s32 func_80016BF4(f32 arg0, f32 arg1, s32 arg2, f32 arg3) {
-    UnkStruct_8000DDE0 *sp1C;
-    UnkStruct_8000DDE0 *sp18;
+    UnkStruct_8000DDE0* sp1C;
+    UnkStruct_8000DDE0* sp18;
 
     sp1C = func_80016074(0xE);
     if (sp1C == NULL) {
@@ -86,7 +86,7 @@ s32 func_80016F80(UnkStruct_8000DDE0* arg0) {
     UnkStruct_80099E2C* sp4;
     s32 sp0;
 
-    sp4 = arg0;
+    sp4 = &arg0->unk0;
     sp0 = 0;
     if (arg0->unk1A8 & 1) {
         if (arg0->unk1A8 & 4) {

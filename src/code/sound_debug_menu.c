@@ -13,7 +13,7 @@ typedef enum SoundDebugMenuEntry_e {
 
 void func_8002206C(s32, s16, s16); /* extern */
 void func_800220F4(s32);           /* extern */
-void func_80021F20(s16);           /* extern */
+void AudioGeneral_BGMFadeOut(s16); /* extern */
 void AudioMgr_StopMusic(void);     /* extern */
 extern DebugMenuOption D_800DB610[];
 extern s16 D_800DB750;
@@ -155,7 +155,7 @@ s32 SoundDebugMenu_BGMTest(DebugMenuOption* option, SelectionState selectionStat
             D_800DB758 = 1;
         }
         if (gControllers->unk6 & gInputMask_CRight) {
-            func_80021F20(D_800DB758);
+            AudioGeneral_BGMFadeOut(D_800DB758);
         }
     }
     func_8008ECE4("   %2d  speed[%d]", gMusicSequenceId, D_800DB758);
