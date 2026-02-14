@@ -65,7 +65,7 @@ extern s32 D_801A7244;
 extern f32 D_801A7264;
 extern f32 D_801A7270;
 extern f32 D_801A727C;
-extern UnkStruct_80099E2C* D_801A8C30;
+extern SpriteObj* D_801A8C30;
 extern s32 D_801A8E44;
 extern f32 D_801A8E38;
 
@@ -727,7 +727,7 @@ s32 func_800051D4(u16 arg0, u16 arg1) {
 s32 func_80005284(void) {
     s32 sp17C;
     s32 sp178;
-    char buf[sizeof(UnkStruct_80099E2C)];
+    char buf[sizeof(SpriteObj)];
 
     for (sp17C = 0, sp178 = 0; sp178 < 4; sp178++) {
         sp17C |= D_801A8C18[sp178].unkC0;
@@ -754,7 +754,7 @@ s32 func_80005284(void) {
 
 s32 func_80005460(void) {
     s32 sp1C;
-    UnkStruct_80099E2C* sp18;
+    SpriteObj* sp18;
 
     sp18 = D_801A8C18;
     for (sp1C = 0; sp1C < 4; sp1C++) {
@@ -784,7 +784,7 @@ s32 func_80005460(void) {
 
 s32 func_800055DC(void) {
     s32 sp1C;
-    UnkStruct_80099E2C* sp18;
+    SpriteObj* sp18;
 
     sp18 = D_801A8C24;
     for (sp1C = 0; sp1C < 4; sp1C++) {

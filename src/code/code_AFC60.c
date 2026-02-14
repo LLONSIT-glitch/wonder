@@ -128,7 +128,7 @@ void func_800AF72C(s32* fileAddr) {
     sp24 = D_801601D4;
     for (sp2C = 0; sp2C < D_801601D8; sp2C++) {
         sp1C = SysMem_GetPhysicalAddressFromVirtual((u32) gSeg_6E3A40_ROM_START, (s32) gSeg_6E3A40_VRAM, *fileAddr);
-        sp28 = Sys_GetSPIHeaderInfoFromVaddr(sp1C);
+        sp28 = Spi_GetHeader(sp1C);
         sp20 = (s32*) &D_801604A8;
         Spi_DecompressAsset((u32) sp1C, sp28, (u8*) sp20);
         *sp24 = SysMem_HeapAlloc((sp28 = D_80160494));
@@ -196,7 +196,7 @@ u8* func_800B08FC(s16 arg0, s16 arg1) {
                                                 (s32) ((arg0 * 4) + D_8015FB88));
     SysMem_DmaCopy((u32) sp28, sp2C, 4);
     sp28 = SysMem_GetPhysicalAddressFromVirtual((u32) gSeg_6E3A40_ROM_START, (s32) gSeg_6E3A40_VRAM, *sp2C);
-    sp34 = Sys_GetSPIHeaderInfoFromVaddr(sp28);
+    sp34 = Spi_GetHeader(sp28);
     sp30 = SysMem_HeapAlloc(D_80160494);
     Spi_DecompressAsset((u32) sp28, sp34, sp30);
     if (arg1 != 0) {
@@ -223,7 +223,7 @@ void* func_800B0A3C(s16 arg0, s16 arg1) {
                                                 (s32) ((arg0 * 4) + D_8015FBA8));
     SysMem_DmaCopy((u32) sp30, sp34, 4);
     sp30 = SysMem_GetPhysicalAddressFromVirtual((u32) gSeg_6E3A40_ROM_START, (s32) gSeg_6E3A40_VRAM, *sp34);
-    sp4C = Sys_GetSPIHeaderInfoFromVaddr(sp30);
+    sp4C = Spi_GetHeader(sp30);
     ;
     sp3C = SysMem_HeapAlloc((sp48 = (u32) (D_80160494) *D_800EF930) * 0x10);
     sp40 = sp3C;

@@ -4,10 +4,10 @@ extern Scheduler D_801AC8A8;
 
 void Scheduler_CreateScheduler(Scheduler* arg0, u8 arg1, s32 arg2);
 s32 func_8009A084(Gfx**, f32); /* extern */
-void func_80099E2C(UnkStruct_80099E2C* arg0);
+void func_80099E2C(SpriteObj* arg0);
 void func_80090A38(s16* palette, int size);
-s32 func_800A39C4(UnkStruct_80099E2C* arg0, s32 arg1, s32 arg2, s16 arg3, s32 arg4);
-void func_800A3FC0(UnkStruct_80099E2C* arg0);
+s32 func_800A39C4(SpriteObj* arg0, s32 arg1, s32 arg2, s16 arg3, s32 arg4);
+void func_800A3FC0(SpriteObj* arg0);
 f32 func_800C3650(f32); /* extern */
 
 extern f32 D_800EF84C;
@@ -381,12 +381,12 @@ void func_80099768(void) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800997D8.s")
 
-void func_80099E2C(UnkStruct_80099E2C* arg0) {
+void func_80099E2C(SpriteObj* arg0) {
     s32 i;
 
     arg0->unkCC = arg0->unkD0 = arg0->unkD4 = 0.0f;
     arg0->unkD8 = 0.0f;
-    arg0->unkE8 = arg0->unkEC = arg0->unkF0 = 0.0f;
+    arg0->rotateX = arg0->rotateY = arg0->rotateZ = 0.0f;
     arg0->unkE0 = 0;
     arg0->unkDC = arg0->unkE0;
     arg0->unkF8 = 1.0f;
@@ -454,7 +454,7 @@ s32 func_8009A084(Gfx** gdl, f32 arg1) {
     return 0;
 }
 
-void func_8009A14C(UnkStruct_80099E2C* arg0) {
+void func_8009A14C(SpriteObj* arg0) {
     if (arg0->unkC0 & 8) {
         MtxUtil_TranslateLocal(arg0->unkCC + D_801A7224, arg0->unkD0 + D_801A7230, arg0->unkD4 + D_801A7218);
     } else {
@@ -467,18 +467,18 @@ void func_8009A22C(void) {
     MtxUtil_TranslateLocal(0.0f, 0.0f, D_801A7218);
 }
 
-void func_8009A264(UnkStruct_80099E2C* arg0) {
+void func_8009A264(SpriteObj* arg0) {
     if (!(arg0->unkC0 & 8) && (arg0->unkC0 & 0x10)) {
-        MtxUtil_RotateZ(arg0->unkF0);
+        MtxUtil_RotateZ(arg0->rotateZ);
     }
 }
 
-void func_8009A2C4(UnkStruct_80099E2C* arg0) {
+void func_8009A2C4(SpriteObj* arg0) {
     arg0->unkC0 |= 0x10;
     arg0->unkC0 &= ~8;
 }
 
-void func_8009A2F4(UnkStruct_80099E2C* arg0) {
+void func_8009A2F4(SpriteObj* arg0) {
     arg0->unkC0 |= 8;
     arg0->unkC0 &= ~0x10;
 }
@@ -495,7 +495,7 @@ s32 func_8009A324(MtxF* arg0, f32* arg1, f32* arg2) {
     return 0;
 }
 
-s32 func_8009A3E8(UnkStruct_80099E2C* arg0, f32* arg1, f32* arg2) {
+s32 func_8009A3E8(SpriteObj* arg0, f32* arg1, f32* arg2) {
     MtxF sp20;
     s32 sp1C;
 
@@ -527,8 +527,8 @@ s32 func_8009A3E8(UnkStruct_80099E2C* arg0, f32* arg1, f32* arg2) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_8009FC68.s")
 
-s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5,
-                  UnkStruct_80099E2C* arg6) {
+s32 func_800A19B0(Gfx** gdlh, SpriteObj* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5,
+                  SpriteObj* arg6) {
     Gfx* gdl;
     s32 texWidth;
     s32 texHeight;
@@ -581,7 +581,7 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
         return -1;
     }
 
-    D_8015B324 = (s16) (s32) (((f32) arg1->unk11E * arg6->unkE8) / 255.0f);
+    D_8015B324 = (s16) (s32) (((f32) arg1->unk11E * arg6->rotateX) / 255.0f);
     MtxUtil_PushCopy();
     MtxUtil_SetCurrent((MtxF*) &arg6->unkA0);
     func_800C1D44((MtxF*) &arg1->unk80);
@@ -783,8 +783,8 @@ s32 func_800A19B0(Gfx** gdlh, UnkStruct_80099E2C* arg1, f32 arg2, f32 arg3, f32 
     return 0;
 }
 
-UnkStruct_80099E2C* func_800A3918(void) {
-    UnkStruct_80099E2C* sp24;
+SpriteObj* func_800A3918(void) {
+    SpriteObj* sp24;
 
     sp24 = SysMem_HeapAlloc(0x160);
     if (sp24 == NULL) {
@@ -802,7 +802,7 @@ UnkStruct_80099E2C* func_800A3918(void) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_800A39C4.s")
 
-void func_800A3FC0(UnkStruct_80099E2C* arg0) {
+void func_800A3FC0(SpriteObj* arg0) {
     if (arg0->currentPaletteColors != NULL) {
         SysMem_Free(arg0->currentPaletteColors);
     }

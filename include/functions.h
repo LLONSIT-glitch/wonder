@@ -43,7 +43,7 @@ s32 func_800C1154(u8 threadId, s32 arg1);
 s32 Thread_ReceiveMsgInThread(u8 threadId, void **mesg, s32 arg2);
 s32 osPiGetStatus();                                /* extern */
 s32 osPiGetStatus(void);
-s32 Sys_GetSPIHeaderInfoFromVaddr(s32);          /* extern */
+s32 Spi_GetHeader(s32);          /* extern */
 s32 func_80002F20(void);
 void func_800044BC(void);
 void func_8000A2C0(void*);
@@ -75,22 +75,22 @@ void func_8008EAA8(s32, s32);
 void func_8008ECE4(char* fmt, ...);
 s32 func_800AE7FC(void);
 void* func_8001F60C(u8**);
-void func_80099E2C(UnkStruct_80099E2C*);
-void func_800B1B3C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
-void func_800B1C10(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
-s32 func_8001F390(DebugMenuInfo* arg0);
+void func_80099E2C(SpriteObj*);
+void func_800B1B3C(SpriteObj** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
+void func_800B1C10(SpriteObj** arg0, UnkStruct_800B23C4** arg1, s32 arg2);
+s32 ObjectCheckDebugMenu(DebugMenuInfo* arg0);
 void func_8001F6B8(void);
 void func_8001F800(void);
 void func_80022124(void);                                  /* extern */
-void func_8009A14C(UnkStruct_80099E2C*);                               /* extern */
-s32 func_800B202C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u32 arg2, u16 arg3, f32 arg4, f32 arg5, u8 arg6);
-s32 func_800B2748(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1);
-s32 func_800B2CBC(UnkStruct_80099E2C**, UnkStruct_800B23C4**, s32);                   /* extern */
+void func_8009A14C(SpriteObj*);                               /* extern */
+s32 func_800B202C(SpriteObj** arg0, UnkStruct_800B23C4** arg1, u32 arg2, u16 arg3, f32 arg4, f32 arg5, u8 arg6);
+s32 func_800B2748(SpriteObj** arg0, UnkStruct_800B23C4** arg1);
+s32 func_800B2CBC(SpriteObj**, UnkStruct_800B23C4**, s32);                   /* extern */
 u16 func_800B32E4(UnkStruct_800B23C4**, s32);                         /* extern */
 s32 func_800B3434(UnkStruct_800B23C4 **arg0, u8 arg1);
-void func_800B3DBC(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u16 paletteIndex) ;             /* extern */
+void func_800B3DBC(SpriteObj** arg0, UnkStruct_800B23C4** arg1, u16 paletteIndex) ;             /* extern */
 void func_800B9000(u16);                               /* extern */
-s32 func_8001F390(DebugMenuInfo* arg0);
+s32 ObjectCheckDebugMenu(DebugMenuInfo* arg0);
 void func_8001F6B8(void);
 void func_8001F800(void);
 s32 func_8000E524(UnkStruct_8000DDE0*);             /* extern */
@@ -144,6 +144,8 @@ f32 func_8002BB04(s16 arg0);
 s32 Thread_GetPriority(u8 arg0);
 void func_80014C70(UnkStruct_8000DDE0 *arg0);
 s32 func_8000DA44(UnkStruct_8000DDE0* arg0, s32 arg1, u16* arg2);
+s32 func_800B1F0C(SpriteObj* arg0, UnkStruct_800B23C4* arg1, s32 arg2, u16 arg3, f32 arg4, f32 arg5, u8 arg6);
 s32 func_80005460(void);                                  /* extern */
 s32 func_800055DC(void);  
+void func_800B1B04(SpriteObj* arg0, UnkStruct_800B23C4* arg1);
 #endif /* FUNCTIONS_H */

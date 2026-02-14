@@ -32,8 +32,8 @@ extern s16 D_801A7228;
 extern UnkStruct_801561D8 D_801561D8[];
 extern s32 D_800E4CA4;
 extern u16 D_8015BB48[];
-extern UnkStruct_80099E2C D_801AA680[8];
-extern UnkStruct_80099E2C D_801AB180[];
+extern SpriteObj D_801AA680[8];
+extern SpriteObj D_801AB180[];
 extern s32 D_801AB240;
 extern f32 D_801AB254;
 extern f32 D_801AB250;
@@ -144,13 +144,13 @@ s32 func_8001A040(s32 arg0, s32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     sp24->unk1EC = (f32) arg1;
     sp20 = &D_801561D8[arg0];
     sp1C = &D_801561D8[arg1];
-    sp20->unkE8 = 255.0f;
-    sp1C->unkE8 = 0.0f;
+    sp20->rotateX = 255.0f;
+    sp1C->rotateX = 0.0f;
     sp24->unk1F0 = arg2;
     sp24->unk1F4 = arg3;
     sp24->unk1F8 = arg4;
-    sp20->unkEC = -255.0f / arg2;
-    sp1C->unkEC = 255.0f / arg4;
+    sp20->rotateY = -255.0f / arg2;
+    sp1C->rotateY = 255.0f / arg4;
     sp24->unk0.unkC4 = func_800AD774(arg0);
     return 0;
 }
@@ -168,36 +168,36 @@ s32 func_8001A210(UnkStruct_8000DDE0* arg0) {
 
         } else {
             if (arg0->unk1F0 > 0.0f) {
-                sp24->unkE8 += sp24->unkEC * D_8018257C;
-                if (sp24->unkE8 < 0.0f) {
-                    sp24->unkE8 = 0.0f;
+                sp24->rotateX += sp24->rotateY * D_8018257C;
+                if (sp24->rotateX < 0.0f) {
+                    sp24->rotateX = 0.0f;
                 }
                 arg0->unk1F0 = (f32) ((f64) arg0->unk1F0 - (1.0 * (f64) D_8018257C));
             } else {
                 arg0->unk1F0 = 0.0f;
-                sp24->unkE8 = 0.0f;
+                sp24->rotateX = 0.0f;
             }
             if (arg0->unk1F4 > 0.0f) {
                 arg0->unk1F4 = (f32) ((f64) arg0->unk1F4 - (1.0 * (f64) D_8018257C));
             } else {
                 arg0->unk1F4 = 0.0f;
                 if (arg0->unk1F8 > 0.0f) {
-                    sp20->unkE8 += sp20->unkEC * D_8018257C;
-                    if (sp20->unkE8 > 255.0f) {
-                        sp20->unkE8 = 255.0f;
+                    sp20->rotateX += sp20->rotateY * D_8018257C;
+                    if (sp20->rotateX > 255.0f) {
+                        sp20->rotateX = 255.0f;
                     }
                     arg0->unk1F8 = (f32) ((f64) arg0->unk1F8 - (1.0 * (f64) D_8018257C));
                 } else {
                     arg0->unk1F8 = 0.0f;
-                    sp20->unkE8 = 255.0f;
+                    sp20->rotateX = 255.0f;
                 }
             }
 
             if ((arg0->unk1F8 == arg0->unk1F0) && (arg0->unk1F0 == 0.0f)) {
                 arg0->unk1A8 = (s32) (arg0->unk1A8 & ~1);
                 arg0->unk1A8 = (s32) (arg0->unk1A8 | 2);
-                sp24->unkE8 = 0.0f;
-                sp20->unkE8 = 255.0f;
+                sp24->rotateX = 0.0f;
+                sp20->rotateX = 255.0f;
             } else {
                 MtxUtil_PushIdentity();
                 func_8009A14C(&arg0->unk0);
@@ -233,8 +233,8 @@ s32 func_8001A690(UnkStruct_8000DDE0* arg0) {
     sp28->unk0.unkCC = sp28->unk0.unkD0 = sp28->unk0.unkD4;
     sp28->unk0.unk108 = 0;
     sp28->unk0.unk104 = sp28->unk0.unk108;
-    sp28->unk0.unkF0 = 0.0f;
-    sp28->unk0.unkE8 = sp28->unk0.unkEC = sp28->unk0.unkF0;
+    sp28->unk0.rotateZ = 0.0f;
+    sp28->unk0.rotateX = sp28->unk0.rotateY = sp28->unk0.rotateZ;
     sp28->unk0.unkF8 = 1.0f;
     sp28->unk0.unkF4 = sp28->unk0.unkF8;
     sp28->unk0.unk11E = 0xFF;
@@ -346,9 +346,9 @@ s32 func_8001ADBC(UnkStruct_8000DDE0* arg0) {
     if ((*D_801A8D88 & 8) || !(arg0->unk1A8 & 1)) {
         MtxUtil_PushIdentity();
         func_8009A14C(&sp1C->unk0);
-        MtxUtil_RotateZ(sp1C->unk0.unkF0);
-        MtxUtil_RotateY(sp1C->unk0.unkEC);
-        MtxUtil_RotateX(sp1C->unk0.unkE8);
+        MtxUtil_RotateZ(sp1C->unk0.rotateZ);
+        MtxUtil_RotateY(sp1C->unk0.rotateY);
+        MtxUtil_RotateX(sp1C->unk0.rotateX);
         func_800997D8(sp1C);
         MtxUtil_Pop();
     }
@@ -396,7 +396,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
     UnkStruct_800F9C38* sp68; // sp64
     s16* sp64;                // sp60
     UnkStruct_8000DDE0* sp60; // sp5C
-    UnkStruct_80099E2C* sp5C; // sp58
+    SpriteObj* sp5C; // sp58
     u8* sp58;                 // sp54
     u16 sp56;                 // sp52?
     DebugMenuOption* sp50;
@@ -416,7 +416,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
         sp60->unk0.unkF4 = sp60->unk0.unkF8;
         sp60->unk0.unkC0 &= ~8;
         sp60->unk0.unkC0 |= 0x810;
-        sp60->unk0.unkE8 = sp60->unk0.unkEC = sp60->unk0.unkF0 = 0.0f;
+        sp60->unk0.rotateX = sp60->unk0.rotateY = sp60->unk0.rotateZ = 0.0f;
     }
     sp8C = 0;
     sp7C = 0.0f;
@@ -518,7 +518,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                                     if (sp70 != 0) {
                                         sp4C = sp50;
                                         sp48 = sp50->unk18;
-                                        D_801825E4 = 0;
+                                        gDebugMenuState = 0;
                                     }
                                 } else {
                                     func_8008ECE4(" %s", sp50->optionName);
@@ -582,8 +582,8 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                             sp48 = NULL;
                             func_8001C1F4(sp5C);
                         }
-                        if (D_801825E4 == 0) {
-                            D_801825E4 += 1;
+                        if (gDebugMenuState == 0) {
+                            gDebugMenuState += 1;
                         }
                         func_8008EAA8(0, 0x12);
                         func_8008ECE4("   frame : %d.    %f\n", (s32) ((f32) D_8018251C / 50.223f), (f64) D_8018257C);
@@ -612,20 +612,20 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                         sp44 = 0.0f;
                     }
                     if (*D_801A8D88 & 4) {
-                        sp60->unk0.unkE8 = sp44;
+                        sp60->unk0.rotateX = sp44;
                         MtxUtil_PushIdentity();
                         func_8009A14C(sp60);
-                        MtxUtil_RotateZ(sp60->unk0.unkF0);
-                        MtxUtil_RotateY(sp60->unk0.unkEC);
-                        MtxUtil_RotateX(sp60->unk0.unkE8);
+                        MtxUtil_RotateZ(sp60->unk0.rotateZ);
+                        MtxUtil_RotateY(sp60->unk0.rotateY);
+                        MtxUtil_RotateX(sp60->unk0.rotateX);
                         func_800997D8(sp60);
                     }
-                    sp5C->unkE8 = sp44 - 180.0f;
+                    sp5C->rotateX = sp44 - 180.0f;
                     MtxUtil_Identity(0);
                     func_8009A14C(sp5C);
-                    MtxUtil_RotateZ(sp5C->unkF0);
-                    MtxUtil_RotateY(sp5C->unkEC);
-                    MtxUtil_RotateX(sp5C->unkE8);
+                    MtxUtil_RotateZ(sp5C->rotateZ);
+                    MtxUtil_RotateY(sp5C->rotateY);
+                    MtxUtil_RotateX(sp5C->rotateX);
                     func_800997D8(sp5C);
                     MtxUtil_Pop();
                     func_8009A664(&gDisplayListHead);
@@ -647,7 +647,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                     if (*D_801A8D88 & 4) {
                         sp60->unk0.unkC0 &= ~16;
                         sp60->unk0.unkC0 |= 8;
-                        sp60->unk0.unkE8 = sp60->unk0.unkEC = sp60->unk0.unkF0 = 0.0f;
+                        sp60->unk0.rotateX = sp60->unk0.rotateY = sp60->unk0.rotateZ = 0.0f;
                     }
                     sp78 = 1;
                     sp6C->unk0.unk8 = 1;
@@ -667,7 +667,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
                 func_80098820();
                 func_80098868();
                 func_80005460();
-                func_80005124(D_801825F0[0], D_801825F0[1]);
+                func_80005124(gSpriteObjCheckDebugMenuState[0], gSpriteObjCheckDebugMenuState[1]);
                 sp68->unk82EC = 0;
                 Thread_ResetMqValidCount(sp6C->unk0.unk0);
                 func_80098820();
@@ -947,8 +947,8 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
     s32 sp44;
     s32 sp40;
     s32 sp3C;
-    UnkStruct_80099E2C* sp38;
-    UnkStruct_80099E2C* sp34;
+    SpriteObj* sp38;
+    SpriteObj* sp34;
     s32 sp30;
     s32 sp2C;
     f32* sp28;
@@ -956,16 +956,16 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
 
     func_8008EAA8(2, 1);
     func_8008ECE4(&D_800ED95C, arg0->debugMenuTitle);
-    switch (D_801825E4) { /* irregular */
+    switch (gDebugMenuState) { /* irregular */
         case 0:
             D_80182618->ptrs[0] = SysMem_HeapAlloc(0xB00);
-            D_801825F0[0] = 1;
-            D_801825F0[1] = 0;
-            D_801825F0[2] = 0xF;
-            D_801825F0[3] = 1;
-            D_801825F0[4] = 0;
+            gSpriteObjCheckDebugMenuState[0] = 1;
+            gSpriteObjCheckDebugMenuState[1] = 0;
+            gSpriteObjCheckDebugMenuState[2] = 0xF;
+            gSpriteObjCheckDebugMenuState[3] = 1;
+            gSpriteObjCheckDebugMenuState[4] = 0;
             for (sp44 = 0; sp44 < 8; sp44++) {
-                sp38 = (UnkStruct_80099E2C*) (D_80182618->ptrs[0] + (sp44 * 0x160));
+                sp38 = (SpriteObj*) (D_80182618->ptrs[0] + (sp44 * 0x160));
                 func_80099E2C(sp38);
                 sp38->unkC0 |= 0x10C;
                 sp38->unk116 = 1;
@@ -979,24 +979,24 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
                 }
                 if (sp44 == 0) {
                     sp38->unkD0 = 0.0f;
-                    sp38->unkF0 = 0.0f;
-                    sp38->unkEC = 1.0f;
+                    sp38->rotateZ = 0.0f;
+                    sp38->rotateY = 1.0f;
                     sp38->unkE4 = 8.0f;
                 } else {
                     sp38->unkD0 = 8.0f;
-                    sp38->unkF0 = 180.0f;
-                    sp38->unkEC = -1.0f;
+                    sp38->rotateZ = 180.0f;
+                    sp38->rotateY = -1.0f;
                     sp38->unkE4 = 8.0f;
                 }
             }
             break;
         case 1:
             func_8008EAA8(2, 2);
-            func_8008ECE4(&D_800ED968, D_801825F0[4]);
-            func_8008ECE4(&D_800ED97C, D_801825F0[3], D_801825F0[2]);
+            func_8008ECE4(&D_800ED968, gSpriteObjCheckDebugMenuState[4]);
+            func_8008ECE4(&D_800ED97C, gSpriteObjCheckDebugMenuState[3], gSpriteObjCheckDebugMenuState[2]);
             if (gControllers->unk6 & gInputMask_R) {
                 for (sp44 = 0; sp44 < 8; sp44++) {
-                    sp38 = (UnkStruct_80099E2C*) (D_80182618->ptrs[0] + (sp44 * 0x160));
+                    sp38 = (SpriteObj*) (D_80182618->ptrs[0] + (sp44 * 0x160));
                     sp24 = sp38->ptrs[1];
                     func_80099E2C(sp38);
                     sp38->unkC0 |= 0x10C;
@@ -1009,68 +1009,68 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
                     for (sp40 = 0, sp28 = (f32*) sp38->ptrs[1]; sp40 < 16; sp40++) {
                         sp28[sp40] = 0.0f;
                     }
-                    if (D_801825F0[4] == 0) {
+                    if (gSpriteObjCheckDebugMenuState[4] == 0) {
                         if (sp44 == 0) {
                             sp38->unkD0 = 0.0f;
-                            sp38->unkF0 = 0.0f;
-                            sp38->unkEC = 1.0f;
+                            sp38->rotateZ = 0.0f;
+                            sp38->rotateY = 1.0f;
                             sp38->unkE4 = 8.0f;
                         } else {
                             sp38->unkD0 = 8.0f;
-                            sp38->unkF0 = 180.0f;
-                            sp38->unkEC = -1.0f;
+                            sp38->rotateZ = 180.0f;
+                            sp38->rotateY = -1.0f;
                             sp38->unkE4 = 8.0f;
                         }
                     } else if (sp44 == 0) {
                         sp38->unkD0 = 0.0f;
-                        sp38->unkF0 = 0.0f;
-                        sp38->unkEC = 1.0f;
+                        sp38->rotateZ = 0.0f;
+                        sp38->rotateY = 1.0f;
                         sp38->unkE4 = 0.0f;
                     } else {
                         sp38->unkD0 = 0.0f;
-                        sp38->unkF0 = 0.0f;
-                        sp38->unkEC = -1.0f;
+                        sp38->rotateZ = 0.0f;
+                        sp38->rotateY = -1.0f;
                         sp38->unkE4 = 0.0f;
                     }
                 }
-                D_801825F0[0] = 1;
-                D_801825F0[2] = 0xF;
-                D_801825F0[3] = 1;
+                gSpriteObjCheckDebugMenuState[0] = 1;
+                gSpriteObjCheckDebugMenuState[2] = 0xF;
+                gSpriteObjCheckDebugMenuState[3] = 1;
             }
             if (gControllers->unk6 & gInputMask_A) {
-                D_801825F0[1] ^= 1;
+                gSpriteObjCheckDebugMenuState[1] ^= 1;
             }
             if (gControllers->unk6 & gInputMask_CRight) {
-                D_801825F0[2] += 1;
+                gSpriteObjCheckDebugMenuState[2] += 1;
             }
             if (gControllers->unk6 & gInputMask_CUp) {
-                D_801825F0[2] -= 1;
+                gSpriteObjCheckDebugMenuState[2] -= 1;
             }
             if (gControllers->unk6 & gInputMask_CDown) {
-                D_801825F0[3] += 1;
+                gSpriteObjCheckDebugMenuState[3] += 1;
             }
             if (gControllers->unk6 & gInputMask_CLeft) {
-                D_801825F0[3] -= 1;
+                gSpriteObjCheckDebugMenuState[3] -= 1;
             }
-            if (D_801825F0[2] < 0) {
-                D_801825F0[2] = 0;
+            if (gSpriteObjCheckDebugMenuState[2] < 0) {
+                gSpriteObjCheckDebugMenuState[2] = 0;
             }
-            if (D_801825F0[2] >= 0x10) {
-                D_801825F0[2] = 0xF;
+            if (gSpriteObjCheckDebugMenuState[2] >= 0x10) {
+                gSpriteObjCheckDebugMenuState[2] = 0xF;
             }
-            if (D_801825F0[3] <= 0) {
-                D_801825F0[3] = 1;
+            if (gSpriteObjCheckDebugMenuState[3] <= 0) {
+                gSpriteObjCheckDebugMenuState[3] = 1;
             }
-            if (D_801825F0[3] >= 9) {
-                D_801825F0[3] = 8;
+            if (gSpriteObjCheckDebugMenuState[3] >= 9) {
+                gSpriteObjCheckDebugMenuState[3] = 8;
             }
             if (gControllers->unk6 & gInputMask_B) {
-                D_801825F0[4] ^= 1;
+                gSpriteObjCheckDebugMenuState[4] ^= 1;
             }
             MtxUtil_PushCopy();
             func_8009A22C();
             if (!(gControllers->button & gInputMask_Z)) {
-                if (D_801825F0[1] != 0) {
+                if (gSpriteObjCheckDebugMenuState[1] != 0) {
                     MtxUtil_RotateY(90.0f);
                     MtxUtil_RotateX(90.0f);
                 }
@@ -1079,25 +1079,25 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
                 MtxUtil_RotateX(gControllers->stickX);
             }
             for (sp44 = 0; sp44 < 8; sp44++) {
-                sp38 = (UnkStruct_80099E2C*) (D_80182618->ptrs[0] + (sp44 * 0x160));
-                if (sp38->unkF0 != 0.0f) {
-                    sp38->unkF0 += sp38->unkEC;
+                sp38 = (SpriteObj*) (D_80182618->ptrs[0] + (sp44 * 0x160));
+                if (sp38->rotateZ != 0.0f) {
+                    sp38->rotateZ += sp38->rotateY;
                 } else {
-                    sp38->unkEC = 0.0f;
+                    sp38->rotateY = 0.0f;
                 }
                 sp28 = (f32*) sp38->ptrs[1];
-                sp38->unkE8 = *sp28;
-                SysMem_Copy8(sp28, sp28 + 1, D_801825F0[2] * 4);
+                sp38->rotateX = *sp28;
+                SysMem_Copy8(sp28, sp28 + 1, gSpriteObjCheckDebugMenuState[2] * 4);
                 if (sp44 == 0) {
-                    sp28[D_801825F0[2]] += (f32) D_801825F0[0];
-                    if (sp28[D_801825F0[2]] > 60.0f) {
-                        D_801825F0[0] = -D_801825F0[3];
+                    sp28[gSpriteObjCheckDebugMenuState[2]] += (f32) gSpriteObjCheckDebugMenuState[0];
+                    if (sp28[gSpriteObjCheckDebugMenuState[2]] > 60.0f) {
+                        gSpriteObjCheckDebugMenuState[0] = -gSpriteObjCheckDebugMenuState[3];
                     }
-                    if (sp28[D_801825F0[2]] < -60.0f) {
-                        D_801825F0[0] = D_801825F0[3];
+                    if (sp28[gSpriteObjCheckDebugMenuState[2]] < -60.0f) {
+                        gSpriteObjCheckDebugMenuState[0] = gSpriteObjCheckDebugMenuState[3];
                     }
                 } else {
-                    sp28[D_801825F0[2]] = sp34->unkE8;
+                    sp28[gSpriteObjCheckDebugMenuState[2]] = sp34->rotateX;
                 }
                 if (sp44 != 0) {
                     if ((f64) sp38->unkD0 < 8.0) {
@@ -1114,10 +1114,10 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
                     sp38->unkE4 = 8.0f;
                 }
                 MtxUtil_PushCopy();
-                MtxUtil_RotateZ(sp38->unkF0);
+                MtxUtil_RotateZ(sp38->rotateZ);
                 MtxUtil_TranslateLocal(0.0f, sp38->unkD0, 0.0f);
                 func_800997D8(sp38);
-                MtxUtil_RotateZ(sp38->unkE8);
+                MtxUtil_RotateZ(sp38->rotateX);
                 MtxUtil_TranslateLocal(0.0f, sp38->unkE4, 0.0f);
                 sp34 = sp38;
             }
@@ -1133,7 +1133,7 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
     }
     if (gControllers->unk6 & (u16) gInputMask_Start) {
         for (sp44 = 0; sp44 < 8; sp44++) {
-            sp38 = (UnkStruct_80099E2C*) (D_80182618->ptrs[0] + (sp44 * 0x160));
+            sp38 = (SpriteObj*) (D_80182618->ptrs[0] + (sp44 * 0x160));
             SysMem_Free(sp38->ptrs[1]);
         }
         SysMem_Free(D_80182618->ptrs[0]);
@@ -1147,65 +1147,65 @@ extern s32 D_801AB248;
 
 s32 func_8001DC00(DebugMenuInfo* arg0) {
     s32 sp2C;
-    UnkStruct_80099E2C* sp28;
+    SpriteObj* sp28;
     s32 temp_t7;
 
     func_8008EAA8(2, 0x10);
     func_8008ECE4(&D_800ED9A0, arg0->debugMenuTitle);
-    D_801825F0[5] = D_80156B98;
-    switch (D_801825E4) { /* irregular */
+    gSpriteObjCheckDebugMenuState[5] = D_80156B98;
+    switch (gDebugMenuState) { /* irregular */
         case 0:
-            D_801825F0[0] = 1;
-            D_801825F0[1] = 1;
-            D_801825F0[2] = 0;
-            D_801825F0[3] = 0;
-            D_801825F0[4] = D_801AB248;
+            gSpriteObjCheckDebugMenuState[0] = 1;
+            gSpriteObjCheckDebugMenuState[1] = 1;
+            gSpriteObjCheckDebugMenuState[2] = 0;
+            gSpriteObjCheckDebugMenuState[3] = 0;
+            gSpriteObjCheckDebugMenuState[4] = D_801AB248;
             D_801AB248 = 0x7FFFFFFF;
             /* fallthrough */
         case 1:
             func_8008EAA8(2, 0x10);
-            D_80156B98 = D_801825F0[5];
-            func_8008ECE4(&D_800ED9AC, D_801825F0[0], D_801825F0[1], D_801825F0[2]);
+            D_80156B98 = gSpriteObjCheckDebugMenuState[5];
+            func_8008ECE4(&D_800ED9AC, gSpriteObjCheckDebugMenuState[0], gSpriteObjCheckDebugMenuState[1], gSpriteObjCheckDebugMenuState[2]);
             if (gControllers->unk8 & gInputMask_B) {
-                D_801825F0[3] ^= 1;
+                gSpriteObjCheckDebugMenuState[3] ^= 1;
             }
             func_8008EAA8(2, 0x11);
-            D_80156B98 = D_801825F0[5];
-            if (D_801825F0[3] == 0) {
+            D_80156B98 = gSpriteObjCheckDebugMenuState[5];
+            if (gSpriteObjCheckDebugMenuState[3] == 0) {
                 func_8008ECE4(&D_800ED9C0);
                 if (gControllers->unk8 & gInputMask_CLeft) {
-                    D_801825F0[0] -= 1;
+                    gSpriteObjCheckDebugMenuState[0] -= 1;
                 }
                 if (gControllers->unk8 & gInputMask_CDown) {
-                    D_801825F0[0] += 1;
+                    gSpriteObjCheckDebugMenuState[0] += 1;
                 }
             } else {
                 func_8008ECE4(&D_800ED9CC);
                 if (gControllers->unk8 & gInputMask_CLeft) {
-                    D_801825F0[1] -= 1;
+                    gSpriteObjCheckDebugMenuState[1] -= 1;
                 }
                 if (gControllers->unk8 & gInputMask_CDown) {
-                    D_801825F0[1] += 1;
+                    gSpriteObjCheckDebugMenuState[1] += 1;
                 }
             }
-            if (D_801825F0[0] <= 0) {
-                D_801825F0[0] = 1;
+            if (gSpriteObjCheckDebugMenuState[0] <= 0) {
+                gSpriteObjCheckDebugMenuState[0] = 1;
             }
-            if (D_801825F0[1] <= 0) {
-                D_801825F0[1] = 1;
+            if (gSpriteObjCheckDebugMenuState[1] <= 0) {
+                gSpriteObjCheckDebugMenuState[1] = 1;
             }
             if (gControllers->unk8 & gInputMask_A) {
                 Thread_SendMesgNoBlock(D_800F1918, &D_8015F7E0, 1);
             }
             if (gControllers->unk6 & gInputMask_Z) {
-                D_801825F0[2] += 1;
+                gSpriteObjCheckDebugMenuState[2] += 1;
             }
-            D_801825F0[2] = (s32) D_801825F0[2] % 4;
+            gSpriteObjCheckDebugMenuState[2] = (s32) gSpriteObjCheckDebugMenuState[2] % 4;
             sp28 = D_801A8C18;
             for (sp2C = 0; sp2C < 4; sp2C++) {
                 if (sp28->unkC0 & 0x10000000) {
                     MtxUtil_PushIdentity();
-                    if (D_801825F0[2] == sp2C) {
+                    if (gSpriteObjCheckDebugMenuState[2] == sp2C) {
                         if (gControllers->unk6 & gInputMask_CRight) {
                             sp28->unkC0 ^= 8;
                         }
@@ -1243,7 +1243,7 @@ s32 func_8001DC00(DebugMenuInfo* arg0) {
             break;
     }
     if (gControllers->unk6 & (u16) gInputMask_Start) {
-        D_801AB248 = D_801825F0[4];
+        D_801AB248 = gSpriteObjCheckDebugMenuState[4];
         return -1;
     }
     return 0;
@@ -1258,14 +1258,14 @@ s32 func_8001E348(DebugMenuInfo* arg0) {
     s32 pad[2];
     func_8008EAA8(2, 1);
     func_8008ECE4(&D_800ED9D8, arg0->debugMenuTitle);
-    switch (D_801825E4) { /* irregular */
+    switch (gDebugMenuState) { /* irregular */
         case 0:
-            D_801825F0[0] = 0;
+            gSpriteObjCheckDebugMenuState[0] = 0;
             goto skip_dead_code;
         case 1:
             func_8008EAA8(2, 4);
             func_8008ECE4(&D_800ED9E4);
-            if (D_801825F0[0] == 0) {
+            if (gSpriteObjCheckDebugMenuState[0] == 0) {
                 func_8008EAA8(8, 6);
                 func_8008ECE4(&D_800EDA10);
                 func_8008EAA8(8, 7);
@@ -1277,15 +1277,15 @@ s32 func_8001E348(DebugMenuInfo* arg0) {
                 func_8008ECE4(&D_800EDA28);
             }
             if ((gControllers->unk8 & gInputMask_DPadUp) || (gControllers->unk8 & gInputMask_DPadDown)) {
-                D_801825F0[0] ^= 1;
+                gSpriteObjCheckDebugMenuState[0] ^= 1;
             }
-            if ((gControllers->unk6 & gInputMask_A) && (D_801825F0[0] == 0)) {
+            if ((gControllers->unk6 & gInputMask_A) && (gSpriteObjCheckDebugMenuState[0] == 0)) {
                 func_800BCB10(D_80180648);
                 D_80180648 = func_8005D2B0();
-                D_801825F0[1] = 0;
-                D_801825E4 += 1;
+                gSpriteObjCheckDebugMenuState[1] = 0;
+                gDebugMenuState += 1;
             }
-            if ((gControllers->unk6 & gInputMask_A) && (D_801825F0[0] != 0)) {
+            if ((gControllers->unk6 & gInputMask_A) && (gSpriteObjCheckDebugMenuState[0] != 0)) {
                 return -1;
             }
             goto skip_dead_code;
@@ -1296,8 +1296,8 @@ s32 func_8001E348(DebugMenuInfo* arg0) {
             func_8008ECE4(&D_800EDA5C);
             func_8008EAA8(8, 7);
             func_8008ECE4(&D_800EDA64);
-            D_801825F0[1] += 1;
-            if (D_801825F0[1] >= 0x79) {
+            gSpriteObjCheckDebugMenuState[1] += 1;
+            if (gSpriteObjCheckDebugMenuState[1] >= 0x79) {
                 return -1;
             }
             goto skip_dead_code;
@@ -1322,13 +1322,13 @@ s32 func_8001E654(DebugMenuInfo* arg0) {
 
     func_8008EAA8(2, 1);
     func_8008ECE4(&D_800EDA6C, arg0->debugMenuTitle);
-    switch (D_801825E4) { /* irregular */
+    switch (gDebugMenuState) { /* irregular */
         case 0:
-            *D_801825F0 = 0;
+            *gSpriteObjCheckDebugMenuState = 0;
             /* fallthrough */
         case 1:
             func_8008EAA8(2, 4);
-            sp24 = *D_801825F0;
+            sp24 = *gSpriteObjCheckDebugMenuState;
 
             for (sp30 = 0, sp2C = 0, sp34 = D_800DB3F8; /* Empty */; sp30++, sp34++) {
                 if (sp34->entry == -1) {
@@ -1370,7 +1370,7 @@ s32 func_8001E654(DebugMenuInfo* arg0) {
             if (sp24 >= sp2C) {
                 sp24 = 0;
             }
-            *D_801825F0 = sp24;
+            *gSpriteObjCheckDebugMenuState = sp24;
             break;
     }
     if (gControllers->unk6 & (u16) gInputMask_Start) {

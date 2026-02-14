@@ -18,19 +18,19 @@ extern s16 D_80180D6C;
 extern s8 D_80180D6E;
 extern s8 D_80180D6F;
 
-s32 func_800B23C4(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 objDefIdx, u16 arg3, f32 arg4, f32 arg5,
+s32 func_800B23C4(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 objDefIdx, u16 arg3, f32 arg4, f32 arg5,
                   u8 arg6);
-void func_800B4F68(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2);
-void LoadPalette(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2);
+void func_800B4F68(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 arg2);
+void LoadPalette(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 arg2);
 s32 func_800B3EC0(ObjInfo*, u32);                             /* extern */
-void func_800B4AB4(UnkStruct_80099E2C*, UnkStruct_800B23C4*); /* extern */
-void func_800B5558(UnkStruct_80099E2C*, UnkStruct_800B23C4*); /* extern */
-s32 func_800B2A34(UnkStruct_80099E2C*, UnkStruct_800B23C4*);
-void func_800B4AB4(UnkStruct_80099E2C*, UnkStruct_800B23C4*); /* extern */
-void func_800B5558(UnkStruct_80099E2C*, UnkStruct_800B23C4*); /* extern */
-s32 func_800B2FB0(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, s32 arg2);
+void func_800B4AB4(SpriteObj*, UnkStruct_800B23C4*); /* extern */
+void func_800B5558(SpriteObj*, UnkStruct_800B23C4*); /* extern */
+s32 func_800B2A34(SpriteObj*, UnkStruct_800B23C4*);
+void func_800B4AB4(SpriteObj*, UnkStruct_800B23C4*); /* extern */
+void func_800B5558(SpriteObj*, UnkStruct_800B23C4*); /* extern */
+s32 func_800B2FB0(SpriteObj* arg0, UnkStruct_800B23C4* arg1, s32 arg2);
 s32 func_800B351C(UnkStruct_800B23C4*);                                 /* extern */
-void func_800B47A0(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4*, u16); /* extern */
+void func_800B47A0(SpriteObj* arg0, UnkStruct_800B23C4*, u16); /* extern */
 s32 func_800B4680(UnkStruct_800B23C4* arg0, u8 arg1);
 s32 func_800B5730(void);  /* extern */
 s32 func_800B6A00(u16*);  /* extern */
@@ -62,25 +62,25 @@ void func_800B1A50(u8* arg0, u8* arg1, u8* objDefsStart, u8* spriteFramesStart, 
     D_80180D6F = 0;
 }
 
-void func_800B1E58(UnkStruct_80099E2C*, UnkStruct_800B23C4*); /* extern */
+void func_800B1E58(SpriteObj*, UnkStruct_800B23C4*); /* extern */
 
-void func_800B1B04(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
+void func_800B1B04(SpriteObj* arg0, UnkStruct_800B23C4* arg1) {
     func_800B1E58(arg0, arg1);
 }
 
-void func_800B1B3C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2) {
+void func_800B1B3C(SpriteObj** arg0, UnkStruct_800B23C4** arg1, s32 arg2) {
     for (arg2--; arg2 >= 0; arg2--) {
         func_800B1E58(*arg0 + arg2, *arg1 + arg2);
     }
 }
-void func_800B1CD4(UnkStruct_80099E2C*, UnkStruct_800B23C4*); /* extern */
+void func_800B1CD4(SpriteObj*, UnkStruct_800B23C4*); /* extern */
 
-void func_800B1BC8(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
+void func_800B1BC8(SpriteObj* arg0, UnkStruct_800B23C4* arg1) {
     func_800B1CD4(arg0, arg1);
     func_800B1E58(arg0, arg1);
 }
 
-void func_800B1C10(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2) {
+void func_800B1C10(SpriteObj** arg0, UnkStruct_800B23C4** arg1, s32 arg2) {
     s32 pad[2];
 
     for (arg2--; arg2 >= 0; arg2--) {
@@ -89,7 +89,7 @@ void func_800B1C10(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg
     }
 }
 
-void func_800B1CD4(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
+void func_800B1CD4(SpriteObj* arg0, UnkStruct_800B23C4* arg1) {
     s32 sp1C;
 
     if (arg0 != NULL) {
@@ -118,7 +118,7 @@ void func_800B1CD4(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
     }
 }
 
-void func_800B1E58(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
+void func_800B1E58(SpriteObj* arg0, UnkStruct_800B23C4* arg1) {
     s32 sp4;
 
     if (arg0 != NULL) {
@@ -143,7 +143,7 @@ void func_800B1E58(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
     arg1->paletteIndex = 0;
 }
 
-s32 func_800B1F0C(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, s32 arg2, u16 arg3, f32 arg4, f32 arg5, u8 arg6) {
+s32 func_800B1F0C(SpriteObj* arg0, UnkStruct_800B23C4* arg1, s32 arg2, u16 arg3, f32 arg4, f32 arg5, u8 arg6) {
     u16 sp36;
 
     if (arg1->objInfo == NULL) {
@@ -162,7 +162,7 @@ s32 func_800B1F0C(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, s32 arg2, 
     return 1;
 }
 
-s32 func_800B202C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u32 arg2, u16 arg3, f32 arg4, f32 arg5,
+s32 func_800B202C(SpriteObj** arg0, UnkStruct_800B23C4** arg1, u32 spriteOffset, u16 spritePalette, f32 arg4, f32 arg5,
                   u8 arg6) {
     u16 sp40[15];
     s32 sp3C;
@@ -172,7 +172,7 @@ s32 func_800B202C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u32 arg2
     if ((*arg1)->objInfo == NULL) {
         (*arg1)->objInfo = SysMem_HeapAlloc(sizeof(ObjInfo));
     }
-    if (func_800B3EC0((*arg1)->objInfo, (s32) arg2) != 0) {
+    if (func_800B3EC0((*arg1)->objInfo, (s32) spriteOffset) != 0) {
         return -1;
     }
     sp3C = (s32) (*arg1)->objInfo->obj_count;
@@ -183,7 +183,7 @@ s32 func_800B202C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u32 arg2
                                                         (*arg1)->objInfo->u1 + D_80180D34),
                    &sp40, sp3C * 2);
     for (sp38 = 0; sp38 < sp3C; sp38++) {
-        if (func_800B23C4(*arg0 + sp38, *arg1 + sp38, sp40[sp38], arg3, arg4, arg5, arg6) != 0) {
+        if (func_800B23C4(*arg0 + sp38, *arg1 + sp38, sp40[sp38], spritePalette, arg4, arg5, arg6) != 0) {
             (*arg1)[sp38].unk3A |= 0x400;
         }
     }
@@ -199,7 +199,7 @@ s32 func_800B202C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u32 arg2
     }
     if (((*arg1)->unk0 & 4)) {
         if (((*arg1)->unk3A & 0x1000)) {
-            FAKE_ACCESS(UnkStruct_80099E2C, *arg0, arg1[0]->objInfo->obj_count, unkC0) |= 0x80;
+            FAKE_ACCESS(SpriteObj, *arg0, arg1[0]->objInfo->obj_count, unkC0) |= 0x80;
         }
     }
 
@@ -211,10 +211,10 @@ s32 func_800B202C(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u32 arg2
     return sp3C;
 }
 
-s32 func_800B407C(UnkStruct_80099E2C*, UnkStruct_800B23C4*, u16); /* extern */
+s32 func_800B407C(SpriteObj*, UnkStruct_800B23C4*, u16); /* extern */
 
 #ifdef NEEDS_RODATA
-s32 func_800B23C4(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 objDefIdx, u16 arg3, f32 arg4, f32 arg5,
+s32 func_800B23C4(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 objDefIdx, u16 arg3, f32 arg4, f32 arg5,
                   u8 arg6) {
     arg1->unk0 = arg6;
     if (arg1->objDef == NULL) {
@@ -257,7 +257,7 @@ s32 func_800B23C4(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 objDef
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_B2650/func_800B23C4.s")
 #endif
 
-s32 func_800B26E0(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
+s32 func_800B26E0(SpriteObj* arg0, UnkStruct_800B23C4* arg1) {
     if (func_800B2A34(arg0, arg1) != 0) {
         arg1->unk3A = (u16) (arg1->unk3A | 0x400);
         return -1;
@@ -265,7 +265,7 @@ s32 func_800B26E0(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
     return 1;
 }
 
-s32 func_800B2748(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1) {
+s32 func_800B2748(SpriteObj** arg0, UnkStruct_800B23C4** arg1) {
     s32 sp1C;
     s32 sp18;
 
@@ -293,7 +293,7 @@ s32 func_800B2748(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1) {
     }
     if (((*arg1)->unk0 & 4)) {
         if (((*arg1)->unk3A & 0x1000)) {
-            FAKE_ACCESS(UnkStruct_80099E2C, *arg0, arg1[0]->objInfo->obj_count, unkC0) |= 0x80;
+            FAKE_ACCESS(SpriteObj, *arg0, arg1[0]->objInfo->obj_count, unkC0) |= 0x80;
         }
     }
 
@@ -305,7 +305,7 @@ s32 func_800B2748(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1) {
     return sp1C;
 }
 
-s32 func_800B2A34(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
+s32 func_800B2A34(SpriteObj* arg0, UnkStruct_800B23C4* arg1) {
     if ((s32) (u8) arg1->unk30 >= (s32) arg1->objDef->pad2) {
         return -1;
     }
@@ -337,7 +337,7 @@ s32 func_800B2A34(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
     return 0;
 }
 
-s32 func_800B2C4C(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u8 arg2) {
+s32 func_800B2C4C(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u8 arg2) {
     if (func_800B2FB0(arg0, arg1, arg2) != 0) {
         arg1->unk3A |= 0x400;
         return -1;
@@ -345,7 +345,7 @@ s32 func_800B2C4C(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u8 arg2) {
     return 1;
 }
 
-s32 func_800B2CBC(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2) {
+s32 func_800B2CBC(SpriteObj** arg0, UnkStruct_800B23C4** arg1, s32 arg2) {
     s32 sp1C;
     s32 sp18;
 
@@ -372,7 +372,7 @@ s32 func_800B2CBC(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2
     }
     if (((*arg1)->unk0 & 4)) {
         if (((*arg1)->unk3A & 0x1000)) {
-            FAKE_ACCESS(UnkStruct_80099E2C, *arg0, arg1[0]->objInfo->obj_count, unkC0) |= 0x80;
+            FAKE_ACCESS(SpriteObj, *arg0, arg1[0]->objInfo->obj_count, unkC0) |= 0x80;
         }
     }
 
@@ -385,7 +385,7 @@ s32 func_800B2CBC(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, s32 arg2
 }
 
 #ifdef NEEDS_RODATA
-s32 func_800B2FB0(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u8 arg2) {
+s32 func_800B2FB0(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u8 arg2) {
     switch (arg2) {
         case 1:
             if (arg1->unk3A & 4) {
@@ -512,7 +512,7 @@ s32 func_800B3590(UnkStruct_800B23C4* arg0) {
 #ifdef NEEDS_RODATA
 extern u8* D_80180D4C;
 
-u8 func_800B35D4(f32* arg0, UnkStruct_80099E2C* arg1, UnkStruct_800B23C4* arg2, s32 arg3) {
+u8 func_800B35D4(f32* arg0, SpriteObj* arg1, UnkStruct_800B23C4* arg2, s32 arg3) {
     u8 sp3C[4];
     s32 sp38;
     ObjFrame* sp34;
@@ -570,12 +570,12 @@ u8 func_800B35D4(f32* arg0, UnkStruct_80099E2C* arg1, UnkStruct_800B23C4* arg2, 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_B2650/func_800B35D4.s")
 #endif
 
-s32 func_800B3A24(f32* arg0, UnkStruct_80099E2C** arg1, UnkStruct_800B23C4** arg2);
+s32 func_800B3A24(f32* arg0, SpriteObj** arg1, UnkStruct_800B23C4** arg2);
 
 #if 0
 extern f32 D_800EF978;
 
-s32 func_800B3A24(f32* arg0, UnkStruct_80099E2C** arg1, UnkStruct_800B23C4** arg2) {
+s32 func_800B3A24(f32* arg0, SpriteObj** arg1, UnkStruct_800B23C4** arg2) {
     f32 sp2C;
     f32 sp28;
     f32 sp24;
@@ -583,8 +583,8 @@ s32 func_800B3A24(f32* arg0, UnkStruct_80099E2C** arg1, UnkStruct_800B23C4** arg
     f32 sp1C;
     s32 pad18;
     s32 pad14;
-    UnkStruct_80099E2C* sp10;
-    UnkStruct_80099E2C* spC;
+    SpriteObj* sp10;
+    SpriteObj* spC;
     s32 sp8;
     s32 sp4;
 
@@ -637,10 +637,10 @@ s32 func_800B3A24(f32* arg0, UnkStruct_80099E2C** arg1, UnkStruct_800B23C4** arg
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_B2650/func_800B3A24.s")
 #endif
 
-void func_800B3DBC(UnkStruct_80099E2C** arg0, UnkStruct_800B23C4** arg1, u16 paletteIndex) {
+void func_800B3DBC(SpriteObj** arg0, UnkStruct_800B23C4** arg1, u16 paletteIndex) {
     s32 objCount;
     s32 i;
-    UnkStruct_80099E2C* sp1C;
+    SpriteObj* sp1C;
     UnkStruct_800B23C4* sp18;
 
     objCount = (*arg1)->objInfo->obj_count;
@@ -685,10 +685,10 @@ s32 func_800B3EC0(ObjInfo* arg0, u32 arg1) {
 }
 
 #ifdef NEEDS_RODATA
-void func_800B4448(UnkStruct_80099E2C*, UnkStruct_800B23C4*, s32); /* extern */
-void func_800B47A0(UnkStruct_80099E2C*, UnkStruct_800B23C4*, u16); /* extern */
+void func_800B4448(SpriteObj*, UnkStruct_800B23C4*, s32); /* extern */
+void func_800B47A0(SpriteObj*, UnkStruct_800B23C4*, u16); /* extern */
 
-s32 func_800B407C(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2) {
+s32 func_800B407C(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 arg2) {
     ObjFrame* sp1C;
     u8 sp1B;
 
@@ -754,7 +754,7 @@ s32 func_800B407C(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2) 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_B2650/func_800B407C.s")
 #endif
 
-s32 func_800B4448(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u8 arg2) {
+s32 func_800B4448(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u8 arg2) {
     ObjFrame* sp1C;
 
     if (arg1->unk30 >= (s32) arg1->objDef->pad2) {
@@ -809,7 +809,7 @@ s32 func_800B4680(UnkStruct_800B23C4* arg0, u8 arg1) {
     return 0;
 }
 
-void func_800B47A0(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2) {
+void func_800B47A0(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 arg2) {
     ObjFrame* sp1C;
 
     sp1C = &arg1->objFrame[arg1->unk30];
@@ -848,7 +848,7 @@ void func_800B47A0(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2)
     arg1->unk3A &= ~0x2000;
 }
 
-void func_800B4AB4(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
+void func_800B4AB4(SpriteObj* arg0, UnkStruct_800B23C4* arg1) {
     ObjFrame* sp4;
     f32 sp0;
 
@@ -912,12 +912,11 @@ void func_800B4AB4(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
     }
 }
 
-// Stack differences
-#if 0
-void func_800B4F68(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2) {
+void func_800B4F68(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 paletteIndex) {
     ObjFrame* sp3C;
-    u8 sp38;
+    s16 pad;
     u8 sp39;
+    u8 sp38;
     s32 spiOffset;
     s32 size;
     u8** decompressedData;
@@ -926,8 +925,7 @@ void func_800B4F68(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2)
 
     func_800B5558(arg0, arg1);
     sp3C = &arg1->objFrame[arg1->unk30];
-    sp24 = SysMem_GetPhysicalAddressFromVirtual(gSpriteObjHeaderSegment, gSpriteSeg1VramStart,
-                                                (sp3C->spi_idx * 8) + sMainSpritesSpiOffsets);
+    sp24 = SysMem_GetPhysicalAddressFromVirtual(gSpriteObjHeaderSegment, gSpriteSeg1VramStart, (sp3C->spi_idx * 8) + sMainSpritesSpiOffsets);
 
     while (TRUE) {
         SysMem_DmaCopy(sp24, &spiOffset, 8);
@@ -967,30 +965,26 @@ void func_800B4F68(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 arg2)
             SysMem_Free(*decompressedData);
         }
         if (D_80180D54 & 2) {
-            spriteSpiOffset = SysMem_GetPhysicalAddressFromVirtual(gSpriteObjHeaderSegment, gSpriteSeg1VramStart,
-                                                                   sMainSpritesStart + spiOffset);
-            size = Sys_GetSPIHeaderInfoFromVaddr(spriteSpiOffset); // Compressed size
+            spriteSpiOffset = SysMem_GetPhysicalAddressFromVirtual(gSpriteObjHeaderSegment, gSpriteSeg1VramStart, sMainSpritesStart + spiOffset);
+            size = Spi_GetHeader(spriteSpiOffset); // Compressed size
             *decompressedData = SysMem_HeapAlloc(D_80160494);
             Spi_DecompressAsset(spriteSpiOffset, size, *decompressedData);
             arg0->ptrs[0] = *decompressedData;
             arg1->unk3C++, arg1->unk3C %= 3;
         } else {
             *decompressedData = SysMem_HeapAlloc(sp38 * sp39);
-            SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) gSpriteObjHeaderSegment,
-                                                                (s32) gSpriteSeg1VramStart,
-                                                                sMainSpritesStart + spiOffset),
-                           *decompressedData, sp38 * sp39);
+            SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) gSpriteObjHeaderSegment, (s32) gSpriteSeg1VramStart, sMainSpritesStart + spiOffset), *decompressedData, sp38 * sp39);
             arg0->ptrs[0] = *decompressedData;
         }
         arg1->unk10 = sp3C->spi_idx;
     }
-    LoadPalette(arg0, arg1, arg2);
+    #ifndef ISPRINT
+    osSyncPrintf("paletteIndex: %d\n", paletteIndex);
+    #endif
+    LoadPalette(arg0, arg1, paletteIndex);
 }
-#else
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_B2650/func_800B4F68.s")
-#endif
 
-void LoadPalette(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 paletteIndex) {
+void LoadPalette(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 paletteIndex) {
     if (arg1->currentPaletteIndex != paletteIndex) {
         if (!(paletteIndex & 0x8000)) {
             if (arg1->spritePalette[arg1->paletteIndex] != NULL) {
@@ -1012,7 +1006,7 @@ void LoadPalette(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1, u16 palette
     }
 }
 
-void func_800B5558(UnkStruct_80099E2C* arg0, UnkStruct_800B23C4* arg1) {
+void func_800B5558(SpriteObj* arg0, UnkStruct_800B23C4* arg1) {
     ObjFrame* sp4;
 
     sp4 = &arg1->objFrame[arg1->unk30];

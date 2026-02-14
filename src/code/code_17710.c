@@ -83,7 +83,7 @@ s32 func_80016BF4(f32 arg0, f32 arg1, s32 arg2, f32 arg3) {
 }
 
 s32 func_80016F80(UnkStruct_8000DDE0* arg0) {
-    UnkStruct_80099E2C* sp4;
+    SpriteObj* sp4;
     s32 sp0;
 
     sp4 = &arg0->unk0;

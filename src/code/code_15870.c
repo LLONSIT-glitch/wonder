@@ -2,8 +2,8 @@
 
 typedef struct UnkStruct_8000DDE0_unk20C_s {
     char pad[0xC];
-    UnkStruct_80099E2C* unkC;
-    UnkStruct_80099E2C* unk10;
+    SpriteObj* unkC;
+    SpriteObj* unk10;
 } UnkStruct_8000DDE0_unk20C;
 
 typedef struct UnkStruct_80014C70_sp24_s {
@@ -29,7 +29,7 @@ typedef struct UnkStruct_80014C70_sp24_s {
 s32 func_800AFB70(s32, s32, s32);
 
 extern s32 D_800DA940[];
-UnkStruct_80099E2C* func_8000D688(s32); /* extern */
+SpriteObj* func_8000D688(s32); /* extern */
 void func_800B18C4(Gfx**, s32, s32);    /* extern */
 extern Lights2 D_800DA8D0;
 extern Gfx D_800DB808[];
@@ -90,12 +90,12 @@ void func_80014C70(UnkStruct_8000DDE0* arg0) {
 }
 
 void func_80014F38(UnkStruct_8000DDE0* arg0) {
-    UnkStruct_80099E2C* sp7C;
+    SpriteObj* sp7C;
     UNUSED s32 sp78;
     UnkStruct_8000DDE0_unk20C* sp74;
-    UnkStruct_80099E2C* sp70;
-    UnkStruct_80099E2C* sp6C;
-    UnkStruct_80099E2C* sp68;
+    SpriteObj* sp70;
+    SpriteObj* sp6C;
+    SpriteObj* sp68;
 
     // osSyncPrintf("Calling fog function?\n");
     sp74 = arg0->unk20C;
@@ -109,13 +109,13 @@ void func_80014F38(UnkStruct_8000DDE0* arg0) {
         sp68 = sp7C;
         MtxUtil_PushIdentity();
         MtxUtil_TranslateLocal(sp68->unkCC, sp68->unkD0, sp68->unkD4);
-        MtxUtil_RotateZ(sp68->unkF0);
-        MtxUtil_RotateY(sp68->unkEC);
-        MtxUtil_RotateX(sp68->unkE8);
+        MtxUtil_RotateZ(sp68->rotateZ);
+        MtxUtil_RotateY(sp68->rotateY);
+        MtxUtil_RotateX(sp68->rotateX);
         MtxUtil_TranslateLocal(sp6C->unkCC, sp6C->unkD0, sp6C->unkD4);
-        MtxUtil_RotateZ(sp6C->unkF0);
-        MtxUtil_RotateY(sp6C->unkEC);
-        MtxUtil_RotateX(sp6C->unkE8);
+        MtxUtil_RotateZ(sp6C->rotateZ);
+        MtxUtil_RotateY(sp6C->rotateY);
+        MtxUtil_RotateX(sp6C->rotateX);
         MtxUtil_CopyCurrent(&D_801AA530);
         MtxUtil_TranslateLocal(-sp6C->unkCC, -sp6C->unkD0, -sp6C->unkD4);
         MtxUtil_CopyCurrent(&D_801AA570);
@@ -175,9 +175,9 @@ void func_80014F38(UnkStruct_8000DDE0* arg0) {
         MtxUtil_PushIdentity();
         MtxUtil_ScaleAxes(D_801AA500->unk18.x, D_801AA500->unk18.y, D_801AA500->unk18.z);
         MtxUtil_TranslateLocal(sp6C->unkCC, sp6C->unkD0, sp6C->unkD4);
-        MtxUtil_RotateZ(sp6C->unkF0);
-        MtxUtil_RotateY(sp6C->unkEC);
-        MtxUtil_RotateX(sp6C->unkE8);
+        MtxUtil_RotateZ(sp6C->rotateZ);
+        MtxUtil_RotateY(sp6C->rotateY);
+        MtxUtil_RotateX(sp6C->rotateX);
         do {
             MtxUtil_PushCopy();
             MtxUtil_ScaleAxes(sp6C->unkF4, sp6C->unkF4, sp6C->unkF4);
@@ -189,9 +189,9 @@ void func_80014F38(UnkStruct_8000DDE0* arg0) {
                 sp7C = func_8000D688(sp70->unk4->unk4);
                 if (sp7C != NULL) {
                     MtxUtil_TranslateLocal(sp7C->unkCC, sp7C->unkD0, sp7C->unkD4);
-                    MtxUtil_RotateZ(sp7C->unkF0);
-                    MtxUtil_RotateY(sp7C->unkEC);
-                    MtxUtil_RotateX(sp7C->unkE8);
+                    MtxUtil_RotateZ(sp7C->rotateZ);
+                    MtxUtil_RotateY(sp7C->rotateY);
+                    MtxUtil_RotateX(sp7C->rotateX);
                 }
             }
             MtxUtil_ScaleAxes(sp70->unk4->unk20, sp70->unk4->unk20, sp70->unk4->unk20);
@@ -208,7 +208,7 @@ void func_80015B6C(UnkStruct_8000DDE0* arg0) {
     UNUSED s32 padC;
     UnkStruct_80014C70_sp24* sp8;
     UNUSED s32 pad4;
-    UnkStruct_80099E2C* sp0;
+    SpriteObj* sp0;
 
     sp8 = (void*) arg0->unk20C;
     sp0 = (void*) sp8->unkC;
@@ -221,7 +221,7 @@ void func_80015BD0(UnkStruct_8000DDE0* arg0) {
     UNUSED s32 padC;
     UnkStruct_80014C70_sp24* sp8;
     UNUSED s32 pad4;
-    UnkStruct_80099E2C* sp0;
+    SpriteObj* sp0;
 
     sp8 = (void*) arg0->unk20C;
     sp0 = (void*) sp8->unkC;

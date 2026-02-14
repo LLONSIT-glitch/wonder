@@ -85,7 +85,7 @@ typedef struct UnkStruct_800B23C4_s {
     u8 unk38;
     char pad39[1];
     u16 unk3A;
-    s8 unk3C;
+    u8 unk3C;
     u8 paletteIndex;
     char pad3E[2];
 } UnkStruct_800B23C4;

@@ -3,7 +3,7 @@
 UnkStruct_8000DDE0* func_800045AC(s32);       /* extern */
 void func_8000BB00(void);                     /* extern */
 void func_8000C3B0(UnkStruct_8000DDE0*);      /* extern */
-void func_800198F8(UnkStruct_80099E2C*, s32); /* extern */
+void func_800198F8(SpriteObj*, s32); /* extern */
 void AudioGeneral_BGMFadeOut(s32);            /* extern */
 extern UnkStruct_801561D8 D_801561D8[];
 

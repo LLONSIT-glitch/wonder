@@ -4,7 +4,7 @@ typedef struct UnkStruct_800108B8_sp24_s {
     char pad[0x6];
     u16 unk6;
     s32 pad8;
-    UnkStruct_80099E2C* unkC;
+    SpriteObj* unkC;
     char pad10[0x70];
     f32 unk80;
     u16 unk84;
@@ -66,7 +66,7 @@ extern f32 D_801A8E38;
 u16 func_80056E88(u16, s32);                                                                    /* extern */
 s32 func_800B3230(s16*, s32, s32, s32);                                                         /* extern */
 u16 func_800B334C(UnkStruct_800B23C4**, s32);                                                   /* extern */
-s32 func_80049A00(UnkStruct_80099E2C*, UnkStruct_800B23C4*, u16, u16, s32, s32, s32, s32, s32); /* extern */
+s32 func_80049A00(SpriteObj*, UnkStruct_800B23C4*, u16, u16, s32, s32, s32, s32, s32); /* extern */
 s32 func_80014B5C(UnkStruct_801A306C* arg0);
 void func_8001AE90(UnkStruct_8000DDE0*); /* extern */
 
@@ -298,7 +298,7 @@ void func_8000E3D4(UnkStruct_8000E3D4* arg0) {
 
 s32 func_8000E524(UnkStruct_8000DDE0* arg0) {
     UnkStruct_8000E3D4* sp24;
-    UnkStruct_80099E2C* sp20;
+    SpriteObj* sp20;
     s32 sp1C;
     s16 sp1A;
 
@@ -432,7 +432,7 @@ void func_8000F624(UnkStruct_8000DDE0* arg0) {
     UnkStruct_8000E3D4* sp28;
     UnkStruct_8000E3D4* sp24;
     s32 sp20;
-    UnkStruct_80099E2C* sp1C;
+    SpriteObj* sp1C;
 
     func_8000F9D0(arg0);
     sp28 = arg0->unk20C;
@@ -509,15 +509,15 @@ void func_8000F9D0(UnkStruct_8000DDE0* arg0) {
 void func_8000FCD8(UnkStruct_8000DDE0* arg0) {
     UnkStruct_8000E3D4* sp24;
     s32 sp20;
-    UnkStruct_80099E2C* sp1C;
+    SpriteObj* sp1C;
 
     func_8000FE48(arg0);
     sp24 = arg0->unk20C;
 
     for (sp20 = 0, sp1C = sp24->unkC; sp20 < sp24->unk6; sp20++, sp1C++) {
-        sp1C->unkE8 = (f32) ((f64) sp1C->unkE8 + ((f64) sp24->unk18 * 0.5 * (f64) D_8018257C));
-        sp1C->unkEC = (f32) ((f64) sp1C->unkEC + ((f64) sp24->unk1C * 0.5 * (f64) D_8018257C));
-        sp1C->unkF0 = (f32) ((f64) sp1C->unkF0 + ((f64) sp24->unk20 * 0.5 * (f64) D_8018257C));
+        sp1C->rotateX = (f32) ((f64) sp1C->rotateX + ((f64) sp24->unk18 * 0.5 * (f64) D_8018257C));
+        sp1C->rotateY = (f32) ((f64) sp1C->rotateY + ((f64) sp24->unk1C * 0.5 * (f64) D_8018257C));
+        sp1C->rotateZ = (f32) ((f64) sp1C->rotateZ + ((f64) sp24->unk20 * 0.5 * (f64) D_8018257C));
     }
 }
 
@@ -570,7 +570,7 @@ extern f64 D_800ED478;
 void func_80010150(UnkStruct_8000DDE0* arg0) {
     UnkStruct_8000E3D4* spC;
     s32 sp8;
-    UnkStruct_80099E2C* sp4;
+    SpriteObj* sp4;
 
     spC = arg0->unk20C;
     spC->unk24 += spC->unk28 * D_8018257C;
@@ -616,7 +616,7 @@ void func_80010460(UnkStruct_8000DDE0* arg0, s32 arg1) {
     UnkStruct_8000E3D4* sp2C;
 
     s32 sp28;
-    UnkStruct_80099E2C* sp24;
+    SpriteObj* sp24;
     s32 sp20;
     f32 sp1C;
     f32 sp18;
@@ -671,7 +671,7 @@ void func_80010734(UnkStruct_8000DDE0* arg0) {
 
 void func_800108B8(UnkStruct_8000DDE0* arg0) {
     UnkStruct_800108B8_sp24* sp24;
-    UnkStruct_80099E2C* sp20;
+    SpriteObj* sp20;
     s32 sp1C;
     s32 sp18;
 
@@ -704,7 +704,7 @@ extern f64 D_800ED4C0;
 
 void func_80010AC8(UnkStruct_8000DDE0* arg0) {
     UnkStruct_8000E3D4* sp54;
-    UnkStruct_80099E2C* sp50;
+    SpriteObj* sp50;
     s32 sp4C;
     u16 sp4A;
     f32 sp44;
@@ -760,11 +760,11 @@ void func_80010AC8(UnkStruct_8000DDE0* arg0) {
         MtxUtil_PushIdentity();
         func_8009A14C(sp50);
         if (sp50->unkC0 & 0x10) {
-            MtxUtil_RotateZ(sp50->unkF0);
-            MtxUtil_RotateY(sp50->unkEC);
-            MtxUtil_RotateX(sp50->unkE8);
-            if (!(sp54->unk0 & 0x20) && ((f64) sp50->unkE8 == 0.0) && ((f64) sp50->unkEC == 0.0) &&
-                ((f64) sp50->unkF0 == 0.0)) {
+            MtxUtil_RotateZ(sp50->rotateZ);
+            MtxUtil_RotateY(sp50->rotateY);
+            MtxUtil_RotateX(sp50->rotateX);
+            if (!(sp54->unk0 & 0x20) && ((f64) sp50->rotateX == 0.0) && ((f64) sp50->rotateY == 0.0) &&
+                ((f64) sp50->rotateZ == 0.0)) {
                 sp50->unkC0 |= 8;
                 sp50->unkC0 &= ~0x10;
             }
@@ -812,7 +812,7 @@ s32 func_800111E8(UnkStruct_8000DDE0* arg0) {
     s32 sp3C;
     u16 sp30[6];
     UnkStruct_8000E3D4* sp2C;
-    UnkStruct_80099E2C* sp28;
+    SpriteObj* sp28;
 
     if (func_8000DA44(arg0, 6, sp30) < 0) {
         return -1;
@@ -1024,21 +1024,21 @@ s32 func_80011B88(UnkStruct_8000DDE0* arg0) {
             }
             break;
         case 0xE00A:
-            if (sp20->unkC->unkE8 > (f32) (s16) sp20->unk66) {
+            if (sp20->unkC->rotateX > (f32) (s16) sp20->unk66) {
                 sp20->unk68 = 1;
             } else {
                 sp20->unk68 = 0;
             }
             break;
         case 0xE00B:
-            if (sp20->unkC->unkEC > (f32) (s16) sp20->unk66) {
+            if (sp20->unkC->rotateY > (f32) (s16) sp20->unk66) {
                 sp20->unk68 = 1;
             } else {
                 sp20->unk68 = 0;
             }
             break;
         case 0xE00C:
-            if (sp20->unkC->unkF0 > (f32) (s16) sp20->unk66) {
+            if (sp20->unkC->rotateZ > (f32) (s16) sp20->unk66) {
                 sp20->unk68 = 1;
             } else {
                 sp20->unk68 = 0;
@@ -1083,7 +1083,7 @@ s32 func_80012068(UnkStruct_8000DDE0* arg0) {
     s32 sp2C;
     u16 sp24[4];
     UnkStruct_8000E3D4* sp20;
-    UnkStruct_80099E2C* sp1C;
+    SpriteObj* sp1C;
 
     if (func_8000DA44(arg0, 4, sp24) < 0) {
         return -1;
@@ -1188,7 +1188,7 @@ s32 func_80012634(UnkStruct_8000DDE0* arg0) {
     s32 sp2C;
     u16 sp20[5];
     UnkStruct_8000E3D4* sp1C;
-    UnkStruct_80099E2C* sp18;
+    SpriteObj* sp18;
 
     if (func_8000DA44(arg0, 5, sp20) < 0) {
         return -1;
@@ -1210,7 +1210,7 @@ s32 func_80012798(UnkStruct_8000DDE0* arg0) {
     s32 sp2C;
     u16 sp20[5];
     UnkStruct_8000E3D4* sp1C;
-    UnkStruct_80099E2C* sp18;
+    SpriteObj* sp18;
 
     if (func_8000DA44(arg0, 5, sp20) < 0) {
         return -1;
@@ -1222,9 +1222,9 @@ s32 func_80012798(UnkStruct_8000DDE0* arg0) {
     sp1C->unk20 = 0.0f;
     sp1C->unk0 &= ~0x20;
     for (sp2C = 0, sp18 = sp1C->unkC; sp2C < sp1C->unk6; sp2C++, sp18++) {
-        sp18->unkE8 = (s16) sp20[2];
-        sp18->unkEC = (s16) sp20[3];
-        sp18->unkF0 = (s16) sp20[4];
+        sp18->rotateX = (s16) sp20[2];
+        sp18->rotateY = (s16) sp20[3];
+        sp18->rotateZ = (s16) sp20[4];
         sp18->unkC0 &= ~8;
         sp18->unkC0 |= 0x10;
     }
@@ -1251,7 +1251,7 @@ s32 func_800129FC(UnkStruct_8000DDE0* arg0) {
     s32 sp34;
     u16 sp2C[3];
     UnkStruct_8000E3D4* sp28;
-    UnkStruct_80099E2C* sp24;
+    SpriteObj* sp24;
 
     if (func_8000DA44(arg0, 3, sp2C) < 0) {
         return -1;
@@ -1350,7 +1350,7 @@ s32 func_800131F4(UnkStruct_8000DDE0* arg0) {
     UnkStruct_8000E3D4* sp28;
     UnkStruct_8000E3D4* sp24;
     UnkStruct_8000DDE0* sp20;
-    UnkStruct_80099E2C* sp1C;
+    SpriteObj* sp1C;
     s32 sp18;
 
     if (func_8000DA44(arg0, 3, sp2C) < 0) {
@@ -1378,7 +1378,7 @@ s32 func_80013398(UnkStruct_8000DDE0* arg0) {
     s32 sp2C;
     u16 sp24[3];
     UnkStruct_8000E3D4* sp20;
-    UnkStruct_80099E2C* sp1C;
+    SpriteObj* sp1C;
 
     if (func_8000DA44(arg0, 3, sp24) < 0) {
         return -1;
@@ -1395,7 +1395,7 @@ s32 func_80013474(UnkStruct_8000DDE0* arg0) {
     s32 sp2C;
     u16 sp24[4];
     UnkStruct_8000E3D4* sp20;
-    UnkStruct_80099E2C* sp1C;
+    SpriteObj* sp1C;
 
     if (func_8000DA44(arg0, 4, sp24) < 0) {
         return -1;
@@ -1548,7 +1548,7 @@ s32 func_80013C90(UnkStruct_8000DDE0* arg0) {
     s32 sp38;
     u16 sp28[8];
     UnkStruct_8000E3D4* sp24;
-    UnkStruct_80099E2C* sp20;
+    SpriteObj* sp20;
     s16* colorPalette;
 
     if (func_8000DA44(arg0, 8, sp28) < 0) {
@@ -1587,7 +1587,7 @@ s32 func_80013F04(UnkStruct_8000DDE0* arg0) {
     s32 sp34;
     u16 sp2C[3];
     UnkStruct_8000E3D4* sp28;
-    UnkStruct_80099E2C* sp24;
+    SpriteObj* sp24;
 
     if (func_8000DA44(arg0, 3, sp2C) < 0) {
         return -1;
@@ -1603,7 +1603,7 @@ s32 func_80013FEC(UnkStruct_8000DDE0* arg0) {
     s32 sp2C;
     u16 sp24[4];
     UnkStruct_8000E3D4* sp20;
-    UnkStruct_80099E2C* sp1C;
+    SpriteObj* sp1C;
 
     if (func_8000DA44(arg0, 4, sp24) < 0) {
         return -1;
@@ -1620,7 +1620,7 @@ s32 func_800140D8(UnkStruct_8000DDE0* arg0) {
     s32 sp2C;
     u16 sp20[5];
     UnkStruct_8000E3D4* sp1C;
-    UnkStruct_80099E2C* sp18;
+    SpriteObj* sp18;
 
     if (func_8000DA44(arg0, 5, sp20) < 0) {
         return -1;
@@ -1691,21 +1691,21 @@ s32 func_80014228(UnkStruct_8000DDE0* arg0) {
             }
             break;
         case 0xe00a:
-            if (sp20->unkC->unkE8 > (f32) (s16) sp20->unk66) {
+            if (sp20->unkC->rotateX > (f32) (s16) sp20->unk66) {
                 sp20->unk68 = 1;
             } else {
                 sp20->unk68 = 0;
             }
             break;
         case 0xe00b:
-            if (sp20->unkC->unkEC > (f32) (s16) sp20->unk66) {
+            if (sp20->unkC->rotateY > (f32) (s16) sp20->unk66) {
                 sp20->unk68 = 1;
             } else {
                 sp20->unk68 = 0;
             }
             break;
         case 0xe00c:
-            if (sp20->unkC->unkF0 > (f32) (s16) sp20->unk66) {
+            if (sp20->unkC->rotateZ > (f32) (s16) sp20->unk66) {
                 sp20->unk68 = 1;
             } else {
                 sp20->unk68 = 0;
@@ -1724,7 +1724,7 @@ s32 func_800145D4(UnkStruct_8000DDE0* arg0) {
     s32 sp2C;
     u16 sp20[5];
     UnkStruct_8000E3D4* sp1C;
-    UnkStruct_80099E2C* sp18;
+    SpriteObj* sp18;
 
     if (func_8000DA44(arg0, 5, sp20) < 0) {
         return -1;

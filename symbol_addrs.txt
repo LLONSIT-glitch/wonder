@@ -37,7 +37,7 @@ SysMain = 0x80000450;
 Thread_CreateMesgQueue = 0x800C14E0;
 SysMem_DmaCopy = 0x800BD218;
 // ! Temporal sys names!
-Sys_GetSPIHeaderInfoFromVaddr = 0x800BED70;
+Spi_GetHeader = 0x800BED70;
 osViClock = 0x800ECCE8;
 audioTblStart_ROM_START = 0x756140; //defined:true
 audioTblStart_ROM_END = 0x759610; //defined:true
@@ -255,9 +255,13 @@ MathUtil_GetDistanceIfWithinRadius = 0x800C3C80;
 // sound_debug_menu
 SoundDebugMenu = 0x800215A0;
 
+//object_check_debug_menu
+ObjectCheckDebugMenu = 0x8001F390;
+gDebugMenuState = 0x801825E4;
 D_801ADA38 = 0x801ADA38; //size:0x14
 
-D_807991C0 = 0x807991C0; 
+gSpriteObjCheckDebugMenuState = 0x801825F0;
+gSpritePalettesEnd = 0x807991C0; 
 D_8079A730 = 0x8079A730; 
 
 

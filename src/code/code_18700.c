@@ -177,12 +177,12 @@ s32 func_80017B80(s32 arg0, f32 arg1) {
 
     return 0;
 }
-void func_80019F4C(UnkStruct_80099E2C*); /* extern */
+void func_80019F4C(SpriteObj*); /* extern */
 
 s32 func_80018380(UnkStruct_8000DDE0* arg0) {
     UnkStruct_801561D8* sp24;
     UnkStruct_801561D8* sp20;
-    UnkStruct_80099E2C* sp1C;
+    SpriteObj* sp1C;
 
     sp1C = &arg0->unk0;
     if (arg0->unk1A8 & 1) {

@@ -46,7 +46,7 @@ static s32 Spi_Memcmp(u8* s1, u8* s2, s32 size);
 
 #define ALIGN8(x) ((s32) (x + 7) / 8) * 8
 
-s32 Sys_GetSPIHeaderInfoFromVaddr(s32 vAddr) {
+s32 Spi_GetHeader(s32 vAddr) {
     UNUSED s32 pad;
 
     SysMem_DmaCopy(vAddr, &sSpiHeader, sizeof(SpiHeader));
