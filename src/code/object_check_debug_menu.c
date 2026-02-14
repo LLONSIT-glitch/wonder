@@ -19,7 +19,8 @@ s32 ObjectCheckDebugMenu(DebugMenuInfo* info) {
                 gSpriteObjCheckDebugMenuState[i] = 0;
                 D_80182618->ptrs[i] = NULL;
             }
-            D_80182618->ptrs[0] = ObjectCheckDebugMenu_LoadSpriteHeader((u8**) &gSpriteObjCheckDebugMenuState[SPRDBG_SPRITE_COUNT]);
+            D_80182618->ptrs[0] =
+                ObjectCheckDebugMenu_LoadSpriteHeader((u8**) &gSpriteObjCheckDebugMenuState[SPRDBG_SPRITE_COUNT]);
             gSpriteObjCheckDebugMenuState[SPRDBG_PALETTE_COUNT] = ((gSpritePalettesEnd - gSpritePalettes) / 512);
             D_80182618->ptrs[1] = SysMem_HeapAlloc(512);
             D_80182618->ptrs[2] = SysMem_HeapAlloc(0xB00);

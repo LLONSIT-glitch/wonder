@@ -29,8 +29,8 @@ typedef struct UnkStruct_80014C70_sp24_s {
 s32 func_800AFB70(s32, s32, s32);
 
 extern s32 D_800DA940[];
-SpriteObj* func_8000D688(s32); /* extern */
-void func_800B18C4(Gfx**, s32, s32);    /* extern */
+SpriteObj* func_8000D688(s32);       /* extern */
+void func_800B18C4(Gfx**, s32, s32); /* extern */
 extern Lights2 D_800DA8D0;
 extern Gfx D_800DB808[];
 extern f32 D_800ED590;

@@ -396,7 +396,7 @@ void func_8001AFA0(UnkStruct_8000DDE0* arg0) {
     UnkStruct_800F9C38* sp68; // sp64
     s16* sp64;                // sp60
     UnkStruct_8000DDE0* sp60; // sp5C
-    SpriteObj* sp5C; // sp58
+    SpriteObj* sp5C;          // sp58
     u8* sp58;                 // sp54
     u16 sp56;                 // sp52?
     DebugMenuOption* sp50;
@@ -1165,7 +1165,8 @@ s32 func_8001DC00(DebugMenuInfo* arg0) {
         case 1:
             func_8008EAA8(2, 0x10);
             D_80156B98 = gSpriteObjCheckDebugMenuState[5];
-            func_8008ECE4(&D_800ED9AC, gSpriteObjCheckDebugMenuState[0], gSpriteObjCheckDebugMenuState[1], gSpriteObjCheckDebugMenuState[2]);
+            func_8008ECE4(&D_800ED9AC, gSpriteObjCheckDebugMenuState[0], gSpriteObjCheckDebugMenuState[1],
+                          gSpriteObjCheckDebugMenuState[2]);
             if (gControllers->unk8 & gInputMask_B) {
                 gSpriteObjCheckDebugMenuState[3] ^= 1;
             }

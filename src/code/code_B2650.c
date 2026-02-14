@@ -18,18 +18,17 @@ extern s16 D_80180D6C;
 extern s8 D_80180D6E;
 extern s8 D_80180D6F;
 
-s32 func_800B23C4(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 objDefIdx, u16 arg3, f32 arg4, f32 arg5,
-                  u8 arg6);
+s32 func_800B23C4(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 objDefIdx, u16 arg3, f32 arg4, f32 arg5, u8 arg6);
 void func_800B4F68(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 arg2);
 void LoadPalette(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 arg2);
-s32 func_800B3EC0(ObjInfo*, u32);                             /* extern */
+s32 func_800B3EC0(ObjInfo*, u32);                    /* extern */
 void func_800B4AB4(SpriteObj*, UnkStruct_800B23C4*); /* extern */
 void func_800B5558(SpriteObj*, UnkStruct_800B23C4*); /* extern */
 s32 func_800B2A34(SpriteObj*, UnkStruct_800B23C4*);
 void func_800B4AB4(SpriteObj*, UnkStruct_800B23C4*); /* extern */
 void func_800B5558(SpriteObj*, UnkStruct_800B23C4*); /* extern */
 s32 func_800B2FB0(SpriteObj* arg0, UnkStruct_800B23C4* arg1, s32 arg2);
-s32 func_800B351C(UnkStruct_800B23C4*);                                 /* extern */
+s32 func_800B351C(UnkStruct_800B23C4*);                        /* extern */
 void func_800B47A0(SpriteObj* arg0, UnkStruct_800B23C4*, u16); /* extern */
 s32 func_800B4680(UnkStruct_800B23C4* arg0, u8 arg1);
 s32 func_800B5730(void);  /* extern */
@@ -214,8 +213,7 @@ s32 func_800B202C(SpriteObj** arg0, UnkStruct_800B23C4** arg1, u32 spriteOffset,
 s32 func_800B407C(SpriteObj*, UnkStruct_800B23C4*, u16); /* extern */
 
 #ifdef NEEDS_RODATA
-s32 func_800B23C4(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 objDefIdx, u16 arg3, f32 arg4, f32 arg5,
-                  u8 arg6) {
+s32 func_800B23C4(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 objDefIdx, u16 arg3, f32 arg4, f32 arg5, u8 arg6) {
     arg1->unk0 = arg6;
     if (arg1->objDef == NULL) {
         arg1->objDef = SysMem_HeapAlloc(0x14);
@@ -925,7 +923,8 @@ void func_800B4F68(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 paletteIndex) 
 
     func_800B5558(arg0, arg1);
     sp3C = &arg1->objFrame[arg1->unk30];
-    sp24 = SysMem_GetPhysicalAddressFromVirtual(gSpriteObjHeaderSegment, gSpriteSeg1VramStart, (sp3C->spi_idx * 8) + sMainSpritesSpiOffsets);
+    sp24 = SysMem_GetPhysicalAddressFromVirtual(gSpriteObjHeaderSegment, gSpriteSeg1VramStart,
+                                                (sp3C->spi_idx * 8) + sMainSpritesSpiOffsets);
 
     while (TRUE) {
         SysMem_DmaCopy(sp24, &spiOffset, 8);
@@ -965,7 +964,8 @@ void func_800B4F68(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 paletteIndex) 
             SysMem_Free(*decompressedData);
         }
         if (D_80180D54 & 2) {
-            spriteSpiOffset = SysMem_GetPhysicalAddressFromVirtual(gSpriteObjHeaderSegment, gSpriteSeg1VramStart, sMainSpritesStart + spiOffset);
+            spriteSpiOffset = SysMem_GetPhysicalAddressFromVirtual(gSpriteObjHeaderSegment, gSpriteSeg1VramStart,
+                                                                   sMainSpritesStart + spiOffset);
             size = Spi_GetHeader(spriteSpiOffset); // Compressed size
             *decompressedData = SysMem_HeapAlloc(D_80160494);
             Spi_DecompressAsset(spriteSpiOffset, size, *decompressedData);
@@ -973,14 +973,17 @@ void func_800B4F68(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 paletteIndex) 
             arg1->unk3C++, arg1->unk3C %= 3;
         } else {
             *decompressedData = SysMem_HeapAlloc(sp38 * sp39);
-            SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) gSpriteObjHeaderSegment, (s32) gSpriteSeg1VramStart, sMainSpritesStart + spiOffset), *decompressedData, sp38 * sp39);
+            SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual((u32) gSpriteObjHeaderSegment,
+                                                                (s32) gSpriteSeg1VramStart,
+                                                                sMainSpritesStart + spiOffset),
+                           *decompressedData, sp38 * sp39);
             arg0->ptrs[0] = *decompressedData;
         }
         arg1->unk10 = sp3C->spi_idx;
     }
-    #ifndef ISPRINT
+#ifdef ISPRINT
     osSyncPrintf("paletteIndex: %d\n", paletteIndex);
-    #endif
+#endif
     LoadPalette(arg0, arg1, paletteIndex);
 }
 

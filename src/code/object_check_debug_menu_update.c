@@ -28,20 +28,26 @@ void ObjectCheckDebugMenu_Update(void) {
                 spriteAddress += (selectedSprite = gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_SPRITE]);
                 sp5A = spriteAddress[0][0] >> 0x10;
 
-                while (++selectedSprite, ++spriteAddress, selectedSprite < gSpriteObjCheckDebugMenuState[SPRDBG_SPRITE_COUNT] && ((spriteAddress[0][0] >> 0x10) == sp5A)) {}
+                while (++selectedSprite, ++spriteAddress,
+                       selectedSprite < gSpriteObjCheckDebugMenuState[SPRDBG_SPRITE_COUNT] &&
+                           ((spriteAddress[0][0] >> 0x10) == sp5A)) {}
 
                 if (selectedSprite < gSpriteObjCheckDebugMenuState[SPRDBG_SPRITE_COUNT]) {
                     gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_SPRITE] = selectedSprite;
                 }
                 break;
             case OPTION_ANIM_NUMBER:
-                if (++gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_SPRITE] >= gSpriteObjCheckDebugMenuState[SPRDBG_SPRITE_COUNT]) {
-                    gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_SPRITE] = gSpriteObjCheckDebugMenuState[SPRDBG_SPRITE_COUNT] - 1;
+                if (++gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_SPRITE] >=
+                    gSpriteObjCheckDebugMenuState[SPRDBG_SPRITE_COUNT]) {
+                    gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_SPRITE] =
+                        gSpriteObjCheckDebugMenuState[SPRDBG_SPRITE_COUNT] - 1;
                 }
                 break;
             case OPTION_PALETTE:
-                if (++gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_PALETTE] >= gSpriteObjCheckDebugMenuState[SPRDBG_PALETTE_COUNT]) {
-                    gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_PALETTE] = gSpriteObjCheckDebugMenuState[SPRDBG_PALETTE_COUNT] - 1;
+                if (++gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_PALETTE] >=
+                    gSpriteObjCheckDebugMenuState[SPRDBG_PALETTE_COUNT]) {
+                    gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_PALETTE] =
+                        gSpriteObjCheckDebugMenuState[SPRDBG_PALETTE_COUNT] - 1;
                 }
                 if (gSpriteObjCheckDebugMenuState[7] > 0) {
                     sp4C = (UnkStruct_800B23C4*) D_80182618->ptrs[1];
@@ -55,12 +61,13 @@ void ObjectCheckDebugMenu_Update(void) {
     }
     if (gControllers->unk8 & gInputMask_DPadDown) {
         switch (gSpriteObjCheckDebugMenuState[SPRDBG_CURRENT_OPTION]) { /* switch 1; irregular */
-            case OPTION_SELECT:              /* switch 1 */
+            case OPTION_SELECT:                                         /* switch 1 */
                 spriteAddress = (Sp54*) D_80182618->ptrs[0];
                 spriteAddress += (selectedSprite = gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_SPRITE]);
                 sp5A = spriteAddress[0][0] >> 0x10;
 
-                while (--selectedSprite, --spriteAddress, selectedSprite >= 0 && ((spriteAddress[0][0] >> 0x10) == sp5A)) {}
+                while (--selectedSprite, --spriteAddress,
+                       selectedSprite >= 0 && ((spriteAddress[0][0] >> 0x10) == sp5A)) {}
 
                 if (selectedSprite >= 0) {
                     gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_SPRITE] = selectedSprite;
@@ -107,7 +114,9 @@ void ObjectCheckDebugMenu_Update(void) {
             sp4B = 0;
         }
         func_80022124();
-        gSpriteObjCheckDebugMenuState[7] = func_800B202C(&sp50, &sp4C, spriteAddress[0][0], gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_PALETTE], sp50->unkCC, sp50->unkD0, (s32) sp4B);
+        gSpriteObjCheckDebugMenuState[7] =
+            func_800B202C(&sp50, &sp4C, spriteAddress[0][0], gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_PALETTE],
+                          sp50->unkCC, sp50->unkD0, (s32) sp4B);
         gSpriteObjCheckDebugMenuState[SPRDBG_FLAGS] |= 2;
         gSpriteObjCheckDebugMenuState[SPRDBG_FLAGS] |= 1;
     } else if (gSpriteObjCheckDebugMenuState[SPRDBG_FLAGS] & 2) {
@@ -136,7 +145,8 @@ void ObjectCheckDebugMenu_Update(void) {
             }
             func_80022124();
             gSpriteObjCheckDebugMenuState[7] =
-                func_800B202C(&sp50, &sp4C, spriteAddress[0][0], gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_PALETTE], sp50->unkCC, sp50->unkD0, (s32) sp4B);
+                func_800B202C(&sp50, &sp4C, spriteAddress[0][0], gSpriteObjCheckDebugMenuState[SPRDBG_SELECTED_PALETTE],
+                              sp50->unkCC, sp50->unkD0, (s32) sp4B);
             gSpriteObjCheckDebugMenuState[SPRDBG_FLAGS] |= 1;
         } else {
             sp4C = (UnkStruct_800B23C4*) D_80182618->ptrs[1];

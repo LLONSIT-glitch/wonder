@@ -63,9 +63,9 @@ extern u8 D_800D9DD0[];
 
 extern UnkStruct_80180648* D_80180648;
 extern f32 D_801A8E38;
-u16 func_80056E88(u16, s32);                                                                    /* extern */
-s32 func_800B3230(s16*, s32, s32, s32);                                                         /* extern */
-u16 func_800B334C(UnkStruct_800B23C4**, s32);                                                   /* extern */
+u16 func_80056E88(u16, s32);                                                           /* extern */
+s32 func_800B3230(s16*, s32, s32, s32);                                                /* extern */
+u16 func_800B334C(UnkStruct_800B23C4**, s32);                                          /* extern */
 s32 func_80049A00(SpriteObj*, UnkStruct_800B23C4*, u16, u16, s32, s32, s32, s32, s32); /* extern */
 s32 func_80014B5C(UnkStruct_801A306C* arg0);
 void func_8001AE90(UnkStruct_8000DDE0*); /* extern */

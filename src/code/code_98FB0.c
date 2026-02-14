@@ -527,8 +527,7 @@ s32 func_8009A3E8(SpriteObj* arg0, f32* arg1, f32* arg2) {
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_98FB0/func_8009FC68.s")
 
-s32 func_800A19B0(Gfx** gdlh, SpriteObj* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5,
-                  SpriteObj* arg6) {
+s32 func_800A19B0(Gfx** gdlh, SpriteObj* arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, SpriteObj* arg6) {
     Gfx* gdl;
     s32 texWidth;
     s32 texHeight;

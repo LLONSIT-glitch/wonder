@@ -14,7 +14,7 @@ s32 func_80020720(DebugMenuInfo* arg0) {
     func_8008EAA8(2, 1);
     func_8008ECE4("== %s ==", arg0->debugMenuTitle);
     switch (gDebugMenuState) { /* switch 7; irregular */
-        case 0:           /* switch 7 */
+        case 0:                /* switch 7 */
             gSpriteObjCheckDebugMenuState[0] = 0;
             gSpriteObjCheckDebugMenuState[1] = 0;
             gSpriteObjCheckDebugMenuState[2] = -1;
@@ -64,7 +64,7 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                 func_8008ECE4("  コントローラパック なし          \n");
             }
             switch (gSpriteObjCheckDebugMenuState[0]) { /* switch 1 */
-                case 1:              /* switch 1 */
+                case 1:                                 /* switch 1 */
                     contPakResult = ContPak_GetOpenFileResult();
                     if (contPakResult >= PFS_ERROR_MAGIC + 1) {
                         contPakResult -= PFS_ERROR_MAGIC;
@@ -286,7 +286,8 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                     }
                     if ((gControllers->unk6 & (u16) gInputMask_CDown)) {
                         if ((gSpriteObjCheckDebugMenuState[2] != -1)) {
-                            if ((ContPak_SetFileWriteParams(gSpriteObjCheckDebugMenuState[2], 0, 0x1600, D_80182618->ptrs[2]) == 0)) {
+                            if ((ContPak_SetFileWriteParams(gSpriteObjCheckDebugMenuState[2], 0, 0x1600,
+                                                            D_80182618->ptrs[2]) == 0)) {
                                 gSpriteObjCheckDebugMenuState[0] = 3;
                             }
                         }
@@ -295,7 +296,8 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                         for (contPakResult = 0; contPakResult < 0x1600; contPakResult++) {
                             D_80182618->ptrs[3][contPakResult] = D_80182618->ptrs[2][contPakResult] ^ 0xFF;
                         }
-                        if (ContPak_SetFileReadParams(gSpriteObjCheckDebugMenuState[2], 0, 0x1600, D_80182618->ptrs[3]) == 0) {
+                        if (ContPak_SetFileReadParams(gSpriteObjCheckDebugMenuState[2], 0, 0x1600,
+                                                      D_80182618->ptrs[3]) == 0) {
                             gSpriteObjCheckDebugMenuState[0] = 4;
                         }
                     }
@@ -309,7 +311,8 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                     if (gSpriteObjCheckDebugMenuState[1] == 0) {
                         func_8008ECE4("                    \n");
                     } else {
-                        gSpriteObjCheckDebugMenuState[1] = (s32) ((f32) gSpriteObjCheckDebugMenuState[1] - (1.0f * D_8018257C));
+                        gSpriteObjCheckDebugMenuState[1] =
+                            (s32) ((f32) gSpriteObjCheckDebugMenuState[1] - (1.0f * D_8018257C));
                     }
                     break;
             }
