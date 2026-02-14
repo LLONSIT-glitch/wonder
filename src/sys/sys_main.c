@@ -8,12 +8,11 @@ void func_80016620(f32*);
 void AudioGeneral_BGMFadeOut(s32);
 s32 func_80001F54(void);
 s32 func_800020A8(s32 arg0);
-void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1);
+void func_8000262C(SpriteObj* arg0, SpriteObj* arg1);
 void func_80002824(void);
 
 // Extern functions
 void func_800BE510(f32, f32, f32);
-UNK_TYPE func_800B1F0C(UnkStruct_80099E2C*, void*, UNK_TYPE, UNK_TYPE, f32, f32, s32);
 UNK_TYPE func_8009A04C(f32, f32);
 void func_8004DEA4(void);
 void func_800305A4(void);
@@ -24,7 +23,6 @@ void func_80021FF8(s32, s32, s32);
 void func_800B1BC8(void*, void*);
 void func_80098BF4(void);
 void func_80099520(void);
-void func_800B1B04(void*, void*);
 s16 func_800AD774(s32);
 void func_800077A0(ThreadEntry*);
 void func_80005880(ThreadEntry*);
@@ -124,7 +122,7 @@ void* SysMain(ThreadEntry* entry) {
     D_800F193C = SysMem_GetPhysicalAddressFromVirtual(gSpriteSeg2RomStart, gSpriteSegVramStart, &D_807A1A20);
     D_80153DB0 = SysMem_GetPhysicalAddressFromVirtual(gSeg_69A970_ROM_START, gSeg_69A970_VRAM, &D_809A8230);
     func_800B1A50(SpriteSeg1_VRAM, D_80409B40, gSpriteObjDefs, gSpriteFramesStart, gMainSpritesSpiOffsets, gMainSprites,
-                  gSpritePalettes, D_807991C0, D_8079A730, 3);
+                  gSpritePalettes, gSpritePalettesEnd, D_8079A730, 3);
     D_8015B334 = 5;
     D_8015B33C = 0xC8;
     D_801825D8 = D_800ED130;
@@ -163,7 +161,7 @@ void* SysMain(ThreadEntry* entry) {
     D_801A3068 = 0;
     D_801A8D88[0] |= 1;
     D_8015F880 = SysMem_GetPhysicalAddressFromVirtual(gSeg_639B20_ROM_START, gSeg_639B20_VRAM, &D_80999AA0);
-    sp1DC = Sys_GetSPIHeaderInfoFromVaddr(D_8015F880);
+    sp1DC = Spi_GetHeader(D_8015F880);
     D_8015F874 = SysMem_HeapAllocMark(D_80160494);
     Spi_DecompressAsset(D_8015F880, sp1DC, D_8015F874);
     D_8015F880 = D_8015F874;
@@ -241,7 +239,7 @@ typedef struct UnkStruct_sp284_s {
     s32 unk14C;
 } UnkStruct_sp284;
 
-extern UnkStruct_80099E2C* D_801A8C18;
+extern SpriteObj* D_801A8C18;
 
 s32 func_80000C90(ThreadEntry* entry) {
     s32 pad2;
@@ -260,13 +258,13 @@ s32 func_80000C90(ThreadEntry* entry) {
     f32 sp358;
     f32 sp354;
     u8 sp288[0x354 - 0x288];
-    UnkStruct_80099E2C* sp284;
-    UnkStruct_80099E2C* sp280;
+    SpriteObj* sp284;
+    SpriteObj* sp280;
     s32 pad_sp34[2];
     UnkStruct_8000DDE0* sp274;
     u8 pad_sp19C[0x274 - 0x19C];
     s32 pad;
-    UnkStruct_80099E2C sp38;
+    SpriteObj sp38;
 
     D_80153DF4 = 0;
     threadEntry = entry;
@@ -314,8 +312,9 @@ s32 func_80000C90(ThreadEntry* entry) {
                 }
                 sp280 = &sp38;
                 func_80099E2C(sp280);
-                func_800B1B04(sp280, &sp38.unk160 + 1);
-                func_800B1F0C(sp280, &sp38.unk160 + 1, 0x690221, 0x5F, 0.0f, 0.0f, 0);
+                // TODO: Clean this..
+                func_800B1B04(sp280, (UnkStruct_800B23C4*) (&sp38.unk160 + 1));
+                func_800B1F0C(sp280, (UnkStruct_800B23C4*) (&sp38.unk160 + 1), 0x690221, 0x5F, 0.0f, 0.0f, 0);
                 sp280->unkC0 |= 0x208;
                 sp280->unkC8 = 0x7FFFFFFF;
                 sp280->unkC4 = func_800AD774(2);
@@ -718,9 +717,9 @@ exit:
 }
 
 extern int D_8015B324;
-void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
+void func_8000262C(SpriteObj* arg0, SpriteObj* arg1) {
     s32 sp24;
-    UnkStruct_80099E2C* sp20;
+    SpriteObj* sp20;
     UNUSED char pad[8];
 
     if (arg0 != NULL) {
@@ -734,9 +733,9 @@ void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
         if (sp20->unkC0 & 0x10000000) {
             MtxUtil_PushIdentity();
             func_800A7230(sp20);
-            MtxUtil_RotateZ(sp20->unkF0);
-            MtxUtil_RotateY(sp20->unkEC);
-            MtxUtil_RotateX(sp20->unkE8);
+            MtxUtil_RotateZ(sp20->rotateZ);
+            MtxUtil_RotateY(sp20->rotateY);
+            MtxUtil_RotateX(sp20->rotateX);
             func_800997D8(sp20);
             MtxUtil_Pop();
         }
@@ -746,9 +745,9 @@ void func_8000262C(UnkStruct_80099E2C* arg0, UnkStruct_80099E2C* arg1) {
             if (sp20->unkC0 & 0x10000000) {
                 MtxUtil_PushIdentity();
                 func_800A7230(sp20);
-                MtxUtil_RotateZ(sp20->unkF0);
-                MtxUtil_RotateY(sp20->unkEC);
-                MtxUtil_RotateX(sp20->unkE8);
+                MtxUtil_RotateZ(sp20->rotateZ);
+                MtxUtil_RotateY(sp20->rotateY);
+                MtxUtil_RotateX(sp20->rotateX);
                 func_800997D8(sp20);
                 MtxUtil_Pop();
             }

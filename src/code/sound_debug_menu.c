@@ -69,13 +69,13 @@ s32 SoundDebugMenu(DebugMenuInfo* info) {
 
     func_8008EAA8(2, 1);
     func_8008ECE4("== %s ==", info->debugMenuTitle);
-    switch (D_801825E4) { /* irregular */
+    switch (gDebugMenuState) { /* irregular */
         case 0:
-            *D_801825F0 = 0;
+            *gSpriteObjCheckDebugMenuState = 0;
             /* fallthrough */
         case 1:
             func_8008EAA8(2, 4);
-            sp24 = *D_801825F0;
+            sp24 = *gSpriteObjCheckDebugMenuState;
             debugMenuItem = D_800DB610;
             sp30 = 0;
             sp2C = 0;
@@ -119,7 +119,7 @@ s32 SoundDebugMenu(DebugMenuInfo* info) {
             if (sp24 >= sp2C) {
                 sp24 = 0;
             }
-            *D_801825F0 = sp24;
+            *gSpriteObjCheckDebugMenuState = sp24;
             break;
     }
     if (gControllers->unk6 & (u16) gInputMask_Start) {

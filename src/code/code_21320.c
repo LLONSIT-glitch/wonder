@@ -13,11 +13,11 @@ s32 func_80020720(DebugMenuInfo* arg0) {
 
     func_8008EAA8(2, 1);
     func_8008ECE4("== %s ==", arg0->debugMenuTitle);
-    switch (D_801825E4) { /* switch 7; irregular */
-        case 0:           /* switch 7 */
-            D_801825F0[0] = 0;
-            D_801825F0[1] = 0;
-            D_801825F0[2] = -1;
+    switch (gDebugMenuState) { /* switch 7; irregular */
+        case 0:                /* switch 7 */
+            gSpriteObjCheckDebugMenuState[0] = 0;
+            gSpriteObjCheckDebugMenuState[1] = 0;
+            gSpriteObjCheckDebugMenuState[2] = -1;
             D_80182618->ptrs[0] = SysMem_HeapAlloc(18);
             D_80182618->ptrs[1] = SysMem_HeapAlloc(6);
             D_80182618->ptrs[2] = SysMem_HeapAlloc(0x1600);
@@ -63,8 +63,8 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                 // Controller Pack: No
                 func_8008ECE4("  コントローラパック なし          \n");
             }
-            switch (D_801825F0[0]) { /* switch 1 */
-                case 1:              /* switch 1 */
+            switch (gSpriteObjCheckDebugMenuState[0]) { /* switch 1 */
+                case 1:                                 /* switch 1 */
                     contPakResult = ContPak_GetOpenFileResult();
                     if (contPakResult >= PFS_ERROR_MAGIC + 1) {
                         contPakResult -= PFS_ERROR_MAGIC;
@@ -102,13 +102,13 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                                 func_8008ECE4("Unknown error [%04x]\n", contPakResult);
                                 break;
                         }
-                        D_801825F0[1] = 0x3C;
-                        D_801825F0[0] = 0;
+                        gSpriteObjCheckDebugMenuState[1] = 0x3C;
+                        gSpriteObjCheckDebugMenuState[0] = 0;
                     } else if (contPakResult != -1) {
                         func_8008ECE4("Allocate OK [%2d]     \n", contPakResult);
-                        D_801825F0[1] = 0x3C;
-                        D_801825F0[0] = 0;
-                        D_801825F0[2] = contPakResult;
+                        gSpriteObjCheckDebugMenuState[1] = 0x3C;
+                        gSpriteObjCheckDebugMenuState[0] = 0;
+                        gSpriteObjCheckDebugMenuState[2] = contPakResult;
                     }
                     break;
                 case 2: /* switch 1 */
@@ -141,13 +141,13 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                                 func_8008ECE4("Unknown error [%04x]\n", contPakResult);
                                 break;
                         }
-                        D_801825F0[1] = 0x3C;
-                        D_801825F0[0] = 0;
+                        gSpriteObjCheckDebugMenuState[1] = 0x3C;
+                        gSpriteObjCheckDebugMenuState[0] = 0;
                     } else if (contPakResult != -1) {
                         func_8008ECE4("File find   [%2d]     \n", contPakResult);
-                        D_801825F0[1] = 0x3C;
-                        D_801825F0[0] = 0;
-                        D_801825F0[2] = contPakResult;
+                        gSpriteObjCheckDebugMenuState[1] = 0x3C;
+                        gSpriteObjCheckDebugMenuState[0] = 0;
+                        gSpriteObjCheckDebugMenuState[2] = contPakResult;
                     }
                     break;
                 case 3: /* switch 1 */
@@ -177,12 +177,12 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                                 func_8008ECE4("Unknown error [%04x]\n", contPakResult);
                                 break;
                         }
-                        D_801825F0[1] = 0x3C;
-                        D_801825F0[0] = 0;
+                        gSpriteObjCheckDebugMenuState[1] = 0x3C;
+                        gSpriteObjCheckDebugMenuState[0] = 0;
                     } else if (contPakResult != -1) {
-                        func_8008ECE4("Write success [%2d]     \n", D_801825F0[2]);
-                        D_801825F0[1] = 0x3C;
-                        D_801825F0[0] = 0;
+                        func_8008ECE4("Write success [%2d]     \n", gSpriteObjCheckDebugMenuState[2]);
+                        gSpriteObjCheckDebugMenuState[1] = 0x3C;
+                        gSpriteObjCheckDebugMenuState[0] = 0;
                     }
                     break;
                 case 4: /* switch 1 */
@@ -212,8 +212,8 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                                 func_8008ECE4("Unknown error [%04x]\n", contPakResult);
                                 break;
                         }
-                        D_801825F0[1] = 0x3C;
-                        D_801825F0[0] = 0;
+                        gSpriteObjCheckDebugMenuState[1] = 0x3C;
+                        gSpriteObjCheckDebugMenuState[0] = 0;
                     } else if (contPakResult != -1) {
                         for (contPakResult = 0; contPakResult < 0x1600; contPakResult++) {
                             if (D_80182618->ptrs[2][contPakResult] != D_80182618->ptrs[3][contPakResult]) {
@@ -222,12 +222,12 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                         }
 
                         if (contPakResult == 0x1600) {
-                            func_8008ECE4("Load success [%2d]      \n", D_801825F0[2]);
+                            func_8008ECE4("Load success [%2d]      \n", gSpriteObjCheckDebugMenuState[2]);
                         } else {
-                            func_8008ECE4("Load data error [%2d]   \n", D_801825F0[2]);
+                            func_8008ECE4("Load data error [%2d]   \n", gSpriteObjCheckDebugMenuState[2]);
                         }
-                        D_801825F0[1] = 0x3C;
-                        D_801825F0[0] = 0;
+                        gSpriteObjCheckDebugMenuState[1] = 0x3C;
+                        gSpriteObjCheckDebugMenuState[0] = 0;
                     }
                     break;
                 case 5: /* switch 1 */
@@ -263,13 +263,13 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                                 func_8008ECE4("Unknown error [%04x]\n", contPakResult);
                                 break;
                         }
-                        D_801825F0[1] = 0x3C;
-                        D_801825F0[0] = 0;
+                        gSpriteObjCheckDebugMenuState[1] = 0x3C;
+                        gSpriteObjCheckDebugMenuState[0] = 0;
                     } else if (contPakResult != -1) {
                         func_8008ECE4("Delete success [%2d]     \n", contPakResult);
-                        D_801825F0[1] = 0x3C;
-                        D_801825F0[0] = 0;
-                        D_801825F0[2] = -1;
+                        gSpriteObjCheckDebugMenuState[1] = 0x3C;
+                        gSpriteObjCheckDebugMenuState[0] = 0;
+                        gSpriteObjCheckDebugMenuState[2] = -1;
                     }
                     break;
                 default: /* switch 1 */
@@ -278,38 +278,41 @@ s32 func_80020720(DebugMenuInfo* arg0) {
                     }
                     if ((gControllers->unk6 & gInputMask_A) &&
                         (ContPak_SetOpenFileParams(gameName, extName, 0x1600) == 0)) {
-                        D_801825F0[0] = 1;
+                        gSpriteObjCheckDebugMenuState[0] = 1;
                     }
                     if ((gControllers->unk6 & (u16) gInputMask_B) &&
                         (ContPak_SetFileFindParams(gameName, extName) == 0)) {
-                        D_801825F0[0] = 2;
+                        gSpriteObjCheckDebugMenuState[0] = 2;
                     }
                     if ((gControllers->unk6 & (u16) gInputMask_CDown)) {
-                        if ((D_801825F0[2] != -1)) {
-                            if ((ContPak_SetFileWriteParams(D_801825F0[2], 0, 0x1600, D_80182618->ptrs[2]) == 0)) {
-                                D_801825F0[0] = 3;
+                        if ((gSpriteObjCheckDebugMenuState[2] != -1)) {
+                            if ((ContPak_SetFileWriteParams(gSpriteObjCheckDebugMenuState[2], 0, 0x1600,
+                                                            D_80182618->ptrs[2]) == 0)) {
+                                gSpriteObjCheckDebugMenuState[0] = 3;
                             }
                         }
                     }
-                    if ((gControllers->unk6 & (u16) gInputMask_CLeft) && (D_801825F0[2] != -1)) {
+                    if ((gControllers->unk6 & (u16) gInputMask_CLeft) && (gSpriteObjCheckDebugMenuState[2] != -1)) {
                         for (contPakResult = 0; contPakResult < 0x1600; contPakResult++) {
                             D_80182618->ptrs[3][contPakResult] = D_80182618->ptrs[2][contPakResult] ^ 0xFF;
                         }
-                        if (ContPak_SetFileReadParams(D_801825F0[2], 0, 0x1600, D_80182618->ptrs[3]) == 0) {
-                            D_801825F0[0] = 4;
+                        if (ContPak_SetFileReadParams(gSpriteObjCheckDebugMenuState[2], 0, 0x1600,
+                                                      D_80182618->ptrs[3]) == 0) {
+                            gSpriteObjCheckDebugMenuState[0] = 4;
                         }
                     }
                     if ((gControllers->unk6 & (u16) gInputMask_CRight)) {
-                        if ((D_801825F0[2] != -1)) {
-                            if ((ContPak_SetFileDeleteParams(D_801825F0[2]) == 0)) {
-                                D_801825F0[0] = 5;
+                        if ((gSpriteObjCheckDebugMenuState[2] != -1)) {
+                            if ((ContPak_SetFileDeleteParams(gSpriteObjCheckDebugMenuState[2]) == 0)) {
+                                gSpriteObjCheckDebugMenuState[0] = 5;
                             }
                         }
                     }
-                    if (D_801825F0[1] == 0) {
+                    if (gSpriteObjCheckDebugMenuState[1] == 0) {
                         func_8008ECE4("                    \n");
                     } else {
-                        D_801825F0[1] = (s32) ((f32) D_801825F0[1] - (1.0f * D_8018257C));
+                        gSpriteObjCheckDebugMenuState[1] =
+                            (s32) ((f32) gSpriteObjCheckDebugMenuState[1] - (1.0f * D_8018257C));
                     }
                     break;
             }
