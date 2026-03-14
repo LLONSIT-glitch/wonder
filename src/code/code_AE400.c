@@ -23,10 +23,10 @@ typedef struct UnkStruct_800EF900_s {
 extern UnkStruct_800EF900 D_800EF900;
 
 void func_800AD800(void) {
-    ThreadEntry* sp3C;
+    ThreadEntry* entry;
     UnkStruct_800F9C38* sp38;
-    void* sp34;
-    s32 sp30;
+    OSMesg mesg;
+    s32 i;
 
     gCurrentPakOperationFlags = 0;
     gInputMask_DPadUp = U_JPAD;
@@ -45,25 +45,25 @@ void func_800AD800(void) {
     gInputMask_CRight = R_CBUTTONS;
     gControllerStickXScale = 70.0f;
     gControllerStickYScale = 70.0f;
-    for (sp30 = 0; sp30 < 4; sp30++) {
-        gControllerRaw[sp30].state = 0;
-        gControllerRaw[sp30].stickScaleX = gControllerStickXScale;
-        gControllerRaw[sp30].stickScaleY = gControllerStickYScale;
+    for (i = 0; i < MAXCONTROLLERS; i++) {
+        gControllerRaw[i].state = 0;
+        gControllerRaw[i].stickScaleX = gControllerStickXScale;
+        gControllerRaw[i].stickScaleY = gControllerStickYScale;
 
-        gControllerRaw[sp30].button = gControllerRaw[sp30].unk6 = gControllerRaw[sp30].unk8 =
-            gControllerRaw[sp30].unkA = gControllerRaw[sp30].unkC = 0;
+        gControllerRaw[i].button = gControllerRaw[i].unk6 = gControllerRaw[i].unk8 =
+            gControllerRaw[i].unkA = gControllerRaw[i].unkC = 0;
 
-        gControllerRaw[sp30].stickX = gControllerRaw[sp30].stickY = 0.0f;
+        gControllerRaw[i].stickX = gControllerRaw[i].stickY = 0.0f;
     }
     D_801824D4 = 1;
     D_8018128C = 0;
-    sp3C = Thread_CreateExtended((void (*)(void*)) func_800ADC50, 0x35);
-    sp38 = sp3C->unk18;
-    gSysThreadIds[3] = (s32) sp3C->threadId;
+    entry = Thread_CreateExtended((void (*)(void*)) func_800ADC50, 0x35);
+    sp38 = entry->unk18;
+    gSysThreadIds[3] = entry->threadId;
     D_801816A0 = 2;
     D_801816C8 = 1;
     D_801819B0 = 3;
-    func_800C1154(sp3C->threadId, 8);
+    func_800C1154(entry->threadId, 8);
     osSetEventMesg(OS_EVENT_SI, (OSMesgQueue*) &sp38->mq, &D_801816A0);
     osContInit((OSMesgQueue*) &sp38->mq, &gContPakBitPattern, gContStatus);
 
@@ -73,13 +73,13 @@ void func_800AD800(void) {
         osContStartReadData((OSMesgQueue*) &sp38->mq);
 
         // Wait for completion message from osContStartReadData
-        Thread_ReceiveMsgInThread(sp3C->threadId, &sp34, OS_MESG_BLOCK);
+        Thread_ReceiveMsgInThread(entry->threadId, &mesg, OS_MESG_BLOCK);
         osContGetReadData(gContPad);
         ContPak_InitializePak(&sp38->mq);
         ContPak_UpdateFilesState();
         D_801824D4 = 1;
     }
-    Thread_Start(sp3C->threadId);
+    Thread_Start(entry->threadId);
 }
 
 void func_800ADC50(ThreadEntry* entry) {

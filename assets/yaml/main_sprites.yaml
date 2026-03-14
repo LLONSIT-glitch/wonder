@@ -32582,7 +32582,7 @@ Sprite_1bfbc4:
   offset: 0x1bfbc4
   ctype: u8
   symbol: Sprite_1bfbc4
-  
+  tlut_symbol: Palette_6
 
 Sprite_1bfc24: 
   type: COMPRESSED_TEXTURE 
@@ -40766,6 +40766,7 @@ Sprite_247208:
   offset: 0x247208
   ctype: u8
   symbol: Sprite_247208
+  tlut_symbol: Palette_31
   
 
 Sprite_247270: 
@@ -50699,6 +50700,7 @@ Sprite_2ec07c:
   offset: 0x2ec07c
   ctype: u8
   symbol: Sprite_2ec07c
+  tlut_symbol: Palette_85
   
 
 Sprite_2ec4f0: 
@@ -50710,6 +50712,7 @@ Sprite_2ec4f0:
   offset: 0x2ec4f0
   ctype: u8
   symbol: Sprite_2ec4f0
+  tlut_symbol: Palette_85
   
 
 Sprite_2ece00: 
@@ -50721,6 +50724,7 @@ Sprite_2ece00:
   offset: 0x2ece00
   ctype: u8
   symbol: Sprite_2ece00
+  tlut_symbol: Palette_85
   
 
 Sprite_2ecfc0: 
@@ -50732,6 +50736,7 @@ Sprite_2ecfc0:
   offset: 0x2ecfc0
   ctype: u8
   symbol: Sprite_2ecfc0
+  tlut_symbol: Palette_85
   
 
 Sprite_2ed14a: 
@@ -50765,6 +50770,7 @@ Sprite_2ee43c:
   offset: 0x2ee43c
   ctype: u8
   symbol: Sprite_2ee43c
+  tlut_symbol: Palette_85
   
 
 Sprite_2eea9a: 
@@ -50831,6 +50837,7 @@ Sprite_2f681a:
   offset: 0x2f681a
   ctype: u8
   symbol: Sprite_2f681a
+  tlut_symbol: Palette_95
   
 
 Sprite_2f6e52: 

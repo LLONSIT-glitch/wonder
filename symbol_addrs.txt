@@ -835,3 +835,5 @@ D_80A3CFB0 = 0x80A3CFB0;
 D_8015C748 = 0x8015C748; //size:0x1000
 gContPad = 0x80182558; //size:0x18
 D_800E4CB0 = 0x800E4CB0; //type:s32 size:0x3ffc
+gScheduler = 0x80153E30;
+gShopProductNames = 0x800DBE08;
