@@ -50,8 +50,8 @@ void func_800AD800(void) {
         gControllerRaw[i].stickScaleX = gControllerStickXScale;
         gControllerRaw[i].stickScaleY = gControllerStickYScale;
 
-        gControllerRaw[i].button = gControllerRaw[i].unk6 = gControllerRaw[i].unk8 =
-            gControllerRaw[i].unkA = gControllerRaw[i].unkC = 0;
+        gControllerRaw[i].button = gControllerRaw[i].unk6 = gControllerRaw[i].unk8 = gControllerRaw[i].unkA =
+            gControllerRaw[i].unkC = 0;
 
         gControllerRaw[i].stickX = gControllerRaw[i].stickY = 0.0f;
     }

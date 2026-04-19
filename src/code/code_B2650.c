@@ -31,22 +31,22 @@ s32 func_800B2FB0(SpriteObj* arg0, UnkStruct_800B23C4* arg1, s32 arg2);
 s32 func_800B351C(UnkStruct_800B23C4*);                        /* extern */
 void func_800B47A0(SpriteObj* arg0, UnkStruct_800B23C4*, u16); /* extern */
 s32 func_800B4680(UnkStruct_800B23C4* arg0, u8 arg1);
-s32 func_800B5730(void);  /* extern */
-s32 func_800B6A00(u16*);  /* extern */
-u16 func_800B8398(void);  /* extern */
-void func_80031728(void); /* extern */
-void func_800B57B0(void); /* extern */
-void func_800B5AA0(void); /* extern */
-s32 func_800B5AF0(void);  /* extern */
-s32 func_800B5FB4(void);  /* extern */
-s32 func_8000D5A8(u16);                             /* extern */
-void* func_8000D688(u16);                           /* extern */
-s32 func_8000D934(u16, s32, u16*);                      /* extern */
-void func_80015B6C(void*);                             /* extern */
-s32 func_800B6E04(u16*);                              /* extern */
-s32 func_800B73DC(u16*);                              /* extern */
-s32 func_800B749C(u16*);                              /* extern */
-void func_80016620(f32*);                              /* extern */
+s32 func_800B5730(void);           /* extern */
+s32 func_800B6A00(u16*);           /* extern */
+u16 func_800B8398(void);           /* extern */
+void func_80031728(void);          /* extern */
+void func_800B57B0(void);          /* extern */
+void func_800B5AA0(void);          /* extern */
+s32 func_800B5AF0(void);           /* extern */
+s32 func_800B5FB4(void);           /* extern */
+s32 func_8000D5A8(u16);            /* extern */
+void* func_8000D688(u16);          /* extern */
+s32 func_8000D934(u16, s32, u16*); /* extern */
+void func_80015B6C(void*);         /* extern */
+s32 func_800B6E04(u16*);           /* extern */
+s32 func_800B73DC(u16*);           /* extern */
+s32 func_800B749C(u16*);           /* extern */
+void func_80016620(f32*);          /* extern */
 s32 func_800B6CC8(s16* arg0);
 
 void func_800B1A50(u8* arg0, u8* arg1, u8* objDefsStart, u8* spriteFramesStart, u8* mainSpritesSpiOffsets,
@@ -696,7 +696,7 @@ void func_800B4448(SpriteObj*, UnkStruct_800B23C4*, s32); /* extern */
 void func_800B47A0(SpriteObj*, UnkStruct_800B23C4*, u16); /* extern */
 
 s32 func_800B407C(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 arg2) {
-    ObjFrame*   ;
+    ObjFrame*;
     u8 sp1B;
 
     sp1B = arg1->unk30;
@@ -991,7 +991,7 @@ void func_800B4F68(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 paletteIndex) 
         arg1->unk10 = sp3C->spi_idx;
     }
 
-    //osSyncPrintf("Sprite: %x, has palette_%d\n", spiOffset, paletteIndex);
+    // osSyncPrintf("Sprite: %x, has palette_%d\n", spiOffset, paletteIndex);
     LoadPalette(arg0, arg1, paletteIndex);
 }
 
@@ -1428,7 +1428,7 @@ s32 func_800B69C4(u16* arg0) {
 s32 func_800B6A00(u16* arg0) {
     u16 sp24[6];
     s32 pad;
-    
+
     s32 sp1C;
     UnkStruct_8000DDE0* sp18;
 
@@ -1459,34 +1459,34 @@ s32 func_800B6B18(u16* arg0) {
     for (sp2C = 0; sp2C < 8; sp2C++) {
         sp30[sp2C] = *arg0++;
     }
-        
-    switch (sp30[1]) {                              /* irregular */
-    case 0xE100:
-        if (func_800B6CC8(sp30) != 0) {
-            return 1;
-        }
-        D_801A3068->unk4 |= 0x10;
-        break;
 
-    case 0xE101:
-        sp28 = func_800B6E04(sp30);
-        if (sp28 < 0) {
-            return 1;
-        }
-        D_801A3068->unk4 |= 0x20;
-        break;
-    case 0xE102:
-        if (func_800B73DC(sp30) != 0) {
-            return -1;
-        }
-        D_801A3068->unk4 |= 0x40;
-        break;
-    case 0xE103:
-        if (func_800B749C(sp30) != 0) {
-            return -1;
-        }
-        D_801A3068->unk4 |= 0x80;
-        break;
+    switch (sp30[1]) { /* irregular */
+        case 0xE100:
+            if (func_800B6CC8(sp30) != 0) {
+                return 1;
+            }
+            D_801A3068->unk4 |= 0x10;
+            break;
+
+        case 0xE101:
+            sp28 = func_800B6E04(sp30);
+            if (sp28 < 0) {
+                return 1;
+            }
+            D_801A3068->unk4 |= 0x20;
+            break;
+        case 0xE102:
+            if (func_800B73DC(sp30) != 0) {
+                return -1;
+            }
+            D_801A3068->unk4 |= 0x40;
+            break;
+        case 0xE103:
+            if (func_800B749C(sp30) != 0) {
+                return -1;
+            }
+            D_801A3068->unk4 |= 0x80;
+            break;
     }
     return 8;
 }
@@ -1505,11 +1505,11 @@ s32 func_800B6CC8(s16* arg0) {
     f32 sp18;
 
     sp18 = (f32) ((256.0 / (f64) (f32) arg0[2]) * 0.5);
-    sp1C = (s32) ((u16)arg0[4] & 0xF800) >> 8;
-    sp20 = (s32) ((u16)arg0[4] & 0x7C0) >> 3;
-    sp24 = ((u16)arg0[4] & 0x3E) * 4;
+    sp1C = (s32) ((u16) arg0[4] & 0xF800) >> 8;
+    sp20 = (s32) ((u16) arg0[4] & 0x7C0) >> 3;
+    sp24 = ((u16) arg0[4] & 0x3E) * 4;
     sp28 = 0x140;
-    if ((u16)arg0[3] == 0) {
+    if ((u16) arg0[3] == 0) {
         sp2C = 0xA8;
     } else {
         sp2C = 0xF0;
@@ -1522,7 +1522,6 @@ s32 func_800B6CC8(s16* arg0) {
     D_801A8C34 = 0xF;
     return 0;
 }
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_B2650/func_800B6E04.s")
 

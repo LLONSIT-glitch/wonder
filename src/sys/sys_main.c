@@ -86,7 +86,7 @@ void* SysMain(ThreadEntry* entry) {
     InitScheduler(0, 1);
     func_800AD800();
     CreateSchedulerThread();
-    func_800985BC(threadEntry->threadId); // add thread scheduler client 
+    func_800985BC(threadEntry->threadId); // add thread scheduler client
     sp50 = threadEntry->unk18;
     sp50->unk80BC = 2;
     sp50->unk80DC = 2;
