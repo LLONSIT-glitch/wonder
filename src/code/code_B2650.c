@@ -696,7 +696,7 @@ void func_800B4448(SpriteObj*, UnkStruct_800B23C4*, s32); /* extern */
 void func_800B47A0(SpriteObj*, UnkStruct_800B23C4*, u16); /* extern */
 
 s32 func_800B407C(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 arg2) {
-    ObjFrame*;
+    ObjFrame* sp1C;
     u8 sp1B;
 
     sp1B = arg1->unk30;
