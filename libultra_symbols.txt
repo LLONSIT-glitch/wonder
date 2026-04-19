@@ -240,3 +240,4 @@ __osInsertTimer = 0x800CBE38;
 __osLeoInterrupt = 0x800D4720;
 __osLeoAbnormalResume = 0x800D4DC0;
 __osLeoResume = 0x800D4EA8;
+__osDevMgrMain = 0x800D5140;

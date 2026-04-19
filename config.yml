@@ -7,6 +7,6 @@
     logging: ERROR
     textures: ADDITIONAL_DEFINES
     output:
-      code: src/assets
+      code: test/assets
       headers: include/assets
-      modding: src/assets
+      modding: test/assets
