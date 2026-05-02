@@ -825,7 +825,6 @@ s32 func_80095F9C(s32 arg0) {
     return arg0;
 }
 
-
 void func_8009600C(void) {
     D_8015D788 = &D_8015D748;
     D_8015D7D4 = D_8015D790;
@@ -841,7 +840,6 @@ void func_8009600C(void) {
     D_8015C548->unk100[6] = 0;
     D_8015B338 &= ~0x100;
 }
-
 
 #pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_800960E8.s")
 
