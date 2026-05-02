@@ -80,6 +80,8 @@ osViModeTable = 0x800EBED0;
 sIdleThread = 0x80182650;
 sIdleThreadStack = 0x801849C8;
 sThreadIdMain = 0x801A8E3C;
+sSpiDecompressedPtr = 0x80160454;
+sSpiDecompressedPtrStart = 0x8016046C;
 
 gInputMask_DPadUp = 0x80180E68;
 gInputMask_DPadDown = 0x80180E74;
@@ -261,8 +263,8 @@ gDebugMenuState = 0x801825E4;
 D_801ADA38 = 0x801ADA38; //size:0x14
 
 gSpriteObjCheckDebugMenuState = 0x801825F0;
-gSpritePalettesEnd = 0x807991C0; 
-D_8079A730 = 0x8079A730; 
+gSpritePalettesEnd = 0x807991C0;
+D_8079A730 = 0x8079A730;
 
 
 D_807A0080 = 0x807A0080;

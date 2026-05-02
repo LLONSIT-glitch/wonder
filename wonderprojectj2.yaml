@@ -97,7 +97,7 @@ segments:
       - [0x17FD0, c, code/code_17FD0]
       - [0x18700, c, code/code_18700]
       - [0x1ABA0, c, code/code_1ABA0]
-      
+
       - [0x1FF90, c, code/object_check_debug_menu]
       - [0x20400, c, code/object_check_debug_menu_update]
       - [0x21320, c, code/code_21320]
@@ -142,7 +142,7 @@ segments:
       - [0xC4C80, c, libultra/io/viswapbuf]
       - [0xC4CD0, c, libultra/os/gettime]
       - [0xC4D60, c, libultra/io/vigetcurrframebuf]
-      - [0xC4DA0, hasm,  libultra/os/setintmask]
+      - [0xC4DA0, hasm, libultra/os/setintmask]
       - [0xC4E40, c, libultra/gu/random]
       - [0xC4E70, hasm, writebackdcacheall]
       - [0xC4EA0, hasm, sqrtf]
@@ -357,43 +357,68 @@ segments:
       - [0xF1A20, rodata]
       - [0xF2220, rodata]
       - { start: 0xF24E0, type: bss, vram: 0x800F18E0, name: bss1 }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AA4F0, name: code/temp_heap}
-      - { start: 0xF24E0, type: bss,  vram: 0x801AA500, name: bss2 }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AE860, name: libultra/io/vimgr }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AFA80, name: libultra/os/seteventmesg  }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AFB00, name:  libultra/io/sptask  }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AFB40, name: libultra/io/controller   }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AFBD0, name: libultra/io/pfsisplug  }
-      - { start: 0xF24E0, type: bss, vram: 0x801AFC10, name: bss3  }
-      
+      - { start: 0xF24E0, type: .bss, vram: 0x801AA4F0, name: code/temp_heap }
+      - { start: 0xF24E0, type: bss, vram: 0x801AA500, name: bss2 }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AE860,
+          name: libultra/io/vimgr,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AFA80,
+          name: libultra/os/seteventmesg,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AFB00,
+          name: libultra/io/sptask,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AFB40,
+          name: libultra/io/controller,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AFBD0,
+          name: libultra/io/pfsisplug,
+        }
+      - { start: 0xF24E0, type: bss, vram: 0x801AFC10, name: bss3 }
 
   - name: framebuffer1
     type: code
     vram: 0x801DA800
     bss_size: 0x4b00
     subsegments:
-    - { type: .bss, vram: 0x801DA800, name: framebuffer1 }
-    
+      - { type: .bss, vram: 0x801DA800, name: framebuffer1 }
+
   - name: framebuffer2
     type: code
     vram: 0x80200000
-    bss_size: 0x4b00  
+    bss_size: 0x4b00
     subsegments:
-    - { type: .bss, vram: 0x80200000, name: framebuffer2 }
+      - { type: .bss, vram: 0x80200000, name: framebuffer2 }
 
   - name: heapMemBlock
     type: code
     vram: 0x80225800
     bss_size: 0x2223EC
     subsegments:
-    - { type: .bss, vram: 0x80225800, name: heap_mem_block }
+      - { type: .bss, vram: 0x80225800, name: heap_mem_block }
 
+  # Some dlists
   - type: bin
     start: 0xF24E0
     vram: 0x01000000
     follows_vram: main
 
-    # Vram start: 0x80400000 
+    # Vram start: 0x80400000
     # Vram end: 0x8044a2d0
   - name: SpriteSeg1
     start: 0xF27E0
@@ -401,24 +426,67 @@ segments:
     #vramEnd: 0x8044a2d0
     type: code
     subsegments:
-    - [0xF27E0, bin]
-    - { start: 0xF57E0, vram: 0x80403000, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_F57E0 }
-    - { start: 0xFC320, vram: 0x80409B40, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_FC320 }
-    - { start: 0xFD180, vram: 0x8040A9A0, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_FD180 }
-    - { start: 0x105220, vram: 0x80412A40, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_105220 }
-    - { start: 0x133AC0, vram: 0x804412E0, type: databin, use_src_path: True, name: sprites/SpriteSeg1/Seg_133AC0 }
-    - { start: 0x13D2E0, vram: 0x8044AB00, type: databin, use_src_path: True, name: sprites/SpriteSeg1/MainSprites } # Main sprites
-    #- [0x47F9A0, bin] # Sprite Palettes
-    - [0x48b7a0, bin]
+      - [0xF27E0, bin]
+      - {
+          start: 0xF57E0,
+          vram: 0x80403000,
+          type: databin,
+          use_src_path: True,
+          name: sprites/SpriteSeg1/Seg_F57E0,
+        }
+      - {
+          start: 0xFC320,
+          vram: 0x80409B40,
+          type: databin,
+          use_src_path: True,
+          name: sprites/SpriteSeg1/Seg_FC320,
+        }
+      - {
+          start: 0xFD180,
+          vram: 0x8040A9A0,
+          type: databin,
+          use_src_path: True,
+          name: sprites/SpriteSeg1/Seg_FD180,
+        }
+      - {
+          start: 0x105220,
+          vram: 0x80412A40,
+          type: databin,
+          use_src_path: True,
+          name: sprites/SpriteSeg1/Seg_105220,
+        }
+      - {
+          start: 0x133AC0,
+          vram: 0x804412E0,
+          type: databin,
+          use_src_path: True,
+          name: sprites/SpriteSeg1/Seg_133AC0,
+        }
+      - {
+          start: 0x13D2E0,
+          vram: 0x8044AB00,
+          type: databin,
+          use_src_path: True,
+          name: sprites/SpriteSeg1/MainSprites,
+        } # Main sprites
+      #- [0x47F9A0, bin] # Sprite Palettes
+      - [0x48b7a0, bin]
 
   - name: SpriteSeg2
     type: code
     start: 0x492860
     vram: 0x807A0080
     subsegments:
-    - [0x492860, bin]
-    - { start: 0x494200, end: 0x6e3a40, vram: 0x807a1a20, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_494200 }
-    
+      - [0x492860, bin]
+      - {
+          start: 0x494200,
+          end: 0x6e3a40,
+          vram: 0x807a1a20,
+          type: databin,
+          use_src_path: True,
+          name: sprites/SpriteSeg2/Seg_494200,
+        }
+
     #- { start: 0x49a3c0, vram: 0x807a7be0, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_49a3c0 }
     #- { start: 0x639b20, vram: 0x80947340, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_639b20 }
     #- { start: 0x63b930, vram: 0x80949150, type: databin, use_src_path: True, name: sprites/SpriteSeg2/Seg_63b930 }
@@ -444,16 +512,16 @@ segments:
     start: 0x6A69E0
     vram: 0x809B4200
     subsegments:
-    - [0x6A69E0, bin]
+      - [0x6A69E0, bin]
 
   - name: Seg_6E3A40
     type: code
     vram: 0x809F1260
     start: 0x6E3A40
     subsegments:
-    - [0x6e3a40, bin]
-    - [0x6f74c0, .data, spi_offset_table_6E3A40]  # SPI offsets
-    - [0x6f7960, bin] # SPI data
+      - [0x6e3a40, bin]
+      - [0x6f74c0, .data, spi_offset_table_6E3A40] # SPI offsets
+      - [0x6f7960, bin] # SPI data
 
   - name: audioSequences
     type: bin
@@ -472,5 +540,5 @@ segments:
 
   - type: bin
     start: 0x78AB70
-   
+
   - [0x800000]

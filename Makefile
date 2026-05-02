@@ -149,7 +149,7 @@ endif
 CFLAGS := -Wab,-r4300_mul -non_shared -G 0 -Xcpluscomm -fullwarn  -nostdinc -g0
 CFLAGS += $(DEFINES)
 # ignore compiler warnings about anonymous structs
-CFLAGS += -woff 649,838,712,516 
+CFLAGS += -woff 649,838,712,516
 CFLAGS += $(INCLUDE_CFLAGS)
 
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wunused-function -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
@@ -163,7 +163,7 @@ GCC_FLAGS += -Wall -Wextra -Wno-missing-braces
 TARGET     = $(BUILD_DIR)/$(BASENAME).$(VERSION)
 LD_SCRIPT  = $(BASENAME).ld
 
-LD_FLAGS   = -T $(LD_SCRIPT) -T undefined_funcs_auto.txt  -T undefined_syms_auto.txt -T resolve.txt 
+LD_FLAGS   = -T $(LD_SCRIPT) -T undefined_funcs_auto.txt  -T undefined_syms_auto.txt -T resolve.txt
 LD_FLAGS  += -Map $(TARGET).map --no-check-sections
 
 ifeq ($(VERSION),us)
@@ -181,14 +181,14 @@ ASM_PROCESSOR      = $(PYTHON) $(ASM_PROCESSOR_DIR)/asm_processor.py --asm-prelu
 $(BUILD_DIR)/$(SRC_DIR)/libultra/%.o: OPT_FLAGS := -O2
 $(BUILD_DIR)/$(SRC_DIR)/libultra/%.o: MIPSISET := -mips2
 
-$(BUILD_DIR)/$(SRC_DIR)/libultra/io/%.o: OPT_FLAGS := -O1 
+$(BUILD_DIR)/$(SRC_DIR)/libultra/io/%.o: OPT_FLAGS := -O1
 $(BUILD_DIR)/$(SRC_DIR)/libultra/io/%.o: MIPSISET := -mips2
 
 $(BUILD_DIR)/$(SRC_DIR)/libultra/gu/%.o: OPT_FLAGS := -O3 -g0
 $(BUILD_DIR)/$(SRC_DIR)/libultra/gu/%.o: MIPSISET := -mips2
 
 $(BUILD_DIR)/$(SRC_DIR)/libultra/os/%.o: MIPSISET := -mips2
-$(BUILD_DIR)/$(SRC_DIR)/libultra/os/%.o: OPT_FLAGS := -O1 
+$(BUILD_DIR)/$(SRC_DIR)/libultra/os/%.o: OPT_FLAGS := -O1
 
 $(BUILD_DIR)/$(SRC_DIR)/libultra/audio/%.o: MIPSISET := -mips2
 $(BUILD_DIR)/$(SRC_DIR)/libultra/audio/%.o: OPT_FLAGS := -O3 -g0
@@ -225,7 +225,7 @@ splat: $(SPLAT)
 
 extract: splat
 	$(PYTHON) $(SPLAT) $(YAML)
-	$(TORCH) modding export baserom.jp.z64
+	#$(TORCH) modding export baserom.jp.z64
 
 dependencies: tools
 	make -C tools
@@ -265,6 +265,7 @@ $(GLOBAL_ASM_O_FILES): $(BUILD_DIR)/%.o: %.c
 
 # non asm-processor recipe
 $(BUILD_DIR)/%.o: %.c
+	@$(CC_CHECK) $<
 	@$(CC) -c $(CFLAGS) $(OPT_FLAGS) $(LOOP_UNROLL) $(MIPSISET) -o $@ $<
 	@printf "[$(GREEN) IRIS Development Option $(NO_COL)]  $<\n"
 

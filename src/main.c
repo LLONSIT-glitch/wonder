@@ -209,14 +209,15 @@ void func_800BE0C4(void) {
     osViSwapBuffer(D_801824DC);
 }
 
-void func_800BE0FC(void) {
+// Sets display list head
+void Main_GfxInit(void) {
     D_801A1B14 = (s32) (D_801A1B14 + 1) % 3;
     D_80189AF8 = D_80189B08[(D_801824FC ? 0 : 1) << 0xf];
     D_801A1B4C = D_80189AF8;
     gDisplayListHead = D_801A1B4C;
 }
 
-void func_800BE18C(Gfx** gdl) {
+void Main_GfxSetSegments(Gfx** gdl) {
     Gfx* gdlh;
 
     gdlh = *gdl;
@@ -231,20 +232,18 @@ void func_800BE18C(Gfx** gdl) {
     *gdl = gdlh;
 }
 
-void func_800BE328(Gfx** arg0) {
-    Gfx* gdl;
+void Main_GfxClearScreen(Gfx** gdl) {
+    Gfx* gdlh = *gdl;
+    gDPSetCycleType(gdlh++, G_CYC_FILL);
+    gDPSetRenderMode(gdlh++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gDPSetColorImage(gdlh++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, VIRTUAL_TO_PHYSICAL(D_801A7200));
+    gDPSetFillColor(gdlh++, GPACK_RGBA5551(255, 255, 240, 0) << 16 | GPACK_RGBA5551(255, 255, 240, 0));
+    gDPFillRectangle(gdlh++, 0, 0, 319, 239);
+    gDPPipeSync(gdlh++);
+    gDPSetDepthImage(gdlh++, VIRTUAL_TO_PHYSICAL(D_801A7200));
+    gDPPipeSync(gdlh++);
 
-    gdl = *arg0;
-    gDPSetCycleType(gdl++, G_CYC_FILL);
-    gDPSetRenderMode(gdl++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
-    gDPSetColorImage(gdl++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, VIRTUAL_TO_PHYSICAL(D_801A7200));
-    gDPSetFillColor(gdl++, 0xFFFCFFFC);
-    gDPFillRectangle(gdl++, 0, 0, 319, 239);
-    gDPPipeSync(gdl++);
-    gDPSetDepthImage(gdl++, VIRTUAL_TO_PHYSICAL(D_801A7200));
-    gDPPipeSync(gdl++);
-
-    *arg0 = gdl;
+    *gdl = gdlh;
 }
 
 void func_800BE4EC(void) {
@@ -252,9 +251,9 @@ void func_800BE4EC(void) {
 }
 
 void func_800BE510(f32 arg0, f32 arg1, f32 arg2) {
-    func_800BE0FC();
-    func_800BE18C((Gfx**) &gDisplayListHead);
-    func_800BE328((Gfx**) &gDisplayListHead);
+    Main_GfxInit();
+    Main_GfxSetSegments((Gfx**) &gDisplayListHead);
+    Main_GfxClearScreen((Gfx**) &gDisplayListHead);
     func_800ABC30(&gDisplayListHead);
     func_800AC524(&gDisplayListHead);
     func_800B0E88(&gDisplayListHead, arg0, arg1, arg2, 1.0f, 320.0f, 240.0f);
@@ -276,14 +275,14 @@ void func_800BE684(void) {
     gSPDisplayList(gDisplayListHead++, D_1000080);
     gSPDisplayList(gDisplayListHead++, D_1000058);
     gDPPipeSync(gDisplayListHead++);
-    func_800BE328((Gfx**) &gDisplayListHead);
+    Main_GfxClearScreen((Gfx**) &gDisplayListHead);
     gDPSetColorImage(gDisplayListHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, VIRTUAL_TO_PHYSICAL2(D_801824DC));
 }
 
-void alSynFreeFX(ALSynth* s, void** fx) {
+void Main_Unused(s32 arg0, s32 arg1) {
 }
 
-s32 func_800BE7A0(s32 arg0) {
+UNUSED s32 Main_ContInit(s32 arg0) {
     s32 sp1C;
 
     gInputMask_DPadUp = U_JPAD;
@@ -361,15 +360,15 @@ UNUSED void Main_UpdateControllers(s32 contInitialized) {
     }
 }
 
-int func_800BECCC(s32 arg0, f32 arg1, f32 arg2) {
-    if (gControllerRaw[arg0].state != STATE_CONNECTED) {
+int Main_SetContRawStickScale(s32 controller, f32 scaleX, f32 scaleY) {
+    if (gControllerRaw[controller].state != STATE_CONNECTED) {
         return -1;
     }
-    gControllerRaw[arg0].stickScaleX = arg1;
-    gControllerRaw[arg0].stickScaleY = arg2;
+    gControllerRaw[controller].stickScaleX = scaleX;
+    gControllerRaw[controller].stickScaleY = scaleY;
 }
 
-void func_800BED48(f32 arg0, f32 arg1) {
-    gControllerStickXScale = arg0;
-    gControllerStickYScale = arg1;
+void Main_SetContStickScale(f32 x, f32 y) {
+    gControllerStickXScale = x;
+    gControllerStickYScale = y;
 }

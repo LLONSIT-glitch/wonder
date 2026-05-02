@@ -5,6 +5,7 @@ typedef enum { SPI_1, SPI_0, SPI_N } SPI_TYPE;
 typedef struct SpiHeader {
     uint8_t header[4];
     int32_t fileSize;
+    // Used in the compressed variants
     int32_t unk8;
     int32_t unkC;
     int32_t unk10;

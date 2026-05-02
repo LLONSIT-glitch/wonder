@@ -83,8 +83,8 @@ void* SysMain(ThreadEntry* entry) {
     threadEntry = entry;
     gSysThreadIds[THREAD_ID_SYS_MAIN] = threadEntry->threadId;
     sp50 = threadEntry->unk18;
-    InitScheduler(0, 1);
-    func_800AD800();
+    InitScheduler(OS_VI_NTSC_LPN1, 1);
+    ContThread_InitControllers();
     CreateSchedulerThread();
     func_800985BC(threadEntry->threadId); // add thread scheduler client
     sp50 = threadEntry->unk18;
@@ -136,7 +136,7 @@ void* SysMain(ThreadEntry* entry) {
     func_800BDC70(0, 0x3C, 0x64, 1);
     D_801A70E4 = 0;
     for (sp1DC = 0; sp1DC < 4; sp1DC++) {
-        func_800BECCC(sp1DC, 90.0f, 90.0f);
+        Main_SetContRawStickScale(sp1DC, 90.0f, 90.0f);
     }
     func_80083EAC();
     D_801A7234 = 1;

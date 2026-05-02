@@ -278,7 +278,7 @@ void func_800B0E08(void) {
 }
 
 void func_800B0E88(Gfx** gdl, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
-    s16 sp56;
+    s16 i;
     Gfx* gdlh;
     MtxF* sp4C;
     f32 sp48;
@@ -293,8 +293,8 @@ void func_800B0E88(Gfx** gdl, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, 
     sp4C = &D_801601E0;
     sp3C = &D_8015F890[D_801A1B14];
     sp38 = &D_8015FAA8[D_801A1B14];
-    for (sp56 = 0; sp56 < 16; sp56++) {
-        sp4C->mf[0][sp56] = 0.0f;
+    for (i = 0; i < 16; i++) {
+        sp4C->mf[0][i] = 0.0f;
     };
     sp4C->mf[0][0] = (sp48 = MathUtil_Cosf((arg1 *= D_800EF938)) / MathUtil_Sinf(arg1)) * arg4 / (arg5 / arg6);
     sp4C->mf[1][1] = sp48 * arg4;
@@ -304,7 +304,6 @@ void func_800B0E88(Gfx** gdl, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, 
     if ((f64) sp44 <= 2.0) {
         *sp3C = -1;
     } else {
-        ;
         if ((*sp3C = (u32) (131072.0f / sp44)) <= 0) {
             *sp3C = 1;
         }

@@ -116,10 +116,10 @@ static void func_800C03C8(void) {
 }
 
 static int func_800C0444(int arg0) {
-    int sp24;
-    for (sp24 = 0; sp24 < (D_8016042C >= 16 ? 15 : D_8016042C); sp24++) {
-        if (D_80160228[sp24] == arg0) {
-            return sp24;
+    int i;
+    for (i = 0; i < (D_8016042C >= 16 ? 15 : D_8016042C); i++) {
+        if (D_80160228[i] == arg0) {
+            return i;
         }
     }
     func_800C055C(arg0);

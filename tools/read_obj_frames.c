@@ -79,7 +79,7 @@ void getSPIsOffsets(char* path) {
     int spiBaseOffset = 0x133AC0;
     int spiDataOffset = 0x0013d2e0;
 
-    
+
     int i = 0;
 
     for (i = 0; i < 0x1303; i++) {

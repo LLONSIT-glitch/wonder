@@ -1,6 +1,6 @@
 #include "common.h"
 
-void func_800ADC50(ThreadEntry* arg0);
+void ContThread(ThreadEntry* arg0);
 void func_800AEB14(void); /* extern */
 
 extern s32 D_80180DAC;
@@ -22,7 +22,7 @@ typedef struct UnkStruct_800EF900_s {
 } UnkStruct_800EF900;
 extern UnkStruct_800EF900 D_800EF900;
 
-void func_800AD800(void) {
+void ContThread_InitControllers(void) {
     ThreadEntry* entry;
     UnkStruct_800F9C38* sp38;
     OSMesg mesg;
@@ -57,7 +57,7 @@ void func_800AD800(void) {
     }
     D_801824D4 = 1;
     D_8018128C = 0;
-    entry = Thread_CreateExtended((void (*)(void*)) func_800ADC50, 0x35);
+    entry = Thread_CreateExtended((void (*)(void*)) ContThread, 0x35);
     sp38 = entry->unk18;
     gSysThreadIds[3] = entry->threadId;
     D_801816A0 = 2;
@@ -82,7 +82,7 @@ void func_800AD800(void) {
     Thread_Start(entry->threadId);
 }
 
-void func_800ADC50(ThreadEntry* entry) {
+void ContThread(ThreadEntry* entry) {
     ThreadEntry* threadEntry;
     UnkStruct_800F9C38* sp58;
     s16* mesg;

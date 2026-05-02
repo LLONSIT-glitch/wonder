@@ -1,4 +1,4 @@
-
+#if 0
 #include <ultra64.h>
 #include <os/PRinternal/piint.h>
 #include "PRinternal/macros.h"
@@ -729,4 +729,5 @@ void osSyncPrintf(const char* fmt, ...) {
     _Printf(ISViwer_ProutPrintf, NULL, fmt, args);
     va_end(args);
 }
+#endif
 #endif

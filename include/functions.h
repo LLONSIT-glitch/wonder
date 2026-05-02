@@ -2,7 +2,7 @@
 #include "macro.h"
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
-void Main_IdleThreadEntry(void*);         
+void Main_IdleThreadEntry(void*);
 s32 func_800ABE54(void);                                  /* extern */
 void SysMem_HeapInit(void);                                  /* extern */
 void Thread_Init(void);                                  /* extern */
@@ -33,8 +33,8 @@ void* SysMain(ThreadEntry* entry);
 s32 func_800989BC(s32);                               /* extern */
 void func_800CB840(OSThread *);                        /* extern */
 void func_800CB940(OSThread *);                        /* extern */
-s32 func_800C0FFC(u8, s32);          
-s32 osGetThreadPri(OSThread *); 
+s32 func_800C0FFC(u8, s32);
+s32 osGetThreadPri(OSThread *);
 s32 Thread_ResetMqValidCount(u8);                                /* extern */
 s32 Thread_SendMsg(OSMesgQueue *mq, OSMesg msg, s32 flag);
 s32 Thread_ReceiveMsg(OSMesgQueue *mq, OSMesg *msg, s32 flag);
@@ -58,13 +58,13 @@ void CreateSchedulerThread(void);
 s32 func_800985BC(u8);
 void func_80098820(void);
 void func_80098868(void);
-void func_800AD800(void);
+void ContThread_InitControllers(void);
 void func_800B1A50(u8*, u8*, u8*, u8*, u8*, u8*, u8*, u8*, u8*, u16);
 void AudioMgr_InitThread(void);
 void func_800BCB54(void);
 s32 func_800BD620(UNK_TYPE);
 void func_800BDC70(UNK_TYPE, UNK_TYPE, UNK_TYPE, UNK_TYPE);
-int func_800BECCC(s32, f32, f32);
+int Main_SetContRawStickScale(s32, f32, f32);
 s32 Spi_DecompressAsset(u32 arg0, s32 size, u8* arg2);
 void func_800C0A40(void);
 UnkStruct_8000DDE0 *func_80016074(s32);                           /* extern */
@@ -146,6 +146,6 @@ void func_80014C70(UnkStruct_8000DDE0 *arg0);
 s32 func_8000DA44(UnkStruct_8000DDE0* arg0, s32 arg1, u16* arg2);
 s32 func_800B1F0C(SpriteObj* arg0, UnkStruct_800B23C4* arg1, s32 arg2, u16 arg3, f32 arg4, f32 arg5, u8 arg6);
 s32 func_80005460(void);                                  /* extern */
-s32 func_800055DC(void);  
+s32 func_800055DC(void);
 void func_800B1B04(SpriteObj* arg0, UnkStruct_800B23C4* arg1);
 #endif /* FUNCTIONS_H */

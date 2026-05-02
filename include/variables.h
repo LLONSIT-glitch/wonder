@@ -118,8 +118,8 @@ extern s32 D_8015BB1C;
 extern s32 D_8015D7D8;
 extern s16 D_8015F7E0;
 extern s32 D_8015F86C;
-extern void* D_8015F874;
-extern void* D_8015F880;
+extern u8* D_8015F874;
+extern u8* D_8015F880;
 extern u8* gSeg_6E3A40_ROM_START;
 extern u8* gSeg_6E3A40_VRAM;
 extern s32 D_80160494;
@@ -212,4 +212,3 @@ extern s16 D_801A1B48;
 extern UnkStruct_801A306C* D_801A306C;
 extern UnkStruct_801A71FC* D_801A71FC;
 #endif /* VARIABLES_H */
-

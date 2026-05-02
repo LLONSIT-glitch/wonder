@@ -17,12 +17,12 @@ extern u8* sSpiCompSrcPtr;
 extern u8* D_8016043C;
 extern u8* sSpiCompDataPtr;
 extern u8* D_8016044C;
-extern u8* D_80160454;
+extern u8* sSpiDecompressedPtr;
 extern u8* sSpiCompSrcBase;
 extern u8* D_8016045C;
 extern u8* D_80160460;
 extern u8* D_80160464;
-extern u8* D_8016046C;
+extern u8* sSpiDecompressedPtrStart;
 extern u8 D_801604A8;
 extern s32 D_80160228[];
 extern s32 D_8016042C;
@@ -75,7 +75,7 @@ s32 Spi_LimitedDecompress(u32 fileAddr, s32 fileSize) {
     sSpiCompSrcPtr = compressedInput;
     sSpiCompSrcBase = sSpiCompSrcPtr;
     header = (u8*) &sSpiHeader;
-    D_80160454 = (u8*) &D_801604A8;
+    sSpiDecompressedPtr = (u8*) &D_801604A8;
 
     // Why just not use Mem_Copy8 for this?
     for (i = 0; i < 8; i++) {
@@ -91,7 +91,7 @@ s32 Spi_LimitedDecompress(u32 fileAddr, s32 fileSize) {
         D_8016043C = sSpiCompSrcPtr;
         sSpiCompSrcPtr = &sSpiCompSrcPtr[sSpiHeader.unkC];
         sSpiCompDataPtr = sSpiCompSrcPtr;
-        D_8016046C = D_80160454;
+        sSpiDecompressedPtrStart = sSpiDecompressedPtr;
         D_8016045C = D_8016043C;
         D_80160460 = sSpiCompDataPtr;
         D_80160464 = D_8016044C;
@@ -124,7 +124,7 @@ s32 Spi_DecompressAsset(u32 fileAddr, s32 size, u8* filePtr) {
     sSpiCompSrcPtr = spiFile;
     sSpiCompSrcBase = sSpiCompSrcPtr;
     spiHeader = (u8*) &sSpiHeader;
-    D_80160454 = filePtr;
+    sSpiDecompressedPtr = filePtr;
 
     // Copy the first 8 bytes of the header
     for (i = 0; i < 8; i++) {
@@ -132,7 +132,6 @@ s32 Spi_DecompressAsset(u32 fileAddr, s32 size, u8* filePtr) {
     }
 
     if (sSpiHeader.header[3] != 'N') {
-
         // For the compressed variants copy the remaining 12 bytes
         for (i = 0; i < 12; i++) {
             *spiHeader++ = *sSpiCompSrcPtr++;
@@ -143,7 +142,7 @@ s32 Spi_DecompressAsset(u32 fileAddr, s32 size, u8* filePtr) {
         D_8016043C = sSpiCompSrcPtr;
         sSpiCompSrcPtr = &sSpiCompSrcPtr[sSpiHeader.unkC];
         sSpiCompDataPtr = sSpiCompSrcPtr;
-        D_8016046C = D_80160454;
+        sSpiDecompressedPtrStart = sSpiDecompressedPtr;
         D_8016045C = D_8016043C;
         D_80160460 = sSpiCompDataPtr;
         D_80160464 = D_8016044C;
@@ -238,20 +237,19 @@ void Spi_Compress(SPI_TYPE spiType, s32 size) {
     UNUSED s32 pad;
     s32 sp28;
     s32 sp24;
-    s32 sp20;
-    s32 sp1C;
-
+    s32 j;
+    s32 i;
     s32 sp18;
 
     D_80160474 = 0;
     D_8016047C = 0;
     sp28 = size;
     sp24 = 0;
-    sp20 = 0;
+    j = 0;
     D_80160484 = 0;
 
-    for (sp1C = 0; sp1C < 16; sp1C++) {
-        D_80160228[sp1C] = sp1C;
+    for (i = 0; i < 16; i++) {
+        D_80160228[i] = i;
     }
     D_8016042C = 0x10;
 
@@ -264,24 +262,24 @@ void Spi_Compress(SPI_TYPE spiType, s32 size) {
         sp18 = sp24;
 
         // Sliding window?
-        for (sp20 = 0, sp1C = 0; sp24 > 0; sp24--) {
-            sp1C = Spi_Memcmp(sSpiCompSrcPtr, sSpiCompSrcPtr - sp24, sp28);
-            if (sp1C > sp20) {
+        for (j = 0, i = 0; sp24 > 0; sp24--) {
+            i = Spi_Memcmp(sSpiCompSrcPtr, sSpiCompSrcPtr - sp24, sp28);
+            if (i > j) {
                 sp18 = sp24;
-                sp20 = sp1C;
+                j = i;
             }
         }
 
-        if (sp20 < 3) {
+        if (j < 3) {
             func_800C0278(1);
             if (spiType == SPI_1) {
-                sp1C = func_800C0444(*sSpiCompSrcPtr & 0xFF);
-                if (sp1C == -1) {
+                i = func_800C0444(*sSpiCompSrcPtr & 0xFF);
+                if (i == -1) {
                     func_800C0278(1);
                     *sSpiCompDataPtr++ = *sSpiCompSrcPtr++;
                 } else {
                     func_800C0278(0);
-                    func_800C0108(sp1C);
+                    func_800C0108(i);
                     sSpiCompSrcPtr += 1;
                 }
             } else { // SPI1 and SPIN?
@@ -290,27 +288,27 @@ void Spi_Compress(SPI_TYPE spiType, s32 size) {
             sp28 -= 1;
         } else {
             func_800C0278(0);
-            sSpiCompSrcPtr = &sSpiCompSrcPtr[sp20];
-            sp28 -= sp20;
+            sSpiCompSrcPtr = &sSpiCompSrcPtr[j];
+            sp28 -= j;
             sp18 -= 1;
-            sp20 -= 3;
-            if (sp20 >= 15) {
+            j -= 3;
+            if (j >= 15) {
                 *sSpiCompDataPtr++ = ((sp18 / 256) & 0xFF & 0xF) | 0xF0;
                 *sSpiCompDataPtr++ = sp18 & 0xFF;
 
-                sp20 -= 15;
+                j -= 15;
 
                 while (TRUE) {
-                    if (sp20 >= 0xFF) {
+                    if (j >= 0xFF) {
                         *sSpiCompDataPtr++ = 0xFF;
-                        sp20 -= 0xFF;
+                        j -= 0xFF;
                     } else {
-                        *sSpiCompDataPtr++ = sp20;
+                        *sSpiCompDataPtr++ = j;
                         break;
                     }
                 }
             } else {
-                *sSpiCompDataPtr++ = (((u8) sp20 & 15) * 0x10) | ((sp18 / 256) & 255 & 15);
+                *sSpiCompDataPtr++ = (((u8) j & 15) * 0x10) | ((sp18 / 256) & 255 & 15);
                 *sSpiCompDataPtr++ = sp18 & 255;
             }
         }
@@ -322,24 +320,24 @@ void Spi_Compress(SPI_TYPE spiType, s32 size) {
 void Spi_Decompress(void) {
     s32 sp2C;
     s32 sp28;
-    s32 sp24;
+    s32 i;
 
     D_8016047C = 0;
     sp28 = 0;
     sp2C = 0;
     D_80160484 = 0;
 
-    for (sp24 = 0; sp24 < 16; sp24++) {
-        D_80160228[sp24] = sp24;
+    for (i = 0; i < 16; i++) {
+        D_80160228[i] = i;
     }
     D_8016042C = 0x10;
 
     // SPI0
     if (sSpiHeader.header[3] == '0') {
-        while ((uintptr_t) ((uintptr_t) D_80160454 - (uintptr_t) D_8016046C) <
+        while ((uintptr_t) ((uintptr_t) sSpiDecompressedPtr - (uintptr_t) sSpiDecompressedPtrStart) <
                (uintptr_t) sSpiHeader.decompressedSize) {
             if (func_800C0328() != 0) {
-                *D_80160454++ = *sSpiCompDataPtr++;
+                *sSpiDecompressedPtr++ = *sSpiCompDataPtr++;
             } else {
                 sp28 = ((s32) sSpiCompDataPtr[0] / 16) & 0xF;
                 sp2C = ((sSpiCompDataPtr[0] & 0xF) << 8) + (sSpiCompDataPtr[1] & 0xFF) + 1;
@@ -356,22 +354,22 @@ void Spi_Decompress(void) {
                     }
                 }
                 sp28 += 3;
-                for (; sp28 > 0; sp28--, D_80160454++) {
-                    *D_80160454 = *(D_80160454 - sp2C);
+                for (; sp28 > 0; sp28--, sSpiDecompressedPtr++) {
+                    *sSpiDecompressedPtr = *(sSpiDecompressedPtr - sp2C);
                 }
             }
         }
 
         // SPI1
     } else if (sSpiHeader.header[3] == '1') {
-        while ((u32) ((u32) D_80160454 - (u32) D_8016046C) < (u32) sSpiHeader.decompressedSize) {
+        while ((u32) ((u32) sSpiDecompressedPtr - (u32) sSpiDecompressedPtrStart) < (u32) sSpiHeader.decompressedSize) {
 
             if (func_800C0328() != 0) {
                 if (func_800C0328() != 0) {
                     func_800C055C(*sSpiCompDataPtr & 255);
-                    *D_80160454++ = *sSpiCompDataPtr++;
+                    *sSpiDecompressedPtr++ = *sSpiCompDataPtr++;
                 } else {
-                    *D_80160454++ = func_800C0534(func_800C01D4());
+                    *sSpiDecompressedPtr++ = func_800C0534(func_800C01D4());
                 }
             } else {
                 sp28 = ((s32) *sSpiCompDataPtr / 16) & 0xF;
@@ -380,7 +378,7 @@ void Spi_Decompress(void) {
 
                 sSpiCompDataPtr += 2;
 
-                if (sp28 == 0xF) {
+                if (sp28 == 15) {
                     while (TRUE) {
                         if (*sSpiCompDataPtr == 0xFF) {
                             sp28 += 0xFF;
@@ -392,13 +390,13 @@ void Spi_Decompress(void) {
                     }
                 }
                 sp28 += 3;
-                for (; sp28 > 0; sp28--, D_80160454++) {
-                    *D_80160454 = *(D_80160454 - sp2C);
+                for (; sp28 > 0; sp28--, sSpiDecompressedPtr++) {
+                    *sSpiDecompressedPtr = *(sSpiDecompressedPtr - sp2C);
                 }
             }
         }
     } else {
-        SysMem_Copy8(D_80160454, sSpiCompSrcPtr, sSpiHeader.decompressedSize);
+        SysMem_Copy8(sSpiDecompressedPtr, sSpiCompSrcPtr, sSpiHeader.decompressedSize);
     }
 }
 
@@ -480,11 +478,11 @@ void func_800C03C8(void) {
 }
 
 s32 func_800C0444(s32 arg0) {
-    s32 sp24;
+    s32 i;
 
-    for (sp24 = 0; sp24 < (D_8016042C >= 16 ? 15 : D_8016042C); sp24++) {
-        if (D_80160228[sp24] == arg0) {
-            return sp24;
+    for (i = 0; i < (D_8016042C >= 16 ? 15 : D_8016042C); i++) {
+        if (D_80160228[i] == arg0) {
+            return i;
         }
     }
 
