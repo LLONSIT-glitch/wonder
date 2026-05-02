@@ -4,16 +4,16 @@ typedef struct UnkStruct_80180648_s {
     s16 work[0x100];
 } UnkStruct_80180648;
 
-void func_80031874(void);                                  /* extern */
+void func_80031874(void);                               /* extern */
 s32 func_80031AC8(void);                                /* extern */
-s32 func_8005F064(s32);                               /* extern */
-s32 func_80061348(s32);                               /* extern */
-s32 func_80061488(s32);                               /* extern */
-void *func_80096B38(s32 *, s32 *,s32 *, s32 *, s32 *, s32);   /* extern */
-void func_80096C6C(s32 *, s32);                          /* extern */
+s32 func_8005F064(s32);                                 /* extern */
+s32 func_80061348(s32);                                 /* extern */
+s32 func_80061488(s32);                                 /* extern */
+void* func_80096B38(s32*, s32*, s32*, s32*, s32*, s32); /* extern */
+void func_80096C6C(s32*, s32);                          /* extern */
 extern s32 D_6A69E0;
 extern s16 D_80180CE0;
-extern void *D_80180CEC;
+extern void* D_80180CEC;
 extern s32 D_809B4200;
 extern s32 D_809D07B0;
 extern s32 D_809D3920;
