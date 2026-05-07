@@ -57,6 +57,8 @@ typedef struct Scheduler_s {
     /* 0x2A4 */ s32 doAudio; /* inferred */
 } Scheduler;                /* size = 0x2A8 */
 
+extern Scheduler gScheduler;
+
 /* TODO: Classify private and public functions */
 void Scheduler_AppendTask(Scheduler* scheduler, SchedulerTask* task);
 void Scheduler_CreateScheduler(Scheduler* scheduler, u8 arg1, s32 arg2);

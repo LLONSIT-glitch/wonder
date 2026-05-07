@@ -11,11 +11,11 @@
 #include "scheduler.h"
 #include "debug.h"
 #include "structs.h"
-#include "functions.h"
-#include "variables.h"
 #include "thread.h"
 #include "mtx_util.h"
 #include "buffers.h"
+#include "functions.h"
+#include "variables.h"
 #include "simple.h" // For the PRINTF macro
 
 // Why this is not in Ultratypes?

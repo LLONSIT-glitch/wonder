@@ -157,7 +157,7 @@ CC_CHECK := $(GCC) -fsyntax-only -fno-builtin -fsigned-char -std=gnu90 -m32 $(CH
 
 GCC_FLAGS := $(INCLUDE_CFLAGS) $(DEFINES)
 GCC_FLAGS += -G 0 -mno-shared -march=vr4300 -mfix4300 -mabi=32 -mhard-float
-GCC_FLAGS += -mdivide-breaks -fno-stack-protector -fno-common -fno-zero-initialized-in-bss -fno-PIC -mno-abicalls -fno-strict-aliasing -fno-inline-functions -ffreestanding -fwrapv
+GCC_FLAGS += -mdivide-breaks -fno-stack-protector -fno-common -fno-zero-initialized-in-bss -fno-PIC -mno-abicalls -fno-strict-aliasing -fno-inline-functions -ffreestanding -fwrapv -DGCC
 GCC_FLAGS += -Wall -Wextra -Wno-missing-braces
 
 TARGET     = $(BUILD_DIR)/$(BASENAME).$(VERSION)

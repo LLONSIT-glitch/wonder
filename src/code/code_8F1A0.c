@@ -14,6 +14,25 @@ typedef struct UnkStruct_8015C548_s {
     s16 unk100[7];
 } UnkStruct_8015C548;
 
+typedef struct UnkStruct_800962B0_arg0_s {
+    /* 0x00 */ s32 unk0;  /* inferred */
+    /* 0x04 */ s32 unk4;  /* inferred */
+    /* 0x08 */ s32 unk8;  /* inferred */
+    /* 0x0C */ s32 unkC;  /* inferred */
+    /* 0x10 */ s32 unk10; /* inferred */
+    /* 0x14 */ s32 unk14; /* inferred */
+    /* 0x18 */ s32 unk18; /* inferred */
+    /* 0x1C */ s32 unk1C; /* inferred */
+    /* 0x20 */ s32 unk20; /* inferred */
+    /* 0x24 */ s16 unk24; /* inferred */
+    /* 0x26 */ char pad26[2];
+    /* 0x28 */ f32 unk28;  /* inferred */
+    /* 0x2C */ f32 unk2C;  /* inferred */
+    /* 0x30 */ f32 unk30;  /* inferred */
+    /* 0x34 */ f32 unk34;  /* inferred */
+    /* 0x38 */ u16* fb;    /* inferred */
+} UnkStruct_800962B0_arg0; /* size = 0x3C */
+
 extern u16 D_8015BB40;
 extern UnkStruct_8015C548 D_8015C548[];
 extern u16 D_8015D790[];
@@ -31,11 +50,18 @@ extern u8* D_8015F810;
 extern u8* D_8015F868;
 extern u8* D_8015F870;
 extern u8* D_8015F878;
-extern s16 D_8015D748;
-extern s16* D_8015D788;
+extern u16 D_8015D748[];
+extern u16* D_8015D788;
+extern s32 D_8015C148[8];
+extern s32 D_80156BA8;
+extern u8 D_8015D7E0[];
+extern u8* D_8015F800;
+extern u8 D_800EF610[];
+extern s32 D_800E4CA4;
 
 int vsprintf(char* buffer, const char* format, va_list vlist);
 void func_80090E58(char** buf);
+void func_8008ED4C(u8*, u8*, s32); /* extern */
 
 void func_8008E5A0(void) {
     s32 sp4;
@@ -830,7 +856,7 @@ void func_8009600C(void) {
     D_8015D7D4 = D_8015D790;
     D_8015B328 = 0xFF;
     D_8015BB40 = D_8015BB38;
-    *D_8015D788 = (s16) D_8015B328;
+    *D_8015D788 = D_8015B328;
     *D_8015D7D4 = D_8015BB40;
     D_8015BB30 = 0.0f;
     D_8015C548->unk100[2] = 0;
@@ -841,28 +867,233 @@ void func_8009600C(void) {
     D_8015B338 &= ~0x100;
 }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_800960E8.s")
+extern s32 D_8015BD48[];
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_80096198.s")
+void func_800960E8(u16 arg0) {
+    D_8015BD48[arg0 + 0x100] ^= 1;
+    if (((s32) (D_8015D788 - D_8015D748)) < 0x1F) {
+        D_8015D788++, D_8015D788[0] = D_8015B328;
+    } else {
+        D_8015D788[0] = D_8015B328;
+    }
+    D_8015B328 = D_8015BD48[arg0];
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_800961C4.s")
+void func_80096198(u16 arg0) {
+    D_8015B328 = D_8015BD48[arg0];
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_80096250.s")
+void func_800961C4(u16 arg0) {
+    D_8015BD48[arg0 + 0x100] ^= 1;
+    if (D_8015D748 != D_8015D788) {
+        D_8015B328 = *D_8015D788, D_8015D788--;
+    } else {
+        D_8015B328 = *D_8015D788;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_800962B0.s")
+void func_80096250(void) {
+    s32 i;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_80096374.s")
+    for (i = 0; i < 8; i++) {
+        D_8015C148[i] = 0;
+    }
+    D_8015D788 = D_8015D748;
+    D_8015B328 = 0xFF;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_80096474.s")
+void func_800962B0(UnkStruct_800962B0_arg0* arg0) {
+    D_80156B98 = arg0->unk0;
+    D_80156BA0 = arg0->unk4;
+    D_80156BA8 = arg0->unk8;
+    D_80156BC0 = arg0->unkC;
+    D_80156C08 = arg0->unk10;
+    D_80156C14 = arg0->unk14;
+    D_8015B320 = arg0->unk18;
+    D_8015B328 = arg0->unk1C;
+    D_8015B330 = arg0->unk20;
+    D_8015B338 = arg0->unk24;
+    D_8015B344 = arg0->unk28;
+    D_8015BACC = arg0->unk2C;
+    D_8015BAF0 = arg0->unk30;
+    D_8015BB28 = arg0->unk34;
+    gCurrentFrameBuffer = arg0->fb;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_800967D8.s")
+void func_80096374(UnkStruct_800962B0_arg0* arg0) {
+    arg0->unk0 = D_80156B98;
+    arg0->unk4 = D_80156BA0;
+    arg0->unk8 = D_80156BA8;
+    arg0->unkC = D_80156BC0;
+    arg0->unk10 = D_80156C08;
+    arg0->unk14 = D_80156C14;
+    arg0->unk18 = D_8015B320;
+    arg0->unk1C = D_8015B328;
+    arg0->unk20 = D_8015B330;
+    arg0->unk24 = D_8015B338;
+    arg0->unk28 = D_8015B344;
+    arg0->unk2C = D_8015BACC;
+    arg0->unk30 = D_8015BAF0;
+    arg0->unk34 = D_8015BB28;
+    arg0->fb = gCurrentFrameBuffer;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_80096B38.s")
+s32 func_80096474(void) {
+    if ((D_8015F800 - D_8015D7E0) >= 0x1F01) {
+        return -1;
+    }
+    SysMem_Copy8(D_8015F800, &D_8015BB48[D_8015B328], 2);
+    D_8015F800 += 2;
+    SysMem_Copy8(D_8015F800, &D_8015BB48[D_8015B320], 2);
+    D_8015F800 += 2;
+    SysMem_Copy8(D_8015F800, &D_80156B98, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_80156BA0, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_80156BA8, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_80156BC0, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_80156C08, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_80156C14, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_8015B320, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_8015B328, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_8015B330, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_8015B338, 2);
+    D_8015F800 += 2;
+    SysMem_Copy8(D_8015F800, &D_8015B344, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_8015BACC, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_8015BAF0, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &D_8015BB28, 4);
+    D_8015F800 += 4;
+    SysMem_Copy8(D_8015F800, &gCurrentFrameBuffer, 4);
+    D_8015F800 += 4;
+    osWritebackDCacheAll();
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_80096C6C.s")
+s32 func_800967D8(void) {
+    if ((D_8015F800 - D_8015D7E0) <= 0) {
+        return -1;
+    }
+    D_8015F800 -= 4;
+    SysMem_Copy8(&gCurrentFrameBuffer, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_8015BB28, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_8015BAF0, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_8015BACC, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_8015B344, D_8015F800, 4);
+    D_8015F800 -= 2;
+    SysMem_Copy8(&D_8015B338, D_8015F800, 2);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_8015B330, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_8015B328, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_8015B320, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_80156C14, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_80156C08, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_80156BC0, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_80156BA8, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_80156BA0, D_8015F800, 4);
+    D_8015F800 -= 4;
+    SysMem_Copy8(&D_80156B98, D_8015F800, 4);
+    D_8015F800 -= 2;
+    SysMem_Copy8(&D_8015BB48[D_8015B320], D_8015F800, 2);
+    D_8015F800 -= 2;
+    SysMem_Copy8(&D_8015BB48[D_8015B328], D_8015F800, 2);
+    osWritebackDCacheAll();
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_80096D40.s")
+s32 func_80096B38(u32 arg0, s32 arg1, s32 arg2, u32 arg3, void** arg4, s32 arg5) {
+    s32 sp30[2];
+    void* sp2C;
+    void* sp28;
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_80096E58.s")
+    SysMem_DmaCopy(SysMem_GetPhysicalAddressFromVirtual(arg0, arg1, (arg5 * 4) + arg2), &sp30, 8);
+    sp28 = SysMem_HeapAlloc(sp30[1] - sp30[0]);
+    if ((arg3 >= 0x80000000U) && (arg3 < 0x80400000U)) {
+        sp2C = sp30[0] + arg3;
+        SysMem_Copy8(sp28, sp2C, sp30[1] - sp30[0]);
+    } else {
+        sp2C = SysMem_GetPhysicalAddressFromVirtual(arg0, arg1, sp30[0] + arg3);
+        SysMem_DmaCopy((u32) sp2C, sp28, sp30[1] - sp30[0]);
+    }
+    *arg4 = sp28;
+    return sp2C;
+}
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/code_8F1A0/func_80096EB0.s")
+void func_80096C6C(s32 arg0, u8* arg1) {
+    u8* sp1C;
+
+    sp1C = arg1;
+    do {
+        func_800319B0(arg0);
+        do {
+            arg0++;
+            arg1++;
+        } while (*arg1 != 0);
+
+        do {
+            arg0++;
+            arg1++;
+        } while (*arg1 == 0);
+
+    } while (*arg1 != 1);
+    SysMem_Free(sp1C);
+}
+
+s32 func_80096D40(s32 arg0, u8* arg1, s32* arg2) {
+    s32 sp1C;
+    u8* sp18;
+
+    sp18 = arg1;
+    sp1C = 0;
+    do {
+        arg2[sp1C] = arg0;
+        sp1C += 1;
+        arg2[sp1C] = 0;
+        do {
+            arg0++;
+            arg1++;
+        } while (*arg1 != 0);
+
+        do {
+            arg0++;
+            arg1++;
+        } while (*arg1 == 0);
+
+    } while (*arg1 != 1);
+    SysMem_Free(sp18);
+    return sp1C;
+}
+
+void* func_80096E58(va_list arg0, s32 arg1) {
+    void* sp1C;
+    void* temp_v0;
+
+    sp1C = SysMem_HeapAlloc(arg1 + 1);
+    func_8008ED4C(sp1C, D_800EF610, arg0);
+    return sp1C;
+}
+
+void func_80096EB0(s32 arg0, ...) {
+    D_800E4CA4 = 1;
+}

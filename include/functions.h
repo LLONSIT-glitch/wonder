@@ -6,11 +6,6 @@ void Main_IdleThreadEntry(void*);
 s32 func_800ABE54(void);                                  /* extern */
 void SysMem_HeapInit(void);                                  /* extern */
 void Thread_Init(void);                                  /* extern */
-u8 Thread_CreateSimple(void (*entry)(void *), void* arg, OSPri pri);
-ThreadEntry* Thread_CreateExtended(void (*entry)(void*), OSPri pri);
-s32 Thread_SendMesgNoBlock(u8 arg0, void* arg1, /* unused */ s32 arg2);
-s32 Thread_SetPriority(u8 threadId, OSPri pri);
-s32 Thread_Start(u8);                                /* extern */
 UnkStruct_800F9C38* Thread_GetPtr(u8);                              /* extern */
 void Sys_SwapFrameBuffer(void*);                          /* extern */
 s32 func_8008E630(void);                                  /* extern */
@@ -35,12 +30,7 @@ void func_800CB840(OSThread *);                        /* extern */
 void func_800CB940(OSThread *);                        /* extern */
 s32 func_800C0FFC(u8, s32);
 s32 osGetThreadPri(OSThread *);
-s32 Thread_ResetMqValidCount(u8);                                /* extern */
-s32 Thread_SendMsg(OSMesgQueue *mq, OSMesg msg, s32 flag);
-s32 Thread_ReceiveMsg(OSMesgQueue *mq, OSMesg *msg, s32 flag);
-s32 Thread_CreateMesgQueue(OSMesgQueue *arg0, OSMesg *arg1, s32 arg2);
 s32 func_800C1154(u8 threadId, s32 arg1);
-s32 Thread_ReceiveMsgInThread(u8 threadId, void **mesg, s32 arg2);
 s32 osPiGetStatus();                                /* extern */
 s32 osPiGetStatus(void);
 s32 Spi_GetHeader(s32);          /* extern */
@@ -141,11 +131,11 @@ void func_800C3D70(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f
 s32 func_800C3F2C(f32 *arg0, f32 *arg1, f32 *arg2, f32 *arg3, f32 arg4) ;
 void func_800C1D44(MtxF*);                                /* extern */
 f32 func_8002BB04(s16 arg0);
-s32 Thread_GetPriority(u8 arg0);
 void func_80014C70(UnkStruct_8000DDE0 *arg0);
 s32 func_8000DA44(UnkStruct_8000DDE0* arg0, s32 arg1, u16* arg2);
 s32 func_800B1F0C(SpriteObj* arg0, UnkStruct_800B23C4* arg1, s32 arg2, u16 arg3, f32 arg4, f32 arg5, u8 arg6);
 s32 func_80005460(void);                                  /* extern */
 s32 func_800055DC(void);
 void func_800B1B04(SpriteObj* arg0, UnkStruct_800B23C4* arg1);
+void func_800319B0(s32);
 #endif /* FUNCTIONS_H */
