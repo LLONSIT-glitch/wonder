@@ -21,6 +21,7 @@ asm/
 src/assets/*
 include/assets/*
 bin/
+bins/
 
 # Automatically generated files, so they should be ignored
 wonderprojectj2.ld

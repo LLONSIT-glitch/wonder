@@ -138,14 +138,14 @@ segments:
       - [0xC21C0, c, code/mtx_util]
       - [0xC3C70, c, code/math_util]
 
-      # Libultra start?
+      # Libultra
       - [0xC4C80, c, libultra/io/viswapbuf]
       - [0xC4CD0, c, libultra/os/gettime]
       - [0xC4D60, c, libultra/io/vigetcurrframebuf]
-      - [0xC4DA0, hasm, libultra/os/setintmask]
+      - [0xC4DA0, hasm, ../src/libultra/os/setintmask]
       - [0xC4E40, c, libultra/gu/random]
-      - [0xC4E70, hasm, writebackdcacheall]
-      - [0xC4EA0, hasm, sqrtf]
+      - [0xC4E70, hasm, ../src/libultra/os/writebackdcacheall]
+      - [0xC4EA0, hasm, ../src/libultra/gu/sqrtf]
       - [0xC4EB0, c, libultra/os/createmesgqueue]
       - [0xC4EE0, c, libultra/io/vimgr]
       - [0xC5240, c, libultra/io/visetmode]
@@ -183,12 +183,12 @@ segments:
       - [0xC86F0, c, libultra/audio/synthesizer]
       - [0xC8DD0, c, libultra/io/pidma]
       - [0xC8EE0, c, libultra/audio/bnkf]
-      - [0xC9130, asm, csplayer]
+      - [0xC9130, c, libultra/audio/csplayer]
       - [0xCA360, c, libultra/audio/sndpsetsound]
       - [0xCA380, c, libultra/audio/sndpstop]
       - [0xCA3D0, c, libultra/audio/sndpgetstate]
       - [0xCA3F0, c, libultra/audio/sndpdeallocate]
-      - [0xCA440, asm, sndplayer] # A really old or modified? version of sndplayer
+      - [0xCA440, c, libultra/audio/sndplayer]
       - [0xCAB50, c, libultra/audio/sndpallocate]
       - [0xCABF0, c, libultra/audio/sndpsetpitch]
       - [0xCAC50, c, libultra/audio/sndpsetfxmix]
@@ -203,83 +203,97 @@ segments:
       - [0xCB990, c, libultra/audio/seqpstop]
       - [0xCB9C0, c, libultra/audio/cents2ratio]
       - [0xCBA10, c, libultra/gu/sinf]
-      - [0xCBBD0, hasm, invaldcache]
+      - [0xCBBD0, hasm, ../src/libultra/os/invaldcache]
       - [0xCBC80, c, libultra/io/pigetstat]
       - [0xCBC90, c, libultra/io/pirawdma]
-      - [0xCBD70, c, libultra/initialize]
-      - [0xCC010, c, libultra/pimgr]
+      - [0xCBD70, c, libultra/os/initialize]
+      - [0xCC010, c, libultra/io/pimgr]
       - [0xCC1A0, c, libultra/os/setthreadpri]
       - [0xCC280, c, libultra/io/visetspecial]
       - [0xCC440, c, libultra/os/destroythread]
       - [0xCC540, c, libultra/os/stopthread]
       - [0xCC600, c, libultra/os/getthreadpri]
-      - [0xCC620, hasm, interrupt]
+      - [0xCC620, hasm, ../src/libultra/os/interrupt]
       - [0xCC660, c, libultra/io/vi]
-      - [0xCC7B0, hasm, getcount]
-      # Remaining libultra files to match
-      - [0xCC7C0, c, libultra/timerintr]
-      - [0xCCBC0, c, libultra/tthread]
-      - [0xCCC00, c, libultra/getactivequeue]
-      - [0xCCC10, c, libultra/tviswapcontext]
-      - [0xCCF70, hasm, exceptasm]
-      - [0xCD870, c, libultra/spgetstat]
-      - [0xCD880, hasm, bcopy]
-      - [0xCDB90, hasm, writebackdcache]
-      - [0xCDC10, c, libultra/spsetstat]
-      - [0xCDC20, c, libultra/spsetpc]
-      - [0xCDC60, c, libultra/sprawdma]
-      - [0xCDCF0, c, libultra/sp]
-      - [0xCDD20, c, libultra/dp]
+      - [0xCC7B0, hasm, ../src/libultra/os/getcount]
+      - [0xCC7C0, c, libultra/os/timerintr]
+      - [0xCCBC0, c, libultra/os/thread]
+      - [0xCCC00, c, libultra/os/getactivequeue]
+      - [0xCCC10, c, libultra/io/viswapcontext]
+      - [0xCCF70, hasm, ../src/libultra/os/exceptasm]
+      - [0xCD870, c, libultra/io/spgetstat]
+      - [0xCD880, hasm, ../src/libultra/libc/bcopy]
+      - [0xCDB90, hasm, ../src/libultra/os/writebackdcache]
+      - [0xCDC10, c, libultra/io/spsetstat]
+      - [0xCDC20, c, libultra/io/spsetpc]
+      - [0xCDC60, c, libultra/io/sprawdma]
+      - [0xCDCF0, c, libultra/io/sp]
+      - [0xCDD20, c, libultra/io/dp]
       - [0xCDD50, c, libultra/libc/ll]
-      - [0xCE010, c, libultra/settimer]
-      - [0xCE0F0, c, libultra/sirawdma]
-      - [0xCE1A0, c, libultra/siacs]
-      - [0xCE260, c, libultra/contpfs]
-      - [0xCEFC0, c, libultra/io/pfsearchfile]
-      - [0xCF180, c, libultra/contramwrite]
+      - [0xCE010, c, libultra/os/settimer]
+      - [0xCE0F0, c, libultra/io/sirawdma]
+      - [0xCE1A0, c, libultra/io/siacs]
+      - [0xCE260, c, libultra/io/contpfs]
+      - [0xCEFC0, c, libultra/io/pfssearchfile]
+      - [0xCF180, c, libultra/io/contramwrite]
       - [0xCF530, c, libultra/io/pfschecker]
-      - [0xCFF90, c, libultra/contramread]
-      - [0xD0340, c, libultra/syndelete]
-      - [0xD0350, hasm, probetlb]
+      - [0xCFF90, c, libultra/io/contramread]
+      - [0xD0340, c, libultra/audio/syndelete]
+      - [0xD0350, hasm, ../src/libultra/os/probetlb]
       - [0xD0410, c, libultra/io/ai]
-      - [0xD0440, c, libultra/drvrNew] # drvrNew
-      - [0xD0BE0, c, libultra/unkLibultra_0]
-      - [0xD0C80, c, libultra/unkLibultra_1]
-      - [0xD1920, c, libultra/unkLibultra_2]
-      - [0xD1C20, c, libultra/unkLibultra_3]
-      - [0xD2880, c, libultra/unkLibultra_4]
-      - [0xD2990, c, libultra/unkLibultra_5]
-      - [0xD2BD0, c, libultra/unkLibultra_6]
-      - [0xD4510, c, libultra/unkLibultra_7]
-      - [0xD4920, c, libultra/unkLibultra_8]
-      - [0xD4A70, c, libultra/unkLibultra_9]
-      - [0xD4B00, c, libultra/unkLibultra_10]
-      - [0xD4D30, c, libultra/unkLibultra_11]
-      - [0xD4E20, c, libultra/unkLibultra_12]
-      - [0xD4EB0, c, libultra/unkLibultra_13]
-      - [0xD4F50, c, libultra/unkLibultra_14]
-      - [0xD5020, c, libultra/unkLibultra_15]
-      - [0xD5040, c, libultra/unkLibultra_16]
-      - [0xD50F0, hasm, invalicache]
-      - [0xD5170, hasm, maptlbrdb]
+      - [0xD0440, c, libultra/audio/drvrnew]
+      - [0xD0BE0, c, libultra/audio/synallocfx]
+      - [0xD0C80, c, libultra/audio/mainbus]
+      - [0xD0DD0, c, libultra/audio/load]
+      - [0xD1920, c, libultra/audio/resample]
+      - [0xD1C20, c, libultra/audio/env]
+      - [0xD2880, c, libultra/audio/auxbus]
+      - [0xD2990, c, libultra/audio/save]
+      - [0xD2A50, c, libultra/os/jammesg]
+      - [0xD2BA0, c, libultra/io/pigetcmdq]
+      - [0xD2BD0, c, libultra/audio/seqplayer]
+      - [0xD4510, c, libultra/audio/event]
+      - [0xD4920, c, libultra/audio/synfreevoice]
+      - [0xD49D0, c, libultra/audio/synsetvol]
+      - [0xD4A70, c, libultra/audio/synsetpitch]
+      - [0xD4B00, c, libultra/audio/synallocvoice]
+      - [0xD4D30, c, libultra/audio/synstartvoiceparam]
+      - [0xD4E20, c, libultra/audio/synsetpan]
+      - [0xD4EB0, c, libultra/audio/synsetfxmix]
+      - [0xD4F50, c, libultra/audio/synstartvoice]
+      - [0xD4FE0, pad]
+      - [0xD5020, hasm, ../src/libultra/os/setsr]
+      - [0xD5030, hasm, ../src/libultra/os/getsr]
+      - [0xD5040, hasm, ../src/libultra/os/setfpccsr]
+      - [0xD5050, c, libultra/io/sirawread]
+      - [0xD50A0, c, libultra/io/sirawwrite]
+      - [0xD50F0, hasm, ../src/libultra/os/invalicache]
+      - [0xD5170, hasm, ../src/libultra/os/maptlbrdb]
       - [0xD51D0, c, libultra/io/pirawread]
-      - [0xD5230, hasm, bzero]
-      - [0xD52D0, c, libultra/unkLibultra_17]
-      - [0xD5BA0, c, libultra/unkLibultra_18]
-      - [0xD60F0, hasm, setcompare]
-      - [0xD6100, c, libultra/unkLibultra_19]
-      - [0xD6130, c, libultra/unkLibultra_20]
-      - [0xD62D0, c, libultra/unkLibultra_21]
-      - [0xD6F20, c, libultra/unkLibultra_22]
-      - [0xD6FA0, c, libultra/unkLibultra_23]
+      - [0xD5230, hasm, ../src/libultra/libc/bzero]
+      - [0xD52D0, c, libultra/os/sethwinterrupt]
+      - [0xD5320, c, libultra/io/leointerrupt]
+      - [0xD5BA0, c, libultra/io/piacs]
+      - [0xD5C60, c, libultra/io/epirawdma]
+      - [0xD5D40, c, libultra/io/devmgr]
+      - [0xD60F0, hasm, ../src/libultra/os/setcompare]
+      - [0xD6100, c, libultra/io/si]
+      - [0xD6130, c, libultra/io/crc]
+      - [0xD62B0, c, libultra/audio/filter]
+      - [0xD62D0, c, libultra/audio/reverb]
+      - [0xD6F20, c, libultra/audio/copy]
+      - [0xD6FA0, c, libultra/audio/seq]
+      - [0xD75C0, c, libultra/audio/synsetpriority]
+      - [0xD75D0, c, libultra/io/leodiskinit]
       - [0xD76C0, c, libultra/os/resetglobalintmask]
-      - [0xD7720, c, libultra/unkLibultra_25]
-      - [0xD7770, textbin, rspboot]
-      - [0xD7840, textbin, f3d]
+      - [0xD7720, c, libultra/io/epirawwrite]
+      - [0xD7770, textbin, rsp/rspboot]
+      - [0xD7840, textbin, rsp/gspFast3D]
+      - [0xD87B0, textbin, rsp/gspFast3DAlt] # maybe S2D
+      - [0xD9BB0, textbin, rsp/aspMain]
 
       # Data starts!
-      - [0xD7BB0, data]
-      - [0xD87B0, data, aspmain]
+      - [0xDA9D0, data]
       - [0xDAB00, .data, sys/sys_main]
       - [0xDAB00, .data, isprint]
       - [0xDAB80, data]
@@ -293,14 +307,26 @@ segments:
       - [0xE98F0, .data, audio/audio_driver]
       - [0xE9900, data]
       - [0xECAC0, .data, libultra/gu/random]
-      - [0xECAD0, data]
+      - [0xECAD0, .data, libultra/io/vitbl]
       - [0xED7F0, .data, libultra/io/vimgr]
       - [0xED810, .data, libultra/io/controller]
       - [0xED820, .data, libultra/audio/sl]
       - [0xED830, .data, libultra/io/aisetnextbuf]
-      - [0xED840, data]
+      - [0xED840, .data, libultra/os/initialize]
+      - [0xED860, .data, libultra/io/pimgr]
       - [0xED880, .data, libultra/io/vi]
-      - [0xED8F0, data]
+      - [0xED8F0, .data, libultra/os/timerintr]
+      - [0xED900, .data, libultra/os/thread]
+      - [0xED920, .data, libultra/os/sethwinterrupt]
+      - [0xED940, .data, libultra/io/siacs]
+      - [0xED950, .data, libultra/audio/drvrnew]
+      - [0xEDAE0, .data, libultra/audio/env]
+      - [0xEDC20, .data, libultra/io/piacs]
+      - [0xEDC30, .data, libultra/vimodes/vimodepallan1]
+      - [0xEDC80, .data, libultra/vimodes/vimodempallan1]
+      - [0xEDCD0, .data, libultra/vimodes/vimodentsclan1]
+      - [0xEDD20, data]
+      - [0xEDD30, data]
       - [0xEDD40, .rodata, sys/sys_main]
       # Added to give code_AB70 isprint support
       #- [0xEDD40, .rodata, code/code_AB70]
@@ -342,54 +368,42 @@ segments:
       - [0xF09E0, .rodata, main]
       - [0xF0A60, .rodata, code/mtx_util]
       - [0xF0A90, rodata]
-      - [0xF0AE0, rodata]
+      - [0xF0AE0, .rodata, libultra/os/rcpimtable]
       - [0xF0B60, .rodata, libultra/audio/synthesizer]
-      - [0xF0B70, rodata]
-      - [0xF0DB0, rodata]
+      - [0xF0B70, .rodata, libultra/audio/csplayer]
+      - [0xF0DB0, .rodata, libultra/audio/sndplayer]
       - [0xF0DF0, .rodata, libultra/audio/cseq]
       - [0xF0E00, .rodata, libultra/audio/cents2ratio]
       - [0xF0E10, .rodata, libultra/gu/sinf]
-      - [0xF0E60, rodata]
-      - [0xF0F10, rodata]
-      - [0xF11B0, rodata]
-      - [0xF1210, rodata]
-      - [0xF1220, rodata]
-      - [0xF1A20, rodata]
-      - [0xF2220, rodata]
+      - [0xF0E60, .rodata, libultra/os/exceptasm]
+      - [0xF0EB0, .rodata, libultra/audio/drvrnew]
+      - [0xF0ED0, .rodata, libultra/audio/resample]
+      - [0xF0F10, .rodata, libultra/audio/env]
+      - [0xF0F70, .rodata, libultra/audio/seqplayer]
+      - [0xF11B0, .rodata, libultra/gu/libm_vals]
+      - [0xF11C0, .rodata, libultra/io/devmgr]
+      - [0xF11E0, .rodata, libultra/audio/reverb]
+      - [0xF1210, .rodata, libultra/audio/seq]
+      - [0xF1220, rodatabin, rsp/gspFast3D]
+      - [0xF1A20, rodatabin, rsp/gspFast3DAlt]
+      - [0xF2220, rodatabin, rsp/aspMain]
       - { start: 0xF24E0, type: bss, vram: 0x800F18E0, name: bss1 }
       - { start: 0xF24E0, type: .bss, vram: 0x801AA4F0, name: code/temp_heap }
       - { start: 0xF24E0, type: bss, vram: 0x801AA500, name: bss2 }
-      - {
-          start: 0xF24E0,
-          type: .bss,
-          vram: 0x801AE860,
-          name: libultra/io/vimgr,
-        }
-      - {
-          start: 0xF24E0,
-          type: .bss,
-          vram: 0x801AFA80,
-          name: libultra/os/seteventmesg,
-        }
-      - {
-          start: 0xF24E0,
-          type: .bss,
-          vram: 0x801AFB00,
-          name: libultra/io/sptask,
-        }
-      - {
-          start: 0xF24E0,
-          type: .bss,
-          vram: 0x801AFB40,
-          name: libultra/io/controller,
-        }
-      - {
-          start: 0xF24E0,
-          type: .bss,
-          vram: 0x801AFBD0,
-          name: libultra/io/pfsisplug,
-        }
-      - { start: 0xF24E0, type: bss, vram: 0x801AFC10, name: bss3 }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AE860, name: libultra/io/vimgr }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AFA80, name: libultra/os/seteventmesg }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AFB00, name: libultra/io/sptask }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AFB40, name: libultra/io/controller }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AFBD0, name: libultra/io/pfsisplug }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AFC10, name: libultra/os/initialize }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AFC20, name: libultra/io/pimgr }
+      - { start: 0xF24E0, type: .bss, vram: 0x801B0DF0, name: libultra/os/timerintr }
+      - { start: 0xF24E0, type: .bss, vram: 0x801B0E30, name: libultra/io/siacs }
+      - { start: 0xF24E0, type: .bss, vram: 0x801B0E50, name: libultra/os/leodiskstack }
+      - { start: 0xF24E0, type: .bss, vram: 0x801B1E50, name: libultra/io/piacs }
+      - { start: 0xF24E0, type: .bss, vram: 0x801B1E70, name: libultra/os/thread }
+      - { start: 0xF24E0, type: .bss, vram: 0x801B2020, name: libultra/io/leodiskinit }
+      - { start: 0xF24E0, type: bss, vram: 0x801B20A0, name: bss3_tail2 }
 
   - name: framebuffer1
     type: code
