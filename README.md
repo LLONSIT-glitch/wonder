@@ -10,7 +10,7 @@ It currently builds the following ROM:
 - Game Code
 <p align="left">
     <a href="" alt="Progress">
-        <img src="https://img.shields.io/badge/Bytes-23.47%25-blue" /></a>
+        <img src="https://img.shields.io/badge/Bytes-41.82%25-blue" /></a>
 </p>
 
 

@@ -178,8 +178,8 @@ AudioMgr_AudioThread = 0x800B8A7C;
 AudioMgr_HandleFrameMsg = 0x800B8CA0;
 AudioMgr_ClearAudioDMA = 0x800B93E0;
 gAudioHeap = 0x801ACF88;
-aspMainTextStart = 0x800D8FB0;
-aspMainDataStart = 0x800F1620;
+aspMainTextStart = 0x800D8FB0;//name_end:aspMainTextEnd
+aspMainDataStart = 0x800F1620;//name_end:aspMainDataEnd
 
 // Scheduler symbols
 Scheduler_RspTaskYield = 0x80097F04;
