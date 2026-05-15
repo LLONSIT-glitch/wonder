@@ -102,8 +102,8 @@ void func_800B1CD4(SpriteObj* arg0, UnkStruct_800B23C4* arg1) {
 
     if (arg0 != NULL) {
         for (sp1C = 0; sp1C < 3; sp1C++) {
-            if (arg0->ptrs[sp1C + 1] != 0) {
-                SysMem_Free(arg0->ptrs[sp1C + 1]);
+            if (arg0->spritePtrs.ptrs[sp1C + 1] != 0) {
+                SysMem_Free(arg0->spritePtrs.ptrs[sp1C + 1]);
             }
         }
     }
@@ -131,7 +131,7 @@ void func_800B1E58(SpriteObj* arg0, UnkStruct_800B23C4* arg1) {
 
     if (arg0 != NULL) {
         for (sp4 = 0; sp4 < 3; sp4++) {
-            arg0->ptrs[sp4 + 1] = NULL;
+            arg0->spritePtrs.ptrs[sp4 + 1] = NULL;
         }
     }
     if (arg1 == NULL) {
@@ -968,7 +968,7 @@ void func_800B4F68(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 paletteIndex) 
         arg0->unkC0 &= ~0x100;
     }
     if (sp3C->spi_idx != arg1->unk10) {
-        decompressedData = &arg0->ptrs[arg1->unk3C + 1];
+        decompressedData = &arg0->spritePtrs.ptrs[arg1->unk3C + 1];
         if (*decompressedData != NULL) {
             SysMem_Free(*decompressedData);
         }
@@ -978,7 +978,7 @@ void func_800B4F68(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 paletteIndex) 
             size = Spi_GetHeader(spriteSpiOffset); // Compressed size
             *decompressedData = SysMem_HeapAlloc(D_80160494);
             Spi_DecompressAsset(spriteSpiOffset, size, *decompressedData);
-            arg0->ptrs[0] = *decompressedData;
+            arg0->spritePtrs.ptrs[0] = *decompressedData;
             arg1->unk3C++, arg1->unk3C %= 3;
         } else {
             *decompressedData = SysMem_HeapAlloc(sp38 * sp39);
@@ -986,7 +986,7 @@ void func_800B4F68(SpriteObj* arg0, UnkStruct_800B23C4* arg1, u16 paletteIndex) 
                                                                 (s32) gSpriteSeg1VramStart,
                                                                 sMainSpritesStart + spiOffset),
                            *decompressedData, sp38 * sp39);
-            arg0->ptrs[0] = *decompressedData;
+            arg0->spritePtrs.ptrs[0] = *decompressedData;
         }
         arg1->unk10 = sp3C->spi_idx;
     }

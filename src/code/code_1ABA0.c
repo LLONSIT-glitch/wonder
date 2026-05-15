@@ -246,25 +246,25 @@ s32 func_8001A690(UnkStruct_8000DDE0* arg0) {
         arg0->unk1A8 |= 1;
         sp28->unk0.unk100 = 0x100;
         sp28->unk0.unk102 = 0xE0;
-        sp28->unk0.ptrs[0] = SysMem_HeapAlloc(sp28->unk0.unk100 * sp28->unk0.unk102);
+        sp28->unk0.spritePtrs.ptrs[0] = SysMem_HeapAlloc(sp28->unk0.unk100 * sp28->unk0.unk102);
         for (sp2C = 0; sp2C < (sp28->unk0.unk100 * sp28->unk0.unk102); sp2C++) {
-            sp28->unk0.ptrs[0][sp2C] = 0;
+            sp28->unk0.spritePtrs.ptrs[0][sp2C] = 0;
         }
     } else {
         sp28->unk0.unk100 = (s16) (s32) arg0->unk1B0;
         sp28->unk0.unk102 = (s16) (s32) arg0->unk1B4;
-        sp28->unk0.ptrs[1] = SysMem_HeapAlloc(sp28->unk0.unk100 * sp28->unk0.unk102);
-        sp28->unk0.ptrs[2] = SysMem_HeapAlloc(sp28->unk0.unk100 * sp28->unk0.unk102);
+        sp28->unk0.spritePtrs.ptrs[1] = SysMem_HeapAlloc(sp28->unk0.unk100 * sp28->unk0.unk102);
+        sp28->unk0.spritePtrs.ptrs[2] = SysMem_HeapAlloc(sp28->unk0.unk100 * sp28->unk0.unk102);
 
         for (sp2C = 0; sp2C < (sp28->unk0.unk100 * sp28->unk0.unk102); sp2C++) {
-            sp28->unk0.ptrs[1][sp2C] = 0;
-            sp28->unk0.ptrs[2][sp2C] = 0;
+            sp28->unk0.spritePtrs.ptrs[1][sp2C] = 0;
+            sp28->unk0.spritePtrs.ptrs[2][sp2C] = 0;
         }
     }
     sp28->unk0.currentPaletteColors = SysMem_HeapAlloc(0x200);
     func_80090A38(sp28->unk0.currentPaletteColors, 0x100);
     func_80096474();
-    Sys_SwapFrameBuffer((s32*) sp28->unk0.ptrs[0]);
+    Sys_SwapFrameBuffer((s32*) sp28->unk0.spritePtrs.ptrs[0]);
     func_8008EC8C((f32) sp28->unk0.unk100, (f32) sp28->unk0.unk102);
     func_8008ECAC((f32) sp28->unk0.unk100, (f32) sp28->unk0.unk102);
     D_8015B320 = 0x10;
@@ -299,8 +299,8 @@ s32 func_8001AB84(void) {
 s32 func_8001ABEC(UnkStruct_8000DDE0* arg0) {
     func_80096474();
     func_800962B0(arg0->unk20C);
-    Sys_SwapFrameBuffer(arg0->unk0.ptrs[D_801824FC + 1]);
-    arg0->unk0.ptrs[0] = arg0->unk0.ptrs[D_801824FC + 1];
+    Sys_SwapFrameBuffer(arg0->unk0.spritePtrs.ptrs[D_801824FC + 1]);
+    arg0->unk0.spritePtrs.ptrs[0] = arg0->unk0.spritePtrs.ptrs[D_801824FC + 1];
     return 0;
 }
 
@@ -365,13 +365,13 @@ void func_8001AE90(UnkStruct_8000DDE0* arg0) {
         SysMem_Free(arg0->unk20C);
         arg0->unk20C = NULL;
     }
-    if (sp1C->unk0.ptrs[1] != NULL) {
-        SysMem_Free(sp1C->unk0.ptrs[1]);
-        sp1C->unk0.ptrs[1] = NULL;
+    if (sp1C->unk0.spritePtrs.ptrs[1] != NULL) {
+        SysMem_Free(sp1C->unk0.spritePtrs.ptrs[1]);
+        sp1C->unk0.spritePtrs.ptrs[1] = NULL;
     }
-    if (sp1C->unk0.ptrs[2] != NULL) {
-        SysMem_Free(sp1C->unk0.ptrs[2]);
-        sp1C->unk0.ptrs[2] = NULL;
+    if (sp1C->unk0.spritePtrs.ptrs[2] != NULL) {
+        SysMem_Free(sp1C->unk0.spritePtrs.ptrs[2]);
+        sp1C->unk0.spritePtrs.ptrs[2] = NULL;
     }
     if (sp1C->unk0.currentPaletteColors != NULL) {
         SysMem_Free(sp1C->unk0.currentPaletteColors);
@@ -970,11 +970,11 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
                 sp38->unkC0 |= 0x10C;
                 sp38->unk116 = 1;
                 sp38->currentPaletteColors = (s16*) D_801AB2B8;
-                sp38->ptrs[0] = &D_800DB4E8;
+                sp38->spritePtrs.ptrs[0] = &D_800DB4E8;
                 sp38->unkC8 = 0x1000;
-                sp38->ptrs[1] = SysMem_HeapAlloc(0x40);
+                sp38->spritePtrs.ptrs[1] = SysMem_HeapAlloc(0x40);
 
-                for (sp40 = 0, sp28 = (f32*) sp38->ptrs[1]; sp40 < 16; sp40++) {
+                for (sp40 = 0, sp28 = (f32*) sp38->spritePtrs.ptrs[1]; sp40 < 16; sp40++) {
                     sp28[sp40] = 0.0f;
                 }
                 if (sp44 == 0) {
@@ -997,16 +997,16 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
             if (gControllers->unk6 & gInputMask_R) {
                 for (sp44 = 0; sp44 < 8; sp44++) {
                     sp38 = (SpriteObj*) (D_80182618->ptrs[0] + (sp44 * 0x160));
-                    sp24 = sp38->ptrs[1];
+                    sp24 = sp38->spritePtrs.ptrs[1];
                     func_80099E2C(sp38);
                     sp38->unkC0 |= 0x10C;
                     sp38->unk116 = 1;
                     sp38->currentPaletteColors = (s16*) D_801AB2B8;
-                    sp38->ptrs[0] = &D_800DB4E8;
+                    sp38->spritePtrs.ptrs[0] = &D_800DB4E8;
                     sp38->unkC8 = 0x1000;
-                    sp38->ptrs[1] = sp24;
+                    sp38->spritePtrs.ptrs[1] = sp24;
 
-                    for (sp40 = 0, sp28 = (f32*) sp38->ptrs[1]; sp40 < 16; sp40++) {
+                    for (sp40 = 0, sp28 = (f32*) sp38->spritePtrs.ptrs[1]; sp40 < 16; sp40++) {
                         sp28[sp40] = 0.0f;
                     }
                     if (gSpriteObjCheckDebugMenuState[4] == 0) {
@@ -1085,7 +1085,7 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
                 } else {
                     sp38->rotateY = 0.0f;
                 }
-                sp28 = (f32*) sp38->ptrs[1];
+                sp28 = (f32*) sp38->spritePtrs.ptrs[1];
                 sp38->rotateX = *sp28;
                 SysMem_Copy8(sp28, sp28 + 1, gSpriteObjCheckDebugMenuState[2] * 4);
                 if (sp44 == 0) {
@@ -1134,7 +1134,7 @@ s32 func_8001CF70(DebugMenuInfo* arg0) {
     if (gControllers->unk6 & (u16) gInputMask_Start) {
         for (sp44 = 0; sp44 < 8; sp44++) {
             sp38 = (SpriteObj*) (D_80182618->ptrs[0] + (sp44 * 0x160));
-            SysMem_Free(sp38->ptrs[1]);
+            SysMem_Free(sp38->spritePtrs.ptrs[1]);
         }
         SysMem_Free(D_80182618->ptrs[0]);
         return -1;

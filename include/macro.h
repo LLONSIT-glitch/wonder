@@ -32,5 +32,6 @@
 
 #define SQ(x) ((x) * (x))
 
+#define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 
 #endif /* MACRO_H */

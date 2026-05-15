@@ -762,11 +762,11 @@ s32 func_80005460(void) {
             if (sp18->currentPaletteColors != NULL) {
                 SysMem_Free(sp18->currentPaletteColors);
             }
-            if (sp18->ptrs[1] != NULL) {
-                SysMem_Free(sp18->ptrs[1]);
+            if (sp18->spritePtrs.ptrs[1] != NULL) {
+                SysMem_Free(sp18->spritePtrs.ptrs[1]);
             }
-            if (sp18->ptrs[2] != NULL) {
-                SysMem_Free(sp18->ptrs[2]);
+            if (sp18->spritePtrs.ptrs[2] != NULL) {
+                SysMem_Free(sp18->spritePtrs.ptrs[2]);
             }
             if (sp18->unk144 != NULL) {
                 SysMem_Free(sp18->unk144);
@@ -774,8 +774,8 @@ s32 func_80005460(void) {
         }
         sp18->unkC0 = 0;
         sp18->currentPaletteColors = NULL;
-        sp18->ptrs[1] = NULL;
-        sp18->ptrs[2] = NULL;
+        sp18->spritePtrs.ptrs[1] = NULL;
+        sp18->spritePtrs.ptrs[2] = NULL;
         sp18->unk144 = NULL;
         sp18++;
     }
@@ -792,11 +792,11 @@ s32 func_800055DC(void) {
             if (sp18->currentPaletteColors != NULL) {
                 SysMem_Free(sp18->currentPaletteColors);
             }
-            if (sp18->ptrs[1] != NULL) {
-                SysMem_Free(sp18->ptrs[1]);
+            if (sp18->spritePtrs.ptrs[1] != NULL) {
+                SysMem_Free(sp18->spritePtrs.ptrs[1]);
             }
-            if (sp18->ptrs[2] != NULL) {
-                SysMem_Free(sp18->ptrs[2]);
+            if (sp18->spritePtrs.ptrs[2] != NULL) {
+                SysMem_Free(sp18->spritePtrs.ptrs[2]);
             }
             if (sp18->unk144 != NULL) {
                 SysMem_Free(sp18->unk144);
@@ -804,8 +804,8 @@ s32 func_800055DC(void) {
         }
         sp18->unkC0 = 0;
         sp18->currentPaletteColors = NULL;
-        sp18->ptrs[1] = NULL;
-        sp18->ptrs[2] = NULL;
+        sp18->spritePtrs.ptrs[1] = NULL;
+        sp18->spritePtrs.ptrs[2] = NULL;
         sp18->unk144 = NULL;
         sp18++;
     }

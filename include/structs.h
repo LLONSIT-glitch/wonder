@@ -104,7 +104,10 @@ typedef struct SpriteObj_s {
     /* 0x122 */ s16 unk122;
     /* 0x124 */ s16 unk124;
     /* 0x126 */ s16 unk126;
-    /* 0x128 */ u8* ptrs[4];
+    /* 0x128 */ union {
+                    u8* ptr;
+                    u8* ptrs[4];
+                } spritePtrs;
     /* 0x138 */ s16* currentPaletteColors;
     /* 0x13C */ u8* unk13C;
     /* 0x140 */ u8* unk140;
@@ -351,5 +354,15 @@ typedef struct UnkStruct_801A71FC_s {
     char pad0[0x4];
     s32 unk4;
 } UnkStruct_801A71FC;
+
+typedef struct UnkStruct_80048C30_s {
+    /* 0x00 */ f32 unk0;
+    /* 0x04 */ f32 unk4;                            /* inferred */
+    /* 0x08 */ u16 unk8;
+    /* 0x0A */ u16 unkA;                            /* inferred */
+    /* 0x0C */ u16 unkC;                            /* inferred */
+    /* 0x0E */ char padE[2];
+    /* 0x10 */ u16 *unk10;
+} UnkStruct_80048C30;                               /* size = 0x14 */
 
 #endif /* STRUCTS_H */

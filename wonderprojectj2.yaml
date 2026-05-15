@@ -331,7 +331,8 @@ segments:
       # Added to give code_AB70 isprint support
       #- [0xEDD40, .rodata, code/code_AB70]
       - [0xEDD60, .rodata, code/code_3B20]
-      - [0xEDD80, rodata]
+      - [0xEDD80, .rodata, code/code_6EC0]
+      - [0xEDDB0, rodata]
       - [0xEDDE0, rodata]
       - [0xEDF40, rodata]
       - [0xEDF60, rodata]
@@ -390,19 +391,84 @@ segments:
       - { start: 0xF24E0, type: bss, vram: 0x800F18E0, name: bss1 }
       - { start: 0xF24E0, type: .bss, vram: 0x801AA4F0, name: code/temp_heap }
       - { start: 0xF24E0, type: bss, vram: 0x801AA500, name: bss2 }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AE860, name: libultra/io/vimgr }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AFA80, name: libultra/os/seteventmesg }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AFB00, name: libultra/io/sptask }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AFB40, name: libultra/io/controller }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AFBD0, name: libultra/io/pfsisplug }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AFC10, name: libultra/os/initialize }
-      - { start: 0xF24E0, type: .bss, vram: 0x801AFC20, name: libultra/io/pimgr }
-      - { start: 0xF24E0, type: .bss, vram: 0x801B0DF0, name: libultra/os/timerintr }
-      - { start: 0xF24E0, type: .bss, vram: 0x801B0E30, name: libultra/io/siacs }
-      - { start: 0xF24E0, type: .bss, vram: 0x801B0E50, name: libultra/os/leodiskstack }
-      - { start: 0xF24E0, type: .bss, vram: 0x801B1E50, name: libultra/io/piacs }
-      - { start: 0xF24E0, type: .bss, vram: 0x801B1E70, name: libultra/os/thread }
-      - { start: 0xF24E0, type: .bss, vram: 0x801B2020, name: libultra/io/leodiskinit }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AE860,
+          name: libultra/io/vimgr,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AFA80,
+          name: libultra/os/seteventmesg,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AFB00,
+          name: libultra/io/sptask,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AFB40,
+          name: libultra/io/controller,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AFBD0,
+          name: libultra/io/pfsisplug,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AFC10,
+          name: libultra/os/initialize,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801AFC20,
+          name: libultra/io/pimgr,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801B0DF0,
+          name: libultra/os/timerintr,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801B0E30,
+          name: libultra/io/siacs,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801B0E50,
+          name: libultra/os/leodiskstack,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801B1E50,
+          name: libultra/io/piacs,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801B1E70,
+          name: libultra/os/thread,
+        }
+      - {
+          start: 0xF24E0,
+          type: .bss,
+          vram: 0x801B2020,
+          name: libultra/io/leodiskinit,
+        }
       - { start: 0xF24E0, type: bss, vram: 0x801B20A0, name: bss3_tail2 }
 
   - name: framebuffer1

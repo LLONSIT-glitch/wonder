@@ -1,6 +1,5 @@
 #include "common.h"
 
-extern Scheduler D_801AC8A8;
 
 void Scheduler_CreateScheduler(Scheduler* arg0, u8 arg1, s32 arg2);
 s32 func_8009A084(Gfx**, f32); /* extern */
@@ -41,7 +40,6 @@ extern s32 D_801A8D84;
 extern s32 D_801A8E30;
 extern OSMesg D_801816C8;
 extern s32 D_801824D4;
-extern Scheduler gScheduler;
 extern f32 D_801A7224;
 extern f32 D_801A7230;
 extern f32 D_800EF7C0;
@@ -53,6 +51,7 @@ extern f32 D_80156190;
 extern f32 D_80156194;
 extern f32 D_80156198;
 extern f32 D_8015619C;
+extern Scheduler D_801AC8A8;
 
 void InitScheduler(s32 viMode, s32 arg1) {
     Scheduler* sp1C;
@@ -409,9 +408,9 @@ void func_80099E2C(SpriteObj* arg0) {
     arg0->unk124 = 0;
     arg0->unkC4 = 8;
     arg0->unk126 = -1;
-    arg0->ptrs[0] = NULL;
+    arg0->spritePtrs.ptrs[0] = NULL;
     for (i = 0; i < 3; i++) {
-        arg0->ptrs[i + 1] = NULL;
+        arg0->spritePtrs.ptrs[i + 1] = NULL;
     }
     arg0->currentPaletteColors = NULL;
     arg0->unk13C = NULL;
@@ -616,7 +615,7 @@ s32 func_800A19B0(Gfx** gdlh, SpriteObj* arg1, f32 arg2, f32 arg3, f32 arg4, f32
     if (arg1->unk116 == 3) {
         return -1;
     }
-    D_801A72D0 = (s16*) arg1->ptrs[0];
+    D_801A72D0 = (s16*) arg1->spritePtrs.ptrs[0];
 
     gDPSetCycleType(gdl++, G_CYC_1CYCLE);
     gSPTexture(gdl++, 0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON);
@@ -805,11 +804,11 @@ void func_800A3FC0(SpriteObj* arg0) {
     if (arg0->currentPaletteColors != NULL) {
         SysMem_Free(arg0->currentPaletteColors);
     }
-    if (arg0->ptrs[1] != NULL) {
-        SysMem_Free(arg0->ptrs[1]);
+    if (arg0->spritePtrs.ptrs[1] != NULL) {
+        SysMem_Free(arg0->spritePtrs.ptrs[1]);
     }
-    if (arg0->ptrs[2] != NULL) {
-        SysMem_Free(arg0->ptrs[2]);
+    if (arg0->spritePtrs.ptrs[2] != NULL) {
+        SysMem_Free(arg0->spritePtrs.ptrs[2]);
     }
     SysMem_Free(arg0);
 }

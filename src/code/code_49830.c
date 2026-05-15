@@ -1,17 +1,8 @@
 #include "common.h"
 
-typedef struct UnkStruct_80048C30_s {
-    /* 0x00 */ f32 unk0;
-    /* 0x04 */ f32 unk4;                            /* inferred */
-    /* 0x08 */ u16 unk8;
-    /* 0x0A */ u16 unkA;                            /* inferred */
-    /* 0x0C */ u16 unkC;                            /* inferred */
-    /* 0x0E */ char padE[2];
-    /* 0x10 */ u16 *unk10;
-} UnkStruct_80048C30;                               /* size = 0x14 */
-
-s16 func_80048DC4(UnkStruct_80048C30 *arg0) ;
+s16 func_80048DC4(UnkStruct_80048C30 *arg0);
 void func_80048F40(UnkStruct_80048C30*);
+
 s32 func_80048C30(UnkStruct_80048C30* arg0, u16* start, f32 arg2) {
     u16 i;
     u16 count;

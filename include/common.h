@@ -13,6 +13,7 @@
 #include "structs.h"
 #include "thread.h"
 #include "mtx_util.h"
+#include "main.h"
 #include "buffers.h"
 #include "functions.h"
 #include "variables.h"

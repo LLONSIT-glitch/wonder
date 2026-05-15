@@ -1452,7 +1452,7 @@ s32 func_80013624(UnkStruct_8000DDE0* arg0) {
     }
     sp48 = sp4C->unk5C;
     for (sp5C = 0; sp5C < 2; sp5C++) {
-        sp30 = sp44->unk0.ptrs[sp5C + 1];
+        sp30 = sp44->unk0.spritePtrs.ptrs[sp5C + 1];
         for (sp58 = 0; sp58 < 0xA800; sp58++, sp30++) {
             *sp30 = 0;
         }
