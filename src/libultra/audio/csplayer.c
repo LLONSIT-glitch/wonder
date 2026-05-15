@@ -332,8 +332,7 @@ static void __CSPHandleMIDIMsg(ALCSPlayer* seqp, ALEvent* event) {
                 vstate->envPhase = AL_PHASE_ATTACK;
                 if (seqp->chanState[chan].sustain > AL_SUSTAIN) {
                     vstate->phase = AL_PHASE_SUSTAIN;
-                }
-                else {
+                } else {
                     vstate->phase = AL_PHASE_NOTEON;
                 }
 
@@ -416,8 +415,7 @@ static void __CSPHandleMIDIMsg(ALCSPlayer* seqp, ALEvent* event) {
 
             if (vstate->phase == AL_PHASE_SUSTAIN) {
                 vstate->phase = AL_PHASE_SUSTREL;
-            }
-            else {
+            } else {
                 vstate->phase = AL_PHASE_RELEASE;
                 __seqpReleaseVoice((ALSeqPlayer*) seqp, &vstate->voice, vstate->sound->envelope->releaseTime);
             }
@@ -477,8 +475,7 @@ static void __CSPHandleMIDIMsg(ALCSPlayer* seqp, ALEvent* event) {
                                 if (vs->phase == AL_PHASE_NOTEON) {
                                     vs->phase = AL_PHASE_SUSTAIN;
                                 }
-                            }
-                            else {
+                            } else {
 
                                 if (vs->phase == AL_PHASE_SUSTAIN) {
                                     vs->phase = AL_PHASE_NOTEON;
@@ -511,8 +508,7 @@ static void __CSPHandleMIDIMsg(ALCSPlayer* seqp, ALEvent* event) {
             if (key < seqp->bank->instCount) {
                 ALInstrument* inst = seqp->bank->instArray[key];
                 __setInstChanState((ALSeqPlayer*) seqp, inst, chan);
-            }
-            else {
+            } else {
             }
             break;
         case (AL_MIDI_PitchBendChange): {
@@ -563,8 +559,7 @@ static void __CSPHandleMetaMsg(ALCSPlayer* seqp, ALEvent* event) {
 
                     if (firstTemp) {
                         alLink((ALLink*) thisNode, (ALLink*) firstTemp);
-                    }
-                    else {
+                    } else {
                         thisNode->node.next = 0;
                         thisNode->node.prev = 0;
                         firstTemp = thisNode;
@@ -602,8 +597,7 @@ static void __CSPRepostEvent(ALEventQueue* evtq, ALEventListItem* item) {
         if (!node->next) {
             alLink((ALLink*) item, node);
             break;
-        }
-        else {
+        } else {
             nextItem = (ALEventListItem*) node->next;
             if (item->delta < nextItem->delta) {
                 nextItem->delta -= item->delta;
@@ -619,8 +613,7 @@ static void __CSPRepostEvent(ALEventQueue* evtq, ALEventListItem* item) {
 static void __setUsptFromTempo(ALCSPlayer* seqp, f32 tempo) {
     if (seqp->target) {
         seqp->uspt = (s32) ((f32) tempo * seqp->target->qnpt);
-    }
-    else {
+    } else {
         seqp->uspt = 488;
     }
 }

@@ -122,8 +122,7 @@ void _handleEvent(ALSndPlayer* sndp, ALSndpEvent* event) {
                 evt.common.state = state;
                 alEvtqPostEvent(&sndp->evtq, (ALEvent*) &evt, delta);
                 state->state = AL_STOPPING;
-            }
-            else {
+            } else {
 
                 alSynStopVoice(sndp->drvr, &state->voice);
                 alSynFreeVoice(sndp->drvr, &state->voice);
@@ -230,8 +229,7 @@ static s32 _DivS32ByF32(s32 i, f32 f) {
 
     if (rd > INT_MAX) {
         ri = INT_MAX;
-    }
-    else {
+    } else {
         ri = rd;
     }
 

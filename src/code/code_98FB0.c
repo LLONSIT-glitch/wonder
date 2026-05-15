@@ -1,6 +1,5 @@
 #include "common.h"
 
-
 void Scheduler_CreateScheduler(Scheduler* arg0, u8 arg1, s32 arg2);
 s32 func_8009A084(Gfx**, f32); /* extern */
 void func_80099E2C(SpriteObj* arg0);

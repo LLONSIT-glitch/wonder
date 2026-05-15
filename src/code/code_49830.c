@@ -1,6 +1,6 @@
 #include "common.h"
 
-s16 func_80048DC4(UnkStruct_80048C30 *arg0);
+s16 func_80048DC4(UnkStruct_80048C30* arg0);
 void func_80048F40(UnkStruct_80048C30*);
 
 s32 func_80048C30(UnkStruct_80048C30* arg0, u16* start, f32 arg2) {
@@ -69,7 +69,7 @@ s16 func_80048DC4(UnkStruct_80048C30* arg0) {
     return (s16) spC;
 }
 
-void func_80048F40(UnkStruct_80048C30 *arg0) {
+void func_80048F40(UnkStruct_80048C30* arg0) {
     if (arg0 == NULL) {
         return;
     }
