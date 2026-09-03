@@ -8,29 +8,27 @@
 // macros
 #define AUDIO_HEAP_ALLOC(line, size) alHeapDBAlloc("sound/sndprg.c", line, &gAudioHeap, 1, size);
 
-extern SoundDealloc gSoundDeallocRequests[32];
-extern oscData* gFreeOscStateList;
-extern oscData D_801AE278[40];
-
-extern UnkStruct_801AE598 D_801AE598[8];
-extern UnkStruct_801AE678 D_801AE678[8];
-
-extern ALBank* gAudioTblBank;
-extern ALBank* gAudioBankBank;
-extern ALSeqFile* gSequenceFile; // Sequences file?
-extern ALCSPlayer* gCompressedSeqPlayer;
-extern void* gCompressedSequence;    // Lib audio representation of the compressed sequence
-extern void* gCompressedSequencePtr; // Raw pointer to the compressed sequence in seq file
-extern s32 gSequenceCount;
-extern s32 D_801AE834;
-extern s32 gCurrentSequenceID;
-extern s32 gPlayedSequenceID;
-extern s32 gCurrentSequenceVolume;
-extern s32 gAppliedSequenceVolume;
-extern s32 gSequenceVolumeAdjust; // Volume used to adjust the current sequence volume
-extern s32 gMaxSequenceVolume;
-extern ALSndPlayer* gSoundPlayer;
-extern s32 gAudioDriverTick;
+SoundDealloc gSoundDeallocRequests[16];
+oscData* gFreeOscStateList;
+oscData D_801AE278[40];
+UnkStruct_801AE598 D_801AE598[8];
+UnkStruct_801AE678 D_801AE678[8];
+ALBank* gAudioTblBank;
+ALBank* gAudioBankBank;
+ALSeqFile* gSequenceFile; // Sequences file?
+ALCSPlayer* gCompressedSeqPlayer;
+void* gCompressedSequence;    // Lib audio representation of the compressed sequence
+void* gCompressedSequencePtr; // Raw pointer to the compressed sequence in seq file
+s32 gSequenceCount;
+s32 D_801AE834;
+s32 gCurrentSequenceID;
+s32 gPlayedSequenceID;
+s32 gCurrentSequenceVolume;
+s32 gAppliedSequenceVolume;
+s32 gSequenceVolumeAdjust; // Volume used to adjust the current sequence volume
+s32 gMaxSequenceVolume;
+ALSndPlayer* gSoundPlayer;
+s32 gAudioDriverTick;
 
 // Probably defined in other place..
 extern UnkStruct_800EA144 D_800EA144[];

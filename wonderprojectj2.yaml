@@ -391,6 +391,7 @@ segments:
       - { start: 0xF24E0, type: bss, vram: 0x800F18E0, name: bss1 }
       - { start: 0xF24E0, type: .bss, vram: 0x801AA4F0, name: code/temp_heap }
       - { start: 0xF24E0, type: bss, vram: 0x801AA500, name: bss2 }
+      - { start: 0xF24E0, type: .bss, vram: 0x801AE1F0, name: audio/audio_driver }
       - {
           start: 0xF24E0,
           type: .bss,

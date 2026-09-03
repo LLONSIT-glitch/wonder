@@ -1415,7 +1415,7 @@ s32 func_8001E980(s32 arg0, s32 arg1) {
     return 0;
 }
 
-void func_800BDA58(s32); /* extern */
+void func_800BDA58(u32); /* extern */
 
 s32 func_8001EB14(s32 arg0, s32 arg1) {
     if ((arg1 >= 0) && ((gControllers->unk8 & gInputMask_A) || (gControllers->unk8 & gInputMask_B))) {
@@ -1433,7 +1433,7 @@ s32 func_8001EB14(s32 arg0, s32 arg1) {
     return 0;
 }
 
-void func_800BDA58(s32); /* extern */
+void func_800BDA58(u32); /* extern */
 
 s32 func_8001EBF8(s32 arg0, s32 arg1) {
     if ((arg1 >= 0) && ((gControllers->unk8 & gInputMask_A) || (gControllers->unk8 & gInputMask_B))) {
@@ -1451,7 +1451,7 @@ s32 func_8001EBF8(s32 arg0, s32 arg1) {
     return 0;
 }
 
-void func_800BDA58(s32); /* extern */
+void func_800BDA58(u32); /* extern */
 
 s32 func_8001ECDC(s32 arg0, s32 arg1) {
     if ((arg1 >= 0) && ((gControllers->unk8 & gInputMask_A) || (gControllers->unk8 & gInputMask_B))) {
@@ -1468,8 +1468,6 @@ s32 func_8001ECDC(s32 arg0, s32 arg1) {
     }
     return 0;
 }
-
-void func_800BDA58(s32); /* extern */
 
 s32 func_8001EDC0(s32 arg0, s32 arg1) {
     func_800BDA58(0x40);
